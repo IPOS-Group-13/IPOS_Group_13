@@ -8,9 +8,9 @@ public class DatabaseConnection {
 
     public Connection getConnection() {
         String databaseName = "ipos_sa";
-        String databaseUsername = "root";
-        String databasePassword = "Hwhqh1h1537hd-";
-        String url = "jdbc:mysql://localhost:3306/" + databaseName;
+        String databaseUsername = "teamuser";
+        String databasePassword = "password";
+        String url = "jdbc:mysql://192.168.0.22/" + databaseName;
 
         try{
             Class.forName("com.mysql.cj.jdbc.Driver");
