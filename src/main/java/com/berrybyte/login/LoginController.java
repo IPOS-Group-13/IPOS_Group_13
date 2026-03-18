@@ -2,17 +2,16 @@ package com.berrybyte.login;
 
 import com.berrybyte.common.DatabaseConnection;
 import com.berrybyte.common.SceneSwitcher;
-
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextField;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.Statement;
 
 public class LoginController {
 
@@ -28,60 +27,51 @@ public class LoginController {
     @FXML
     private PasswordField passwordField;
 
-
+    @FXML
     public void loginButtonOnAction(ActionEvent event) {
-
         if (usernameTextField.getText().isBlank() || passwordField.getText().isBlank()) {
             loginMessageLabel.setText("Enter your username and password");
+            return;
         }
-        else {
-            validateLogin(event);
-        }
+
+        validateLogin(event);
     }
 
-
+    @FXML
     public void forgotPasswordAction(ActionEvent event) {
         forgotPassword.setDisable(true);
     }
 
-
     public void validateLogin(ActionEvent event) {
+        String sql = "SELECT Role FROM Users WHERE Username = ? AND Password = ?";
 
         DatabaseConnection connectNow = new DatabaseConnection();
-        Connection conn = connectNow.getConnection();
 
-        String verifyLogin =
-                "SELECT count(1) FROM useraccounts WHERE username = '"
-                        + usernameTextField.getText()
-                        + "' AND password = '"
-                        + passwordField.getText()
-                        + "'";
+        try (Connection conn = connectNow.getConnection();
+             PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
 
-        try {
+            preparedStatement.setString(1, usernameTextField.getText().trim());
+            preparedStatement.setString(2, passwordField.getText().trim());
 
-            Statement statement = conn.createStatement();
-            ResultSet resultSet = statement.executeQuery(verifyLogin);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    String role = resultSet.getString("Role");
 
-            while (resultSet.next()) {
-
-                if (resultSet.getInt(1) == 1) {
-
-                    loginMessageLabel.setText("Welcome " + usernameTextField.getText());
-
-                    // Switch to account type screen
-                    SceneSwitcher.switchScene(
-                            event,
-                            "/account/accountType.fxml",
-                            "Select Account Type"
-                    );
-                }
-                else {
-                    loginMessageLabel.setText("Invalid Login. Please try again");
+                    if ("ADMIN".equalsIgnoreCase(role)) {
+                        SceneSwitcher.switchScene(event, "/dashboard/adminDashboard.fxml", "Admin Dashboard");
+                    } else if ("MANAGER".equalsIgnoreCase(role)) {
+                        SceneSwitcher.switchScene(event, "/dashboard/managerDashboard.fxml", "Manager Dashboard");
+                    } else if ("MERCHANT".equalsIgnoreCase(role)) {
+                        SceneSwitcher.switchScene(event, "/dashboard/merchantDashboard.fxml", "Merchant Dashboard");
+                    } else {
+                        loginMessageLabel.setText("Unknown account role");
+                    }
+                } else {
+                    loginMessageLabel.setText("Invalid username or password");
                 }
             }
 
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
             loginMessageLabel.setText("Error while connecting to database");
         }

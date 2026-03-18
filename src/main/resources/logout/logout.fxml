@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: #D2C3E3;" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.berrybyte.logout.LogoutController">
+   <children>
+      <ImageView fitHeight="62.0" fitWidth="88.0" layoutX="38.0" layoutY="33.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../../../../Downloads/Logo_No_Background.PNG" />
+         </image>
+      </ImageView>
+      <AnchorPane layoutX="301.0" layoutY="200.0" prefHeight="200.0" prefWidth="297.0" style="-fx-background-color: white; -fx-background-radius: 20;">
+         <children>
+            <Label alignment="CENTER" layoutX="109.0" layoutY="21.0" prefHeight="27.0" prefWidth="78.0" text="Log Out" textFill="#49454f">
+               <font>
+                  <Font name="System Bold" size="20.0" />
+               </font>
+            </Label>
+            <Label layoutX="39.0" layoutY="70.0" prefHeight="20.0" prefWidth="218.0" text="Are you sure you want to log out?  " textFill="#49454f">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <Button layoutX="26.0" layoutY="118.0" mnemonicParsing="false" onAction="#handleYesLogout" style="-fx-background-color: white;" text="Yes, log me out" textFill="#49454f">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </Button>
+            <Button layoutX="171.0" layoutY="118.0" mnemonicParsing="false" onAction="#handleNoStay" style="-fx-background-color: white;" text="No, I'll stay" textFill="#49454f">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </Button>
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>
