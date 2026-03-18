@@ -15,14 +15,11 @@ public class LogoutController {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/login/login.fxml"));
             Scene loginScene = new Scene(loader.load());
 
-            Stage logoutStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            Stage mainStage = (Stage) logoutStage.getOwner();
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
-            mainStage.setScene(loginScene);
-            mainStage.setTitle("Login");
-            mainStage.show();
-
-            logoutStage.close();
+            stage.setScene(loginScene);
+            stage.setTitle("Login");
+            stage.show();
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -35,14 +32,11 @@ public class LogoutController {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/dashboard/adminDashboard.fxml"));
             Scene adminScene = new Scene(loader.load());
 
-            Stage logoutStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            Stage mainStage = (Stage) logoutStage.getOwner();
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
-            mainStage.setScene(adminScene);
-            mainStage.setTitle("Admin Dashboard");
-            mainStage.show();
-
-            logoutStage.close();
+            stage.setScene(adminScene);
+            stage.setTitle("Admin Dashboard");
+            stage.show();
 
         } catch (Exception e) {
             e.printStackTrace();

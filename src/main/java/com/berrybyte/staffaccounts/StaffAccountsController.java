@@ -1,11 +1,11 @@
-package com.berrybyte.dashboard;
+package com.berrybyte.staffaccounts;
 
 import com.berrybyte.common.SceneSwitcher;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.layout.AnchorPane;
 
-public class AdminDashboardController {
+public class StaffAccountsController {
 
     @FXML
     private AnchorPane profileMenuPane;
@@ -24,21 +24,30 @@ public class AdminDashboardController {
     }
 
     @FXML
-    private void handleStaffAccountsClick(ActionEvent event) {
-        try {
-            SceneSwitcher.switchScene(event, "/staffaccounts/staffAccounts.fxml", "Staff Accounts");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    @FXML
     private void handleLogoutMenuClick(ActionEvent event) {
         profileMenuPane.setVisible(false);
         profileMenuPane.setManaged(false);
 
         try {
             SceneSwitcher.switchScene(event, "/logout/logout.fxml", "Log Out");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void createNewAccountButton(ActionEvent event) {
+        try {
+            SceneSwitcher.switchScene(event, "/account/accountType.fxml", "Select Account Type");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void handleDashboardClick(ActionEvent event) {
+        try {
+            SceneSwitcher.switchScene(event, "/dashboard/adminDashboard.fxml", "Dashboard");
         } catch (Exception e) {
             e.printStackTrace();
         }
