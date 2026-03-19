@@ -12,17 +12,7 @@ public class MerchantDraftSession {
     private static String accountStatus;
     private static String creditLimit;
 
-    public static void saveDraft(
-            String fullName,
-            String companyName,
-            String username,
-            String password,
-            String phoneNumber,
-            String email,
-            String address,
-            String accountStatus,
-            String creditLimit
-    ) {
+    public static void saveDraft(String fullName, String companyName, String username, String password, String phoneNumber, String email, String address, String accountStatus, String creditLimit) {
         MerchantDraftSession.fullName = fullName;
         MerchantDraftSession.companyName = companyName;
         MerchantDraftSession.username = username;
@@ -45,7 +35,15 @@ public class MerchantDraftSession {
     public static String getCreditLimit() { return creditLimit; }
 
     public static boolean hasDraft() {
-        return fullName != null;
+        return fullName != null
+                && companyName != null
+                && username != null
+                && password != null
+                && phoneNumber != null
+                && email != null
+                && address != null
+                && accountStatus != null
+                && creditLimit != null;
     }
 
     public static void clear() {

@@ -23,26 +23,26 @@
                   <Font name="Segoe UI Bold" size="24.0" />
                </font>
             </Label>
-            <RadioButton fx:id="fixedDiscountRadioButton" layoutX="43.0" layoutY="117.0" mnemonicParsing="false" prefHeight="46.0" prefWidth="150.0" text="Fixed Discount Plan">
+            <RadioButton fx:id="fixedDiscountRadioButton" layoutX="45.0" layoutY="114.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="171.0" text="Fixed Discount Plan">
                <font>
-                  <Font name="System Bold" size="12.0" />
+                  <Font name="System Bold" size="14.0" />
                </font>
                <toggleGroup>
                   <ToggleGroup fx:id="discountToggleGroup" />
                </toggleGroup>
             </RadioButton>
-            <RadioButton fx:id="flexibleDiscountRadioButton" layoutX="45.0" layoutY="201.0" mnemonicParsing="false" text="Flexible Discount Plan" toggleGroup="$discountToggleGroup">
+            <RadioButton fx:id="flexibleDiscountRadioButton" layoutX="45.0" layoutY="173.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="191.0" text="Flexible Discount Plan" toggleGroup="$discountToggleGroup">
                <font>
-                  <Font name="System Bold" size="12.0" />
+                  <Font name="System Bold" size="14.0" />
                </font>
             </RadioButton>
             <Label fx:id="messageLabel" layoutX="22.0" layoutY="82.0" prefHeight="18.0" prefWidth="255.0" textFill="#8f0808" />
+            <Button fx:id="nextButton" layoutX="50.0" layoutY="244.0" mnemonicParsing="false" onAction="#handleNext" prefHeight="30.0" prefWidth="91.0" style="-fx-background-color: #6C5A86; -fx-background-radius: 18;" text="Next" textFill="WHITE" textOverrun="LEADING_ELLIPSIS">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Button>
          </children>
       </AnchorPane>
-      <Button fx:id="nextButton" layoutX="537.0" layoutY="499.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="62.0" style="-fx-background-color: #6C5A86; -fx-background-radius: 18;" text="Next" textFill="WHITE" textOverrun="LEADING_ELLIPSIS">
-         <font>
-            <Font name="System Bold" size="12.0" />
-         </font>
-      </Button>
    </children>
 </AnchorPane>

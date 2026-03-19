@@ -81,35 +81,64 @@ public class CreateMerchantAccountController {
     }
 
     private void validateMerchantDetails() throws Exception {
-        if (nameTextField.getText().isBlank()
-                || companyNameTextField.getText().isBlank()
-                || usernameTextField.getText().isBlank()
-                || passwordField.getText().isBlank()
-                || phoneNumberTextField.getText().isBlank()
-                || emailTextField.getText().isBlank()
-                || addressTextArea.getText().isBlank()
-                || creditLimitField.getText().isBlank()
-                || accountStatusField.getText().isBlank()) {
-            throw new Exception("Fill in all required fields");
+
+        String name = nameTextField.getText() == null ? "" : nameTextField.getText().trim();
+        String company = companyNameTextField.getText() == null ? "" : companyNameTextField.getText().trim();
+        String username = usernameTextField.getText() == null ? "" : usernameTextField.getText().trim();
+        String password = passwordField.getText() == null ? "" : passwordField.getText().trim();
+        String phone = phoneNumberTextField.getText() == null ? "" : phoneNumberTextField.getText().trim();
+        String email = emailTextField.getText() == null ? "" : emailTextField.getText().trim();
+        String address = addressTextArea.getText() == null ? "" : addressTextArea.getText().trim();
+        String status = accountStatusField.getText() == null ? "" : accountStatusField.getText().trim().toUpperCase();
+        String creditLimitText = creditLimitField.getText() == null ? "" : creditLimitField.getText().trim();
+
+        if (name.isEmpty()) throw new Exception("Full name is required.");
+        if (company.isEmpty()) throw new Exception("Company name is required.");
+        if (username.isEmpty()) throw new Exception("Username is required.");
+        if (password.isEmpty()) throw new Exception("Password is required.");
+        if (phone.isEmpty()) throw new Exception("Phone number is required.");
+        if (email.isEmpty()) throw new Exception("Email is required.");
+        if (address.isEmpty()) throw new Exception("Address is required.");
+        if (status.isEmpty()) throw new Exception("Account status is required.");
+        if (creditLimitText.isEmpty()) throw new Exception("Credit limit is required.");
+
+        if (!name.matches("[A-Za-z ]+")) {
+            throw new Exception("Name must contain only letters and spaces.");
         }
 
-        String status = accountStatusField.getText().trim().toUpperCase();
+        if (!company.matches("[A-Za-z0-9 ]+")) {
+            throw new Exception("Company name can only contain letters, numbers, and spaces.");
+        }
+
+        if (!username.matches("[A-Za-z0-9_]+")) {
+            throw new Exception("Username can only contain letters, numbers, and underscores.");
+        }
+
+        if (password.length() < 6) {
+            throw new Exception("Password must be at least 6 characters long.");
+        }
+
+        if (!phone.matches("\\+\\d{1,3}\\s\\d{7,12}")) {
+            throw new Exception("Enter a valid phone number with country code (e.g. +44..)");
+        }
+
+        if (!email.matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$")) {
+            throw new Exception("Enter a valid email address.");
+        }
 
         if (!status.equals("NORMAL")
                 && !status.equals("SUSPENDED")
                 && !status.equals("IN_DEFAULT")) {
-            throw new Exception("Status must be NORMAL, SUSPENDED or IN_DEFAULT");
-        }
-
-        String email = emailTextField.getText().trim();
-        if (!email.matches(".*@.*\\..{2,}")) {
-            throw new Exception("Enter a valid email address");
+            throw new Exception("Status must be NORMAL, SUSPENDED or IN_DEFAULT.");
         }
 
         try {
-            Double.parseDouble(creditLimitField.getText().trim());
+            double creditLimit = Double.parseDouble(creditLimitText);
+            if (creditLimit < 0) {
+                throw new Exception("Credit limit must be 0 or greater.");
+            }
         } catch (NumberFormatException e) {
-            throw new Exception("Credit limit must be numeric");
+            throw new Exception("Credit limit must be numeric.");
         }
     }
 }

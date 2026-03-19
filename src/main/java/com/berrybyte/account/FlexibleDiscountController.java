@@ -1,5 +1,6 @@
 package com.berrybyte.account;
 
+import com.berrybyte.common.SceneSwitcher;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -22,24 +23,28 @@ public class FlexibleDiscountController {
     @FXML private TextField tier3MaxField;
     @FXML private TextField tier3PercentField;
 
-    @FXML
-    private Label messageLabel;
+    @FXML private Label messageLabel;
 
     private final MerchantAccountService merchantAccountService = new MerchantAccountService();
 
     @FXML
     private void handleCreateAccount(ActionEvent event) {
         try {
+            messageLabel.setText("");
+            validateDraftSession();
+
             List<DiscountTier> tiers = new ArrayList<>();
 
-            addTierIfFilled(tiers, tier1MinField, tier1MaxField, tier1PercentField);
-            addTierIfFilled(tiers, tier2MinField, tier2MaxField, tier2PercentField);
-            addTierIfFilled(tiers, tier3MinField, tier3MaxField, tier3PercentField);
+            validateAndAddTier(tiers, tier1MinField, tier1MaxField, tier1PercentField, "Tier 1");
+            validateAndAddTier(tiers, tier2MinField, tier2MaxField, tier2PercentField, "Tier 2");
+            validateAndAddTier(tiers, tier3MinField, tier3MaxField, tier3PercentField, "Tier 3");
 
             if (tiers.isEmpty()) {
-                messageLabel.setText("Enter at least one flexible discount tier");
+                messageLabel.setText("Enter at least one complete discount tier.");
                 return;
             }
+
+            double creditLimit = Double.parseDouble(MerchantDraftSession.getCreditLimit().trim());
 
             merchantAccountService.createMerchantAccount(
                     MerchantDraftSession.getFullName(),
@@ -50,31 +55,127 @@ public class FlexibleDiscountController {
                     MerchantDraftSession.getPhoneNumber(),
                     MerchantDraftSession.getAddress(),
                     MerchantDraftSession.getAccountStatus(),
-                    Double.parseDouble(MerchantDraftSession.getCreditLimit()),
+                    creditLimit,
                     "FLEXIBLE",
                     tiers
             );
-
-            messageLabel.setText("Merchant account created successfully");
+            //messageLabel.setText("Merchant account created successfully.");
             MerchantDraftSession.clear();
+            SceneSwitcher.switchScene(event,"/staffaccounts/staffAccounts.fxml","Staff Accounts");
 
+        } catch (IllegalArgumentException e) {
+            messageLabel.setText(e.getMessage());
         } catch (Exception e) {
             e.printStackTrace();
-            messageLabel.setText(e.getMessage());
+            messageLabel.setText("Unable to create merchant account.");
         }
     }
 
-    private void addTierIfFilled(List<DiscountTier> tiers, TextField minField, TextField maxField, TextField percentField) {
-        if (!minField.getText().isBlank() && !percentField.getText().isBlank()) {
-            double min = Double.parseDouble(minField.getText().trim());
-            Double max = maxField.getText().isBlank() ? null : Double.parseDouble(maxField.getText().trim());
-            double percent = Double.parseDouble(percentField.getText().trim());
+    private void validateDraftSession() {
 
-            if (percent < 0 || percent > 100) {
-                throw new IllegalArgumentException("Discount percent must be between 0 and 100");
+        if (!MerchantDraftSession.hasDraft()) {
+            throw new IllegalArgumentException("Merchant details are missing. Please go back and re-enter them.");
+        }
+
+        if (isBlank(MerchantDraftSession.getFullName())
+                || isBlank(MerchantDraftSession.getCompanyName())
+                || isBlank(MerchantDraftSession.getUsername())
+                || isBlank(MerchantDraftSession.getPassword())
+                || isBlank(MerchantDraftSession.getEmail())
+                || isBlank(MerchantDraftSession.getPhoneNumber())
+                || isBlank(MerchantDraftSession.getAddress())
+                || isBlank(MerchantDraftSession.getAccountStatus())
+                || isBlank(MerchantDraftSession.getCreditLimit())) {
+
+            throw new IllegalArgumentException("Merchant details are incomplete. Please go back and fill all fields.");
+        }
+
+        try {
+            double creditLimit = Double.parseDouble(MerchantDraftSession.getCreditLimit().trim());
+
+            if (creditLimit < 0) {
+                throw new IllegalArgumentException("Credit limit must be 0 or greater.");
             }
 
-            tiers.add(new DiscountTier(min, max, percent));
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException("Credit limit must be a valid number.");
         }
+    }
+
+    private void validateAndAddTier(
+            List<DiscountTier> tiers,
+            TextField minField,
+            TextField maxField,
+            TextField percentField,
+            String tierName
+    ) {
+
+        String minText = safeText(minField);
+        String maxText = safeText(maxField);
+        String percentText = safeText(percentField);
+
+
+        if (minText.isEmpty() && maxText.isEmpty() && percentText.isEmpty()) {
+            return;
+        }
+
+        if (minText.isEmpty() || maxText.isEmpty() || percentText.isEmpty()) {
+            throw new IllegalArgumentException(
+                    tierName + ": All fields (Min, Max, Percentage) are required."
+            );
+        }
+        double minValue;
+        double maxValue;
+        double percentValue;
+
+        try {
+            minValue = Double.parseDouble(minText);
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException(tierName + ": Min Order Value must be a number.");
+        }
+
+        try {
+            maxValue = Double.parseDouble(maxText);
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException(tierName + ": Max Order Value must be a number.");
+        }
+
+        try {
+            percentValue = Double.parseDouble(percentText);
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException(tierName + ": Discount Percentage must be a number.");
+        }
+
+        if (minValue < 0) {
+            throw new IllegalArgumentException(tierName + ": Min Order Value cannot be negative.");
+        }
+
+        if (maxValue < 0) {
+            throw new IllegalArgumentException(tierName + ": Max Order Value cannot be negative.");
+        }
+
+        if (maxValue < minValue) {
+            throw new IllegalArgumentException(
+                    tierName + ": Max Order Value must be greater than or equal to Min Order Value."
+            );
+        }
+
+        if (percentValue < 0 || percentValue > 100) {
+            throw new IllegalArgumentException(
+                    tierName + ": Discount Percentage must be between 0 and 100."
+            );
+        }
+
+        tiers.add(new DiscountTier(minValue, maxValue, percentValue));
+    }
+
+    private String safeText(TextField field) {
+        return (field == null || field.getText() == null)
+                ? ""
+                : field.getText().trim();
+    }
+
+    private boolean isBlank(String value) {
+        return value == null || value.trim().isEmpty();
     }
 }

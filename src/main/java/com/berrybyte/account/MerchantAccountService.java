@@ -20,6 +20,17 @@ public class MerchantAccountService {
             String discountPlanType,
             List<DiscountTier> discountTiers
     ) throws Exception {
+        if (fullName == null || fullName.isBlank()) throw new IllegalArgumentException("Full name is required");
+        if (companyName == null || companyName.isBlank()) throw new IllegalArgumentException("Company name is required");
+        if (username == null || username.isBlank()) throw new IllegalArgumentException("Username is required");
+        if (password == null || password.isBlank()) throw new IllegalArgumentException("Password is required");
+        if (email == null || email.isBlank()) throw new IllegalArgumentException("Email is required");
+        if (phoneNumber == null || phoneNumber.isBlank()) throw new IllegalArgumentException("Phone number is required");
+        if (address == null || address.isBlank()) throw new IllegalArgumentException("Address is required");
+        if (accountStatus == null || accountStatus.isBlank()) throw new IllegalArgumentException("Account status is required");
+        if (discountPlanType == null || discountPlanType.isBlank()) throw new IllegalArgumentException("Discount plan type is required");
+        if (discountTiers == null || discountTiers.isEmpty()) throw new IllegalArgumentException("At least one discount tier is required");
+        if (creditLimit < 0) throw new IllegalArgumentException("Credit limit cannot be negative");
 
         String firstName = "";
         String lastName = "";
@@ -46,7 +57,7 @@ public class MerchantAccountService {
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?)
                 """;
 
-        String insertPlanSql = """
+        String insertDiscountPlanSql = """
                 INSERT INTO DiscountPlans
                 (MerchantId, PlanType, IsActive, CreatedByUserId)
                 VALUES (?, ?, ?, NULL)
@@ -64,7 +75,7 @@ public class MerchantAccountService {
             try (
                     PreparedStatement userPs = conn.prepareStatement(insertUserSql, Statement.RETURN_GENERATED_KEYS);
                     PreparedStatement merchantPs = conn.prepareStatement(insertMerchantSql, Statement.RETURN_GENERATED_KEYS);
-                    PreparedStatement planPs = conn.prepareStatement(insertPlanSql, Statement.RETURN_GENERATED_KEYS);
+                    PreparedStatement planPs = conn.prepareStatement(insertDiscountPlanSql, Statement.RETURN_GENERATED_KEYS);
                     PreparedStatement tierPs = conn.prepareStatement(insertTierSql)
             ) {
                 String generatedIdNumber = "M-" + System.currentTimeMillis();

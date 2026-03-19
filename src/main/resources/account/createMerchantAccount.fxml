@@ -35,6 +35,6 @@
       <TextField fx:id="nameTextField" layoutX="290.0" layoutY="118.0" prefHeight="30.0" prefWidth="320.0" promptText="Name" style="-fx-background-radius: 15;" />
       <TextField fx:id="accountStatusField" layoutX="290.0" layoutY="437.0" prefHeight="30.0" prefWidth="320.0" promptText="Status" style="-fx-background-radius: 15;" />
       <TextField fx:id="creditLimitField" layoutX="290.0" layoutY="482.0" prefHeight="30.0" prefWidth="320.0" promptText="Credit Limit" style="-fx-background-radius: 15;" />
-      <Label fx:id="messageLabel" layoutX="288.0" layoutY="86.0" prefHeight="18.0" prefWidth="312.0" textFill="#8f0808" />
+      <Label fx:id="messageLabel" layoutX="280.0" layoutY="86.0" prefHeight="18.0" prefWidth="338.0" textFill="#8f0808" />
    </children>
 </AnchorPane>

@@ -1,5 +1,6 @@
 package com.berrybyte.account;
 
+import com.berrybyte.common.SceneSwitcher;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -20,15 +21,26 @@ public class FixedDiscountController {
     @FXML
     private void handleCreateAccount(ActionEvent event) {
         try {
-            if (fixedDiscountPercentField.getText().isBlank()) {
-                messageLabel.setText("Enter discount percentage");
+            messageLabel.setText("");
+
+            String percentText = fixedDiscountPercentField.getText() == null
+                    ? ""
+                    : fixedDiscountPercentField.getText().trim();
+
+            if (percentText.isEmpty()) {
+                messageLabel.setText("Enter discount percentage.");
                 return;
             }
 
-            double percent = Double.parseDouble(fixedDiscountPercentField.getText().trim());
+            if (!percentText.matches("\\d+(\\.\\d+)?")) {
+                messageLabel.setText("Discount percentage must be a number.");
+                return;
+            }
+
+            double percent = Double.parseDouble(percentText);
 
             if (percent < 0 || percent > 100) {
-                messageLabel.setText("Discount percent must be between 0 and 100");
+                messageLabel.setText("Discount percentage must be between 0 and 100.");
                 return;
             }
 
@@ -45,17 +57,20 @@ public class FixedDiscountController {
                     MerchantDraftSession.getPhoneNumber(),
                     MerchantDraftSession.getAddress(),
                     MerchantDraftSession.getAccountStatus(),
-                    Double.parseDouble(MerchantDraftSession.getCreditLimit()),
+                    Double.parseDouble(MerchantDraftSession.getCreditLimit().trim()),
                     "FIXED",
                     tiers
             );
 
-            messageLabel.setText("Merchant account created successfully");
+            //messageLabel.setText("Merchant account created successfully");
             MerchantDraftSession.clear();
+            SceneSwitcher.switchScene(event,
+                    "/staffaccounts/staffAccounts.fxml",
+                    "Staff Accounts");
 
         } catch (Exception e) {
             e.printStackTrace();
-            messageLabel.setText(e.getMessage());
+            messageLabel.setText("Unable to create merchant account.");
         }
     }
 }
