@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: #D2C3E3;" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: #D2C3E3;" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.berrybyte.account.CreateMerchantAccountController">
    <children>
       <ImageView fitHeight="62.0" fitWidth="88.0" layoutX="38.0" layoutY="33.0" pickOnBounds="true" preserveRatio="true">
          <image>
@@ -21,25 +21,20 @@
             <Font name="Verdana Bold" size="22.0" />
          </font>
       </Label>
-      <TextField layoutX="290.0" layoutY="128.0" prefHeight="30.0" prefWidth="320.0" promptText="Merchant ID" style="-fx-background-radius: 15;" />
-      <TextField layoutX="289.0" layoutY="173.0" prefHeight="30.0" prefWidth="320.0" promptText="Company" style="-fx-background-radius: 15;" />
-      <TextField layoutX="289.0" layoutY="222.0" prefHeight="30.0" prefWidth="320.0" promptText="Username" style="-fx-background-radius: 15;" />
-      <TextField layoutX="290.0" layoutY="315.0" prefHeight="30.0" prefWidth="320.0" promptText="Phone Number " style="-fx-background-radius: 15;" />
-      <Button layoutX="578.0" layoutY="545.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="62.0" style="-fx-background-color: #6C5A86; -fx-background-radius: 18;" text="Create" textFill="WHITE" textOverrun="LEADING_ELLIPSIS">
+      <TextField fx:id="companyNameTextField" layoutX="290.0" layoutY="163.0" prefHeight="30.0" prefWidth="320.0" promptText="Company" style="-fx-background-radius: 15;" />
+      <TextField fx:id="usernameTextField" layoutX="290.0" layoutY="207.0" prefHeight="30.0" prefWidth="320.0" promptText="Username" style="-fx-background-radius: 15;" />
+      <TextField fx:id="phoneNumberTextField" layoutX="290.0" layoutY="300.0" prefHeight="30.0" prefWidth="320.0" promptText="Phone Number " style="-fx-background-radius: 15;" />
+      <Button fx:id="nextButton" layoutX="578.0" layoutY="547.0" mnemonicParsing="false" onAction="#handleNext" prefHeight="26.0" prefWidth="62.0" style="-fx-background-color: #6C5A86; -fx-background-radius: 18;" text="Next" textFill="WHITE" textOverrun="LEADING_ELLIPSIS">
          <font>
             <Font name="System Bold" size="12.0" />
          </font>
       </Button>
-      <PasswordField layoutX="289.0" layoutY="269.0" prefHeight="30.0" prefWidth="320.0" promptText="Password" style="-fx-background-radius: 15;" />
-      <Label fx:id="messageLabel" layoutX="535.0" layoutY="24.0" prefHeight="18.0" prefWidth="338.0" textFill="#8f0808">
-         <font>
-            <Font name="Verdana Bold" size="13.0" />
-         </font>
-      </Label>
-      <TextField layoutX="290.0" layoutY="360.0" prefHeight="30.0" prefWidth="320.0" promptText="Email Address" style="-fx-background-radius: 15;" />
-      <TextField layoutX="289.0" layoutY="406.0" prefHeight="30.0" prefWidth="320.0" promptText="Address" style="-fx-background-radius: 15;" />
-      <TextField layoutX="290.0" layoutY="87.0" prefHeight="30.0" prefWidth="320.0" promptText="Name" style="-fx-background-radius: 15;" />
-      <TextField layoutX="289.0" layoutY="449.0" prefHeight="30.0" prefWidth="320.0" promptText="Status" style="-fx-background-radius: 15;" />
-      <TextField layoutX="290.0" layoutY="493.0" prefHeight="30.0" prefWidth="320.0" promptText="Credit Limit" style="-fx-background-radius: 15;" />
+      <PasswordField fx:id="passwordField" layoutX="289.0" layoutY="257.0" prefHeight="30.0" prefWidth="320.0" promptText="Password" style="-fx-background-radius: 15;" />
+      <TextField fx:id="emailTextField" layoutX="289.0" layoutY="345.0" prefHeight="30.0" prefWidth="320.0" promptText="Email Address" style="-fx-background-radius: 15;" />
+      <TextField fx:id="addressTextArea" layoutX="290.0" layoutY="392.0" prefHeight="30.0" prefWidth="320.0" promptText="Address" style="-fx-background-radius: 15;" />
+      <TextField fx:id="nameTextField" layoutX="290.0" layoutY="118.0" prefHeight="30.0" prefWidth="320.0" promptText="Name" style="-fx-background-radius: 15;" />
+      <TextField fx:id="accountStatusField" layoutX="290.0" layoutY="437.0" prefHeight="30.0" prefWidth="320.0" promptText="Status" style="-fx-background-radius: 15;" />
+      <TextField fx:id="creditLimitField" layoutX="290.0" layoutY="482.0" prefHeight="30.0" prefWidth="320.0" promptText="Credit Limit" style="-fx-background-radius: 15;" />
+      <Label fx:id="messageLabel" layoutX="288.0" layoutY="86.0" prefHeight="18.0" prefWidth="312.0" textFill="#8f0808" />
    </children>
 </AnchorPane>

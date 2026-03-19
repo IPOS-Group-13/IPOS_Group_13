@@ -11,22 +11,22 @@
    <children>
       <AnchorPane layoutX="252.0" layoutY="65.0" prefHeight="470.0" prefWidth="396.0" style="-fx-background-color: #A89CB6; -fx-background-radius: 20;">
          <children>
-            <Label layoutX="57.0" layoutY="61.0" text="Select Account Type:">
+            <Label alignment="CENTER" layoutX="80.0" layoutY="58.0" text="Select Account Type:">
                <font>
-                  <Font name="Verdana Bold" size="24.0" />
+                  <Font name="Segoe UI Bold" size="24.0" />
                </font>
             </Label>
-            <Button fx:id="adminButton" alignment="CENTER" layoutX="24.0" layoutY="136.0" mnemonicParsing="false" onAction="#handleAdminButton" prefHeight="60.0" prefWidth="346.0" style="-fx-background-radius: 20;" text="Administrator">
+            <Button fx:id="adminButton" alignment="CENTER" layoutX="24.0" layoutY="136.0" mnemonicParsing="false" onAction="#handleAdminButton" prefHeight="60.0" prefWidth="346.0" style="-fx-background-radius: 20; -fx-background-color: #6C5A86;" text="Administrator">
                <font>
                   <Font size="13.0" />
                </font>
             </Button>
-            <Button fx:id="managerButton" layoutX="25.0" layoutY="235.0" mnemonicParsing="false" onAction="#handleManagerButton" prefHeight="60.0" prefWidth="346.0" style="-fx-background-radius: 20;" text="Manager">
+            <Button fx:id="managerButton" layoutX="25.0" layoutY="235.0" mnemonicParsing="false" onAction="#handleManagerButton" prefHeight="60.0" prefWidth="346.0" style="-fx-background-radius: 20; -fx-background-color: #6C5A86;" text="Manager">
                <font>
                   <Font size="13.0" />
                </font>
             </Button>
-            <Button fx:id="merchantButton" layoutX="25.0" layoutY="340.0" mnemonicParsing="false" onAction="#handleMerchantButton" prefHeight="60.0" prefWidth="346.0" style="-fx-background-radius: 20;" text="Merchant">
+            <Button fx:id="merchantButton" layoutX="25.0" layoutY="340.0" mnemonicParsing="false" onAction="#handleMerchantButton" prefHeight="60.0" prefWidth="346.0" style="-fx-background-radius: 20; -fx-background-color: #6C5A86;" text="Merchant">
                <font>
                   <Font size="13.0" />
                </font>

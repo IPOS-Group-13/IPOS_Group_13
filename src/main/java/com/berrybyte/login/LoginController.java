@@ -62,12 +62,10 @@ public class LoginController {
                     } else if ("MANAGER".equalsIgnoreCase(role)) {
                         SceneSwitcher.switchScene(event, "/dashboard/managerDashboard.fxml", "Manager Dashboard");
                     } else if ("MERCHANT".equalsIgnoreCase(role)) {
-                        SceneSwitcher.switchScene(event, "/dashboard/merchantDashboard.fxml", "Merchant Dashboard");
+                        loginMessageLabel.setText("Merchants must log in through IPOS-CA");
                     } else {
                         loginMessageLabel.setText("Unknown account role");
                     }
-                } else {
-                    loginMessageLabel.setText("Invalid username or password");
                 }
             }
 

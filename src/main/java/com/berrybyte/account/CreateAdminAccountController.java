@@ -8,7 +8,7 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 
 import java.sql.Connection;
-import java.sql.Statement;
+import java.sql.PreparedStatement;
 
 public class CreateAdminAccountController {
 
@@ -35,7 +35,6 @@ public class CreateAdminAccountController {
 
     @FXML
     public void createAdminAccount(ActionEvent event) {
-
         if (nameTextField.getText().isBlank()
                 || idNumberTextField.getText().isBlank()
                 || usernameTextField.getText().isBlank()
@@ -44,42 +43,46 @@ public class CreateAdminAccountController {
                 || phoneNumberTextField.getText().isBlank()) {
 
             messageLabel.setText("Fill in all required fields");
+            return;
         }
-        else {
-            createAdmin();
-        }
+
+        createAdmin();
     }
 
     public void createAdmin() {
-
-        DatabaseConnection connectNow = new DatabaseConnection();
-        Connection conn = connectNow.getConnection();
-
         String fullName = nameTextField.getText().trim();
         String firstName = "";
         String lastName = "";
 
         if (fullName.contains(" ")) {
             String[] parts = fullName.split(" ", 2);
-            firstName = parts[0];
-            lastName = parts[1];
+            firstName = parts[0].trim();
+            lastName = parts[1].trim();
         } else {
             firstName = fullName;
         }
 
-        String insertFields = "INSERT INTO useraccounts (Firstname, Lastname, Username, Password, IdNumber, Email, PhoneNumber, Role) VALUES ('"
-                + firstName + "', '"
-                + lastName + "', '"
-                + usernameTextField.getText() + "', '"
-                + passwordField.getText() + "', '"
-                + idNumberTextField.getText() + "', '"
-                + emailTextField.getText() + "', '"
-                + phoneNumberTextField.getText() + "', '"
-                + "ADMIN" + "')";
+        String sql = """
+                INSERT INTO Users
+                (Firstname, Lastname, Username, Password, IdNumber, Email, PhoneNumber, Role)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+                """;
 
-        try {
-            Statement statement = conn.createStatement();
-            statement.executeUpdate(insertFields);
+        DatabaseConnection connectNow = new DatabaseConnection();
+
+        try (Connection conn = connectNow.getConnection();
+             PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
+
+            preparedStatement.setString(1, firstName);
+            preparedStatement.setString(2, lastName);
+            preparedStatement.setString(3, usernameTextField.getText().trim());
+            preparedStatement.setString(4, passwordField.getText().trim());
+            preparedStatement.setString(5, idNumberTextField.getText().trim());
+            preparedStatement.setString(6, emailTextField.getText().trim());
+            preparedStatement.setString(7, phoneNumberTextField.getText().trim());
+            preparedStatement.setString(8, "ADMIN");
+
+            preparedStatement.executeUpdate();
 
             messageLabel.setText("Administrator account created successfully");
             clearFields();
