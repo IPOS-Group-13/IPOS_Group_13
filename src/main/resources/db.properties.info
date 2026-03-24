@@ -1,0 +1,5 @@
+db.host=caboose.proxy.rlwy.net
+db.port=15730
+db.name=ipos_sa
+db.username=sa_user
+db.password="Replace with password"

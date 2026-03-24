@@ -1,24 +1,41 @@
 package com.berrybyte.common;
 
-import java.sql.DriverManager;
+import java.io.InputStream;
 import java.sql.Connection;
+import java.sql.DriverManager;
+import java.util.Properties;
 
 public class DatabaseConnection {
+
     public Connection databaselink;
 
     public Connection getConnection() {
-        String databaseName = "railway";
-        String databaseUsername = "root";
-        String databasePassword = "ymQLxQUfCfstogNMynirnffMcLrBrKsP";
-        String url = "jdbc:mysql://switchyard.proxy.rlwy.net:20890/railway";
+        try {
+            Properties properties = new Properties();
 
-        try{
+            InputStream inputStream = getClass().getClassLoader().getResourceAsStream("db.properties.local");
+
+            if (inputStream == null) {
+                throw new RuntimeException("db.properties.local file not found in resources folder.");
+            }
+
+            properties.load(inputStream);
+
+            String databaseHost = properties.getProperty("db.host");
+            String databasePort = properties.getProperty("db.port");
+            String databaseName = properties.getProperty("db.name");
+            String databaseUsername = properties.getProperty("db.username");
+            String databasePassword = properties.getProperty("db.password");
+
+            String url = "jdbc:mysql://" + databaseHost + ":" + databasePort + "/" + databaseName + "?serverTimezone=UTC";
+
             Class.forName("com.mysql.cj.jdbc.Driver");
             databaselink = DriverManager.getConnection(url, databaseUsername, databasePassword);
 
         } catch (Exception e) {
             e.printStackTrace();
         }
+
         return databaselink;
     }
 }
