@@ -16,8 +16,9 @@ import javafx.stage.Stage;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 
-public class CreateAdminAccountController {
+public class EditManagerAccountController {
 
     @FXML
     private TextField nameTextField;
@@ -40,17 +41,68 @@ public class CreateAdminAccountController {
     @FXML
     private Label messageLabel;
 
+    private int userId;
+
+    public void setUserId(int userId) {
+        this.userId = userId;
+        loadManagerDetails();
+    }
+
+    private void loadManagerDetails() {
+        String sql = """
+                SELECT Firstname, Lastname, Username, Password, IdNumber, Email, PhoneNumber
+                FROM Users
+                WHERE UserId = ? AND Role = ?
+                """;
+
+        DatabaseConnection connectNow = new DatabaseConnection();
+
+        try (Connection conn = connectNow.getConnection();
+             PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
+
+            preparedStatement.setInt(1, userId);
+            preparedStatement.setString(2, "MANAGER");
+
+            try (ResultSet rs = preparedStatement.executeQuery()) {
+                if (rs.next()) {
+                    String firstName = rs.getString("Firstname");
+                    String lastName = rs.getString("Lastname");
+
+                    String fullName;
+                    if (lastName == null || lastName.trim().isEmpty()) {
+                        fullName = firstName;
+                    } else {
+                        fullName = firstName + " " + lastName;
+                    }
+
+                    nameTextField.setText(fullName);
+                    idNumberTextField.setText(rs.getString("IdNumber"));
+                    usernameTextField.setText(rs.getString("Username"));
+                    passwordField.setText(rs.getString("Password"));
+                    emailTextField.setText(rs.getString("Email"));
+                    phoneNumberTextField.setText(rs.getString("PhoneNumber"));
+                } else {
+                    messageLabel.setText("Manager account not found.");
+                }
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            messageLabel.setText("Error loading manager account.");
+        }
+    }
+
     @FXML
-    public void createAdminAccount(ActionEvent event) {
+    public void updateManagerAccount(ActionEvent event) {
         try {
-            validateAdminDetails();
-            createAdmin(event);
+            validateManagerDetails();
+            updateManager(event);
         } catch (Exception e) {
             messageLabel.setText(e.getMessage());
         }
     }
 
-    private void validateAdminDetails() throws Exception {
+    private void validateManagerDetails() throws Exception {
         String name = nameTextField.getText() == null ? "" : nameTextField.getText().trim();
         String idNumber = idNumberTextField.getText() == null ? "" : idNumberTextField.getText().trim();
         String username = usernameTextField.getText() == null ? "" : usernameTextField.getText().trim();
@@ -90,7 +142,7 @@ public class CreateAdminAccountController {
         }
     }
 
-    private void createAdmin(ActionEvent event) {
+    private void updateManager(ActionEvent event) {
         String fullName = nameTextField.getText().trim();
         String firstName;
         String lastName = "";
@@ -104,9 +156,9 @@ public class CreateAdminAccountController {
         }
 
         String sql = """
-                INSERT INTO Users
-                (Firstname, Lastname, Username, Password, IdNumber, Email, PhoneNumber, Role)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+                UPDATE Users
+                SET Firstname = ?, Lastname = ?, Username = ?, Password = ?, IdNumber = ?, Email = ?, PhoneNumber = ?
+                WHERE UserId = ? AND Role = ?
                 """;
 
         DatabaseConnection connectNow = new DatabaseConnection();
@@ -121,41 +173,36 @@ public class CreateAdminAccountController {
             preparedStatement.setString(5, idNumberTextField.getText().trim());
             preparedStatement.setString(6, emailTextField.getText().trim());
             preparedStatement.setString(7, phoneNumberTextField.getText().trim());
-            preparedStatement.setString(8, "ADMIN");
+            preparedStatement.setInt(8, userId);
+            preparedStatement.setString(9, "MANAGER");
 
-            preparedStatement.executeUpdate();
+            int rowsAffected = preparedStatement.executeUpdate();
 
-            //messageLabel.setText("Administrator account created successfully");
-            SceneSwitcher.switchScene(event,
-                    "/staffaccounts/staffAccounts.fxml",
-                    "Staff Accounts");
-            clearFields();
+            if (rowsAffected > 0) {
+                SceneSwitcher.switchScene(event,
+                        "/staffaccounts/staffAccounts.fxml",
+                        "Staff Accounts");
+            } else {
+                messageLabel.setText("No manager account was updated");
+            }
 
         } catch (Exception e) {
             e.printStackTrace();
-            messageLabel.setText("Error creating administrator account");
+            messageLabel.setText("Error updating manager account");
         }
     }
 
     @FXML
     private void handleBackButton(MouseEvent event) {
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("/account/accountType.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("/staffaccounts/staffAccounts.fxml"));
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.setScene(new Scene(root));
-            stage.setTitle("Select Account Type");
+            stage.setTitle("Staff Accounts");
             stage.show();
         } catch (Exception e) {
             e.printStackTrace();
+            messageLabel.setText("Unable to go back.");
         }
-    }
-
-    private void clearFields() {
-        nameTextField.clear();
-        idNumberTextField.clear();
-        usernameTextField.clear();
-        passwordField.clear();
-        emailTextField.clear();
-        phoneNumberTextField.clear();
     }
 }

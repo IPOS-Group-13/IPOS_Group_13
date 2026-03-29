@@ -1,11 +1,18 @@
 package com.berrybyte.account;
 
 import com.berrybyte.common.DatabaseConnection;
+import com.berrybyte.common.SceneSwitcher;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
+import javafx.stage.Stage;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -35,23 +42,57 @@ public class CreateManagerAccountController {
 
     @FXML
     public void createManagerAccount(ActionEvent event) {
-        if (nameTextField.getText().isBlank()
-                || idNumberTextField.getText().isBlank()
-                || usernameTextField.getText().isBlank()
-                || passwordField.getText().isBlank()
-                || emailTextField.getText().isBlank()
-                || phoneNumberTextField.getText().isBlank()) {
-
-            messageLabel.setText("Fill in all required fields");
-            return;
+        try {
+            validateManagerDetails();
+            createManager(event);
+        } catch (Exception e) {
+            messageLabel.setText(e.getMessage());
         }
-
-        createManager();
     }
 
-    public void createManager() {
+    private void validateManagerDetails() throws Exception {
+        String name = nameTextField.getText() == null ? "" : nameTextField.getText().trim();
+        String idNumber = idNumberTextField.getText() == null ? "" : idNumberTextField.getText().trim();
+        String username = usernameTextField.getText() == null ? "" : usernameTextField.getText().trim();
+        String password = passwordField.getText() == null ? "" : passwordField.getText().trim();
+        String email = emailTextField.getText() == null ? "" : emailTextField.getText().trim();
+        String phone = phoneNumberTextField.getText() == null ? "" : phoneNumberTextField.getText().trim();
+
+        if (name.isEmpty()) throw new Exception("Full name is required.");
+        if (idNumber.isEmpty()) throw new Exception("ID number is required.");
+        if (username.isEmpty()) throw new Exception("Username is required.");
+        if (password.isEmpty()) throw new Exception("Password is required.");
+        if (email.isEmpty()) throw new Exception("Email is required.");
+        if (phone.isEmpty()) throw new Exception("Phone number is required.");
+
+        if (!name.matches("[A-Za-z ]+")) {
+            throw new Exception("Name must contain only letters and spaces.");
+        }
+
+        if (!idNumber.matches("[A-Za-z0-9-]+")) {
+            throw new Exception("ID number can only contain letters, numbers, and hyphens.");
+        }
+
+        if (!username.matches("[A-Za-z0-9_]+")) {
+            throw new Exception("Username can only contain letters, numbers, and underscores.");
+        }
+
+        if (password.length() < 6) {
+            throw new Exception("Password must be at least 6 characters long.");
+        }
+
+        if (!email.matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$")) {
+            throw new Exception("Enter a valid email address.");
+        }
+
+        if (!phone.matches("\\+\\d{1,3}\\s\\d{7,12}")) {
+            throw new Exception("Enter a valid phone number with country code (e.g. +44 7123456789).");
+        }
+    }
+
+    private void createManager(ActionEvent event) {
         String fullName = nameTextField.getText().trim();
-        String firstName = "";
+        String firstName;
         String lastName = "";
 
         if (fullName.contains(" ")) {
@@ -84,7 +125,10 @@ public class CreateManagerAccountController {
 
             preparedStatement.executeUpdate();
 
-            messageLabel.setText("Manager account created successfully");
+            //messageLabel.setText("Manager account created successfully");
+            SceneSwitcher.switchScene(event,
+                    "/staffaccounts/staffAccounts.fxml",
+                    "Staff Accounts");
             clearFields();
 
         } catch (Exception e) {
@@ -93,7 +137,20 @@ public class CreateManagerAccountController {
         }
     }
 
-    public void clearFields() {
+    @FXML
+    private void handleBackButton(MouseEvent event) {
+        try {
+            Parent root = FXMLLoader.load(getClass().getResource("/account/accountType.fxml"));
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Select Account Type");
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void clearFields() {
         nameTextField.clear();
         idNumberTextField.clear();
         usernameTextField.clear();

@@ -32,10 +32,11 @@
          </font>
       </Button>
       <PasswordField fx:id="passwordField" layoutX="280.0" layoutY="329.0" prefHeight="40.0" prefWidth="338.0" promptText="Password" style="-fx-background-radius: 15;" />
-      <Label fx:id="messageLabel" layoutX="280.0" layoutY="117.0" prefHeight="18.0" prefWidth="338.0" textFill="#8f0808">
-         <font>
-            <Font name="Verdana Bold" size="13.0" />
-         </font>
-      </Label>
+      <ImageView fx:id="backButton" fitHeight="52.0" fitWidth="40.0" layoutX="826.0" layoutY="36.0" onMouseClicked="#handleBackButton" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../login/images/BackButton.png" />
+         </image>
+      </ImageView>
+      <Label fx:id="messageLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="243.0" layoutY="108.0" prefHeight="18.0" prefWidth="412.0" textFill="#8f0808" />
    </children>
 </AnchorPane>
