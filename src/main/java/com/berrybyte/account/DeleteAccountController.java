@@ -73,11 +73,9 @@ public class DeleteAccountController {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/account/confirmDeleteAccount.fxml"));
             Parent root = loader.load();
-
             ConfirmDeleteAccountController controller = loader.getController();
             controller.setSelectedUser(selectedUser);
             controller.setParentController(this);
-
             Stage popupStage = new Stage();
             popupStage.initModality(Modality.APPLICATION_MODAL);
             popupStage.initStyle(StageStyle.UNDECORATED);

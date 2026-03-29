@@ -8,11 +8,14 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -41,7 +44,13 @@ public class EditAdminAccountController {
     @FXML
     private Label messageLabel;
 
+    @FXML
+    private Button demoteButton;
+
     private int userId;
+
+    // This is the role that will be saved when Save is clicked.
+    private String pendingRole = "ADMIN";
 
     public void setUserId(int userId) {
         this.userId = userId;
@@ -54,7 +63,6 @@ public class EditAdminAccountController {
                 FROM Users
                 WHERE UserId = ? AND Role = ?
                 """;
-
         DatabaseConnection connectNow = new DatabaseConnection();
 
         try (Connection conn = connectNow.getConnection();
@@ -67,25 +75,29 @@ public class EditAdminAccountController {
                 if (rs.next()) {
                     String firstName = rs.getString("Firstname");
                     String lastName = rs.getString("Lastname");
-
                     String fullName;
                     if (lastName == null || lastName.trim().isEmpty()) {
                         fullName = firstName;
                     } else {
                         fullName = firstName + " " + lastName;
                     }
-
                     nameTextField.setText(fullName);
                     idNumberTextField.setText(rs.getString("IdNumber"));
                     usernameTextField.setText(rs.getString("Username"));
                     passwordField.setText(rs.getString("Password"));
                     emailTextField.setText(rs.getString("Email"));
                     phoneNumberTextField.setText(rs.getString("PhoneNumber"));
+
+                    pendingRole = "ADMIN";
+                    if (demoteButton != null) {
+                        demoteButton.setText("Demote");
+                        demoteButton.setDisable(false);
+                    }
+                    messageLabel.setText("");
                 } else {
                     messageLabel.setText("Administrator account not found.");
                 }
             }
-
         } catch (Exception e) {
             e.printStackTrace();
             messageLabel.setText("Error loading administrator account.");
@@ -96,10 +108,82 @@ public class EditAdminAccountController {
     public void updateAdminAccount(ActionEvent event) {
         try {
             validateAdminDetails();
+            if ("MANAGER".equals(pendingRole) && !canDemoteAdmin()) {
+                messageLabel.setText("At least one administrator must remain in the system.");
+                return;
+            }
             updateAdmin(event);
         } catch (Exception e) {
             messageLabel.setText(e.getMessage());
         }
+    }
+
+    @FXML
+    private void handleDemoteButton(ActionEvent event) {
+        if ("MANAGER".equals(pendingRole)) {
+            messageLabel.setText("Demotion already selected. Click Save to apply it.");
+            return;
+        }
+        if (!canDemoteAdmin()) {
+            messageLabel.setText("At least one administrator must remain in the system.");
+            return;
+        }
+        openDemotePopup();
+    }
+
+    private boolean canDemoteAdmin() {
+        String sql = "SELECT COUNT(*) AS adminCount FROM Users WHERE Role = ?";
+
+        DatabaseConnection connectNow = new DatabaseConnection();
+
+        try (Connection conn = connectNow.getConnection();
+             PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
+            preparedStatement.setString(1, "ADMIN");
+
+            try (ResultSet rs = preparedStatement.executeQuery()) {
+                if (rs.next()) {
+                    int adminCount = rs.getInt("adminCount");
+                    return adminCount > 1;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            messageLabel.setText("Error checking administrator count.");
+        }
+
+        return false;
+    }
+
+    private void openDemotePopup() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/account/confirmDemoteAdmin.fxml"));
+            Parent root = loader.load();
+
+            ConfirmDemoteAdminController controller = loader.getController();
+            controller.setParentController(this);
+
+            Stage popupStage = new Stage();
+            popupStage.initModality(Modality.APPLICATION_MODAL);
+            popupStage.initStyle(StageStyle.UNDECORATED);
+
+            Stage ownerStage = (Stage) messageLabel.getScene().getWindow();
+            popupStage.initOwner(ownerStage);
+
+            popupStage.setScene(new Scene(root));
+            popupStage.showAndWait();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            messageLabel.setText("Unable to open demotion confirmation popup.");
+        }
+    }
+
+    public void confirmDemotion() {
+        pendingRole = "MANAGER";
+        if (demoteButton != null) {
+            demoteButton.setDisable(true);
+        }
+        messageLabel.setText("Demotion selected. Click Save to apply the role change.");
     }
 
     private void validateAdminDetails() throws Exception {
@@ -120,23 +204,18 @@ public class EditAdminAccountController {
         if (!name.matches("[A-Za-z ]+")) {
             throw new Exception("Name must contain only letters and spaces.");
         }
-
         if (!idNumber.matches("[A-Za-z0-9-]+")) {
             throw new Exception("ID number can only contain letters, numbers, and hyphens.");
         }
-
         if (!username.matches("[A-Za-z0-9_]+")) {
             throw new Exception("Username can only contain letters, numbers, and underscores.");
         }
-
         if (password.length() < 6) {
             throw new Exception("Password must be at least 6 characters long.");
         }
-
         if (!email.matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$")) {
             throw new Exception("Enter a valid email address.");
         }
-
         if (!phone.matches("\\+\\d{1,3}\\s\\d{7,12}")) {
             throw new Exception("Enter a valid phone number with country code (e.g. +44 7123456789).");
         }
@@ -157,8 +236,8 @@ public class EditAdminAccountController {
 
         String sql = """
                 UPDATE Users
-                SET Firstname = ?, Lastname = ?, Username = ?, Password = ?, IdNumber = ?, Email = ?, PhoneNumber = ?
-                WHERE UserId = ? AND Role = ?
+                SET Firstname = ?, Lastname = ?, Username = ?, Password = ?, IdNumber = ?, Email = ?, PhoneNumber = ?, Role = ?
+                WHERE UserId = ?
                 """;
 
         DatabaseConnection connectNow = new DatabaseConnection();
@@ -173,8 +252,8 @@ public class EditAdminAccountController {
             preparedStatement.setString(5, idNumberTextField.getText().trim());
             preparedStatement.setString(6, emailTextField.getText().trim());
             preparedStatement.setString(7, phoneNumberTextField.getText().trim());
-            preparedStatement.setInt(8, userId);
-            preparedStatement.setString(9, "ADMIN");
+            preparedStatement.setString(8, pendingRole);
+            preparedStatement.setInt(9, userId);
 
             int rowsAffected = preparedStatement.executeUpdate();
 
@@ -183,15 +262,14 @@ public class EditAdminAccountController {
                         "/staffaccounts/staffAccounts.fxml",
                         "Staff Accounts");
             } else {
-                messageLabel.setText("No administrator account was updated");
+                messageLabel.setText("No administrator account was updated.");
             }
 
         } catch (Exception e) {
             e.printStackTrace();
-            messageLabel.setText("Error updating administrator account");
+            messageLabel.setText("Error updating administrator account.");
         }
     }
-
     @FXML
     private void handleBackButton(MouseEvent event) {
         try {

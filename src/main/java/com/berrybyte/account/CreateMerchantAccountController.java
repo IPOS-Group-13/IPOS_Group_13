@@ -60,6 +60,7 @@ public class CreateMerchantAccountController {
         } else {
             accountStatusField.setText("NORMAL");
         }
+
     }
     @FXML
     private void handleBackButton(MouseEvent event) {
@@ -123,15 +124,12 @@ public class CreateMerchantAccountController {
         if (!name.matches("[A-Za-z ]+")) {
             throw new Exception("Name must contain only letters and spaces.");
         }
-
         if (!company.matches("[A-Za-z0-9 ]+")) {
             throw new Exception("Company name can only contain letters, numbers, and spaces.");
         }
-
         if (!username.matches("[A-Za-z0-9_]+")) {
             throw new Exception("Username can only contain letters, numbers, and underscores.");
         }
-
         if (password.length() < 6) {
             throw new Exception("Password must be at least 6 characters long.");
         }
@@ -139,11 +137,9 @@ public class CreateMerchantAccountController {
         if (!phone.matches("\\+\\d{1,3}\\s\\d{7,12}")) {
             throw new Exception("Enter a valid phone number with country code (e.g. +44..)");
         }
-
         if (!email.matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$")) {
             throw new Exception("Enter a valid email address.");
         }
-
         if (!status.equals("NORMAL")
                 && !status.equals("SUSPENDED")
                 && !status.equals("IN_DEFAULT")) {

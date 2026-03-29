@@ -24,13 +24,10 @@ public class DeleteAccountService {
 
         try (Connection conn = connectNow.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
-
             String keyword = "%" + (searchText == null ? "" : searchText.trim()) + "%";
-
             ps.setString(1, keyword);
             ps.setString(2, keyword);
             ps.setString(3, keyword);
-
 
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
@@ -111,23 +108,19 @@ public class DeleteAccountService {
                         }
                     }
                 }
-
                 try (PreparedStatement ps = conn.prepareStatement(clearCreatedBySql)) {
                     ps.setInt(1, userId);
                     ps.executeUpdate();
                 }
-
                 if (merchantId != null) {
                     try (PreparedStatement ps = conn.prepareStatement(deleteTiersSql)) {
                         ps.setInt(1, merchantId);
                         ps.executeUpdate();
                     }
-
                     try (PreparedStatement ps = conn.prepareStatement(deletePlansSql)) {
                         ps.setInt(1, merchantId);
                         ps.executeUpdate();
                     }
-
                     try (PreparedStatement ps = conn.prepareStatement(deleteMerchantSql)) {
                         ps.setInt(1, userId);
                         ps.executeUpdate();
@@ -142,7 +135,6 @@ public class DeleteAccountService {
                         throw new Exception("No user account was deleted.");
                     }
                 }
-
                 conn.commit();
 
             } catch (Exception e) {

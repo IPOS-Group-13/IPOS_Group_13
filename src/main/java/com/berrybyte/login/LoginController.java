@@ -29,6 +29,7 @@ public class LoginController {
 
     @FXML
     public void loginButtonOnAction(ActionEvent event) {
+        loginMessageLabel.setText("");
         if (usernameTextField.getText().isBlank() || passwordField.getText().isBlank()) {
             loginMessageLabel.setText("Enter your username and password");
             return;
@@ -62,10 +63,12 @@ public class LoginController {
                     } else if ("MANAGER".equalsIgnoreCase(role)) {
                         SceneSwitcher.switchScene(event, "/dashboard/managerDashboard.fxml", "Manager Dashboard");
                     } else if ("MERCHANT".equalsIgnoreCase(role)) {
-                        loginMessageLabel.setText("Merchants must log in through IPOS-CA");
+                        loginMessageLabel.setText("Invalid username or password");
                     } else {
                         loginMessageLabel.setText("Unknown account role");
                     }
+                } else {
+                    loginMessageLabel.setText("Invalid username or password");
                 }
             }
 

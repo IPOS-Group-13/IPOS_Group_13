@@ -79,7 +79,6 @@ public class MerchantAccountService {
                     PreparedStatement tierPs = conn.prepareStatement(insertTierSql)
             ) {
                 String generatedIdNumber = "M-" + System.currentTimeMillis();
-
                 userPs.setString(1, firstName);
                 userPs.setString(2, lastName);
                 userPs.setString(3, username);

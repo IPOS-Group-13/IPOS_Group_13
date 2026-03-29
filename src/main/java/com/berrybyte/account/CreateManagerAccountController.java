@@ -68,23 +68,18 @@ public class CreateManagerAccountController {
         if (!name.matches("[A-Za-z ]+")) {
             throw new Exception("Name must contain only letters and spaces.");
         }
-
         if (!idNumber.matches("[A-Za-z0-9-]+")) {
             throw new Exception("ID number can only contain letters, numbers, and hyphens.");
         }
-
         if (!username.matches("[A-Za-z0-9_]+")) {
             throw new Exception("Username can only contain letters, numbers, and underscores.");
         }
-
         if (password.length() < 6) {
             throw new Exception("Password must be at least 6 characters long.");
         }
-
         if (!email.matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$")) {
             throw new Exception("Enter a valid email address.");
         }
-
         if (!phone.matches("\\+\\d{1,3}\\s\\d{7,12}")) {
             throw new Exception("Enter a valid phone number with country code (e.g. +44 7123456789).");
         }
@@ -113,7 +108,6 @@ public class CreateManagerAccountController {
 
         try (Connection conn = connectNow.getConnection();
              PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
-
             preparedStatement.setString(1, firstName);
             preparedStatement.setString(2, lastName);
             preparedStatement.setString(3, usernameTextField.getText().trim());
@@ -122,7 +116,6 @@ public class CreateManagerAccountController {
             preparedStatement.setString(6, emailTextField.getText().trim());
             preparedStatement.setString(7, phoneNumberTextField.getText().trim());
             preparedStatement.setString(8, "MANAGER");
-
             preparedStatement.executeUpdate();
 
             //messageLabel.setText("Manager account created successfully");

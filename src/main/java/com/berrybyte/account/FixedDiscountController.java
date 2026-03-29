@@ -37,7 +37,6 @@ public class FixedDiscountController {
                 messageLabel.setText("Enter discount percentage.");
                 return;
             }
-
             if (!percentText.matches("\\d+(\\.\\d+)?")) {
                 messageLabel.setText("Discount percentage must be a number.");
                 return;
@@ -49,7 +48,6 @@ public class FixedDiscountController {
                 messageLabel.setText("Discount percentage must be between 0 and 100.");
                 return;
             }
-
             List<DiscountTier> tiers = List.of(
                     new DiscountTier(0.0, null, percent)
             );
@@ -67,7 +65,6 @@ public class FixedDiscountController {
                     "FIXED",
                     tiers
             );
-
             //messageLabel.setText("Merchant account created successfully");
             MerchantDraftSession.clear();
             SceneSwitcher.switchScene(event,

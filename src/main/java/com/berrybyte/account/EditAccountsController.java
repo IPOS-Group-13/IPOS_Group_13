@@ -58,7 +58,6 @@ public class EditAccountsController {
         usersTable.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
             selectedUser = newSelection;
         });
-
         loadUsers("");
     }
 
@@ -73,7 +72,6 @@ public class EditAccountsController {
             messageLabel.setText("Select a user first.");
             return;
         }
-
         try {
             String role = selectedUser.getRole();
             String fxmlPath;
@@ -102,12 +100,9 @@ public class EditAccountsController {
 
             FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
             Parent root = loader.load();
-
             Object controller = loader.getController();
-
             Method setUserIdMethod = controller.getClass().getMethod("setUserId", int.class);
             setUserIdMethod.invoke(controller, selectedUser.getUserId());
-
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.setScene(new Scene(root));
             stage.setTitle(title);
@@ -161,9 +156,7 @@ public class EditAccountsController {
 
         try (Connection conn = connectNow.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
-
             String keyword = "%" + (searchText == null ? "" : searchText.trim()) + "%";
-
             ps.setString(1, keyword);
             ps.setString(2, keyword);
             ps.setString(3, keyword);
