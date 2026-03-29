@@ -43,6 +43,22 @@ public class StaffAccountsController {
             e.printStackTrace();
         }
     }
+    @FXML
+    private void deleteAccountButton(ActionEvent event) {
+        try {
+            SceneSwitcher.switchScene(event, "/account/deleteAccount.fxml", "Delete Account");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    @FXML
+    private void editAccountsButton(ActionEvent event) {
+        try {
+            SceneSwitcher.switchScene(event, "/account/editAccounts.fxml", "Edit Account Details");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     @FXML
     private void handleDashboardClick(ActionEvent event) {

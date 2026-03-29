@@ -3,8 +3,14 @@ package com.berrybyte.account;
 import com.berrybyte.common.SceneSwitcher;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
+import javafx.stage.Stage;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -68,6 +74,18 @@ public class FlexibleDiscountController {
         } catch (Exception e) {
             e.printStackTrace();
             messageLabel.setText("Unable to create merchant account.");
+        }
+    }
+    @FXML
+    private void handleBackButton(MouseEvent event) {
+        try {
+            Parent root = FXMLLoader.load(getClass().getResource("/account/discountPlanSelection.fxml"));
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Select Discount Plan");
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
