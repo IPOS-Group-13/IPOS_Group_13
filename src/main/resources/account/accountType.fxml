@@ -13,40 +13,51 @@
    <children>
       <AnchorPane layoutX="252.0" layoutY="65.0" prefHeight="470.0" prefWidth="396.0" style="-fx-background-color: #A89CB6; -fx-background-radius: 20;">
          <children>
-            <Label alignment="CENTER" layoutX="80.0" layoutY="58.0" text="Select Account Type:">
+            <Label alignment="CENTER" layoutX="80.0" layoutY="54.0" text="Select Account Type:">
                <font>
                   <Font name="Segoe UI Bold" size="24.0" />
                </font>
             </Label>
-            <Button fx:id="adminButton" alignment="CENTER" layoutX="24.0" layoutY="136.0" mnemonicParsing="false" onAction="#handleAdminButton" prefHeight="60.0" prefWidth="346.0" style="-fx-background-radius: 20; -fx-background-color: #6C5A86;" text="Administrator">
+            <Button fx:id="adminButton" alignment="CENTER" layoutX="24.0" layoutY="115.0" mnemonicParsing="false" onAction="#handleAdminButton" prefHeight="60.0" prefWidth="346.0" style="-fx-background-radius: 20; -fx-background-color: #6B4F7A;" text="Administrator" textFill="WHITE">
                <font>
-                  <Font size="13.0" />
+                  <Font name="System Bold" size="13.0" />
                </font>
             </Button>
-            <Button fx:id="managerButton" layoutX="25.0" layoutY="235.0" mnemonicParsing="false" onAction="#handleManagerButton" prefHeight="60.0" prefWidth="346.0" style="-fx-background-radius: 20; -fx-background-color: #6C5A86;" text="Manager">
+            <Button fx:id="managerButton" layoutX="25.0" layoutY="200.0" mnemonicParsing="false" onAction="#handleManagerButton" prefHeight="60.0" prefWidth="346.0" style="-fx-background-radius: 20; -fx-background-color: #6B4F7A;" text="Manager" textFill="WHITE">
                <font>
-                  <Font size="13.0" />
+                  <Font name="System Bold" size="13.0" />
                </font>
             </Button>
-            <Button fx:id="merchantButton" layoutX="25.0" layoutY="340.0" mnemonicParsing="false" onAction="#handleMerchantButton" prefHeight="60.0" prefWidth="346.0" style="-fx-background-radius: 20; -fx-background-color: #6C5A86;" text="Merchant">
+            <Button fx:id="merchantButton" layoutX="25.0" layoutY="364.0" mnemonicParsing="false" onAction="#handleMerchantButton" prefHeight="60.0" prefWidth="346.0" style="-fx-background-radius: 20; -fx-background-color: #6B4F7A;" text="Merchant" textFill="WHITE">
                <font>
-                  <Font size="13.0" />
+                  <Font name="System Bold" size="13.0" />
                </font>
             </Button>
-            <Circle fill="#e3d9ef" layoutX="64.0" layoutY="166.0" radius="20.0" stroke="#d2c3e3" strokeType="INSIDE" />
-            <Circle fill="#e3d9ef" layoutX="64.0" layoutY="265.0" radius="20.0" stroke="#d2c3e3" strokeType="INSIDE" />
-            <Circle fill="#e3d9ef" layoutX="64.0" layoutY="370.0" radius="20.0" stroke="#d2c3e3" strokeType="INSIDE" />
-            <Text layoutX="59.0" layoutY="171.0" strokeType="OUTSIDE" strokeWidth="0.0" text="A">
+            <Circle fill="#e3d9ef" layoutX="58.0" layoutY="145.0" radius="15.0" stroke="#d2c3e3" strokeType="INSIDE" />
+            <Circle fill="#e3d9ef" layoutX="57.0" layoutY="230.0" radius="15.0" stroke="#d2c3e3" strokeType="INSIDE" />
+            <Circle fill="#e3d9ef" layoutX="58.0" layoutY="394.0" radius="15.0" stroke="#d2c3e3" strokeType="INSIDE" />
+            <Text layoutX="53.0" layoutY="149.0" strokeType="OUTSIDE" strokeWidth="0.0" text="A">
                <font>
                   <Font name="System Bold" size="13.0" />
                </font>
             </Text>
-            <Text layoutX="58.0" layoutY="270.0" strokeType="OUTSIDE" strokeWidth="0.0" text="M">
+            <Text layoutX="51.0" layoutY="235.0" strokeType="OUTSIDE" strokeWidth="0.0" text="M">
                <font>
                   <Font name="System Bold" size="13.0" />
                </font>
             </Text>
-            <Text layoutX="58.0" layoutY="375.0" strokeType="OUTSIDE" strokeWidth="0.0" text="M">
+            <Text layoutX="51.0" layoutY="398.0" strokeType="OUTSIDE" strokeWidth="0.0" text="M">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+            </Text>
+            <Button fx:id="staffButton" layoutX="24.0" layoutY="282.0" mnemonicParsing="false" onAction="#handleStaffButton" prefHeight="60.0" prefWidth="346.0" style="-fx-background-radius: 20; -fx-background-color: #6B4F7A;" text="Staff" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+            </Button>
+            <Circle fill="#e3d9ef" layoutX="57.0" layoutY="312.0" radius="15.0" stroke="#d2c3e3" strokeType="INSIDE" />
+            <Text layoutX="54.0" layoutY="317.0" strokeType="OUTSIDE" strokeWidth="0.0" text="S">
                <font>
                   <Font name="System Bold" size="13.0" />
                </font>

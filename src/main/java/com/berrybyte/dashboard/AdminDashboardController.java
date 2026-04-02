@@ -26,7 +26,15 @@ public class AdminDashboardController {
     @FXML
     private void handleStaffAccountsClick(ActionEvent event) {
         try {
-            SceneSwitcher.switchScene(event, "/staffaccounts/staffAccounts.fxml", "Staff Accounts");
+            SceneSwitcher.switchScene(event, "/dashboard/staffAccounts.fxml", "Staff Accounts");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    @FXML
+    private void handleMerchantsClick(ActionEvent event) {
+        try {
+            SceneSwitcher.switchScene(event, "/dashboard/merchantDashboard.fxml", "Merchant");
         } catch (Exception e) {
             e.printStackTrace();
         }

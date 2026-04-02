@@ -16,8 +16,9 @@ import javafx.stage.Stage;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.SQLException;
 
-public class CreateManagerAccountController {
+public class CreateStaffAccountController {
 
     @FXML
     private TextField nameTextField;
@@ -35,49 +36,59 @@ public class CreateManagerAccountController {
     private TextField phoneNumberTextField;
 
     @FXML
+    private TextField roleTextField;
+
+    @FXML
     private Label messageLabel;
 
     @FXML
-    public void createManagerAccount(ActionEvent event) {
+    public void createStaffAccount(ActionEvent event) {
         try {
-            validateManagerDetails();
-            createManager(event);
+            validateStaffDetails();
+            createStaff(event);
         } catch (Exception e) {
             messageLabel.setText(e.getMessage());
         }
     }
 
-    private void validateManagerDetails() throws Exception {
+    private void validateStaffDetails() throws Exception {
         String name = nameTextField.getText() == null ? "" : nameTextField.getText().trim();
         String username = usernameTextField.getText() == null ? "" : usernameTextField.getText().trim();
         String password = passwordField.getText() == null ? "" : passwordField.getText().trim();
         String email = emailTextField.getText() == null ? "" : emailTextField.getText().trim();
         String phone = phoneNumberTextField.getText() == null ? "" : phoneNumberTextField.getText().trim();
+        String role = roleTextField.getText() == null ? "" : roleTextField.getText().trim();
 
         if (name.isEmpty()) throw new Exception("Name is required.");
         if (username.isEmpty()) throw new Exception("Username is required.");
         if (password.isEmpty()) throw new Exception("Password is required.");
         if (email.isEmpty()) throw new Exception("Email is required.");
         if (phone.isEmpty()) throw new Exception("Phone number is required.");
+        if (role.isEmpty()) throw new Exception("Role is required.");
 
         if (!name.matches("[A-Za-z ]+")) {
             throw new Exception("Name must contain only letters and spaces.");
         }
+
         if (!username.matches("[A-Za-z0-9_]+")) {
             throw new Exception("Username can only contain letters, numbers, and underscores.");
         }
+
         if (password.length() < 6) {
             throw new Exception("Password must be at least 6 characters long.");
         }
+
         if (!email.matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$")) {
             throw new Exception("Enter a valid email address.");
         }
+
         if (!phone.matches("\\+\\d{1,3}\\s\\d{7,12}")) {
             throw new Exception("Enter a valid phone number with country code (e.g. +44 7123456789).");
         }
+
     }
 
-    private void createManager(ActionEvent event) {
+    private void createStaff(ActionEvent event) {
         String sql = """
                 INSERT INTO Users
                 (Name, Username, Password, Email, PhoneNumber, Role)
@@ -94,15 +105,18 @@ public class CreateManagerAccountController {
             preparedStatement.setString(3, passwordField.getText().trim());
             preparedStatement.setString(4, emailTextField.getText().trim());
             preparedStatement.setString(5, phoneNumberTextField.getText().trim());
-            preparedStatement.setString(6, "MANAGER");
+            preparedStatement.setString(6, roleTextField.getText().trim());
+
             preparedStatement.executeUpdate();
-
-            SceneSwitcher.switchScene(event, "/dashboard/staffAccounts.fxml", "Staff Accounts");
             clearFields();
+            SceneSwitcher.switchScene(event, "/dashboard/staffAccounts.fxml", "Staff Accounts");
 
+        } catch (SQLException e) {
+            e.printStackTrace();
+            messageLabel.setText("Error creating staff account.");
         } catch (Exception e) {
             e.printStackTrace();
-            messageLabel.setText("Error creating manager account");
+            messageLabel.setText("Unexpected error creating staff account.");
         }
     }
 
@@ -116,6 +130,7 @@ public class CreateManagerAccountController {
             stage.show();
         } catch (Exception e) {
             e.printStackTrace();
+            messageLabel.setText("Error going back.");
         }
     }
 
@@ -125,5 +140,6 @@ public class CreateManagerAccountController {
         passwordField.clear();
         emailTextField.clear();
         phoneNumberTextField.clear();
+        roleTextField.clear();
     }
 }

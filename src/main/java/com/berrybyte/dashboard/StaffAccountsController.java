@@ -1,4 +1,4 @@
-package com.berrybyte.staffaccounts;
+package com.berrybyte.dashboard;
 
 import com.berrybyte.common.SceneSwitcher;
 import javafx.event.ActionEvent;
@@ -30,6 +30,14 @@ public class StaffAccountsController {
 
         try {
             SceneSwitcher.switchScene(event, "/logout/logout.fxml", "Log Out");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    @FXML
+    private void handleMerchantsClick(ActionEvent event) {
+        try {
+            SceneSwitcher.switchScene(event, "/dashboard/merchantDashboard.fxml", "Merchant");
         } catch (Exception e) {
             e.printStackTrace();
         }

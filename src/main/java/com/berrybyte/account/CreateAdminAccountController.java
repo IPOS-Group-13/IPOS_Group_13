@@ -23,9 +23,6 @@ public class CreateAdminAccountController {
     private TextField nameTextField;
 
     @FXML
-    private TextField idNumberTextField;
-
-    @FXML
     private TextField usernameTextField;
 
     @FXML
@@ -52,14 +49,12 @@ public class CreateAdminAccountController {
 
     private void validateAdminDetails() throws Exception {
         String name = nameTextField.getText() == null ? "" : nameTextField.getText().trim();
-        String idNumber = idNumberTextField.getText() == null ? "" : idNumberTextField.getText().trim();
         String username = usernameTextField.getText() == null ? "" : usernameTextField.getText().trim();
         String password = passwordField.getText() == null ? "" : passwordField.getText().trim();
         String email = emailTextField.getText() == null ? "" : emailTextField.getText().trim();
         String phone = phoneNumberTextField.getText() == null ? "" : phoneNumberTextField.getText().trim();
 
-        if (name.isEmpty()) throw new Exception("Full name is required.");
-        if (idNumber.isEmpty()) throw new Exception("ID number is required.");
+        if (name.isEmpty()) throw new Exception("Name is required.");
         if (username.isEmpty()) throw new Exception("Username is required.");
         if (password.isEmpty()) throw new Exception("Password is required.");
         if (email.isEmpty()) throw new Exception("Email is required.");
@@ -68,16 +63,13 @@ public class CreateAdminAccountController {
         if (!name.matches("[A-Za-z ]+")) {
             throw new Exception("Name must contain only letters and spaces.");
         }
-        if (!idNumber.matches("[A-Za-z0-9-]+")) {
-            throw new Exception("ID number can only contain letters, numbers, and hyphens.");
-        }
         if (!username.matches("[A-Za-z0-9_]+")) {
             throw new Exception("Username can only contain letters, numbers, and underscores.");
         }
         if (password.length() < 6) {
             throw new Exception("Password must be at least 6 characters long.");
         }
-        if (!email.matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$")) {
+        if (!email.matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$")) {
             throw new Exception("Enter a valid email address.");
         }
         if (!phone.matches("\\+\\d{1,3}\\s\\d{7,12}")) {
@@ -86,22 +78,10 @@ public class CreateAdminAccountController {
     }
 
     private void createAdmin(ActionEvent event) {
-        String fullName = nameTextField.getText().trim();
-        String firstName;
-        String lastName = "";
-
-        if (fullName.contains(" ")) {
-            String[] parts = fullName.split(" ", 2);
-            firstName = parts[0].trim();
-            lastName = parts[1].trim();
-        } else {
-            firstName = fullName;
-        }
-
         String sql = """
                 INSERT INTO Users
-                (Firstname, Lastname, Username, Password, IdNumber, Email, PhoneNumber, Role)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+                (Name, Username, Password, Email, PhoneNumber, Role)
+                VALUES (?, ?, ?, ?, ?, ?)
                 """;
 
         DatabaseConnection connectNow = new DatabaseConnection();
@@ -109,20 +89,15 @@ public class CreateAdminAccountController {
         try (Connection conn = connectNow.getConnection();
              PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
 
-            preparedStatement.setString(1, firstName);
-            preparedStatement.setString(2, lastName);
-            preparedStatement.setString(3, usernameTextField.getText().trim());
-            preparedStatement.setString(4, passwordField.getText().trim());
-            preparedStatement.setString(5, idNumberTextField.getText().trim());
-            preparedStatement.setString(6, emailTextField.getText().trim());
-            preparedStatement.setString(7, phoneNumberTextField.getText().trim());
-            preparedStatement.setString(8, "ADMIN");
+            preparedStatement.setString(1, nameTextField.getText().trim());
+            preparedStatement.setString(2, usernameTextField.getText().trim());
+            preparedStatement.setString(3, passwordField.getText().trim());
+            preparedStatement.setString(4, emailTextField.getText().trim());
+            preparedStatement.setString(5, phoneNumberTextField.getText().trim());
+            preparedStatement.setString(6, "ADMIN");
             preparedStatement.executeUpdate();
 
-            //messageLabel.setText("Administrator account created successfully");
-            SceneSwitcher.switchScene(event,
-                    "/staffaccounts/staffAccounts.fxml",
-                    "Staff Accounts");
+            SceneSwitcher.switchScene(event, "/dashboard/staffAccounts.fxml", "Staff Accounts");
             clearFields();
 
         } catch (Exception e) {
@@ -146,7 +121,6 @@ public class CreateAdminAccountController {
 
     private void clearFields() {
         nameTextField.clear();
-        idNumberTextField.clear();
         usernameTextField.clear();
         passwordField.clear();
         emailTextField.clear();

@@ -18,7 +18,6 @@
          <columns>
             <TableColumn fx:id="nameColoumn" prefWidth="225.0" text="Name" />
             <TableColumn fx:id="usernameColoumn" prefWidth="225.0" text="Username" />
-            <TableColumn fx:id="idNumberColoumn" prefWidth="225.0" text="ID-Number " />
             <TableColumn fx:id="roleColoumn" minWidth="0.0" prefWidth="225.0" text="Role" />
          </columns>
          <columnResizePolicy>

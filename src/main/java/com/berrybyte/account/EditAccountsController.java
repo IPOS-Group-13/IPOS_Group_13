@@ -38,9 +38,6 @@ public class EditAccountsController {
     private TableColumn<UserAccountRow, String> usernameColoumn;
 
     @FXML
-    private TableColumn<UserAccountRow, String> idNumberColoumn;
-
-    @FXML
     private TableColumn<UserAccountRow, String> roleColoumn;
 
     @FXML
@@ -52,12 +49,12 @@ public class EditAccountsController {
     public void initialize() {
         nameColoumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         usernameColoumn.setCellValueFactory(new PropertyValueFactory<>("username"));
-        idNumberColoumn.setCellValueFactory(new PropertyValueFactory<>("idNumber"));
         roleColoumn.setCellValueFactory(new PropertyValueFactory<>("role"));
 
         usersTable.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
             selectedUser = newSelection;
         });
+
         loadUsers("");
     }
 
@@ -72,8 +69,9 @@ public class EditAccountsController {
             messageLabel.setText("Select a user first.");
             return;
         }
+
         try {
-            String role = selectedUser.getRole();
+            String role = selectedUser.getRole() == null ? "" : selectedUser.getRole().trim().toUpperCase();
             String fxmlPath;
             String title;
 
@@ -88,21 +86,20 @@ public class EditAccountsController {
                     title = "Edit Manager Details";
                     break;
 
-                case "MERCHANT":
-                    fxmlPath = "/account/editMerchantAccount.fxml";
-                    title = "Edit Merchant Details";
-                    break;
 
                 default:
-                    messageLabel.setText("Unsupported account role.");
-                    return;
+                    fxmlPath = "/account/editStaffAccount.fxml";
+                    title = "Edit Staff Details";
+                    break;
             }
 
             FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
             Parent root = loader.load();
+
             Object controller = loader.getController();
             Method setUserIdMethod = controller.getClass().getMethod("setUserId", int.class);
             setUserIdMethod.invoke(controller, selectedUser.getUserId());
+
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.setScene(new Scene(root));
             stage.setTitle(title);
@@ -110,7 +107,6 @@ public class EditAccountsController {
 
         } catch (NoSuchMethodException e) {
             e.printStackTrace();
-            messageLabel.setText("Next edit controller must contain setUserId(int userId).");
         } catch (Exception e) {
             e.printStackTrace();
             messageLabel.setText("Unable to open edit page.");
@@ -120,21 +116,20 @@ public class EditAccountsController {
     @FXML
     private void handleBackButton(MouseEvent event) {
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("/staffaccounts/staffAccounts.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("/dashboard/staffAccounts.fxml"));
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.setScene(new Scene(root));
             stage.setTitle("Manage Accounts");
             stage.show();
         } catch (Exception e) {
             e.printStackTrace();
+            messageLabel.setText("Unable to go back.");
         }
     }
 
     private void loadUsers(String searchText) {
         try {
-            usersTable.setItems(FXCollections.observableArrayList(
-                    searchUsers(searchText)
-            ));
+            usersTable.setItems(FXCollections.observableArrayList(searchUsers(searchText)));
             messageLabel.setText("");
         } catch (Exception e) {
             e.printStackTrace();
@@ -146,43 +141,34 @@ public class EditAccountsController {
         List<UserAccountRow> users = new ArrayList<>();
 
         String sql = """
-        SELECT UserId, Firstname, Lastname, Username, IdNumber, Role
-        FROM Users
-        WHERE Firstname LIKE ? OR Lastname LIKE ? OR Username LIKE ?
-        ORDER BY Firstname, Lastname, UserId
-        """;
+                SELECT UserId, Name, Username, Role
+                FROM Users
+                WHERE (Name LIKE ? OR Username LIKE ?)
+                  AND Role <> 'MERCHANT'
+                ORDER BY Name, UserId
+                """;
 
         DatabaseConnection connectNow = new DatabaseConnection();
 
         try (Connection conn = connectNow.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
+
             String keyword = "%" + (searchText == null ? "" : searchText.trim()) + "%";
             ps.setString(1, keyword);
             ps.setString(2, keyword);
-            ps.setString(3, keyword);
 
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
-                    String firstName = rs.getString("Firstname");
-                    String lastName = rs.getString("Lastname");
-
-                    String fullName;
-                    if (lastName == null || lastName.trim().isEmpty()) {
-                        fullName = firstName;
-                    } else {
-                        fullName = firstName + " " + lastName;
-                    }
-
                     users.add(new UserAccountRow(
                             rs.getInt("UserId"),
-                            fullName,
+                            rs.getString("Name"),
                             rs.getString("Username"),
-                            rs.getString("IdNumber"),
                             rs.getString("Role")
                     ));
                 }
             }
         }
+
         return users;
     }
 }

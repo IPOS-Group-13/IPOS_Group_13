@@ -64,6 +64,11 @@ public class LoginController {
                         SceneSwitcher.switchScene(event, "/dashboard/managerDashboard.fxml", "Manager Dashboard");
                     } else if ("MERCHANT".equalsIgnoreCase(role)) {
                         loginMessageLabel.setText("Invalid username or password");
+                    } else if ("ACCOUNTANT".equalsIgnoreCase(role) ||
+                               "CLERK".equalsIgnoreCase(role) ||
+                               "WAREHOUSE".equalsIgnoreCase(role) ||
+                               "DELIVERY".equalsIgnoreCase(role)) {
+                        SceneSwitcher.switchScene(event, "/dashboard/staffDashboard.fxml", "Staff Dashboard");
                     } else {
                         loginMessageLabel.setText("Unknown account role");
                     }
@@ -71,10 +76,9 @@ public class LoginController {
                     loginMessageLabel.setText("Invalid username or password");
                 }
             }
-
         } catch (Exception e) {
             e.printStackTrace();
-            loginMessageLabel.setText("Error while connecting to database");
+            loginMessageLabel.setText("cant connect");
         }
     }
 }

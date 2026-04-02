@@ -21,7 +21,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
-public class EditAdminAccountController {
+public class EditStaffAccountController {
 
     @FXML
     private TextField nameTextField;
@@ -39,24 +39,27 @@ public class EditAdminAccountController {
     private TextField phoneNumberTextField;
 
     @FXML
+    private TextField roleTextField;
+
+    @FXML
     private Label messageLabel;
 
     @FXML
-    private Button demoteButton;
+    private Button promoteButton;
 
     private int userId;
-    private String pendingRole = "ADMIN";
+    private String pendingRole;
 
     public void setUserId(int userId) {
         this.userId = userId;
-        loadAdminDetails();
+        loadStaffDetails();
     }
 
-    private void loadAdminDetails() {
+    private void loadStaffDetails() {
         String sql = """
-                SELECT Name, Username, Password, Email, PhoneNumber
+                SELECT Name, Username, Password, Email, PhoneNumber, Role
                 FROM Users
-                WHERE UserId = ? AND Role = ?
+                WHERE UserId = ? AND Role NOT IN ('ADMIN', 'MANAGER')
                 """;
 
         DatabaseConnection connectNow = new DatabaseConnection();
@@ -65,7 +68,6 @@ public class EditAdminAccountController {
              PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
 
             preparedStatement.setInt(1, userId);
-            preparedStatement.setString(2, "ADMIN");
 
             try (ResultSet rs = preparedStatement.executeQuery()) {
                 if (rs.next()) {
@@ -74,80 +76,57 @@ public class EditAdminAccountController {
                     passwordField.setText(rs.getString("Password"));
                     emailTextField.setText(rs.getString("Email"));
                     phoneNumberTextField.setText(rs.getString("PhoneNumber"));
+                    roleTextField.setText(rs.getString("Role"));
 
-                    pendingRole = "ADMIN";
-                    if (demoteButton != null) {
-                        demoteButton.setText("Demote");
-                        demoteButton.setDisable(false);
+                    pendingRole = rs.getString("Role");
+
+                    if (promoteButton != null) {
+                        promoteButton.setText("Promote");
+                        promoteButton.setDisable(false);
                     }
+
                     messageLabel.setText("");
                 } else {
-                    messageLabel.setText("Administrator account not found.");
+                    messageLabel.setText("Staff account not found.");
                 }
             }
+
         } catch (Exception e) {
             e.printStackTrace();
-            messageLabel.setText("Error loading administrator account.");
+            messageLabel.setText("Error loading staff account.");
         }
     }
 
     @FXML
-    public void updateAdminAccount(ActionEvent event) {
+    public void updateStaffAccount(ActionEvent event) {
         try {
-            validateAdminDetails();
-            if ("MANAGER".equals(pendingRole) && !canDemoteAdmin()) {
-                messageLabel.setText("At least one administrator must remain in the system.");
-                return;
+            if (!"MANAGER".equals(pendingRole)) {
+                pendingRole = roleTextField.getText().trim();
             }
-            updateAdmin(event);
+            validateStaffDetails();
+            updateStaff(event);
         } catch (Exception e) {
             messageLabel.setText(e.getMessage());
         }
     }
 
     @FXML
-    private void handleDemoteButton(ActionEvent event) {
+    private void handlePromoteButton(ActionEvent event) {
         if ("MANAGER".equals(pendingRole)) {
-            messageLabel.setText("Demotion already selected. Click Save to apply it.");
+            messageLabel.setText("Promotion already selected. Click Save to apply it.");
             return;
         }
-        if (!canDemoteAdmin()) {
-            messageLabel.setText("At least one administrator must remain in the system.");
-            return;
-        }
-        openDemotePopup();
+
+        openPromotePopup();
     }
 
-    private boolean canDemoteAdmin() {
-        String sql = "SELECT COUNT(*) AS adminCount FROM Users WHERE Role = ?";
-
-        DatabaseConnection connectNow = new DatabaseConnection();
-
-        try (Connection conn = connectNow.getConnection();
-             PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
-
-            preparedStatement.setString(1, "ADMIN");
-
-            try (ResultSet rs = preparedStatement.executeQuery()) {
-                if (rs.next()) {
-                    return rs.getInt("adminCount") > 1;
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            messageLabel.setText("Error checking administrator count.");
-        }
-
-        return false;
-    }
-
-    private void openDemotePopup() {
+    private void openPromotePopup() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/account/confirmDemoteAdmin.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/account/confirmPromoteManager.fxml"));
             Parent root = loader.load();
 
-            ConfirmDemoteAdminController controller = loader.getController();
-            controller.setParentController(this);
+            ConfirmPromoteManagerController controller = loader.getController();
+            controller.setStaffController(this);
 
             Stage popupStage = new Stage();
             popupStage.initModality(Modality.APPLICATION_MODAL);
@@ -161,30 +140,35 @@ public class EditAdminAccountController {
 
         } catch (Exception e) {
             e.printStackTrace();
-            messageLabel.setText("Unable to open demotion confirmation popup.");
+            messageLabel.setText("Unable to open promotion confirmation popup.");
         }
     }
 
-    public void confirmDemotion() {
+    public void confirmPromotion() {
         pendingRole = "MANAGER";
-        if (demoteButton != null) {
-            demoteButton.setDisable(true);
+
+        if (promoteButton != null) {
+            promoteButton.setText("Promoted");
+            promoteButton.setDisable(true);
         }
-        messageLabel.setText("Demotion selected. Click Save to apply the role change.");
+
+        messageLabel.setText("Promotion selected. Click Save to apply the role change.");
     }
 
-    private void validateAdminDetails() throws Exception {
+    private void validateStaffDetails() throws Exception {
         String name = nameTextField.getText() == null ? "" : nameTextField.getText().trim();
         String username = usernameTextField.getText() == null ? "" : usernameTextField.getText().trim();
         String password = passwordField.getText() == null ? "" : passwordField.getText().trim();
         String email = emailTextField.getText() == null ? "" : emailTextField.getText().trim();
         String phone = phoneNumberTextField.getText() == null ? "" : phoneNumberTextField.getText().trim();
+        String role = roleTextField.getText() == null ? "" : roleTextField.getText().trim();
 
         if (name.isEmpty()) throw new Exception("Name is required.");
         if (username.isEmpty()) throw new Exception("Username is required.");
         if (password.isEmpty()) throw new Exception("Password is required.");
         if (email.isEmpty()) throw new Exception("Email is required.");
         if (phone.isEmpty()) throw new Exception("Phone number is required.");
+        if (!"MANAGER".equals(pendingRole) && role.isEmpty()) throw new Exception("Role is required.");
 
         if (!name.matches("[A-Za-z ]+")) {
             throw new Exception("Name must contain only letters and spaces.");
@@ -203,7 +187,7 @@ public class EditAdminAccountController {
         }
     }
 
-    private void updateAdmin(ActionEvent event) {
+    private void updateStaff(ActionEvent event) {
         String sql = """
                 UPDATE Users
                 SET Name = ?, Username = ?, Password = ?, Email = ?, PhoneNumber = ?, Role = ?
@@ -228,12 +212,12 @@ public class EditAdminAccountController {
             if (rowsAffected > 0) {
                 SceneSwitcher.switchScene(event, "/dashboard/staffAccounts.fxml", "Staff Accounts");
             } else {
-                messageLabel.setText("No administrator account was updated.");
+                messageLabel.setText("No staff account was updated.");
             }
 
         } catch (Exception e) {
             e.printStackTrace();
-            messageLabel.setText("Error updating administrator account.");
+            messageLabel.setText("Error updating staff account.");
         }
     }
 

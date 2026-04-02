@@ -137,7 +137,7 @@ public class CreateMerchantAccountController {
         if (!phone.matches("\\+\\d{1,3}\\s\\d{7,12}")) {
             throw new Exception("Enter a valid phone number with country code (e.g. +44..)");
         }
-        if (!email.matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$")) {
+        if (!email.matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$")) {
             throw new Exception("Enter a valid email address.");
         }
         if (!status.equals("NORMAL")
