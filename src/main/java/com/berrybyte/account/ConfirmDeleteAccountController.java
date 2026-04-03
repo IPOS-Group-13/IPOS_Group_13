@@ -11,6 +11,7 @@ public class ConfirmDeleteAccountController {
 
     private UserAccountRow selectedUser;
     private DeleteAccountController parentController;
+    private Runnable onDeleteSuccess;
 
     public void setSelectedUser(UserAccountRow selectedUser) {
         this.selectedUser = selectedUser;
@@ -20,6 +21,10 @@ public class ConfirmDeleteAccountController {
         this.parentController = parentController;
     }
 
+    public void setOnDeleteSuccess(Runnable onDeleteSuccess) {
+        this.onDeleteSuccess = onDeleteSuccess;
+    }
+
     @FXML
     private void handleDelete(ActionEvent event) {
         if (selectedUser == null) {
@@ -27,7 +32,9 @@ public class ConfirmDeleteAccountController {
         }
         try {
             deleteAccountService.deleteUserAccount(selectedUser.getUserId());
-            if (parentController != null) {
+            if (onDeleteSuccess != null) {
+                onDeleteSuccess.run();
+            } else if (parentController != null) {
                 parentController.refreshUsers();
             }
             closePopup(event);

@@ -11,7 +11,7 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: #D2C3E3;" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.berrybyte.account.EditManagerAccountController">
    <children>
-      <Label alignment="CENTER" layoutX="322.0" layoutY="58.0" text="Edit Manager Details">
+      <Label alignment="CENTER" layoutX="322.0" layoutY="73.0" text="Edit Manager Details">
          <font>
             <Font name="Verdana Bold" size="22.0" />
          </font>
@@ -21,22 +21,26 @@
             <Image url="@../../../../../../Downloads/Logo_No_Background.PNG" />
          </image>
       </ImageView>
-      <TextField fx:id="nameTextField" layoutX="280.0" layoutY="145.0" prefHeight="40.0" prefWidth="338.0" promptText="Name" style="-fx-background-radius: 15;" />
-      <TextField fx:id="idNumberTextField" layoutX="280.0" layoutY="201.0" prefHeight="40.0" prefWidth="338.0" promptText="ID Number " style="-fx-background-radius: 15;" />
-      <TextField fx:id="usernameTextField" layoutX="281.0" layoutY="262.0" prefHeight="40.0" prefWidth="338.0" promptText="Username" style="-fx-background-radius: 15;" />
-      <TextField fx:id="emailTextField" layoutX="280.0" layoutY="381.0" prefHeight="40.0" prefWidth="338.0" promptText="Email" style="-fx-background-radius: 15;" />
-      <TextField fx:id="phoneNumberTextField" layoutX="280.0" layoutY="439.0" prefHeight="40.0" prefWidth="338.0" promptText="Phone Number " style="-fx-background-radius: 15;" />
-      <Button layoutX="556.0" layoutY="518.0" mnemonicParsing="false" onAction="#updateManagerAccount" prefHeight="26.0" prefWidth="62.0" style="-fx-background-color: #6C5A86; -fx-background-radius: 18;" text="Save" textFill="WHITE" textOverrun="LEADING_ELLIPSIS">
+      <TextField fx:id="nameTextField" layoutX="280.0" layoutY="160.0" prefHeight="40.0" prefWidth="338.0" promptText="Name" style="-fx-background-radius: 15;" />
+      <TextField fx:id="usernameTextField" layoutX="281.0" layoutY="228.0" prefHeight="40.0" prefWidth="338.0" promptText="Username" style="-fx-background-radius: 15;" />
+      <TextField fx:id="emailTextField" layoutX="280.0" layoutY="347.0" prefHeight="40.0" prefWidth="338.0" promptText="Email" style="-fx-background-radius: 15;" />
+      <TextField fx:id="phoneNumberTextField" layoutX="280.0" layoutY="405.0" prefHeight="40.0" prefWidth="338.0" promptText="Phone Number " style="-fx-background-radius: 15;" />
+      <Button layoutX="543.0" layoutY="484.0" mnemonicParsing="false" onAction="#updateManagerAccount" prefHeight="26.0" prefWidth="75.0" style="-fx-background-color: #6C5A86; -fx-background-radius: 18;" text="Save" textFill="WHITE" textOverrun="LEADING_ELLIPSIS">
          <font>
             <Font name="System Bold" size="12.0" />
          </font>
       </Button>
-      <PasswordField fx:id="passwordField" layoutX="280.0" layoutY="325.0" prefHeight="40.0" prefWidth="338.0" promptText="Password" style="-fx-background-radius: 15;" />
+      <PasswordField fx:id="passwordField" layoutX="280.0" layoutY="291.0" prefHeight="40.0" prefWidth="338.0" promptText="Password" style="-fx-background-radius: 15;" />
       <ImageView fx:id="backButton" fitHeight="52.0" fitWidth="40.0" layoutX="826.0" layoutY="36.0" onMouseClicked="#handleBackButton" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../login/images/BackButton.png" />
          </image>
       </ImageView>
-      <Label fx:id="messageLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="244.0" layoutY="112.0" prefHeight="18.0" prefWidth="412.0" textFill="#8f0808" />
+      <Label fx:id="messageLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="244.0" layoutY="127.0" prefHeight="18.0" prefWidth="412.0" textFill="#8f0808" />
+      <Button fx:id="promoteButton" layoutX="280.0" layoutY="484.0" mnemonicParsing="false" onAction="#handlePromoteButton" prefHeight="26.0" prefWidth="75.0" style="-fx-background-color: #6C5A86; -fx-background-radius: 18;" text="Promote" textFill="WHITE" textOverrun="LEADING_ELLIPSIS">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Button>
    </children>
 </AnchorPane>

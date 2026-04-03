@@ -32,23 +32,18 @@ public class DeleteAccountController {
     private TableColumn<UserAccountRow, String> usernameColoumn;
 
     @FXML
-    private TableColumn<UserAccountRow, String> idNumberColoumn;
-
-    @FXML
     private TableColumn<UserAccountRow, String> roleColoumn;
 
     @FXML
     private Label messageLabel;
 
     private final DeleteAccountService deleteAccountService = new DeleteAccountService();
-
     private UserAccountRow selectedUser;
 
     @FXML
     public void initialize() {
         nameColoumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         usernameColoumn.setCellValueFactory(new PropertyValueFactory<>("username"));
-        idNumberColoumn.setCellValueFactory(new PropertyValueFactory<>("idNumber"));
         roleColoumn.setCellValueFactory(new PropertyValueFactory<>("role"));
 
         usersTable.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
@@ -73,9 +68,11 @@ public class DeleteAccountController {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/account/confirmDeleteAccount.fxml"));
             Parent root = loader.load();
+
             ConfirmDeleteAccountController controller = loader.getController();
             controller.setSelectedUser(selectedUser);
             controller.setParentController(this);
+
             Stage popupStage = new Stage();
             popupStage.initModality(Modality.APPLICATION_MODAL);
             popupStage.initStyle(StageStyle.UNDECORATED);
@@ -91,7 +88,7 @@ public class DeleteAccountController {
     @FXML
     private void handleBackButton(MouseEvent event) {
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("/staffaccounts/staffAccounts.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("/dashboard/staffAccountsMenu.fxml"));
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.setScene(new Scene(root));
             stage.setTitle("Staff Accounts");

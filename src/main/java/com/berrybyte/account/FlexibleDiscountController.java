@@ -67,7 +67,7 @@ public class FlexibleDiscountController {
             );
             //messageLabel.setText("Merchant account created successfully.");
             MerchantDraftSession.clear();
-            SceneSwitcher.switchScene(event,"/staffaccounts/staffAccounts.fxml","Staff Accounts");
+            SceneSwitcher.switchScene(event, "/dashboard/staffAccountsMenu.fxml","Staff Accounts");
 
         } catch (IllegalArgumentException e) {
             messageLabel.setText(e.getMessage());

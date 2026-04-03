@@ -1,11 +1,11 @@
-package com.berrybyte.staffaccounts;
+package com.berrybyte.dashboard;
 
 import com.berrybyte.common.SceneSwitcher;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.layout.AnchorPane;
 
-public class StaffAccountsController {
+public class StaffAccountsMenuController {
 
     @FXML
     private AnchorPane profileMenuPane;
@@ -30,6 +30,14 @@ public class StaffAccountsController {
 
         try {
             SceneSwitcher.switchScene(event, "/logout/logout.fxml", "Log Out");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    @FXML
+    private void handleMerchantsClick(ActionEvent event) {
+        try {
+            SceneSwitcher.switchScene(event, "/dashboard/merchantMenu.fxml", "Merchant");
         } catch (Exception e) {
             e.printStackTrace();
         }

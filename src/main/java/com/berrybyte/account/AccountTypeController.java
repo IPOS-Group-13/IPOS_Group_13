@@ -23,6 +23,9 @@ public class AccountTypeController {
     private Button merchantButton;
 
     @FXML
+    private Button staffButton;
+
+    @FXML
     private void handleAdminButton(ActionEvent event) throws Exception {
         SceneSwitcher.switchScene(event, "/account/createAdminAccount.fxml", "Create Admin Account");
     }
@@ -33,6 +36,11 @@ public class AccountTypeController {
     }
 
     @FXML
+    private void handleStaffButton(ActionEvent event) throws Exception {
+        SceneSwitcher.switchScene(event, "/account/createStaffAccount.fxml", "Create Staff Account");
+    }
+
+    @FXML
     private void handleMerchantButton(ActionEvent event) throws Exception {
         SceneSwitcher.switchScene(event, "/account/createMerchantAccount.fxml", "Create Merchant Account");
     }
@@ -40,10 +48,10 @@ public class AccountTypeController {
     @FXML
     private void handleBackButton(MouseEvent event) {
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("/staffaccounts/staffAccounts.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("/dashboard/staffAccountsMenu.fxml"));
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.setScene(new Scene(root));
-            stage.setTitle("Staff Accounts");
+            stage.setTitle("Manage Accounts");
             stage.show();
         } catch (Exception e) {
             e.printStackTrace();

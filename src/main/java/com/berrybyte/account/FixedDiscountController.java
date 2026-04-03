@@ -68,7 +68,7 @@ public class FixedDiscountController {
             //messageLabel.setText("Merchant account created successfully");
             MerchantDraftSession.clear();
             SceneSwitcher.switchScene(event,
-                    "/staffaccounts/staffAccounts.fxml",
+                    "/dashboard/staffAccountsMenu.fxml",
                     "Staff Accounts");
 
         } catch (Exception e) {

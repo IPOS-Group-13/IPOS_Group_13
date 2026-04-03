@@ -27,9 +27,6 @@ public class EditAdminAccountController {
     private TextField nameTextField;
 
     @FXML
-    private TextField idNumberTextField;
-
-    @FXML
     private TextField usernameTextField;
 
     @FXML
@@ -48,8 +45,6 @@ public class EditAdminAccountController {
     private Button demoteButton;
 
     private int userId;
-
-    // This is the role that will be saved when Save is clicked.
     private String pendingRole = "ADMIN";
 
     public void setUserId(int userId) {
@@ -59,10 +54,11 @@ public class EditAdminAccountController {
 
     private void loadAdminDetails() {
         String sql = """
-                SELECT Firstname, Lastname, Username, Password, IdNumber, Email, PhoneNumber
+                SELECT Name, Username, Password, Email, PhoneNumber
                 FROM Users
                 WHERE UserId = ? AND Role = ?
                 """;
+
         DatabaseConnection connectNow = new DatabaseConnection();
 
         try (Connection conn = connectNow.getConnection();
@@ -73,16 +69,7 @@ public class EditAdminAccountController {
 
             try (ResultSet rs = preparedStatement.executeQuery()) {
                 if (rs.next()) {
-                    String firstName = rs.getString("Firstname");
-                    String lastName = rs.getString("Lastname");
-                    String fullName;
-                    if (lastName == null || lastName.trim().isEmpty()) {
-                        fullName = firstName;
-                    } else {
-                        fullName = firstName + " " + lastName;
-                    }
-                    nameTextField.setText(fullName);
-                    idNumberTextField.setText(rs.getString("IdNumber"));
+                    nameTextField.setText(rs.getString("Name"));
                     usernameTextField.setText(rs.getString("Username"));
                     passwordField.setText(rs.getString("Password"));
                     emailTextField.setText(rs.getString("Email"));
@@ -138,12 +125,12 @@ public class EditAdminAccountController {
 
         try (Connection conn = connectNow.getConnection();
              PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
+
             preparedStatement.setString(1, "ADMIN");
 
             try (ResultSet rs = preparedStatement.executeQuery()) {
                 if (rs.next()) {
-                    int adminCount = rs.getInt("adminCount");
-                    return adminCount > 1;
+                    return rs.getInt("adminCount") > 1;
                 }
             }
         } catch (Exception e) {
@@ -188,14 +175,12 @@ public class EditAdminAccountController {
 
     private void validateAdminDetails() throws Exception {
         String name = nameTextField.getText() == null ? "" : nameTextField.getText().trim();
-        String idNumber = idNumberTextField.getText() == null ? "" : idNumberTextField.getText().trim();
         String username = usernameTextField.getText() == null ? "" : usernameTextField.getText().trim();
         String password = passwordField.getText() == null ? "" : passwordField.getText().trim();
         String email = emailTextField.getText() == null ? "" : emailTextField.getText().trim();
         String phone = phoneNumberTextField.getText() == null ? "" : phoneNumberTextField.getText().trim();
 
-        if (name.isEmpty()) throw new Exception("Full name is required.");
-        if (idNumber.isEmpty()) throw new Exception("ID number is required.");
+        if (name.isEmpty()) throw new Exception("Name is required.");
         if (username.isEmpty()) throw new Exception("Username is required.");
         if (password.isEmpty()) throw new Exception("Password is required.");
         if (email.isEmpty()) throw new Exception("Email is required.");
@@ -204,16 +189,13 @@ public class EditAdminAccountController {
         if (!name.matches("[A-Za-z ]+")) {
             throw new Exception("Name must contain only letters and spaces.");
         }
-        if (!idNumber.matches("[A-Za-z0-9-]+")) {
-            throw new Exception("ID number can only contain letters, numbers, and hyphens.");
-        }
         if (!username.matches("[A-Za-z0-9_]+")) {
             throw new Exception("Username can only contain letters, numbers, and underscores.");
         }
         if (password.length() < 6) {
             throw new Exception("Password must be at least 6 characters long.");
         }
-        if (!email.matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$")) {
+        if (!email.matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$")) {
             throw new Exception("Enter a valid email address.");
         }
         if (!phone.matches("\\+\\d{1,3}\\s\\d{7,12}")) {
@@ -222,21 +204,9 @@ public class EditAdminAccountController {
     }
 
     private void updateAdmin(ActionEvent event) {
-        String fullName = nameTextField.getText().trim();
-        String firstName;
-        String lastName = "";
-
-        if (fullName.contains(" ")) {
-            String[] parts = fullName.split(" ", 2);
-            firstName = parts[0].trim();
-            lastName = parts[1].trim();
-        } else {
-            firstName = fullName;
-        }
-
         String sql = """
                 UPDATE Users
-                SET Firstname = ?, Lastname = ?, Username = ?, Password = ?, IdNumber = ?, Email = ?, PhoneNumber = ?, Role = ?
+                SET Name = ?, Username = ?, Password = ?, Email = ?, PhoneNumber = ?, Role = ?
                 WHERE UserId = ?
                 """;
 
@@ -245,22 +215,18 @@ public class EditAdminAccountController {
         try (Connection conn = connectNow.getConnection();
              PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
 
-            preparedStatement.setString(1, firstName);
-            preparedStatement.setString(2, lastName);
-            preparedStatement.setString(3, usernameTextField.getText().trim());
-            preparedStatement.setString(4, passwordField.getText().trim());
-            preparedStatement.setString(5, idNumberTextField.getText().trim());
-            preparedStatement.setString(6, emailTextField.getText().trim());
-            preparedStatement.setString(7, phoneNumberTextField.getText().trim());
-            preparedStatement.setString(8, pendingRole);
-            preparedStatement.setInt(9, userId);
+            preparedStatement.setString(1, nameTextField.getText().trim());
+            preparedStatement.setString(2, usernameTextField.getText().trim());
+            preparedStatement.setString(3, passwordField.getText().trim());
+            preparedStatement.setString(4, emailTextField.getText().trim());
+            preparedStatement.setString(5, phoneNumberTextField.getText().trim());
+            preparedStatement.setString(6, pendingRole);
+            preparedStatement.setInt(7, userId);
 
             int rowsAffected = preparedStatement.executeUpdate();
 
             if (rowsAffected > 0) {
-                SceneSwitcher.switchScene(event,
-                        "/staffaccounts/staffAccounts.fxml",
-                        "Staff Accounts");
+                SceneSwitcher.switchScene(event, "/dashboard/staffAccountsMenu.fxml", "Staff Accounts");
             } else {
                 messageLabel.setText("No administrator account was updated.");
             }
@@ -270,10 +236,11 @@ public class EditAdminAccountController {
             messageLabel.setText("Error updating administrator account.");
         }
     }
+
     @FXML
     private void handleBackButton(MouseEvent event) {
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("/staffaccounts/staffAccounts.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("/dashboard/staffAccountsMenu.fxml"));
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.setScene(new Scene(root));
             stage.setTitle("Staff Accounts");

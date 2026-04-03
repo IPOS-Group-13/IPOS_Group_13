@@ -5,7 +5,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.layout.AnchorPane;
 
-public class AdminDashboardController {
+public class ManagerDashboardController {
 
     @FXML
     private AnchorPane profileMenuPane;
@@ -24,17 +24,9 @@ public class AdminDashboardController {
     }
 
     @FXML
-    private void handleStaffAccountsClick(ActionEvent event) {
-        try {
-            SceneSwitcher.switchScene(event, "/dashboard/staffAccountsMenu.fxml", "Staff Accounts");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-    @FXML
     private void handleMerchantsClick(ActionEvent event) {
         try {
-            SceneSwitcher.switchScene(event, "/dashboard/merchantMenu.fxml", "Merchant");
+            SceneSwitcher.switchScene(event, "/dashboard/managerMerchantMenu.fxml", "Merchant");
         } catch (Exception e) {
             e.printStackTrace();
         }

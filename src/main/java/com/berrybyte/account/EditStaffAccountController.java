@@ -21,7 +21,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
-public class EditManagerAccountController {
+public class EditStaffAccountController {
 
     @FXML
     private TextField nameTextField;
@@ -39,24 +39,27 @@ public class EditManagerAccountController {
     private TextField phoneNumberTextField;
 
     @FXML
+    private TextField roleTextField;
+
+    @FXML
     private Label messageLabel;
 
     @FXML
     private Button promoteButton;
 
     private int userId;
-    private String pendingRole = "MANAGER";
+    private String pendingRole;
 
     public void setUserId(int userId) {
         this.userId = userId;
-        loadManagerDetails();
+        loadStaffDetails();
     }
 
-    private void loadManagerDetails() {
+    private void loadStaffDetails() {
         String sql = """
-                SELECT Name, Username, Password, Email, PhoneNumber
+                SELECT Name, Username, Password, Email, PhoneNumber, Role
                 FROM Users
-                WHERE UserId = ? AND Role = ?
+                WHERE UserId = ? AND Role NOT IN ('ADMIN', 'MANAGER')
                 """;
 
         DatabaseConnection connectNow = new DatabaseConnection();
@@ -65,7 +68,6 @@ public class EditManagerAccountController {
              PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
 
             preparedStatement.setInt(1, userId);
-            preparedStatement.setString(2, "MANAGER");
 
             try (ResultSet rs = preparedStatement.executeQuery()) {
                 if (rs.next()) {
@@ -74,8 +76,9 @@ public class EditManagerAccountController {
                     passwordField.setText(rs.getString("Password"));
                     emailTextField.setText(rs.getString("Email"));
                     phoneNumberTextField.setText(rs.getString("PhoneNumber"));
+                    roleTextField.setText(rs.getString("Role"));
 
-                    pendingRole = "MANAGER";
+                    pendingRole = rs.getString("Role");
 
                     if (promoteButton != null) {
                         promoteButton.setText("Promote");
@@ -84,21 +87,24 @@ public class EditManagerAccountController {
 
                     messageLabel.setText("");
                 } else {
-                    messageLabel.setText("Manager account not found.");
+                    messageLabel.setText("Staff account not found.");
                 }
             }
 
         } catch (Exception e) {
             e.printStackTrace();
-            messageLabel.setText("Error loading manager account.");
+            messageLabel.setText("Error loading staff account.");
         }
     }
 
     @FXML
-    public void updateManagerAccount(ActionEvent event) {
+    public void updateStaffAccount(ActionEvent event) {
         try {
-            validateManagerDetails();
-            updateManager(event);
+            if (!"MANAGER".equals(pendingRole)) {
+                pendingRole = roleTextField.getText().trim();
+            }
+            validateStaffDetails();
+            updateStaff(event);
         } catch (Exception e) {
             messageLabel.setText(e.getMessage());
         }
@@ -106,7 +112,7 @@ public class EditManagerAccountController {
 
     @FXML
     private void handlePromoteButton(ActionEvent event) {
-        if ("ADMIN".equals(pendingRole)) {
+        if ("MANAGER".equals(pendingRole)) {
             messageLabel.setText("Promotion already selected. Click Save to apply it.");
             return;
         }
@@ -120,7 +126,7 @@ public class EditManagerAccountController {
             Parent root = loader.load();
 
             ConfirmPromoteManagerController controller = loader.getController();
-            controller.setParentController(this);
+            controller.setStaffController(this);
 
             Stage popupStage = new Stage();
             popupStage.initModality(Modality.APPLICATION_MODAL);
@@ -139,7 +145,7 @@ public class EditManagerAccountController {
     }
 
     public void confirmPromotion() {
-        pendingRole = "ADMIN";
+        pendingRole = "MANAGER";
 
         if (promoteButton != null) {
             promoteButton.setText("Promoted");
@@ -149,18 +155,20 @@ public class EditManagerAccountController {
         messageLabel.setText("Promotion selected. Click Save to apply the role change.");
     }
 
-    private void validateManagerDetails() throws Exception {
+    private void validateStaffDetails() throws Exception {
         String name = nameTextField.getText() == null ? "" : nameTextField.getText().trim();
         String username = usernameTextField.getText() == null ? "" : usernameTextField.getText().trim();
         String password = passwordField.getText() == null ? "" : passwordField.getText().trim();
         String email = emailTextField.getText() == null ? "" : emailTextField.getText().trim();
         String phone = phoneNumberTextField.getText() == null ? "" : phoneNumberTextField.getText().trim();
+        String role = roleTextField.getText() == null ? "" : roleTextField.getText().trim();
 
         if (name.isEmpty()) throw new Exception("Name is required.");
         if (username.isEmpty()) throw new Exception("Username is required.");
         if (password.isEmpty()) throw new Exception("Password is required.");
         if (email.isEmpty()) throw new Exception("Email is required.");
         if (phone.isEmpty()) throw new Exception("Phone number is required.");
+        if (!"MANAGER".equals(pendingRole) && role.isEmpty()) throw new Exception("Role is required.");
 
         if (!name.matches("[A-Za-z ]+")) {
             throw new Exception("Name must contain only letters and spaces.");
@@ -179,11 +187,11 @@ public class EditManagerAccountController {
         }
     }
 
-    private void updateManager(ActionEvent event) {
+    private void updateStaff(ActionEvent event) {
         String sql = """
                 UPDATE Users
                 SET Name = ?, Username = ?, Password = ?, Email = ?, PhoneNumber = ?, Role = ?
-                WHERE UserId = ? AND Role = ?
+                WHERE UserId = ?
                 """;
 
         DatabaseConnection connectNow = new DatabaseConnection();
@@ -198,19 +206,18 @@ public class EditManagerAccountController {
             preparedStatement.setString(5, phoneNumberTextField.getText().trim());
             preparedStatement.setString(6, pendingRole);
             preparedStatement.setInt(7, userId);
-            preparedStatement.setString(8, "MANAGER");
 
             int rowsAffected = preparedStatement.executeUpdate();
 
             if (rowsAffected > 0) {
                 SceneSwitcher.switchScene(event, "/dashboard/staffAccountsMenu.fxml", "Staff Accounts");
             } else {
-                messageLabel.setText("No manager account was updated.");
+                messageLabel.setText("No staff account was updated.");
             }
 
         } catch (Exception e) {
             e.printStackTrace();
-            messageLabel.setText("Error updating manager account.");
+            messageLabel.setText("Error updating staff account.");
         }
     }
 

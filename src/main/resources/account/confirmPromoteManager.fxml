@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="200.0" prefWidth="324.0" style="-fx-background-color: white; -fx-border-radius: 20;" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.berrybyte.account.ConfirmPromoteManagerController">
+   <children>
+      <Label alignment="CENTER" layoutX="115.0" layoutY="30.0" prefHeight="30.0" prefWidth="94.0" text="Warning" textFill="#49454f">
+         <font>
+            <Font name="System Bold" size="23.0" />
+         </font>
+      </Label>
+      <Label layoutX="16.0" layoutY="80.0" prefHeight="20.0" prefWidth="305.0" text="Are you sure you want to promote this account?  " textFill="#49454f">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Button layoutX="54.0" layoutY="125.0" mnemonicParsing="false" onAction="#handlePromote" prefHeight="30.0" prefWidth="79.0" style="-fx-background-color: white;" text="Promote" textFill="#49454f">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Button>
+      <Button layoutX="209.0" layoutY="125.0" mnemonicParsing="false" onAction="#handleCancel" style="-fx-background-color: white;" text="Cancel" textFill="#49454f">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Button>
+   </children>
+</AnchorPane>

@@ -10,42 +10,60 @@ import java.util.List;
 
 public class DeleteAccountService {
 
-    public List<UserAccountRow> searchUsers(String searchText) throws Exception {
-        List<UserAccountRow> users = new ArrayList<>();
-
+    public UserAccountRow getUserAccount(int userId) throws Exception {
         String sql = """
-        SELECT UserId, Firstname, Lastname, Username, IdNumber, Role
-        FROM Users
-        WHERE Firstname LIKE ? OR Lastname LIKE ? OR Username LIKE ?
-        ORDER BY Firstname, Lastname, UserId
-        """;
+                SELECT UserId, Name, Username, Role
+                FROM Users
+                WHERE UserId = ?
+                """;
 
         DatabaseConnection connectNow = new DatabaseConnection();
 
         try (Connection conn = connectNow.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, userId);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return new UserAccountRow(
+                            rs.getInt("UserId"),
+                            rs.getString("Name"),
+                            rs.getString("Username"),
+                            rs.getString("Role")
+                    );
+                }
+            }
+        }
+
+        throw new Exception("Selected user could not be found.");
+    }
+
+    public List<UserAccountRow> searchUsers(String searchText) throws Exception {
+        List<UserAccountRow> users = new ArrayList<>();
+
+        String sql = """
+                SELECT UserId, Name, Username, Role
+                FROM Users
+                WHERE Name LIKE ? OR Username LIKE ?
+                ORDER BY Name, UserId
+                """;
+
+        DatabaseConnection connectNow = new DatabaseConnection();
+
+        try (Connection conn = connectNow.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
             String keyword = "%" + (searchText == null ? "" : searchText.trim()) + "%";
             ps.setString(1, keyword);
             ps.setString(2, keyword);
-            ps.setString(3, keyword);
 
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
-                    String firstName = rs.getString("Firstname");
-                    String lastName = rs.getString("Lastname");
-
-                    String fullName;
-                    if (lastName == null || lastName.trim().isEmpty()) {
-                        fullName = firstName;
-                    } else {
-                        fullName = firstName + " " + lastName;
-                    }
-
                     users.add(new UserAccountRow(
                             rs.getInt("UserId"),
-                            fullName,
+                            rs.getString("Name"),
                             rs.getString("Username"),
-                            rs.getString("IdNumber"),
                             rs.getString("Role")
                     ));
                 }
@@ -108,19 +126,23 @@ public class DeleteAccountService {
                         }
                     }
                 }
+
                 try (PreparedStatement ps = conn.prepareStatement(clearCreatedBySql)) {
                     ps.setInt(1, userId);
                     ps.executeUpdate();
                 }
+
                 if (merchantId != null) {
                     try (PreparedStatement ps = conn.prepareStatement(deleteTiersSql)) {
                         ps.setInt(1, merchantId);
                         ps.executeUpdate();
                     }
+
                     try (PreparedStatement ps = conn.prepareStatement(deletePlansSql)) {
                         ps.setInt(1, merchantId);
                         ps.executeUpdate();
                     }
+
                     try (PreparedStatement ps = conn.prepareStatement(deleteMerchantSql)) {
                         ps.setInt(1, userId);
                         ps.executeUpdate();
@@ -136,7 +158,6 @@ public class DeleteAccountService {
                     }
                 }
                 conn.commit();
-
             } catch (Exception e) {
                 conn.rollback();
                 throw e;
