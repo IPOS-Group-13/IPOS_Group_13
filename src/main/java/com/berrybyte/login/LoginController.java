@@ -2,6 +2,7 @@ package com.berrybyte.login;
 
 import com.berrybyte.common.DatabaseConnection;
 import com.berrybyte.common.LoginSession;
+import com.berrybyte.common.RoleBasedNavigator;
 import com.berrybyte.common.SceneSwitcher;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -60,17 +61,15 @@ public class LoginController {
                     String role = resultSet.getString("Role");
                     LoginSession.setCurrentRole(role);
 
-                    if ("ADMIN".equalsIgnoreCase(role)) {
-                        SceneSwitcher.switchScene(event, "/dashboard/adminDashboard.fxml", "Admin Dashboard");
-                    } else if ("MANAGER".equalsIgnoreCase(role)) {
-                        SceneSwitcher.switchScene(event, "/dashboard/managerDashboard.fxml", "Manager Dashboard");
+                    if ("ADMIN".equalsIgnoreCase(role) || "MANAGER".equalsIgnoreCase(role)) {
+                        RoleBasedNavigator.switchToDashboard(event);
                     } else if ("MERCHANT".equalsIgnoreCase(role)) {
                         loginMessageLabel.setText("Invalid username or password");
                     } else if ("ACCOUNTANT".equalsIgnoreCase(role) ||
                                "CLERK".equalsIgnoreCase(role) ||
                                "WAREHOUSE".equalsIgnoreCase(role) ||
                                "DELIVERY".equalsIgnoreCase(role)) {
-                        SceneSwitcher.switchScene(event, "/dashboard/staffDashboard.fxml", "Staff Dashboard");
+                        RoleBasedNavigator.switchToDashboard(event);
                     } else {
                         loginMessageLabel.setText("Unknown account role");
                     }

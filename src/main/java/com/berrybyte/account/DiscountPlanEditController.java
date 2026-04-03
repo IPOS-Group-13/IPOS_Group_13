@@ -10,7 +10,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.input.MouseEvent;
-import com.berrybyte.common.MerchantMenuNavigation;
+import com.berrybyte.common.RoleBasedNavigator;
 import javafx.stage.Stage;
 
 public class DiscountPlanEditController {
@@ -76,7 +76,7 @@ public class DiscountPlanEditController {
     @FXML
     private void handleBackButton(MouseEvent event) {
         try {
-            MerchantMenuNavigation.openCurrentMerchantMenu((Node) event.getSource(), "Merchants");
+            RoleBasedNavigator.openMerchantMenu((Node) event.getSource());
         } catch (Exception e) {
             e.printStackTrace();
             messageLabel.setText("Unable to go back.");

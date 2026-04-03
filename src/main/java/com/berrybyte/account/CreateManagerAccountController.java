@@ -1,6 +1,7 @@
 package com.berrybyte.account;
 
 import com.berrybyte.common.DatabaseConnection;
+import com.berrybyte.common.RoleBasedNavigator;
 import com.berrybyte.common.SceneSwitcher;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -97,7 +98,7 @@ public class CreateManagerAccountController {
             preparedStatement.setString(6, "MANAGER");
             preparedStatement.executeUpdate();
 
-            SceneSwitcher.switchScene(event, "/dashboard/staffAccountsMenu.fxml", "Staff Accounts");
+            RoleBasedNavigator.switchToStaffAccounts(event);
             clearFields();
 
         } catch (Exception e) {

@@ -1,7 +1,7 @@
 package com.berrybyte.account;
 
 import com.berrybyte.common.DatabaseConnection;
-import com.berrybyte.common.MerchantMenuNavigation;
+import com.berrybyte.common.RoleBasedNavigator;
 import com.berrybyte.common.SceneSwitcher;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -146,7 +146,7 @@ public class EditMerchantAccountController {
                     creditLimit
             );
 
-            MerchantMenuNavigation.switchToCurrentMerchantMenu(event, "Merchants");
+            RoleBasedNavigator.switchToMerchantMenu(event);
 
         } catch (IllegalArgumentException e) {
             messageLabel.setText(e.getMessage());
@@ -159,7 +159,7 @@ public class EditMerchantAccountController {
     @FXML
     private void handleBackButton(MouseEvent event) {
         try {
-            MerchantMenuNavigation.openCurrentMerchantMenu((Node) event.getSource(), "Merchants");
+            RoleBasedNavigator.openMerchantMenu((Node) event.getSource());
         } catch (Exception e) {
             e.printStackTrace();
             messageLabel.setText("Unable to go back.");

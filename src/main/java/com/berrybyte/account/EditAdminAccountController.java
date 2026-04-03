@@ -1,6 +1,7 @@
 package com.berrybyte.account;
 
 import com.berrybyte.common.DatabaseConnection;
+import com.berrybyte.common.RoleBasedNavigator;
 import com.berrybyte.common.SceneSwitcher;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -226,7 +227,7 @@ public class EditAdminAccountController {
             int rowsAffected = preparedStatement.executeUpdate();
 
             if (rowsAffected > 0) {
-                SceneSwitcher.switchScene(event, "/dashboard/staffAccountsMenu.fxml", "Staff Accounts");
+                RoleBasedNavigator.switchToStaffAccounts(event);
             } else {
                 messageLabel.setText("No administrator account was updated.");
             }
@@ -240,11 +241,7 @@ public class EditAdminAccountController {
     @FXML
     private void handleBackButton(MouseEvent event) {
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("/dashboard/staffAccountsMenu.fxml"));
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.setTitle("Staff Accounts");
-            stage.show();
+            RoleBasedNavigator.openStaffAccounts((Node) event.getSource());
         } catch (Exception e) {
             e.printStackTrace();
             messageLabel.setText("Unable to go back.");

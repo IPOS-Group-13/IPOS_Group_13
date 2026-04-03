@@ -1,6 +1,6 @@
 package com.berrybyte.account;
 
-import com.berrybyte.common.SceneSwitcher;
+import com.berrybyte.common.RoleBasedNavigator;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -67,9 +67,7 @@ public class FixedDiscountController {
             );
             //messageLabel.setText("Merchant account created successfully");
             MerchantDraftSession.clear();
-            SceneSwitcher.switchScene(event,
-                    "/dashboard/staffAccountsMenu.fxml",
-                    "Staff Accounts");
+            RoleBasedNavigator.switchToStaffAccounts(event);
 
         } catch (Exception e) {
             e.printStackTrace();

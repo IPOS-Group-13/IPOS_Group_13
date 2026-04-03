@@ -1,7 +1,7 @@
 package com.berrybyte.account;
 
 import com.berrybyte.common.DatabaseConnection;
-import com.berrybyte.common.MerchantMenuNavigation;
+import com.berrybyte.common.RoleBasedNavigator;
 import com.berrybyte.common.SceneSwitcher;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -172,7 +172,7 @@ public class EditFlexibleDiscountController {
 
             merchantAccountService.updateMerchantFlexibleDiscountPlan(merchantId, tiers);
 
-            MerchantMenuNavigation.switchToCurrentMerchantMenu(event, "Merchants");
+            RoleBasedNavigator.switchToMerchantMenu(event);
 
         } catch (IllegalArgumentException e) {
             messageLabel.setText(e.getMessage());

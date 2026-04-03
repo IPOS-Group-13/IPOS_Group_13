@@ -1,5 +1,6 @@
 package com.berrybyte.dashboard;
 
+import com.berrybyte.common.RoleBasedNavigator;
 import com.berrybyte.common.SceneSwitcher;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -26,7 +27,7 @@ public class ManagerDashboardController {
     @FXML
     private void handleMerchantsClick(ActionEvent event) {
         try {
-            SceneSwitcher.switchScene(event, "/dashboard/managerMerchantMenu.fxml", "Merchant");
+            RoleBasedNavigator.switchToMerchantMenu(event);
         } catch (Exception e) {
             e.printStackTrace();
         }

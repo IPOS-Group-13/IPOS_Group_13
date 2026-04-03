@@ -1,5 +1,6 @@
 package com.berrybyte.dashboard;
 
+import com.berrybyte.common.RoleBasedNavigator;
 import com.berrybyte.common.SceneSwitcher;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -37,7 +38,7 @@ public class StaffAccountsMenuController {
     @FXML
     private void handleMerchantsClick(ActionEvent event) {
         try {
-            SceneSwitcher.switchScene(event, "/dashboard/merchantMenu.fxml", "Merchant");
+            RoleBasedNavigator.switchToMerchantMenu(event);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -71,7 +72,7 @@ public class StaffAccountsMenuController {
     @FXML
     private void handleDashboardClick(ActionEvent event) {
         try {
-            SceneSwitcher.switchScene(event, "/dashboard/adminDashboard.fxml", "Dashboard");
+            RoleBasedNavigator.switchToDashboard(event);
         } catch (Exception e) {
             e.printStackTrace();
         }

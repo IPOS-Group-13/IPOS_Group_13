@@ -5,7 +5,7 @@ import com.berrybyte.account.ConfirmDeleteDiscountPlanController;
 import com.berrybyte.account.DeleteAccountService;
 import com.berrybyte.account.DiscountPlanEditController;
 import com.berrybyte.common.DatabaseConnection;
-import com.berrybyte.common.MerchantMenuNavigation;
+import com.berrybyte.common.RoleBasedNavigator;
 import com.berrybyte.common.SceneSwitcher;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
@@ -100,11 +100,6 @@ public class MerchantMenuController {
         });
 
         managerView = deleteAccount != null;
-        if (managerView) {
-            MerchantMenuNavigation.useManagerMerchantMenu();
-        } else {
-            MerchantMenuNavigation.useAdminMerchantMenu();
-        }
         setActionButtonsDisabled(true);
         loadMerchants("");
     }
@@ -132,7 +127,7 @@ public class MerchantMenuController {
     @FXML
     private void handleStaffAccountsClick(ActionEvent event) {
         try {
-            SceneSwitcher.switchScene(event, "/dashboard/staffAccountsMenu.fxml", "Staff Accounts");
+            RoleBasedNavigator.switchToStaffAccounts(event);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -141,10 +136,7 @@ public class MerchantMenuController {
     @FXML
     private void handleDashboardClick(ActionEvent event) {
         try {
-            String dashboardPath = managerView
-                    ? "/dashboard/managerDashboard.fxml"
-                    : "/dashboard/adminDashboard.fxml";
-            SceneSwitcher.switchScene(event, dashboardPath, "Dashboard");
+            RoleBasedNavigator.switchToDashboard(event);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -153,10 +145,7 @@ public class MerchantMenuController {
     @FXML
     private void handleMerchantsClick(ActionEvent event) {
         try {
-            String merchantMenuPath = managerView
-                    ? "/dashboard/managerMerchantMenu.fxml"
-                    : "/dashboard/merchantMenu.fxml";
-            SceneSwitcher.switchScene(event, merchantMenuPath, "Merchant");
+            RoleBasedNavigator.switchToMerchantMenu(event);
         } catch (Exception e) {
             e.printStackTrace();
         }
