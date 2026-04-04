@@ -1,0 +1,15 @@
+SET FOREIGN_KEY_CHECKS=0;
+
+TRUNCATE TABLE order_items;
+TRUNCATE TABLE payments;
+TRUNCATE TABLE orders;
+TRUNCATE TABLE campaign_metrics;
+TRUNCATE TABLE campaign_items;
+TRUNCATE TABLE campaigns;
+TRUNCATE TABLE commercial_applications;
+TRUNCATE TABLE email_outbox;
+TRUNCATE TABLE users;
+TRUNCATE TABLE products;
+TRUNCATE TABLE app_config;
+
+SET FOREIGN_KEY_CHECKS=1;
