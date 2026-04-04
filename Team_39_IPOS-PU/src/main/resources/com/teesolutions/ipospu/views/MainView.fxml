@@ -1,0 +1,420 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.ProgressIndicator?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.teesolutions.ipospu.controllers.PortalController"
+            styleClass="app-root">
+    <top>
+        <HBox styleClass="app-header" spacing="18">
+            <HBox alignment="CENTER_LEFT" spacing="12">
+                <StackPane styleClass="brand-logo-frame-small">
+                    <ImageView fx:id="headerLogoImageView" fitHeight="46" fitWidth="180" pickOnBounds="true" preserveRatio="true"/>
+                </StackPane>
+                <VBox spacing="1">
+                    <Label styleClass="title-main" text="IPOS-PU Portal"/>
+                    <Label styleClass="title-sub" text="Public Storefront and Campaign Console"/>
+                </VBox>
+            </HBox>
+            <Region HBox.hgrow="ALWAYS"/>
+            <Button fx:id="statusActionButton" styleClass="status-action" text="Copy Password"
+                    visible="false" managed="false" onAction="#onStatusAction"/>
+            <Label fx:id="statusLabel" styleClass="status-chip" text="Ready"/>
+        </HBox>
+    </top>
+
+    <center>
+        <StackPane>
+            <VBox fx:id="authPane" alignment="CENTER" styleClass="auth-shell">
+                <StackPane styleClass="auth-card-stack" maxWidth="520">
+                    <VBox fx:id="authLoginPane" styleClass="login-card" spacing="18" alignment="TOP_CENTER">
+                        <StackPane styleClass="brand-logo-frame-large">
+                            <ImageView fx:id="authLogoImageView" fitHeight="120" fitWidth="300" pickOnBounds="true" preserveRatio="true"/>
+                        </StackPane>
+                        <VBox alignment="CENTER" spacing="8">
+                            <Label styleClass="login-brand-title" text="IPOS-PU"/>
+                            <Label styleClass="login-brand-subtitle" text="InfoPharma Online Portal"/>
+                            <Label styleClass="login-tagline" wrapText="true" maxWidth="440" text="Sign in to browse the catalogue, promotions, and checkout — or continue as a guest."/>
+                        </VBox>
+
+                        <VBox styleClass="login-fields-panel" spacing="14" maxWidth="440">
+                            <GridPane hgap="10" vgap="10">
+                                <Label styleClass="field-label" text="Email or username" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                                <TextField fx:id="loginEmailField" styleClass="input login-input-wide"
+                                           promptText="e.g. cool@example.com or PU0001"
+                                           GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+                                <Label styleClass="field-label" text="Password" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+                                <PasswordField fx:id="loginPasswordField" styleClass="input login-input-wide"
+                                               promptText="Enter your password"
+                                               GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+                            </GridPane>
+                            <VBox spacing="10">
+                                <Button styleClass="btn-accent btn-full-wide" text="Sign in" onAction="#onLogin"/>
+                                <Button styleClass="btn-primary btn-full-wide" text="Continue as guest" onAction="#onContinueAsGuest"/>
+                            </VBox>
+                        </VBox>
+
+                        <Separator styleClass="login-separator"/>
+
+                        <VBox alignment="CENTER" spacing="10">
+                            <Label styleClass="login-section-label" text="New here?"/>
+                            <VBox alignment="CENTER" spacing="6">
+                                <Button mnemonicParsing="false" styleClass="link-button"
+                                        text="Register as non-commercial member"
+                                        onAction="#onOpenNonCommercialRegistration"/>
+                                <Button mnemonicParsing="false" styleClass="link-button"
+                                        text="Apply for commercial membership"
+                                        onAction="#onOpenCommercialRegistration"/>
+                            </VBox>
+                        </VBox>
+
+                        <Label styleClass="login-helper" wrapText="true" maxWidth="440"
+                               text="Sample logins: sysdba / masterkey, manager / GetPU_it_done, PU0001 / 12ss_56_SS, PU0002 / 34pp_78_LL"/>
+                    </VBox>
+
+                    <VBox fx:id="authRegisterNonCommercialPane" visible="false" managed="false"
+                          styleClass="login-card" spacing="16" alignment="TOP_CENTER">
+                        <Label styleClass="login-brand-title" text="Non-commercial registration"/>
+                        <Label styleClass="login-helper" wrapText="true" maxWidth="440"
+                               text="Create a membership account. Your email becomes your login and a temporary password is generated for you."/>
+                        <VBox styleClass="login-fields-panel" spacing="12" maxWidth="440">
+                            <VBox spacing="6">
+                                <Label styleClass="field-label" text="Email address"/>
+                                <TextField fx:id="regNonCommercialEmailField" styleClass="input login-input-wide" promptText="you@example.com"/>
+                            </VBox>
+                            <Label styleClass="helper-text" wrapText="true"
+                                   text="After you create the account, your temporary password is shown on the next screen and copied to the clipboard."/>
+                            <HBox spacing="12" alignment="CENTER" styleClass="auth-form-actions">
+                                <Button fx:id="regNonCommercialSubmitButton" text="Create account" styleClass="btn-accent btn-text-safe"
+                                        onAction="#onSubmitNonCommercialRegistration"/>
+                                <Button text="Back to sign in" styleClass="btn-primary btn-text-safe" onAction="#onAuthBackToLogin"/>
+                            </HBox>
+                        </VBox>
+                    </VBox>
+
+                    <VBox fx:id="authRegisterCommercialPane" visible="false" managed="false"
+                          styleClass="login-card" spacing="14" alignment="TOP_CENTER">
+                        <Label styleClass="login-brand-title" text="Commercial membership"/>
+                        <Label styleClass="login-helper" wrapText="true" maxWidth="460"
+                               text="Submit a business application with company details for the SA-side review workflow (mock integration in this build)."/>
+                        <VBox styleClass="login-fields-panel" spacing="10" maxWidth="460">
+                            <VBox spacing="4"><Label styleClass="field-label" text="Business email"/><TextField fx:id="regCommercialEmailField" styleClass="input login-input-wide" promptText="orders@pharmacy.example"/></VBox>
+                            <VBox spacing="4"><Label styleClass="field-label" text="Company registration number"/><TextField fx:id="regCommercialCompanyField" styleClass="input login-input-wide" promptText="e.g. UK10003429CompH"/></VBox>
+                            <VBox spacing="4"><Label styleClass="field-label" text="Director or contact"/><TextField fx:id="regCommercialDirectorField" styleClass="input login-input-wide"/></VBox>
+                            <VBox spacing="4"><Label styleClass="field-label" text="Business type"/><TextField fx:id="regCommercialBusinessTypeField" styleClass="input login-input-wide"/></VBox>
+                            <VBox spacing="4"><Label styleClass="field-label" text="Business address"/><TextArea fx:id="regCommercialAddressArea" styleClass="input" prefRowCount="3" wrapText="true"/></VBox>
+                            <HBox spacing="12" alignment="CENTER" styleClass="auth-form-actions">
+                                <Button fx:id="regCommercialSubmitButton" text="Submit application" styleClass="btn-accent btn-text-safe"
+                                        onAction="#onSubmitCommercialRegistration"/>
+                                <Button text="Back to sign in" styleClass="btn-primary btn-text-safe" onAction="#onAuthBackToLogin"/>
+                            </HBox>
+                        </VBox>
+                    </VBox>
+
+                    <VBox fx:id="authRegistrationResultPane" visible="false" managed="false"
+                          styleClass="login-card" spacing="16" alignment="TOP_CENTER">
+                        <Label styleClass="login-brand-title" text="Registration complete"/>
+                        <Label styleClass="login-helper" wrapText="true" maxWidth="440"
+                               text="Use these details to sign in. The temporary password was copied to your clipboard."/>
+                        <VBox styleClass="login-fields-panel" spacing="12" maxWidth="440">
+                            <VBox spacing="4"><Label styleClass="field-label" text="Login email"/><TextField fx:id="regResultEmailField" styleClass="input login-input-wide" editable="false"/></VBox>
+                            <VBox spacing="4"><Label styleClass="field-label" text="Temporary password"/><TextField fx:id="regResultPasswordField" styleClass="input login-input-wide" editable="false"/></VBox>
+                            <HBox spacing="12" alignment="CENTER" styleClass="auth-form-actions">
+                                <Button text="Copy password again" styleClass="btn-primary btn-text-safe" onAction="#onCopyInlineRegistrationPassword"/>
+                                <Button text="Back to sign in" styleClass="btn-accent btn-text-safe" onAction="#onAuthBackToLogin"/>
+                            </HBox>
+                        </VBox>
+                    </VBox>
+                </StackPane>
+            </VBox>
+
+            <TabPane fx:id="appTabs" styleClass="app-tabs" visible="false" managed="false" tabClosingPolicy="UNAVAILABLE">
+                <tabs>
+                    <Tab text="Catalogue">
+                        <VBox styleClass="panel-card" spacing="12">
+                            <Label styleClass="screen-title" text="Catalogue"/>
+                            <Label styleClass="screen-subtitle" text="Browse available pharmaceutical products and add them straight to your cart."/>
+                            <HBox spacing="10" styleClass="compact-toolbar">
+                                <TextField fx:id="searchField" styleClass="input" promptText="Search by keyword..." HBox.hgrow="ALWAYS"/>
+                                <Button styleClass="btn-primary btn-text-safe" text="Search" onAction="#onSearch"/>
+                                <Button fx:id="promotionsButton" styleClass="btn-accent btn-text-safe" text="Promotions" onAction="#onPromotionsView"/>
+                            </HBox>
+                            <Label fx:id="catalogueInfoLabel" styleClass="info-banner" wrapText="true"
+                                   text="Browse all active catalogue items."/>
+                            <ScrollPane fitToWidth="true" prefHeight="470" styleClass="flat-scroll">
+                                <content>
+                                    <FlowPane fx:id="catalogueCardsPane" hgap="14" vgap="14" prefWrapLength="980"/>
+                                </content>
+                            </ScrollPane>
+                        </VBox>
+                    </Tab>
+
+                    <Tab fx:id="promotionsTab" text="Promotions">
+                        <VBox styleClass="panel-card" spacing="12">
+                            <Label styleClass="screen-title" text="Promotions"/>
+                            <Label styleClass="screen-subtitle" text="Current and upcoming discount campaigns for products in the catalogue."/>
+                            <Label styleClass="info-banner" wrapText="true"
+                                   text="Opening this screen counts as a promotions view for engagement tracking. Active campaigns can be added to cart directly."/>
+                            <ScrollPane fitToWidth="true" prefHeight="500" styleClass="flat-scroll">
+                                <content>
+                                    <VBox fx:id="promotionsContentBox" spacing="14"/>
+                                </content>
+                            </ScrollPane>
+                        </VBox>
+                    </Tab>
+
+                    <Tab text="Cart / Checkout">
+                        <HBox spacing="16">
+                            <VBox styleClass="panel-card" spacing="12" HBox.hgrow="ALWAYS">
+                                <Label styleClass="screen-title" text="Shopping Cart"/>
+                                <Label styleClass="screen-subtitle" text="Review your selected items before completing checkout."/>
+                                <TableView fx:id="cartTable" prefHeight="340">
+                                    <columns>
+                                        <TableColumn fx:id="cartProductCol" text="Product"/>
+                                        <TableColumn fx:id="cartQtyCol" text="Qty"/>
+                                        <TableColumn fx:id="cartUnitPriceCol" text="Unit Price"/>
+                                        <TableColumn fx:id="cartDiscountCol" text="Discount %"/>
+                                        <TableColumn fx:id="cartTotalCol" text="Line Total"/>
+                                    </columns>
+                                </TableView>
+                                <Label fx:id="discountSummaryLabel" styleClass="info-banner" wrapText="true"
+                                       text="No active discounts are applied yet."/>
+                                <Label fx:id="checkoutFeedbackLabel" styleClass="warning-banner" wrapText="true"
+                                       text="Final stock check is performed when you pay. If stock changes, affected items will be removed before the order is confirmed."/>
+                            </VBox>
+
+                            <VBox styleClass="summary-card" spacing="12" minWidth="340" prefWidth="360">
+                                <Label styleClass="screen-title" text="Checkout"/>
+                                <Label styleClass="screen-subtitle" text="Enter payment details to complete your order."/>
+
+                                <VBox spacing="8">
+                                    <HBox styleClass="summary-row" spacing="8">
+                                        <Label text="Subtotal"/>
+                                        <Region HBox.hgrow="ALWAYS"/>
+                                        <Label fx:id="subtotalValueLabel" styleClass="summary-value" text="0.00"/>
+                                    </HBox>
+                                    <HBox styleClass="summary-row" spacing="8">
+                                        <Label text="Promotions"/>
+                                        <Region HBox.hgrow="ALWAYS"/>
+                                        <Label fx:id="promoSavingsValueLabel" styleClass="summary-value" text="-0.00"/>
+                                    </HBox>
+                                    <HBox styleClass="summary-row" spacing="8">
+                                        <Label text="Loyalty"/>
+                                        <Region HBox.hgrow="ALWAYS"/>
+                                        <Label fx:id="loyaltySavingsValueLabel" styleClass="summary-value" text="-0.00"/>
+                                    </HBox>
+                                    <HBox styleClass="summary-row summary-row-strong" spacing="8">
+                                        <Label text="Total"/>
+                                        <Region HBox.hgrow="ALWAYS"/>
+                                        <Label fx:id="grandTotalValueLabel" styleClass="summary-value-strong" text="0.00"/>
+                                    </HBox>
+                                </VBox>
+
+                                <Label fx:id="totalLabel" styleClass="screen-subtitle" text="Total: 0.00"/>
+
+                                <VBox spacing="6" styleClass="info-banner">
+                                    <Label wrapText="true" styleClass="helper-text"
+                                           text="After a successful order, your tracking code stays on screen here. The same details are written to email_outbox (simulated email in this demo—no real SMTP)."/>
+                                    <Label fx:id="lastOrderReferenceLabel" wrapText="true"
+                                           text="No order placed yet in this session."/>
+                                    <HBox spacing="8" alignment="CENTER_LEFT">
+                                        <Button fx:id="copyTrackingButton" styleClass="btn-primary btn-text-safe" text="Copy tracking code"
+                                                onAction="#onCopyLastTracking" visible="false" managed="false"/>
+                                    </HBox>
+                                </VBox>
+
+                                <GridPane hgap="10" vgap="10">
+                                    <Label styleClass="field-label" text="Order Email" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+                                    <TextField fx:id="checkoutEmailField" styleClass="input" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+                                    <Label styleClass="field-label" text="Delivery Address" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+                                    <TextField fx:id="deliveryAddressField" styleClass="input" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
+                                    <Label styleClass="field-label" text="Card Type" GridPane.columnIndex="0" GridPane.rowIndex="4"/>
+                                    <TextField fx:id="cardTypeField" styleClass="input" GridPane.columnIndex="0" GridPane.rowIndex="5"/>
+                                    <Label styleClass="field-label" text="Card Number" GridPane.columnIndex="0" GridPane.rowIndex="6"/>
+                                    <TextField fx:id="cardNumberField" styleClass="input" GridPane.columnIndex="0" GridPane.rowIndex="7"
+                                               promptText="e.g. 0000 000000 0000 0001"/>
+                                    <HBox spacing="10" GridPane.columnIndex="0" GridPane.rowIndex="8">
+                                        <VBox spacing="4" HBox.hgrow="ALWAYS">
+                                            <Label styleClass="field-label" text="Security Code"/>
+                                            <TextField fx:id="securityCodeField" styleClass="input" promptText="3 or 4 digits"/>
+                                        </VBox>
+                                        <VBox spacing="4" HBox.hgrow="ALWAYS">
+                                            <Label styleClass="field-label" text="Expiry"/>
+                                            <TextField fx:id="expiryField" styleClass="input" promptText="09/28 or 30/08/2030"/>
+                                        </VBox>
+                                    </HBox>
+                                </GridPane>
+
+                                <Button styleClass="btn-accent checkout-button btn-text-safe" text="Pay and checkout" onAction="#onCheckout"/>
+                            </VBox>
+                        </HBox>
+                    </Tab>
+
+                    <Tab text="Orders">
+                        <VBox styleClass="panel-card" spacing="12">
+                            <Label styleClass="screen-title" text="Orders / Tracking"/>
+                            <Label styleClass="screen-subtitle" text="Signed-in users can refresh their order list. Guests can still track orders using email and tracking code."/>
+                            <Label fx:id="ordersInfoLabel" styleClass="info-banner" wrapText="true"
+                                   text="Refresh shows the current signed-in user's order history. Tracking lookup works for both registered customers and guest checkouts."/>
+                            <HBox spacing="10" styleClass="compact-toolbar">
+                                <TextField fx:id="trackingEmailField" styleClass="input" promptText="Order email" HBox.hgrow="SOMETIMES"/>
+                                <TextField fx:id="trackingCodeField" styleClass="input" promptText="Tracking code" HBox.hgrow="SOMETIMES"/>
+                                <Button styleClass="btn-accent btn-text-safe" text="Track order" onAction="#onTrackOrder"/>
+                                <Button styleClass="btn-primary btn-text-safe" text="Refresh orders" onAction="#onRefreshOrders"/>
+                            </HBox>
+                            <Label fx:id="trackingLookupResultLabel" styleClass="helper-text" wrapText="true"
+                                   text="Use the email you used at checkout and the tracking code (shown after payment and in email_outbox)."/>
+                            <TableView fx:id="ordersTable" prefHeight="510">
+                                <columns>
+                                    <TableColumn fx:id="orderIdCol" text="Order ID"/>
+                                    <TableColumn fx:id="orderStatusCol" text="Status"/>
+                                    <TableColumn fx:id="orderTrackingCol" text="Tracking"/>
+                                    <TableColumn fx:id="orderAmountCol" text="Amount"/>
+                                </columns>
+                            </TableView>
+                        </VBox>
+                    </Tab>
+
+                    <Tab text="Profile">
+                        <HBox spacing="16">
+                            <VBox styleClass="panel-card profile-card" spacing="12" minWidth="280" prefWidth="320">
+                                <StackPane styleClass="avatar-frame">
+                                    <ImageView fx:id="profileAvatarImageView" fitHeight="132" fitWidth="132" pickOnBounds="true" preserveRatio="true"/>
+                                </StackPane>
+                                <Label styleClass="screen-title" text="Profile"/>
+                                <Label styleClass="screen-subtitle" text="Your current account details and loyalty status."/>
+                                <Button styleClass="btn-danger btn-text-safe" text="Log out" onAction="#onLogout"/>
+                            </VBox>
+
+                            <VBox styleClass="summary-card" spacing="12" HBox.hgrow="ALWAYS">
+                                <Label styleClass="section-title" text="Account Overview"/>
+                                <HBox styleClass="summary-row" spacing="8">
+                                    <Label text="Email"/>
+                                    <Region HBox.hgrow="ALWAYS"/>
+                                    <Label fx:id="profileEmailValueLabel" styleClass="summary-value" text="Not signed in"/>
+                                </HBox>
+                                <HBox styleClass="summary-row" spacing="8">
+                                    <Label text="Member Type"/>
+                                    <Region HBox.hgrow="ALWAYS"/>
+                                    <Label fx:id="profileMemberTypeValueLabel" styleClass="summary-value" text="—"/>
+                                </HBox>
+                                <HBox styleClass="summary-row" spacing="8">
+                                    <Label text="Completed Orders"/>
+                                    <Region HBox.hgrow="ALWAYS"/>
+                                    <Label fx:id="profileOrdersValueLabel" styleClass="summary-value" text="0"/>
+                                </HBox>
+                                <HBox styleClass="summary-row summary-row-strong" spacing="8">
+                                    <Label text="Loyalty Status"/>
+                                    <Region HBox.hgrow="ALWAYS"/>
+                                    <Label fx:id="profileLoyaltyValueLabel" styleClass="summary-value-strong" text="Not active"/>
+                                </HBox>
+                                <Label styleClass="info-banner" wrapText="true"
+                                       text="Profile details reflect the current signed-in session. Guest sessions can still track orders but do not receive loyalty discounts."/>
+                            </VBox>
+                        </HBox>
+                    </Tab>
+
+                    <Tab text="Admin">
+                        <SplitPane dividerPositions="0.52">
+                            <items>
+                                <VBox styleClass="panel-card" spacing="10">
+                                    <Label styleClass="screen-title" text="Create Campaign"/>
+                                    <Label styleClass="screen-subtitle" text="Set up a campaign and preview the selected products before launch."/>
+                                    <Label fx:id="campaignEditorModeLabel" styleClass="info-banner" wrapText="true"
+                                           text="Draft mode: create a new campaign, or select a row below to load and edit an existing one."/>
+                                    <TextField fx:id="campaignNameField" styleClass="input" promptText="Campaign name"/>
+                                    <TextField fx:id="campaignStartField" styleClass="input" promptText="Start UTC (yyyy-MM-dd HH:mm)"/>
+                                    <TextField fx:id="campaignEndField" styleClass="input" promptText="End UTC (yyyy-MM-dd HH:mm)"/>
+                                    <Label styleClass="helper-text" text="Times are stored and compared in UTC (same as MySQL serverTimezone=UTC). Example: 2026-04-20 23:59" wrapText="true"/>
+                                    <Label styleClass="field-label" text="Items (one per line: PRODUCT_ID:DISCOUNT)"/>
+                                    <TextArea fx:id="campaignItemsArea" prefHeight="120"/>
+                                    <Label styleClass="helper-text" text="Example lines: 10000002:5 or 30000001:20 (PDF catalogue ids, no spaces)" wrapText="true"/>
+                                    <Label fx:id="campaignConflictLabel" styleClass="warning-banner" wrapText="true"
+                                           text="Conflict rules and preview information will appear here."/>
+                                    <TextArea fx:id="campaignPreviewArea" editable="false" prefHeight="110" wrapText="true"/>
+                                    <FlowPane hgap="8" vgap="8" styleClass="admin-button-flow">
+                                        <Button styleClass="btn-primary btn-text-safe" text="Create campaign" onAction="#onCreateCampaign"/>
+                                        <Button styleClass="btn-accent btn-text-safe" text="Update selected" onAction="#onUpdateCampaign"/>
+                                        <Button styleClass="btn-primary btn-text-safe" text="Clear editor" onAction="#onClearCampaignEditor"/>
+                                    </FlowPane>
+                                    <HBox spacing="8" alignment="CENTER_LEFT">
+                                        <TextField fx:id="cancelCampaignIdField" editable="false" styleClass="input" promptText="Select a campaign row" prefWidth="200"/>
+                                    </HBox>
+                                    <FlowPane hgap="8" vgap="8" styleClass="admin-button-flow">
+                                        <Button styleClass="btn-danger btn-text-safe" text="Cancel selected campaign" onAction="#onCancelCampaign"/>
+                                        <Button styleClass="btn-danger btn-text-safe" text="Terminate campaign now" onAction="#onTerminateCampaign"/>
+                                        <Button styleClass="btn-danger btn-text-safe" text="Delete selected campaign" onAction="#onDeleteCampaign"/>
+                                    </FlowPane>
+                                    <Button styleClass="btn-primary btn-text-safe" text="Refresh campaign list" onAction="#onRefreshCampaigns"/>
+                                    <TableView fx:id="campaignTable" prefHeight="260">
+                                        <columns>
+                                            <TableColumn fx:id="campaignIdCol" text="ID"/>
+                                            <TableColumn fx:id="campaignNameCol" text="Name"/>
+                                            <TableColumn fx:id="campaignStatusCol" text="Status"/>
+                                            <TableColumn fx:id="campaignStartCol" text="Start"/>
+                                            <TableColumn fx:id="campaignEndCol" text="End"/>
+                                        </columns>
+                                    </TableView>
+                                </VBox>
+
+                                <VBox styleClass="panel-card" spacing="10">
+                                    <Label styleClass="screen-title" text="Reports"/>
+                                    <Label fx:id="reportHeaderLabel" styleClass="screen-subtitle" text="Generate and view operational reports."/>
+                                    <Label fx:id="reportPeriodLabel" styleClass="helper-text" wrapText="true"
+                                           text="Choose a start and end period, then select the report type you want to render."/>
+                                    <HBox spacing="8">
+                                        <DatePicker fx:id="reportStartDate"/>
+                                        <DatePicker fx:id="reportEndDate"/>
+                                    </HBox>
+                                    <FlowPane hgap="8" vgap="8" styleClass="admin-button-flow">
+                                        <Button styleClass="btn-primary btn-text-safe" text="Sales report" onAction="#onSalesReport"/>
+                                        <Button styleClass="btn-primary btn-text-safe" text="Campaign report" onAction="#onCampaignReport"/>
+                                        <Button styleClass="btn-primary btn-text-safe" text="Engagement report" onAction="#onEngagementReport"/>
+                                        <Button styleClass="btn-accent btn-text-safe" text="Print report" onAction="#onPrintReport"/>
+                                    </FlowPane>
+                                    <TableView fx:id="reportTable" prefHeight="470"/>
+                                </VBox>
+                            </items>
+                        </SplitPane>
+                    </Tab>
+                </tabs>
+            </TabPane>
+            <VBox fx:id="toastContainer" alignment="TOP_CENTER" managed="false" mouseTransparent="true"
+                  spacing="10" visible="false" StackPane.alignment="TOP_CENTER">
+            </VBox>
+            <StackPane fx:id="loadingOverlay" visible="false" managed="false" styleClass="loading-overlay">
+                <VBox alignment="CENTER" spacing="12" styleClass="loading-card">
+                    <ProgressIndicator prefWidth="64" prefHeight="64"/>
+                    <Label fx:id="loadingLabel" styleClass="loading-text" text="Loading..."/>
+                </VBox>
+            </StackPane>
+        </StackPane>
+    </center>
+
+    <padding>
+        <Insets top="10" right="10" bottom="10" left="10"/>
+    </padding>
+</BorderPane>
