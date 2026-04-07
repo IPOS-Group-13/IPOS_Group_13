@@ -7,6 +7,7 @@ import com.berrybyte.common.DatabaseConnection;
 
 import java.sql.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -199,13 +200,11 @@ public class SaOrderService implements IOrderAPI {
                         conn.rollback();
                         return AcceptOrderStatus.ORDER_NOT_FOUND;
                     }
-
                     merchantId = rs.getInt("MerchantId");
                     totalAmount = rs.getDouble("TotalAmount");
                     status = rs.getString("Status");
                 }
             }
-
             if (!"NEW".equalsIgnoreCase(status)) {
                 conn.rollback();
                 return AcceptOrderStatus.ORDER_ALREADY_ACCEPTED;
@@ -340,7 +339,7 @@ public class SaOrderService implements IOrderAPI {
 
             String updateBalanceSql = """
                     UPDATE MerchantAccounts
-                    SET CurrentBalance = CurrentBalance + ?
+                    SET OutstandingBalance = OutstandingBalance + ?
                     WHERE MerchantId = ?
                     """;
 
@@ -505,6 +504,108 @@ public class SaOrderService implements IOrderAPI {
     }
 
     @Override
+    public List<OrderSummaryRow> getOrdersSummary() throws Exception {
+        String sql = """
+                SELECT o.OrderId,
+                       DATE_FORMAT(o.OrderDate, '%d/%m/%Y') AS OrderedDate,
+                       COALESCE(DATE_FORMAT(o.DispatchDateTime, '%d/%m/%Y %H:%i'), '') AS DispatchedDate,
+                       o.TotalAmount,
+                       o.Status AS DeliveredStatus,
+                       COALESCE(i.PaymentStatus, 'N/A') AS PaidStatus,
+                       COALESCE(o.CourierName, '') AS CourierName,
+                       COALESCE(o.CourierReference, '') AS CourierRef,
+                       COALESCE(DATE_FORMAT(o.ExpectedDeliveryDateTime, '%d/%m/%Y %H:%i'), '') AS ExpectedDelivery
+                FROM Orders o
+                LEFT JOIN Invoices i ON o.OrderId = i.OrderId
+                ORDER BY o.OrderDate DESC, o.OrderId DESC
+                """;
+
+        List<OrderSummaryRow> rows = new ArrayList<>();
+
+        try (Connection conn = new DatabaseConnection().getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
+                rows.add(mapOrderSummaryRow(rs));
+            }
+        }
+
+        return rows;
+    }
+
+    @Override
+    public List<OrderSummaryRow> searchOrdersSummary(String keyword) throws Exception {
+        String sql = """
+                SELECT o.OrderId,
+                       DATE_FORMAT(o.OrderDate, '%d/%m/%Y') AS OrderedDate,
+                       COALESCE(DATE_FORMAT(o.DispatchDateTime, '%d/%m/%Y %H:%i'), '') AS DispatchedDate,
+                       o.TotalAmount,
+                       o.Status AS DeliveredStatus,
+                       COALESCE(i.PaymentStatus, 'N/A') AS PaidStatus,
+                       COALESCE(o.CourierName, '') AS CourierName,
+                       COALESCE(o.CourierReference, '') AS CourierRef,
+                       COALESCE(DATE_FORMAT(o.ExpectedDeliveryDateTime, '%d/%m/%Y %H:%i'), '') AS ExpectedDelivery
+                FROM Orders o
+                JOIN MerchantAccounts ma ON o.MerchantId = ma.MerchantId
+                JOIN Users u ON ma.UserId = u.UserId
+                LEFT JOIN Invoices i ON o.OrderId = i.OrderId
+                WHERE ma.CompanyName LIKE ?
+                   OR u.Username LIKE ?
+                ORDER BY o.OrderDate DESC, o.OrderId DESC
+                """;
+
+        String like = "%" + keyword + "%";
+        List<OrderSummaryRow> rows = new ArrayList<>();
+
+        try (Connection conn = new DatabaseConnection().getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setString(1, like);
+            ps.setString(2, like);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    rows.add(mapOrderSummaryRow(rs));
+                }
+            }
+        }
+
+        return rows;
+    }
+
+    @Override
+    public boolean updateDispatchDetails(int orderId,
+                                         String courierName,
+                                         String courierRef,
+                                         LocalDateTime dispatchedDateTime,
+                                         LocalDateTime expectedDeliveryDateTime,
+                                         String status) throws Exception {
+        String sql = """
+                UPDATE Orders
+                SET CourierName = ?,
+                    CourierReference = ?,
+                    DispatchDateTime = ?,
+                    ExpectedDeliveryDateTime = ?,
+                    Status = ?
+                WHERE OrderId = ?
+                """;
+
+        try (Connection conn = new DatabaseConnection().getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setString(1, courierName);
+            ps.setString(2, courierRef);
+            ps.setTimestamp(3, Timestamp.valueOf(dispatchedDateTime));
+            ps.setTimestamp(4, Timestamp.valueOf(expectedDeliveryDateTime));
+            ps.setString(5, status);
+            ps.setInt(6, orderId);
+
+            return ps.executeUpdate() > 0;
+        }
+    }
+
+    @Override
     public String trackOrder(int orderId) throws Exception {
         String sql = "SELECT Status FROM Orders WHERE OrderId = ?";
 
@@ -521,5 +622,20 @@ public class SaOrderService implements IOrderAPI {
         }
         return null;
     }
+
+    private OrderSummaryRow mapOrderSummaryRow(ResultSet rs) throws SQLException {
+        return new OrderSummaryRow(
+                rs.getInt("OrderId"),
+                rs.getString("OrderedDate"),
+                rs.getString("DispatchedDate"),
+                rs.getDouble("TotalAmount"),
+                rs.getString("DeliveredStatus"),
+                rs.getString("PaidStatus"),
+                rs.getString("CourierName"),
+                rs.getString("CourierRef"),
+                rs.getString("ExpectedDelivery")
+        );
+    }
+
     private record StockReduction(int itemId, int quantity) { }
 }

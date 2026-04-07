@@ -97,7 +97,11 @@ public class OrderMenuController {
 
     @FXML
     private void viewSummaryButton(ActionEvent event) {
-        showUnavailableFeature("View Summary");
+        try{
+            SceneSwitcher.switchScene(event, "/ORD/orderSummary.fxml", "Orders Summary");
+        } catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     private void showUnavailableFeature(String featureName) {

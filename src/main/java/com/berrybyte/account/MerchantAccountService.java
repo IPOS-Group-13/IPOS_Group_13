@@ -27,7 +27,7 @@ public class MerchantAccountService {
 
         String insertMerchantSql = """
                 INSERT INTO MerchantAccounts
-                (UserId, IPOSAccountNumber, CompanyName, Address, CreditLimit, CurrentBalance, AccountStatus, IsActivated)
+                (UserId, IPOSAccountNumber, CompanyName, Address, CreditLimit, OutstandingBalance, AccountStatus, IsActivated)
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?)
                 """;
 

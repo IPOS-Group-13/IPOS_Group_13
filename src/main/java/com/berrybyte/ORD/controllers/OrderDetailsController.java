@@ -97,7 +97,6 @@ public class OrderDetailsController {
             showAlert(Alert.AlertType.ERROR, "No logged-in staff user was found.");
             return;
         }
-
         try {
             AcceptOrderStatus status = orderService.acceptOrder(orderId, staffUserId);
             if (status == AcceptOrderStatus.SUCCESS) {
@@ -117,14 +116,12 @@ public class OrderDetailsController {
         if (orderId <= 0) {
             return;
         }
-
         try {
             OrderDetails details = orderService.getOrderDetails(orderId);
             if (details == null) {
                 showAlert(Alert.AlertType.ERROR, "Order not found.");
                 return;
             }
-
             List<OrderLine> items = orderService.getOrderItems(orderId);
             orderListTable.setItems(FXCollections.observableArrayList(items));
             totalAmountLabel.setText(String.format("GBP %.2f", details.getTotalAmount()));
