@@ -1,5 +1,6 @@
 package com.berrybyte.dashboard;
 
+import com.berrybyte.common.RoleBasedNavigator;
 import com.berrybyte.common.SceneSwitcher;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -21,6 +22,15 @@ public class StaffAccountDashboardController {
         boolean isVisible = profileMenuPane.isVisible();
         profileMenuPane.setVisible(!isVisible);
         profileMenuPane.setManaged(!isVisible);
+    }
+
+    @FXML
+    private void handleOrdersClick(ActionEvent event) {
+        try {
+            RoleBasedNavigator.switchToOrderMenu(event);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML

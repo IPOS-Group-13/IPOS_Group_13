@@ -134,8 +134,13 @@ public class CreateMerchantAccountController {
             throw new Exception("Password must be at least 6 characters long.");
         }
 
-        if (!phone.matches("\\+\\d{1,3}\\s\\d{7,12}")) {
-            throw new Exception("Enter a valid phone number with country code (e.g. +44..)");
+        String normalizedPhone = normalizePhoneNumber(phone);
+        if (!normalizedPhone.matches("[0-9 ]+")) {
+            throw new Exception("Phone number must contain only numbers and spaces.");
+        }
+        int phoneDigits = normalizedPhone.replace(" ", "").length();
+        if (phoneDigits < 7 || phoneDigits > 12) {
+            throw new Exception("Enter a valid phone number using 7 to 12 digits.");
         }
         if (!email.matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$")) {
             throw new Exception("Enter a valid email address.");
@@ -154,5 +159,17 @@ public class CreateMerchantAccountController {
         } catch (NumberFormatException e) {
             throw new Exception("Credit limit must be numeric.");
         }
+    }
+
+    private String normalizePhoneNumber(String phoneNumber) {
+        if (phoneNumber == null) {
+            return "";
+        }
+
+        String normalized = phoneNumber.trim().replaceAll("\\s+", " ");
+        if (normalized.startsWith("+")) {
+            normalized = normalized.replaceFirst("^\\+\\d{1,3}\\s*", "");
+        }
+        return normalized.trim();
     }
 }

@@ -46,7 +46,7 @@ public class LoginController {
     }
 
     public void validateLogin(ActionEvent event) {
-        String sql = "SELECT Role FROM Users WHERE Username = ? AND Password = ?";
+        String sql = "SELECT UserId, Role FROM Users WHERE Username = ? AND Password = ?";
 
         DatabaseConnection connectNow = new DatabaseConnection();
 
@@ -58,7 +58,9 @@ public class LoginController {
 
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 if (resultSet.next()) {
+                    int userId = resultSet.getInt("UserId");
                     String role = resultSet.getString("Role");
+                    LoginSession.setCurrentUserId(userId);
                     LoginSession.setCurrentRole(role);
 
                     if ("ADMIN".equalsIgnoreCase(role) || "MANAGER".equalsIgnoreCase(role)) {

@@ -34,6 +34,15 @@ public class ManagerDashboardController {
     }
 
     @FXML
+    private void handleOrdersClick(ActionEvent event) {
+        try {
+            RoleBasedNavigator.switchToOrderMenu(event);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
     private void handleLogoutMenuClick(ActionEvent event) {
         profileMenuPane.setVisible(false);
         profileMenuPane.setManaged(false);

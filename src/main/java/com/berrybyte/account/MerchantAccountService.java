@@ -56,7 +56,7 @@ public class MerchantAccountService {
                 userPs.setString(2, username);
                 userPs.setString(3, password);
                 userPs.setString(4, email);
-                userPs.setString(5, phoneNumber);
+                userPs.setString(5, normalizePhoneNumber(phoneNumber));
                 userPs.setString(6, "MERCHANT");
                 userPs.executeUpdate();
 
@@ -155,7 +155,7 @@ public class MerchantAccountService {
                 userPs.setString(2, username);
                 userPs.setString(3, password);
                 userPs.setString(4, email);
-                userPs.setString(5, phoneNumber);
+                userPs.setString(5, normalizePhoneNumber(phoneNumber));
                 userPs.setInt(6, userId);
 
                 int userRows = userPs.executeUpdate();
@@ -220,12 +220,14 @@ public class MerchantAccountService {
                                                String email, String phoneNumber, String address, String accountStatus,
                                                double creditLimit) {
 
+        String normalizedPhoneNumber = normalizePhoneNumber(phoneNumber);
+
         if (fullName == null || fullName.isBlank()) throw new IllegalArgumentException("Name is required");
         if (companyName == null || companyName.isBlank()) throw new IllegalArgumentException("Company name is required");
         if (username == null || username.isBlank()) throw new IllegalArgumentException("Username is required");
         if (password == null || password.isBlank()) throw new IllegalArgumentException("Password is required");
         if (email == null || email.isBlank()) throw new IllegalArgumentException("Email is required");
-        if (phoneNumber == null || phoneNumber.isBlank()) throw new IllegalArgumentException("Phone number is required");
+        if (normalizedPhoneNumber.isBlank()) throw new IllegalArgumentException("Phone number is required");
         if (address == null || address.isBlank()) throw new IllegalArgumentException("Address is required");
         if (accountStatus == null || accountStatus.isBlank()) throw new IllegalArgumentException("Account status is required");
         if (creditLimit < 0) throw new IllegalArgumentException("Credit limit cannot be negative");
@@ -242,8 +244,12 @@ public class MerchantAccountService {
         if (password.length() < 6) {
             throw new IllegalArgumentException("Password must be at least 6 characters long.");
         }
-        if (!phoneNumber.matches("\\+\\d{1,3}\\s\\d{7,12}")) {
-            throw new IllegalArgumentException("Enter a valid phone number with country code (e.g. +44 7123456789).");
+        if (!normalizedPhoneNumber.matches("[0-9 ]+")) {
+            throw new IllegalArgumentException("Phone number must contain only numbers and spaces.");
+        }
+        int phoneDigits = normalizedPhoneNumber.replace(" ", "").length();
+        if (phoneDigits < 7 || phoneDigits > 12) {
+            throw new IllegalArgumentException("Enter a valid phone number using 7 to 12 digits.");
         }
         if (!email.matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$")) {
             throw new IllegalArgumentException("Enter a valid email address.");
@@ -253,6 +259,18 @@ public class MerchantAccountService {
                 && !accountStatus.equals("IN_DEFAULT")) {
             throw new IllegalArgumentException("Status must be NORMAL, SUSPENDED or IN_DEFAULT.");
         }
+    }
+
+    private String normalizePhoneNumber(String phoneNumber) {
+        if (phoneNumber == null) {
+            return "";
+        }
+
+        String normalized = phoneNumber.trim().replaceAll("\\s+", " ");
+        if (normalized.startsWith("+")) {
+            normalized = normalized.replaceFirst("^\\+\\d{1,3}\\s*", "");
+        }
+        return normalized.trim();
     }
 
     public void updateMerchantFixedDiscountPlan(int merchantId, double discountPercent) throws Exception {

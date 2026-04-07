@@ -77,4 +77,13 @@ public class StaffAccountsMenuController {
             e.printStackTrace();
         }
     }
+
+    @FXML
+    private void handleOrdersClick(ActionEvent event) {
+        try {
+            RoleBasedNavigator.switchToOrderMenu(event);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

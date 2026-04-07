@@ -152,6 +152,15 @@ public class MerchantMenuController {
     }
 
     @FXML
+    private void handleOrdersClick(ActionEvent event) {
+        try {
+            RoleBasedNavigator.switchToOrderMenu(event);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
     private void handleUpdateDiscountPlan(ActionEvent event) {
         if (!ensureMerchantSelected()) {
             return;

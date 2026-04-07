@@ -1,0 +1,110 @@
+package com.berrybyte.dashboard;
+
+import com.berrybyte.common.RoleBasedNavigator;
+import com.berrybyte.common.SceneSwitcher;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.layout.AnchorPane;
+
+public class OrderMenuController {
+
+    @FXML
+    private AnchorPane profileMenuPane;
+
+    @FXML
+    public void initialize() {
+        if (profileMenuPane != null) {
+            profileMenuPane.setVisible(false);
+            profileMenuPane.setManaged(false);
+        }
+    }
+
+    @FXML
+    private void handleProfileClick() {
+        if (profileMenuPane == null) {
+            return;
+        }
+
+        boolean isVisible = profileMenuPane.isVisible();
+        profileMenuPane.setVisible(!isVisible);
+        profileMenuPane.setManaged(!isVisible);
+    }
+
+    @FXML
+    private void handleDashboardClick(ActionEvent event) {
+        try {
+            RoleBasedNavigator.switchToDashboard(event);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void handleMerchantsClick(ActionEvent event) {
+        try {
+            RoleBasedNavigator.switchToMerchantMenu(event);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void handleStaffAccountsClick(ActionEvent event) {
+        try {
+            RoleBasedNavigator.switchToStaffAccounts(event);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void handleOrdersClick(ActionEvent event) {
+        try {
+            RoleBasedNavigator.switchToOrderMenu(event);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void handleLogoutMenuClick(ActionEvent event) {
+        if (profileMenuPane != null) {
+            profileMenuPane.setVisible(false);
+            profileMenuPane.setManaged(false);
+        }
+
+        try {
+            SceneSwitcher.switchScene(event, "/logout/logout.fxml", "Log Out");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void openIncomingOrdersButton(ActionEvent event) {
+        try {
+            SceneSwitcher.switchScene(event, "/ORD/incomingOrders.fxml", "Incoming Orders");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void viewInvoicesButton(ActionEvent event) {
+        showUnavailableFeature("View Invoices");
+    }
+
+    @FXML
+    private void viewSummaryButton(ActionEvent event) {
+        showUnavailableFeature("View Summary");
+    }
+
+    private void showUnavailableFeature(String featureName) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(featureName);
+        alert.setHeaderText(null);
+        alert.setContentText(featureName + " is not wired up yet.");
+        alert.showAndWait();
+    }
+}
