@@ -40,7 +40,7 @@ public class OrderSummaryController {
     private TableColumn<OrderSummaryRow, Integer> orderIdColumn;
 
     @FXML
-    private TableColumn<OrderSummaryRow, String> orderedDateColumn;
+    private TableColumn<OrderSummaryRow, String> merchantNameColumn;
 
     @FXML
     private TableColumn<OrderSummaryRow, String> dispatchedDateColumn;
@@ -66,7 +66,7 @@ public class OrderSummaryController {
     @FXML
     public void initialize() {
         orderIdColumn.setCellValueFactory(new PropertyValueFactory<>("orderId"));
-        orderedDateColumn.setCellValueFactory(new PropertyValueFactory<>("orderedDate"));
+        merchantNameColumn.setCellValueFactory(new PropertyValueFactory<>("merchantName"));
         dispatchedDateColumn.setCellValueFactory(new PropertyValueFactory<>("dispatchedDate"));
         amountColumn.setCellValueFactory(new PropertyValueFactory<>("amount"));
         statusColoumn.setCellValueFactory(new PropertyValueFactory<>("deliveredStatus"));
@@ -85,9 +85,7 @@ public class OrderSummaryController {
 
     @FXML
     private void updateDispatchDetails(ActionEvent event) {
-        OrderSummaryRow selectedOrder = ordersSummaryTable == null
-                ? null
-                : ordersSummaryTable.getSelectionModel().getSelectedItem();
+        OrderSummaryRow selectedOrder = ordersSummaryTable == null ? null : ordersSummaryTable.getSelectionModel().getSelectedItem();
 
         if (selectedOrder == null) {
             messageLabel.setText("Select an order first.");
@@ -114,11 +112,6 @@ public class OrderSummaryController {
             e.printStackTrace();
             messageLabel.setText("Unable to open update dispatch details popup.");
         }
-    }
-
-    @FXML
-    private void recordPayment(ActionEvent event) {
-        messageLabel.setText("Record payment is not wired up yet.");
     }
 
     @FXML

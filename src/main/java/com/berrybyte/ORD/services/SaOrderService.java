@@ -507,7 +507,7 @@ public class SaOrderService implements IOrderAPI {
     public List<OrderSummaryRow> getOrdersSummary() throws Exception {
         String sql = """
                 SELECT o.OrderId,
-                       DATE_FORMAT(o.OrderDate, '%d/%m/%Y') AS OrderedDate,
+                       ma.CompanyName AS MerchantName,
                        COALESCE(DATE_FORMAT(o.DispatchDateTime, '%d/%m/%Y %H:%i'), '') AS DispatchedDate,
                        o.TotalAmount,
                        o.Status AS DeliveredStatus,
@@ -516,6 +516,7 @@ public class SaOrderService implements IOrderAPI {
                        COALESCE(o.CourierReference, '') AS CourierRef,
                        COALESCE(DATE_FORMAT(o.ExpectedDeliveryDateTime, '%d/%m/%Y %H:%i'), '') AS ExpectedDelivery
                 FROM Orders o
+                JOIN MerchantAccounts ma ON o.MerchantId = ma.MerchantId
                 LEFT JOIN Invoices i ON o.OrderId = i.OrderId
                 ORDER BY o.OrderDate DESC, o.OrderId DESC
                 """;
@@ -538,7 +539,7 @@ public class SaOrderService implements IOrderAPI {
     public List<OrderSummaryRow> searchOrdersSummary(String keyword) throws Exception {
         String sql = """
                 SELECT o.OrderId,
-                       DATE_FORMAT(o.OrderDate, '%d/%m/%Y') AS OrderedDate,
+                       ma.CompanyName AS MerchantName,
                        COALESCE(DATE_FORMAT(o.DispatchDateTime, '%d/%m/%Y %H:%i'), '') AS DispatchedDate,
                        o.TotalAmount,
                        o.Status AS DeliveredStatus,
@@ -550,7 +551,8 @@ public class SaOrderService implements IOrderAPI {
                 JOIN MerchantAccounts ma ON o.MerchantId = ma.MerchantId
                 JOIN Users u ON ma.UserId = u.UserId
                 LEFT JOIN Invoices i ON o.OrderId = i.OrderId
-                WHERE ma.CompanyName LIKE ?
+                WHERE CAST(o.OrderId AS CHAR) LIKE ?
+                   OR ma.CompanyName LIKE ?
                    OR u.Username LIKE ?
                 ORDER BY o.OrderDate DESC, o.OrderId DESC
                 """;
@@ -563,6 +565,7 @@ public class SaOrderService implements IOrderAPI {
 
             ps.setString(1, like);
             ps.setString(2, like);
+            ps.setString(3, like);
 
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
@@ -626,7 +629,7 @@ public class SaOrderService implements IOrderAPI {
     private OrderSummaryRow mapOrderSummaryRow(ResultSet rs) throws SQLException {
         return new OrderSummaryRow(
                 rs.getInt("OrderId"),
-                rs.getString("OrderedDate"),
+                rs.getString("MerchantName"),
                 rs.getString("DispatchedDate"),
                 rs.getDouble("TotalAmount"),
                 rs.getString("DeliveredStatus"),

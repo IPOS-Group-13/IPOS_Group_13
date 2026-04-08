@@ -3,7 +3,7 @@ package com.berrybyte.ORD.DTO;
 public class OrderSummaryRow {
 
     private final int orderId;
-    private final String orderedDate;
+    private final String merchantName;
     private final String dispatchedDate;
     private final double amount;
     private final String deliveredStatus;
@@ -13,7 +13,7 @@ public class OrderSummaryRow {
     private final String expectedDelivery;
 
     public OrderSummaryRow(int orderId,
-                           String orderedDate,
+                           String merchantName,
                            String dispatchedDate,
                            double amount,
                            String deliveredStatus,
@@ -22,7 +22,7 @@ public class OrderSummaryRow {
                            String courierRef,
                            String expectedDelivery) {
         this.orderId = orderId;
-        this.orderedDate = orderedDate;
+        this.merchantName = merchantName;
         this.dispatchedDate = dispatchedDate;
         this.amount = amount;
         this.deliveredStatus = deliveredStatus;
@@ -36,8 +36,8 @@ public class OrderSummaryRow {
         return orderId;
     }
 
-    public String getOrderedDate() {
-        return orderedDate;
+    public String getMerchantName() {
+        return merchantName;
     }
 
     public String getDispatchedDate() {
