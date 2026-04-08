@@ -41,12 +41,21 @@ public class ManageCatalogueController {
 
     @FXML
     private void addProductButton(ActionEvent event) {
-        System.out.println("Add Product clicked");
+        try {
+            SceneSwitcher.switchScene(event, "/catalogue/addNewProduct.fxml", "Add New Product Page");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 
     @FXML
     private void deleteProductButton(ActionEvent event) {
-        System.out.println("Add Product clicked");
+        try {
+            SceneSwitcher.switchScene(event, "/catalogue/deleteProduct.fxml", "Delete Product Page");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML
