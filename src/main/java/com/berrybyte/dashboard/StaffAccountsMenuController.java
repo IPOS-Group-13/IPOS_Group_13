@@ -70,6 +70,15 @@ public class StaffAccountsMenuController {
     }
 
     @FXML
+    private void handleCatalogueClick(ActionEvent event) {
+        try {
+            SceneSwitcher.switchScene(event, "/catalogue/manageCatalogue.fxml", "Catalogue Page");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
     private void handleDashboardClick(ActionEvent event) {
         try {
             RoleBasedNavigator.switchToDashboard(event);

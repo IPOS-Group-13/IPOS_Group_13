@@ -42,14 +42,27 @@ public class AdminDashboardController {
     }
 
     @FXML
+<<<<<<< Updated upstream
     private void handleOrdersClick(ActionEvent event) {
         try {
             RoleBasedNavigator.switchToOrderMenu(event);
+=======
+    private void handleCatalogueClick(ActionEvent event) {
+        try {
+            SceneSwitcher.switchScene(event, "/catalogue/Catalogue.fxml", "Catalogue Page");
+>>>>>>> Stashed changes
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
+<<<<<<< Updated upstream
+=======
+    public void viewCatalogueButton(ActionEvent event) {
+        System.out.println("View Catalogue Button Clicked");
+    }
+
+>>>>>>> Stashed changes
     @FXML
     private void handleLogoutMenuClick(ActionEvent event) {
         profileMenuPane.setVisible(false);

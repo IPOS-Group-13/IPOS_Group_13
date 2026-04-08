@@ -42,6 +42,7 @@ public class AccountTypeController {
         SceneSwitcher.switchScene(event, "/account/createMerchantAccount.fxml", "Create Merchant Account");
     }
 
+
     @FXML
     private void handleBackButton(MouseEvent event) {
         try {
