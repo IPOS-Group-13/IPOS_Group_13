@@ -1,6 +1,7 @@
 package com.teesolutions.ipospu.services;
 
 import com.teesolutions.ipospu.api.I_CommsAPI;
+import com.teesolutions.ipospu.dto.OutboundEmailResult;
 import com.teesolutions.ipospu.repositories.CommsRepository;
 
 public class CommsService implements I_CommsAPI {
@@ -8,25 +9,53 @@ public class CommsService implements I_CommsAPI {
 
     @Override
     public boolean sendEmail(String recipientEmail, String subject, String body) {
-        return commsRepository.saveOutboundEmail(recipientEmail, subject, body, "GENERIC");
+        return commsRepository.saveOutboundEmail(recipientEmail, subject, body, "GENERIC").insertedIntoOutbox();
     }
 
-    public boolean sendRegistrationEmail(String recipientEmail, String generatedPassword) {
-        String subject = "IPOS-PU Registration Credentials";
-        String body = "Welcome to IPOS-PU.\n\nUsername: " + recipientEmail +
-                "\nTemporary Password: " + generatedPassword +
-                "\nPlease change your password at first login.";
+    public OutboundEmailResult sendRegistrationEmail(String recipientEmail, String generatedPassword) {
+        String subject = "Welcome to IPOS-PU — your login details";
+        String body = String.format(
+                "Hello, %s%n%n"
+                        + "Welcome to IPOS_PU!%n%n"
+                        + "Below are your log-in details, including your first time password which should be changed "
+                        + "during first log-in.%n%n"
+                        + "Username: %s%n"
+                        + "Temporary Password: %s%n%n"
+                        + "Thank you for signing up!%n%n"
+                        + "Kind regards,%n"
+                        + "IPOS-PU Team",
+                recipientEmail,
+                recipientEmail,
+                generatedPassword);
         return commsRepository.saveOutboundEmail(recipientEmail, subject, body, "REGISTRATION");
     }
 
-    public boolean sendOrderConfirmation(String recipientEmail, String orderId, String status, String trackingCode) {
-        String subject = "Order Confirmation - " + orderId;
-        String body = "Your order " + orderId + " has been received.\nCurrent status: " + status +
-                "\n\nTracking code: " + trackingCode +
-                "\nKeep this code. You can track your order in IPOS-PU under Orders / Tracking using this email and the tracking code." +
-                "\n\nNote: In this demo, outbound mail is simulated. The same message is stored in the database table email_outbox " +
-                "(check purpose ORDER_CONFIRMATION). A real deployment would send it via SMTP or a provider." +
-                "\n\nStatus lifecycle: RECEIVED -> DISPATCHED -> DELIVERED";
-        return commsRepository.saveOutboundEmail(recipientEmail, subject, body, "ORDER_CONFIRMATION");
+    
+    public boolean sendOrderConfirmation(
+            String recipientEmail,
+            String orderId,
+            String status,
+            String trackingCode,
+            boolean guestCheckout) {
+        String subject = "Your IPOS-PU order — " + orderId;
+        String intro = guestCheckout
+                ? "Thank you for your order as a guest."
+                : "Thank you for your order.";
+        String body = String.format(
+                "Hello, %s%n%n"
+                        + "%s%n%n"
+                        + "Order reference: %s%n"
+                        + "Current status: %s%n"
+                        + "Tracking code: %s%n%n"
+                        + "Please keep your tracking code safe. You can track this order in IPOS-PU using this email "
+                        + "address and your tracking code under Orders / Tracking.%n%n"
+                        + "Kind regards,%n"
+                        + "IPOS-PU Team",
+                recipientEmail,
+                intro,
+                orderId,
+                status,
+                trackingCode);
+        return commsRepository.saveOutboundEmail(recipientEmail, subject, body, "ORDER_CONFIRMATION").insertedIntoOutbox();
     }
 }

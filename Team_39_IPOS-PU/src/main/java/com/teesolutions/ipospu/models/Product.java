@@ -6,7 +6,7 @@ public class Product {
     private String description;
     private double retailPrice;
     private int stockQuantity;
-    private double vatRate; // The brief specifies a configurable VAT rate
+    private double vatRate;
 
     public Product(String productId, String name, String description, double retailPrice, int stockQuantity, double vatRate) {
         this.productId = productId;
@@ -17,7 +17,7 @@ public class Product {
         this.vatRate = vatRate;
     }
 
-    // --- Getters ---
+
     public String getProductId() { return productId; }
     public String getName() { return name; }
     public String getDescription() { return description; }
@@ -25,14 +25,11 @@ public class Product {
     public int getStockQuantity() { return stockQuantity; }
     public double getVatRate() { return vatRate; }
 
-    // --- Setters ---
+
     public void setStockQuantity(int stockQuantity) { this.stockQuantity = stockQuantity; }
     public void setRetailPrice(double retailPrice) { this.retailPrice = retailPrice; }
 
-    // --- Business Logic ---
-    /**
-     * Calculates the final price including the VAT rate.
-     */
+
     public double getPriceWithVat() {
         return retailPrice + (retailPrice * vatRate);
     }

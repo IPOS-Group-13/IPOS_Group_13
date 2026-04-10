@@ -21,7 +21,7 @@ These capabilities are implemented in the JavaFX app and backed by the PU MySQL 
 | Login | Email **or** PDF-style username (`PU0001`, `PU0002`, `sysdba`, `manager`) via `login_alias` |
 | Sample PU users | Seeded: `cool@example.com` / `cool1@example.com`, admins `sysdba@ipos.local` / `manager@ipos.local` (PDF passwords) |
 | Guest checkout | Continue as guest; checkout without member account |
-| Catalogue | PDF-aligned Cosymed product ids (`10000001`, …), retail = 2× package cost (100% markup, 0% VAT in seed) |
+| Catalogue | PDF-aligned ids; **`products.retail_price`** = customer price (PDF package cost × (1 + `retail_markup_percent`/100) × (1 + `vat_rate`/100), default **100%** markup + **0%** VAT → **2×** package cost); stock = PDF availability; see **`RetailPricing`** + **`app_config`** |
 | Cart, search, promotions UI | Keyword search; Promotions tab; campaign discounts on lines |
 | Campaigns (admin) | Create / update / cancel / terminate / delete; overlap protection |
 | Seeded campaigns | **March Promotion** and **April Promotion** (PDF scenarios 17–18 dates and discount lines) |
@@ -32,7 +32,7 @@ These capabilities are implemented in the JavaFX app and backed by the PU MySQL 
 | Commercial application | Validation (incl. PDF-style UK company reg); handoff today via mock → `commercial_applications`; Pond Pharmacy sample row seeded |
 | Reports | Sales, campaign, engagement + print |
 | Shared DB safety | `db.init.mode=SHARED` skips auto `schema.sql` / `seed.sql` on startup (recommended for Railway) |
-| Cross-team integration | Still **mocked**: `MockInventoryApiClient` (CA), `MockMemberApiClient` (SA) |
+| Cross-team integration | **CA:** **`db.inventory.api=ca`** → shop + checkout use **`getCatalogue()`** / stock / orders on **`ipos_ca.Inventory`** (+ PU order tables). **SA:** still **`MockMemberApiClient`** until wired |
 
 **Rough progress (same spirit as [FINAL_SHARED_DB_DELIVERY_CHECKLIST.md](FINAL_SHARED_DB_DELIVERY_CHECKLIST.md)):**
 
@@ -69,7 +69,7 @@ The PDF mixes **SA**, **CA**, and **PU** data and stories. Below: what you can *
 | Scenario 19 (PU slice) | Guest + promo + pay | Continue as guest; add e.g. Aspirin + Retin-A; valid card; future `MM/YY` | Order succeeds; `orders`, `payments`, `email_outbox` rows; stock reduced in **local** `products` |
 | Scenario 20 (PU slice) | PU0001 ninth order / loyalty | Log in as PU0001; optional Ospen checkout; or `UPDATE users SET completed_order_count = 9` then checkout for 10th-order loyalty | 9th: no loyalty discount; 10th: 10% on order total |
 | PU0003 sample | Commercial row | Query `commercial_applications` for `pondPharma@example.com` | Row with UK reg normalised; **not** a separate login account unless you extend the model |
-| VAT note (CA retail rule) | N/A in PU totals | PU seed sets `app_config.vat_rate` to `0`; prices in seed follow 100% markup rule | Consistent with PDF CA retail description for demo |
+| VAT / markup (sample sheet + brief) | N/A on PU cart beyond config | `app_config`: `retail_markup_percent` = 100, `vat_rate` = 0; CA JDBC catalogue uses **`RetailPricing`** on `Package_cost` | No extra CA columns |
 
 Use [DEMO_CHEATSHEET_ONE_PAGE.md](DEMO_CHEATSHEET_ONE_PAGE.md) for exact SQL snippets.
 

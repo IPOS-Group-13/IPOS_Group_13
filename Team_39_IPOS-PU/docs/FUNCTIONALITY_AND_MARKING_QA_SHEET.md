@@ -55,7 +55,7 @@ Use this when lecturers or teammates ask **how** features work, **where** they l
 
 - **What it does:** Lists active products; keyword filter.
 - **How it is coded:** `CatalogService.search` → `ProductRepository.findActiveProducts`; promotions merge via `CampaignRepository.getActiveDiscountByProduct` for cart line discounts.
-- **PDF:** Product ids align with Cosymed catalogue (`10000001`, …); retail pricing rule is reflected in seed (markup / VAT config in `app_config` for demo).
+- **PDF / pricing:** Product ids align with Cosymed catalogue (`10000001`, …). **`products.retail_price`** is the **customer** unit price: PDF **package cost** with **100%** markup and **0%** VAT (2× cost) via `app_config` keys `retail_markup_percent` and `vat_rate`. Stock matches PDF availability. **`RetailPricing`** applies the same rule when reading CA **`Package_cost`** at integration time.
 
 ### 4.3 Promotions / campaigns (scenarios 17–18)
 

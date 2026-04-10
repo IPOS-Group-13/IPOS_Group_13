@@ -2,8 +2,12 @@ package com.teesolutions.ipospu.controllers;
 
 import com.teesolutions.ipospu.dto.CommercialApplicationDto;
 import com.teesolutions.ipospu.dto.InventoryItemDto;
+import com.teesolutions.ipospu.dto.NonCommercialRegistrationResult;
+import com.teesolutions.ipospu.dto.OutboundEmailResult;
+import com.teesolutions.ipospu.mail.SmtpDispatchOutcome;
 import com.teesolutions.ipospu.dto.PaymentRequest;
-import com.teesolutions.ipospu.integrations.MockMemberApiClient;
+import com.teesolutions.ipospu.api.I_MemberAPI;
+import com.teesolutions.ipospu.config.MemberApiFactory;
 import com.teesolutions.ipospu.models.CartItem;
 import com.teesolutions.ipospu.models.Order;
 import com.teesolutions.ipospu.models.User;
@@ -11,8 +15,11 @@ import com.teesolutions.ipospu.services.AuthService;
 import com.teesolutions.ipospu.services.CampaignService;
 import com.teesolutions.ipospu.services.CatalogService;
 import com.teesolutions.ipospu.services.OrderService;
+import com.teesolutions.ipospu.services.ExternalCommsQueueService;
 import com.teesolutions.ipospu.services.ReportService;
 import com.teesolutions.ipospu.utils.ReportDateRange;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.animation.FadeTransition;
 import javafx.animation.ParallelTransition;
 import javafx.animation.PauseTransition;
@@ -88,7 +95,8 @@ public class PortalController {
     private final OrderService orderService = new OrderService();
     private final CampaignService campaignService = new CampaignService();
     private final ReportService reportService = new ReportService();
-    private final MockMemberApiClient memberApiClient = new MockMemberApiClient();
+    private final ExternalCommsQueueService externalCommsQueueService = new ExternalCommsQueueService();
+    private final I_MemberAPI memberApiClient = MemberApiFactory.create();
     private final ObservableList<InventoryItemDto> catalogue = FXCollections.observableArrayList();
     private final ObservableList<CartItem> cart = FXCollections.observableArrayList();
     private final ObservableList<Order> orders = FXCollections.observableArrayList();
@@ -296,6 +304,27 @@ public class PortalController {
         updateSessionState();
         clearLastOrderBanner();
         Platform.runLater(this::installInteractiveAnimations);
+        startExternalCommsQueuePoller();
+    }
+
+    
+    private void startExternalCommsQueuePoller() {
+        drainExternalCommsSilently();
+        Timeline poller = new Timeline(new KeyFrame(Duration.seconds(45), e -> drainExternalCommsSilently()));
+        poller.setCycleCount(Timeline.INDEFINITE);
+        poller.play();
+    }
+
+    private void drainExternalCommsSilently() {
+        Thread worker = new Thread(() -> {
+            try {
+                externalCommsQueueService.drainPendingToOutbox(50);
+            } catch (Exception ignored) {
+
+            }
+        }, "ipospu-external-comms-drain");
+        worker.setDaemon(true);
+        worker.start();
     }
 
     private void bindTables() {
@@ -478,11 +507,13 @@ public class PortalController {
                 "Creating...",
                 () -> {
                     String email = authService.requireValidEmail(regNonCommercialEmailField.getText());
-                    return new GeneratedPasswordResult(email, authService.registerNonCommercial(email));
+                    return authService.registerNonCommercial(email);
                 },
                 result -> {
-                    showInlineRegistrationSuccess(result.email(), result.password());
-                    showCustomerMessage("Account created successfully. Your temporary password is ready.", CustomerMessageType.SUCCESS);
+                    showInlineRegistrationSuccess(result.email(), result.temporaryPassword());
+                    showCustomerMessage(
+                            registrationMailUiMessage(result),
+                            registrationMailToastType(result));
                 },
                 ex -> showCustomerMessage(messageFromException(ex), CustomerMessageType.ERROR)
         );
@@ -572,7 +603,7 @@ public class PortalController {
         );
     }
 
-    /** Loads catalogue in the background without the busy overlay (e.g. before login). */
+    
     private void refreshCatalogueQuiet(String keyword) {
         String kw = keyword == null ? "" : keyword;
         Task<CatalogueSnapshot> task = new Task<>() {
@@ -757,7 +788,8 @@ public class PortalController {
                             updateTotal();
                             checkoutFeedbackLabel.setText(DEFAULT_STOCK_CHECK_MESSAGE);
                             showCustomerMessage(
-                                    "Order placed successfully. Tracking code: " + result.getTrackingCode() + ".",
+                                    "Order placed: Please check your email for confirmation and tracking details "
+                                            + "(check spam if not in inbox).",
                                     CustomerMessageType.SUCCESS
                             );
                             trackingEmailField.setText(checkoutEmail);
@@ -1483,7 +1515,7 @@ public class PortalController {
             try {
                 return LocalDateTime.parse(trimmed, format);
             } catch (Exception ignored) {
-                // Try the next supported format.
+
             }
         }
         throw new IllegalArgumentException("Use date format yyyy-MM-ddTHH:mm or yyyy-MM-dd HH:mm");
@@ -1609,7 +1641,7 @@ public class PortalController {
         return dateTime.format(DateTimeFormatter.ofPattern("dd MMM yyyy HH:mm"));
     }
 
-    /** Campaign times in DB are stored as UTC wall-clock (matches JDBC URL serverTimezone=UTC). */
+    
     private String formatCampaignRangeUtc(LocalDateTime startUtc, LocalDateTime endUtc) {
         return formatDateTime(startUtc) + " UTC → " + formatDateTime(endUtc) + " UTC";
     }
@@ -1786,7 +1818,7 @@ public class PortalController {
             try {
                 return Integer.parseInt(cancelCampaignIdField.getText().trim());
             } catch (NumberFormatException ignored) {
-                // Fall through to the shared error below.
+
             }
         }
         throw new IllegalArgumentException("Select a campaign row first");
@@ -1839,7 +1871,7 @@ public class PortalController {
             try {
                 return YearMonth.parse(value, DateTimeFormatter.ofPattern(pattern));
             } catch (DateTimeParseException ignored) {
-                // Try the next accepted pattern.
+
             }
         }
         return null;
@@ -1850,7 +1882,7 @@ public class PortalController {
             try {
                 return LocalDate.parse(value, DateTimeFormatter.ofPattern(pattern));
             } catch (DateTimeParseException ignored) {
-                // Try the next accepted pattern.
+
             }
         }
         return null;
@@ -2049,7 +2081,30 @@ public class PortalController {
     ) {
     }
 
-    private record GeneratedPasswordResult(String email, String password) {
+    private static String registrationMailUiMessage(NonCommercialRegistrationResult r) {
+        OutboundEmailResult o = r.outboundEmail();
+        if (!o.insertedIntoOutbox()) {
+            return "Account created. We could not queue your welcome email — your temporary password is shown below.";
+        }
+        SmtpDispatchOutcome smtp = o.smtp();
+        return switch (smtp.type()) {
+            case DISABLED, SUCCESS ->
+                    "Account created: Please check your email for your log-in details (check spam if not in inbox). "
+                            + "Your temporary password is also shown below.";
+            case SKIPPED_BAD_CONFIG, FAILED ->
+                    "Account created: We could not send the email. Your temporary password is shown below.";
+        };
+    }
+
+    private static CustomerMessageType registrationMailToastType(NonCommercialRegistrationResult r) {
+        OutboundEmailResult o = r.outboundEmail();
+        if (!o.insertedIntoOutbox()) {
+            return CustomerMessageType.ERROR;
+        }
+        return switch (o.smtp().type()) {
+            case FAILED, SKIPPED_BAD_CONFIG -> CustomerMessageType.ERROR;
+            case DISABLED, SUCCESS -> CustomerMessageType.SUCCESS;
+        };
     }
 
     private enum CustomerMessageType {

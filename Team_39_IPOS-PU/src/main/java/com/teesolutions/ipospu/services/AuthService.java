@@ -1,6 +1,8 @@
 package com.teesolutions.ipospu.services;
 
 import com.teesolutions.ipospu.dto.CommercialApplicationDto;
+import com.teesolutions.ipospu.dto.NonCommercialRegistrationResult;
+import com.teesolutions.ipospu.dto.OutboundEmailResult;
 import com.teesolutions.ipospu.models.User;
 import com.teesolutions.ipospu.repositories.UserRepository;
 import com.teesolutions.ipospu.utils.PasswordUtil;
@@ -12,7 +14,7 @@ import java.util.regex.Pattern;
 public class AuthService {
     private static final Pattern EMAIL_PATTERN =
             Pattern.compile("^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$");
-    /** 8 digits, 2 letters + 6 digits, or UK + 8 digits + optional suffix (e.g. university sample UK10003429CompH). */
+    
     private static final Pattern COMPANY_REGISTRATION_PATTERN =
             Pattern.compile("^(?:\\d{8}|[A-Z]{2}\\d{6}|UK\\d{8}[A-Za-z]*)$", Pattern.CASE_INSENSITIVE);
     private static final Pattern PERSON_NAME_PATTERN =
@@ -34,15 +36,16 @@ public class AuthService {
         return userRepository.findById(auth.get());
     }
 
-    public String registerNonCommercial(String email) {
+    
+    public NonCommercialRegistrationResult registerNonCommercial(String email) {
         String normalizedEmail = requireValidEmail(email);
         if (userRepository.findByEmail(normalizedEmail).isPresent()) {
             throw new IllegalArgumentException("Email is already registered");
         }
         String generatedPassword = SecurityUtil.generateInitialPassword();
         userRepository.createNonCommercialUser(normalizedEmail, PasswordUtil.hash(generatedPassword));
-        commsService.sendRegistrationEmail(normalizedEmail, generatedPassword);
-        return generatedPassword;
+        OutboundEmailResult outbound = commsService.sendRegistrationEmail(normalizedEmail, generatedPassword);
+        return new NonCommercialRegistrationResult(normalizedEmail, generatedPassword, outbound);
     }
 
     public void forcePasswordChange(int userId, String newPassword, String confirmPassword) {

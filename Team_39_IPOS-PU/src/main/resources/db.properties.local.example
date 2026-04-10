@@ -1,0 +1,7 @@
+db.host=localhost
+db.port=3306
+db.name=ipos_pu
+db.username=root
+db.password=root
+db.init.mode=LOCAL
+db.inventory.api=mock

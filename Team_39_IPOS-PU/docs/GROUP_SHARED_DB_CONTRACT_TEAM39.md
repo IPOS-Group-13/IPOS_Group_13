@@ -185,6 +185,10 @@ Do these in order.
 
 # DBA / Aden — permissions cheat sheet
 
+**Runnable template:** `docs/sql/pu_integration_grants_TEMPLATE.sql` (edit `<<PLACEHOLDERS>>` after CA/SA name their tables).  
+**Table ownership summary:** `docs/INTEGRATION_TABLES_AND_GRANTS.md`.  
+**CA JDBC client (inventory):** `docs/CA_INVENTORY_API_JDBC_CLIENT.md`.
+
 Whoever manages MySQL grants should ensure PU’s user can:
 
 - **Read** CA catalogue object(s).

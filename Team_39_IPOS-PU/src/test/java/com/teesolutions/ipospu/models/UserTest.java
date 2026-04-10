@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 class UserTest {
     @Test
     void nonCommercialNinthOrderGetsLoyaltyDiscount() {
-        User user = new User(1, "cool@example.com", "NON_COMMERCIAL", false, 9);
+        User user = new User(1, "dimitarprem@gmail.com", "NON_COMMERCIAL", false, 9);
         assertTrue(user.isEligibleForLoyaltyDiscount());
     }
 

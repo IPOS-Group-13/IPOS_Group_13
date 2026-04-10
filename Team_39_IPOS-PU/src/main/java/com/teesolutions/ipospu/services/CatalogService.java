@@ -1,5 +1,7 @@
 package com.teesolutions.ipospu.services;
 
+import com.teesolutions.ipospu.api.I_InventoryAPI;
+import com.teesolutions.ipospu.config.InventoryApiFactory;
 import com.teesolutions.ipospu.dto.InventoryItemDto;
 import com.teesolutions.ipospu.repositories.CampaignRepository;
 import com.teesolutions.ipospu.repositories.ProductRepository;
@@ -14,11 +16,18 @@ import java.util.Optional;
 
 public class CatalogService {
 
+    private final I_InventoryAPI inventoryApi = InventoryApiFactory.create();
     private final ProductRepository productRepository = new ProductRepository();
     private final CampaignRepository campaignRepository = new CampaignRepository();
 
     public List<InventoryItemDto> search(String keyword) {
-        List<InventoryItemDto> raw = productRepository.findActiveProducts(keyword == null ? "" : keyword.trim());
+        String k = keyword == null ? "" : keyword.trim();
+        List<InventoryItemDto> raw;
+        if (InventoryApiFactory.isCaInventoryEnabled()) {
+            raw = filterCatalogueByKeyword(inventoryApi.getCatalogue(), k);
+        } else {
+            raw = productRepository.findActiveProducts(k);
+        }
         return dedupeSameNamePreferNonLegacyId(raw);
     }
 
@@ -31,7 +40,31 @@ public class CatalogService {
     }
 
     public Optional<InventoryItemDto> findProduct(String productId) {
+        if (InventoryApiFactory.isCaInventoryEnabled()) {
+            if (productId == null) {
+                return Optional.empty();
+            }
+            return inventoryApi.getCatalogue().stream()
+                    .filter(p -> productId.equals(p.getProductId()))
+                    .findFirst();
+        }
         return productRepository.findById(productId);
+    }
+
+    private static List<InventoryItemDto> filterCatalogueByKeyword(List<InventoryItemDto> all, String keyword) {
+        if (keyword.isEmpty()) {
+            return new ArrayList<>(all);
+        }
+        String lower = keyword.toLowerCase();
+        List<InventoryItemDto> out = new ArrayList<>();
+        for (InventoryItemDto item : all) {
+            String name = item.getName() != null ? item.getName().toLowerCase() : "";
+            String desc = item.getDescription() != null ? item.getDescription().toLowerCase() : "";
+            if (name.contains(lower) || desc.contains(lower)) {
+                out.add(item);
+            }
+        }
+        return out;
     }
 
     private static List<InventoryItemDto> dedupeSameNamePreferNonLegacyId(List<InventoryItemDto> items) {

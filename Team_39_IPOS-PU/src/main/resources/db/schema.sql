@@ -118,6 +118,21 @@ CREATE TABLE IF NOT EXISTS email_outbox (
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
+
+CREATE TABLE IF NOT EXISTS external_comms_queue (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    recipient_email VARCHAR(255) NOT NULL,
+    subject VARCHAR(255) NOT NULL,
+    body MEDIUMTEXT NOT NULL,
+    purpose VARCHAR(64) NOT NULL,
+    source_system VARCHAR(16) NOT NULL,
+    reference_key VARCHAR(128) NULL,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    consumed_at TIMESTAMP NULL DEFAULT NULL,
+    KEY idx_ext_comms_pending (consumed_at),
+    KEY idx_ext_comms_source_ref (source_system, reference_key)
+);
+
 CREATE TABLE IF NOT EXISTS app_config (
     config_key VARCHAR(64) PRIMARY KEY,
     config_value VARCHAR(255) NOT NULL

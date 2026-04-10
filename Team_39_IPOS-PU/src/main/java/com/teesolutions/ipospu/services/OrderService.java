@@ -3,10 +3,12 @@ package com.teesolutions.ipospu.services;
 import com.teesolutions.ipospu.dto.CartLineDto;
 import com.teesolutions.ipospu.dto.OnlineOrderRequest;
 import com.teesolutions.ipospu.dto.OnlineOrderResult;
+import com.teesolutions.ipospu.dto.OrderStatusDto;
 import com.teesolutions.ipospu.dto.PaymentRequest;
 import com.teesolutions.ipospu.dto.PaymentResult;
+import com.teesolutions.ipospu.api.I_InventoryAPI;
+import com.teesolutions.ipospu.config.InventoryApiFactory;
 import com.teesolutions.ipospu.dto.StockReservationResult;
-import com.teesolutions.ipospu.integrations.MockInventoryApiClient;
 import com.teesolutions.ipospu.models.CartItem;
 import com.teesolutions.ipospu.models.Order;
 import com.teesolutions.ipospu.models.User;
@@ -22,7 +24,7 @@ import java.util.Collections;
 import java.util.Optional;
 
 public class OrderService {
-    private final MockInventoryApiClient inventoryApiClient = new MockInventoryApiClient();
+    private final I_InventoryAPI inventoryApiClient = InventoryApiFactory.create();
     private final PaymentService paymentService = new PaymentService();
     private final PaymentRepository paymentRepository = new PaymentRepository();
     private final OrderRepository orderRepository = new OrderRepository();
@@ -74,7 +76,7 @@ public class OrderService {
             discount.put(item.getProductId(), item.getDiscountPercent());
         }
 
-        // Final stock check to handle race condition.
+
         StockReservationResult stockCheck = inventoryApiClient.reserveOrReject(lines);
         if (!stockCheck.isSuccess()) {
             return CheckoutResult.fail(
@@ -101,7 +103,8 @@ public class OrderService {
             return CheckoutResult.fail("Payment failed: " + paymentResult.getMessage());
         }
 
-        OnlineOrderResult inventoryPropagation = inventoryApiClient.submitOnlineOrder(new OnlineOrderRequest(orderId, deliveryAddress, lines));
+        OnlineOrderResult inventoryPropagation = inventoryApiClient.submitOnlineOrder(
+                new OnlineOrderRequest(orderId, deliveryAddress, normalizedCustomerEmail, lines));
         if (!inventoryPropagation.isAccepted()) {
             paymentRepository.savePayment(null, actualPayment, paymentResult);
             return CheckoutResult.fail("Payment completed but stock propagation failed. Please contact support.");
@@ -127,13 +130,20 @@ public class OrderService {
             authService.incrementCompletedOrders(user.getUserId());
             user.setCompletedOrderCount(user.getCompletedOrderCount() + 1);
         }
-        commsService.sendOrderConfirmation(normalizedCustomerEmail, orderId, "RECEIVED", trackingCode);
+        commsService.sendOrderConfirmation(
+                normalizedCustomerEmail, orderId, "RECEIVED", trackingCode, user == null);
 
         return CheckoutResult.success(orderId, trackingCode, total);
     }
 
     public List<Order> getOrderHistory(int userId) {
-        return orderRepository.findOrdersByUser(userId);
+        List<Order> list = orderRepository.findOrdersByUser(userId);
+        if (InventoryApiFactory.isCaInventoryEnabled()) {
+            for (Order o : list) {
+                mergeCaStatusOntoOrder(o);
+            }
+        }
+        return list;
     }
 
     public Optional<Order> findOrderByTracking(String customerEmail, String trackingCode) {
@@ -141,7 +151,20 @@ public class OrderService {
         if (trackingCode == null || trackingCode.isBlank()) {
             throw new IllegalArgumentException("Tracking code is required");
         }
-        return orderRepository.findOrderByTracking(normalizedCustomerEmail, trackingCode.trim());
+        Optional<Order> found = orderRepository.findOrderByTracking(normalizedCustomerEmail, trackingCode.trim());
+        found.ifPresent(this::mergeCaStatusOntoOrder);
+        return found;
+    }
+
+    
+    private void mergeCaStatusOntoOrder(Order order) {
+        if (!InventoryApiFactory.isCaInventoryEnabled() || order == null) {
+            return;
+        }
+        OrderStatusDto ca = inventoryApiClient.getOrderStatus(order.getOrderId());
+        if (ca != null && ca.getStatus() != null && !"VOID".equalsIgnoreCase(ca.getStatus().trim())) {
+            order.setStatus(ca.getStatus().trim());
+        }
     }
 
     public static class CheckoutResult {

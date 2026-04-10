@@ -16,7 +16,7 @@ class PaymentServiceTest {
     void acceptsValidPaymentRequest() {
         PaymentService service = new PaymentService();
         PaymentResult result = service.processPayment(new PaymentRequest(
-                "cool@example.com",
+                "dimitarprem@gmail.com",
                 25.50,
                 "DEBIT",
                 "1234",
@@ -30,7 +30,7 @@ class PaymentServiceTest {
     void rejectsInvalidCardFragments() {
         PaymentService service = new PaymentService();
         PaymentResult result = service.processPayment(new PaymentRequest(
-                "cool@example.com",
+                "dimitarprem@gmail.com",
                 25.50,
                 "DEBIT",
                 "123",
@@ -44,7 +44,7 @@ class PaymentServiceTest {
     void rejectsNonPositiveAmount() {
         PaymentService service = new PaymentService();
         PaymentResult result = service.processPayment(new PaymentRequest(
-                "cool@example.com",
+                "dimitarprem@gmail.com",
                 0,
                 "DEBIT",
                 "1234",
@@ -59,7 +59,7 @@ class PaymentServiceTest {
     void rejectsNonNumericCardFragments() {
         PaymentService service = new PaymentService();
         PaymentResult result = service.processPayment(new PaymentRequest(
-                "cool@example.com",
+                "dimitarprem@gmail.com",
                 25.50,
                 "DEBIT",
                 "12A4",
@@ -74,7 +74,7 @@ class PaymentServiceTest {
     void rejectsMissingCardType() {
         PaymentService service = new PaymentService();
         PaymentResult result = service.processPayment(new PaymentRequest(
-                "cool@example.com",
+                "dimitarprem@gmail.com",
                 25.50,
                 " ",
                 "1234",
@@ -89,7 +89,7 @@ class PaymentServiceTest {
     void rejectsExpiredCard() {
         PaymentService service = new PaymentService();
         PaymentResult result = service.processPayment(new PaymentRequest(
-                "cool@example.com",
+                "dimitarprem@gmail.com",
                 25.50,
                 "DEBIT",
                 "1234",
@@ -104,7 +104,7 @@ class PaymentServiceTest {
     void rejectsMalformedExpiry() {
         PaymentService service = new PaymentService();
         PaymentResult result = service.processPayment(new PaymentRequest(
-                "cool@example.com",
+                "dimitarprem@gmail.com",
                 25.50,
                 "DEBIT",
                 "1234",

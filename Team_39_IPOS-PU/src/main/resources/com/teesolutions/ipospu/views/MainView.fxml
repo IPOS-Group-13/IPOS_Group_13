@@ -64,7 +64,7 @@
                             <GridPane hgap="10" vgap="10">
                                 <Label styleClass="field-label" text="Email or username" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
                                 <TextField fx:id="loginEmailField" styleClass="input login-input-wide"
-                                           promptText="e.g. cool@example.com or PU0001"
+                                           promptText="e.g. dimitarprem@gmail.com or PU0001"
                                            GridPane.rowIndex="1" GridPane.columnIndex="0"/>
                                 <Label styleClass="field-label" text="Password" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
                                 <PasswordField fx:id="loginPasswordField" styleClass="input login-input-wide"

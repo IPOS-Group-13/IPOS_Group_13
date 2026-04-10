@@ -4,9 +4,9 @@ import java.time.LocalDateTime;
 
 public class Order {
     private String orderId;
-    private int userId; // Links back to the User who made the purchase
+    private int userId;
     private double totalAmount;
-    private String status; // "RECEIVED", "DISPATCHED", "DELIVERED", "VOID"
+    private String status;
     private String trackingCode;
     private LocalDateTime orderDate;
 
@@ -19,7 +19,7 @@ public class Order {
         this.orderDate = orderDate;
     }
 
-    // --- Getters ---
+
     public String getOrderId() { return orderId; }
     public int getUserId() { return userId; }
     public double getTotalAmount() { return totalAmount; }
@@ -27,7 +27,7 @@ public class Order {
     public String getTrackingCode() { return trackingCode; }
     public LocalDateTime getOrderDate() { return orderDate; }
 
-    // --- Setters ---
+
     public void setStatus(String status) { this.status = status; }
     public void setTrackingCode(String trackingCode) { this.trackingCode = trackingCode; }
 }

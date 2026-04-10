@@ -1,17 +1,31 @@
 package com.teesolutions.ipospu.utils;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.Reader;
+import java.io.StringReader;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
+import java.security.CodeSource;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Properties;
+import java.util.regex.Pattern;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class DatabaseManager {
     private enum InitMode {
@@ -25,11 +39,7 @@ public class DatabaseManager {
     private static final String DB_USERNAME_DEFAULT = "root";
     private static final String DB_PASSWORD_DEFAULT = "root";
 
-    /**
-     * Schema/bootstrap runs once per JVM. After that, each {@link #getConnection()} opens its own
-     * {@link Connection} so background threads and the JavaFX thread never share one connection
-     * (MySQL would close the other thread's {@link java.sql.ResultSet}).
-     */
+    
     private static final Object INIT_LOCK = new Object();
     private static boolean initialized = false;
 
@@ -63,6 +73,9 @@ public class DatabaseManager {
     private static void initializeDatabaseOnce(Connection conn, DbConfig dbConfig) throws SQLException {
         if (dbConfig.initMode() == InitMode.SHARED) {
             System.out.println("Database init mode: SHARED (schema/seed skipped).");
+            ensureExternalCommsQueueTable(conn, dbConfig.url());
+            runSqlScript(conn, "db/shared_align_sample_data.sql");
+            System.out.println("Database init mode: SHARED (sample email/password alignment applied).");
             return;
         }
         runSqlScript(conn, "db/schema.sql");
@@ -71,10 +84,40 @@ public class DatabaseManager {
         System.out.println("Database init mode: LOCAL (schema/seed applied).");
     }
 
-    /**
-     * Older databases created before IPOS_SampleData_2026 alignment may lack {@code login_alias}.
-     * Safe to run repeatedly (ignored if column already exists).
-     */
+    
+    private static final AtomicBoolean LOGGED_EXT_COMMS_ENSURE_FAIL = new AtomicBoolean();
+    private static final AtomicBoolean LOGGED_CODE_SOURCE_CONFIG_FAIL = new AtomicBoolean();
+
+    
+    private static void ensureExternalCommsQueueTable(Connection conn, String jdbcUrl) {
+        if (jdbcUrl != null && jdbcUrl.trim().toLowerCase().startsWith("jdbc:sqlite:")) {
+            return;
+        }
+        String ddl = "CREATE TABLE IF NOT EXISTS external_comms_queue ("
+                + "id INT AUTO_INCREMENT PRIMARY KEY,"
+                + "recipient_email VARCHAR(255) NOT NULL,"
+                + "subject VARCHAR(255) NOT NULL,"
+                + "body MEDIUMTEXT NOT NULL,"
+                + "purpose VARCHAR(64) NOT NULL,"
+                + "source_system VARCHAR(16) NOT NULL,"
+                + "reference_key VARCHAR(128) NULL,"
+                + "created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,"
+                + "consumed_at TIMESTAMP NULL DEFAULT NULL,"
+                + "KEY idx_ext_comms_pending (consumed_at),"
+                + "KEY idx_ext_comms_source_ref (source_system, reference_key)"
+                + ")";
+        try (Statement st = conn.createStatement()) {
+            st.execute(ddl);
+            System.out.println("Ensured table external_comms_queue exists.");
+        } catch (SQLException e) {
+            if (LOGGED_EXT_COMMS_ENSURE_FAIL.compareAndSet(false, true)) {
+                System.err.println(
+                        "[PU] Could not auto-create external_comms_queue: " + e.getMessage()
+                                + " — run docs/sql/pu_external_comms_queue.sql as DBA if the queue is required.");
+            }
+        }
+    }
+
     private static void ensureLoginAliasColumn(Connection conn) {
         try (Statement statement = conn.createStatement()) {
             statement.execute("ALTER TABLE users ADD COLUMN login_alias VARCHAR(64) NULL UNIQUE");
@@ -135,17 +178,15 @@ public class DatabaseManager {
         return statements;
     }
 
-    /**
-     * Repositories close connections via try-with-resources. Nothing global remains open.
-     */
+    
     public static void closeConnection() {
-        // Intentionally empty: each getConnection() is paired with try-with-resources in callers.
+
     }
 
     private static DbConfig resolveDbConfig() {
         Properties localProperties = loadLocalDbProperties();
 
-        // Prefer host / port / name (same fields you type in MySQL Workbench). Use db.url only if those are not set.
+
         String url = buildJdbcUrlFromHostPortName(localProperties);
         if (url == null || url.isBlank()) {
             url = resolveValueAllowEmpty(localProperties, "db.url", "IPOS_DB_URL", null);
@@ -186,10 +227,7 @@ public class DatabaseManager {
                 || normalized.contains("://[::1]");
     }
 
-    /**
-     * Builds JDBC URL from db.host, db.port, db.name (and optional db.url.params), matching MySQL Workbench.
-     * Environment fallbacks: IPOS_DB_HOST, IPOS_DB_PORT, IPOS_DB_NAME, IPOS_DB_URL_PARAMS (semicolons are turned into ampersands for the query string).
-     */
+    
     private static String buildJdbcUrlFromHostPortName(Properties properties) {
         String host = firstNonBlank(trimToNull(properties.getProperty("db.host")), trimToNull(System.getenv("IPOS_DB_HOST")));
         String port = firstNonBlank(trimToNull(properties.getProperty("db.port")), trimToNull(System.getenv("IPOS_DB_PORT")));
@@ -232,15 +270,242 @@ public class DatabaseManager {
     }
 
     private static Properties loadLocalDbProperties() {
+        return getLocalConfigurationProperties();
+    }
+
+    
+    public static Properties getLocalConfigurationProperties() {
         Properties properties = new Properties();
         try (InputStream inputStream = getResourceStream(DB_LOCAL_PROPERTIES_RESOURCE)) {
-            if (inputStream == null) {
-                return properties;
+            if (inputStream != null) {
+                properties.load(new InputStreamReader(inputStream, StandardCharsets.UTF_8));
             }
-            properties.load(new InputStreamReader(inputStream, StandardCharsets.UTF_8));
-            return properties;
         } catch (IOException e) {
             throw new IllegalStateException("Failed to load resource: " + DB_LOCAL_PROPERTIES_RESOURCE, e);
+        }
+        mergeDiscoveredLocalConfigFiles(properties);
+        return properties;
+    }
+
+    
+    public static void overlayMailKeysFromDiscoveredDbLocalFiles(Properties properties) {
+        for (Path path : orderedDbPropertiesLocalFilePaths()) {
+            overlayMailKeysFromPath(properties, path);
+        }
+    }
+
+    
+    private static void mergeDiscoveredLocalConfigFiles(Properties properties) {
+        for (Path path : orderedDbPropertiesLocalFilePaths()) {
+            mergePropertiesFromPath(properties, path);
+        }
+    }
+
+    
+    private static List<Path> orderedDbPropertiesLocalFilePaths() {
+        List<Path> paths = new ArrayList<>();
+        Path cur = Paths.get(System.getProperty("user.dir", ".")).toAbsolutePath().normalize();
+        List<Path> fromCwdToRoot = new ArrayList<>();
+        for (int depth = 0; depth < 16 && cur != null; depth++) {
+            fromCwdToRoot.add(cur);
+            cur = cur.getParent();
+        }
+        List<Path> rootToCwd = new ArrayList<>(fromCwdToRoot);
+        Collections.reverse(rootToCwd);
+        for (Path base : rootToCwd) {
+            paths.add(base.resolve("db.properties.local"));
+            paths.add(base.resolve("src/main/resources/db.properties.local"));
+            paths.add(base.resolve("IPOS-PU/db.properties.local"));
+            paths.add(base.resolve("IPOS-PU/src/main/resources/db.properties.local"));
+        }
+        paths.addAll(codeSourceAncestorDbLocalPaths());
+        String envDir = System.getenv("IPOS_PU_CONFIG_DIR");
+        if (envDir != null && !envDir.isBlank()) {
+            paths.add(Paths.get(envDir.trim()).resolve("db.properties.local"));
+        }
+        String sysDir = System.getProperty("ipospu.config.dir");
+        if (sysDir != null && !sysDir.isBlank()) {
+            paths.add(Paths.get(sysDir.trim()).resolve("db.properties.local"));
+        }
+        paths.addAll(pathsFromPackagedDbPropertiesInfoMarker());
+        addClasspathExplodedOutputDirPropertyPaths(paths);
+        return paths;
+    }
+
+    
+    private static void addClasspathExplodedOutputDirPropertyPaths(List<Path> paths) {
+        String cp = System.getProperty("java.class.path");
+        if (cp == null || cp.isBlank()) {
+            return;
+        }
+        for (String entry : cp.split(Pattern.quote(File.pathSeparator))) {
+            if (entry == null || entry.isBlank()) {
+                continue;
+            }
+            Path dir = Paths.get(entry).toAbsolutePath().normalize();
+            if (!Files.isDirectory(dir)) {
+                continue;
+            }
+            Path beside = dir.resolve("db.properties.local").normalize();
+            if (Files.isRegularFile(beside)) {
+                paths.add(beside);
+            }
+            Path walk = dir;
+            for (int i = 0; i < 14 && walk != null; i++) {
+                Path candidate = walk.resolve("src/main/resources/db.properties.local").normalize();
+                if (Files.isRegularFile(candidate)) {
+                    paths.add(candidate);
+                    break;
+                }
+                walk = walk.getParent();
+            }
+        }
+    }
+
+    
+    private static List<Path> pathsFromPackagedDbPropertiesInfoMarker() {
+        List<Path> list = new ArrayList<>();
+        URL u = DatabaseManager.class.getClassLoader().getResource("db.properties.info");
+        if (u == null) {
+            u = DatabaseManager.class.getResource("/db.properties.info");
+        }
+        Path infoPath = fileUrlToPath(u);
+        if (infoPath == null || !Files.isRegularFile(infoPath)) {
+            return list;
+        }
+        Path outputDir = infoPath.getParent();
+        if (outputDir == null) {
+            return list;
+        }
+        Path inOutputTree = outputDir.resolve("db.properties.local").normalize();
+        list.add(inOutputTree);
+        Path walk = outputDir;
+        for (int i = 0; i < 12 && walk != null; i++) {
+            Path candidate = walk.resolve("src/main/resources/db.properties.local").normalize();
+            if (Files.isRegularFile(candidate)) {
+                list.add(candidate);
+                break;
+            }
+            walk = walk.getParent();
+        }
+        return list;
+    }
+
+    private static List<Path> codeSourceAncestorDbLocalPaths() {
+        List<Path> paths = new ArrayList<>();
+        Path codePath = resolveDatabaseManagerCodePathOrNull();
+        if (codePath == null || !Files.exists(codePath)) {
+            return paths;
+        }
+        if (Files.isRegularFile(codePath)) {
+            Path jarDir = codePath.getParent();
+            if (jarDir != null) {
+                paths.add(jarDir.resolve("db.properties.local"));
+            }
+            return paths;
+        }
+        List<Path> fromCodeDirToRoot = new ArrayList<>();
+        Path c = codePath.toAbsolutePath().normalize();
+        for (int depth = 0; depth < 16 && c != null; depth++) {
+            fromCodeDirToRoot.add(c);
+            c = c.getParent();
+        }
+        List<Path> rootToCodeDir = new ArrayList<>(fromCodeDirToRoot);
+        Collections.reverse(rootToCodeDir);
+        for (Path base : rootToCodeDir) {
+            paths.add(base.resolve("src/main/resources/db.properties.local"));
+            paths.add(base.resolve("db.properties.local"));
+        }
+        return paths;
+    }
+
+    private static Path resolveDatabaseManagerCodePathOrNull() {
+        try {
+            CodeSource cs = DatabaseManager.class.getProtectionDomain().getCodeSource();
+            if (cs == null || cs.getLocation() == null) {
+                return null;
+            }
+            return fileUrlToPath(cs.getLocation());
+        } catch (SecurityException e) {
+            if (LOGGED_CODE_SOURCE_CONFIG_FAIL.compareAndSet(false, true)) {
+                System.err.println("[config] CodeSource blocked for db.properties.local discovery: " + e.getMessage());
+            }
+            return null;
+        }
+    }
+
+    
+    private static Path fileUrlToPath(URL loc) {
+        if (loc == null || !"file".equalsIgnoreCase(loc.getProtocol())) {
+            return null;
+        }
+        try {
+            URI uri = loc.toURI();
+            if ("file".equalsIgnoreCase(uri.getScheme())) {
+                Path p = Paths.get(uri);
+                if (Files.exists(p)) {
+                    return p;
+                }
+            }
+        } catch (URISyntaxException | IllegalArgumentException ignored) {
+
+        }
+        try {
+            String p = loc.getPath();
+            if (p == null || p.isEmpty()) {
+                return null;
+            }
+            p = URLDecoder.decode(p, StandardCharsets.UTF_8);
+            if (p.startsWith("/") && p.length() >= 3 && p.charAt(2) == ':') {
+                p = p.substring(1);
+            }
+            Path path = Paths.get(p);
+            return Files.exists(path) ? path : null;
+        } catch (Exception e) {
+            if (LOGGED_CODE_SOURCE_CONFIG_FAIL.compareAndSet(false, true)) {
+                System.err.println("[config] Could not resolve CodeSource URL for config: " + loc + " — " + e.getMessage());
+            }
+            return null;
+        }
+    }
+
+    private static void overlayMailKeysFromPath(Properties target, Path path) {
+        if (!Files.isRegularFile(path)) {
+            return;
+        }
+        try {
+            String text = Files.readString(path, StandardCharsets.UTF_8);
+            if (!text.isEmpty() && text.charAt(0) == '\uFEFF') {
+                text = text.substring(1);
+            }
+            Properties chunk = new Properties();
+            try (StringReader reader = new StringReader(text)) {
+                chunk.load(reader);
+            }
+            for (String name : chunk.stringPropertyNames()) {
+                if (name != null && name.startsWith("mail.")) {
+                    target.setProperty(name, chunk.getProperty(name));
+                }
+            }
+        } catch (IOException e) {
+            throw new IllegalStateException("Failed to load mail overlay from " + path.toAbsolutePath(), e);
+        }
+    }
+
+    private static void mergePropertiesFromPath(Properties properties, Path path) {
+        if (!Files.isRegularFile(path)) {
+            return;
+        }
+        try {
+            String text = Files.readString(path, StandardCharsets.UTF_8);
+            if (!text.isEmpty() && text.charAt(0) == '\uFEFF') {
+                text = text.substring(1);
+            }
+            try (StringReader reader = new StringReader(text)) {
+                properties.load(reader);
+            }
+        } catch (IOException e) {
+            throw new IllegalStateException("Failed to load " + path.toAbsolutePath(), e);
         }
     }
 

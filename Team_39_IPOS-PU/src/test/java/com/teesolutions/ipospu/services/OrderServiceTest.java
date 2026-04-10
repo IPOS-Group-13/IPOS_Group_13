@@ -16,7 +16,7 @@ class OrderServiceTest {
     @Test
     void calculateCartTotalAppliesLoyaltyDiscountOnTenthOrder() {
         OrderService orderService = new OrderService();
-        User user = new User(1, "cool@example.com", "NON_COMMERCIAL", false, 9);
+        User user = new User(1, "dimitarprem@gmail.com", "NON_COMMERCIAL", false, 9);
         List<CartItem> items = List.of(
                 new CartItem("10000001", "Paracetamol", 10.0, 2, 0),
                 new CartItem("10000002", "Aspirin", 5.0, 1, 0)
@@ -42,7 +42,7 @@ class OrderServiceTest {
     @Test
     void checkoutFailsWhenCartIsEmpty() {
         OrderService orderService = new OrderService();
-        User user = new User(1, "cool@example.com", "NON_COMMERCIAL", false, 0);
+        User user = new User(1, "dimitarprem@gmail.com", "NON_COMMERCIAL", false, 0);
         PaymentRequest request = new PaymentRequest("member", 0, "DEBIT", "1234", "5678", futureExpiry());
 
         OrderService.CheckoutResult result = orderService.checkout(user, user.getEmail(), List.of(), "Address", request);
@@ -54,7 +54,7 @@ class OrderServiceTest {
     @Test
     void checkoutFailsWhenDeliveryAddressIsBlank() {
         OrderService orderService = new OrderService();
-        User user = new User(1, "cool@example.com", "NON_COMMERCIAL", false, 0);
+        User user = new User(1, "dimitarprem@gmail.com", "NON_COMMERCIAL", false, 0);
         List<CartItem> items = List.of(new CartItem("10000001", "Paracetamol", 10.0, 1, 0));
         PaymentRequest request = new PaymentRequest("member", 0, "DEBIT", "1234", "5678", futureExpiry());
 

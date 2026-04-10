@@ -7,6 +7,7 @@ TRUNCATE TABLE campaign_metrics;
 TRUNCATE TABLE campaign_items;
 TRUNCATE TABLE campaigns;
 TRUNCATE TABLE commercial_applications;
+TRUNCATE TABLE external_comms_queue;
 TRUNCATE TABLE email_outbox;
 TRUNCATE TABLE users;
 TRUNCATE TABLE products;

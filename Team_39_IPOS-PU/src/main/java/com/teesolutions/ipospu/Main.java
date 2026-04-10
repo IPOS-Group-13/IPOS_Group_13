@@ -26,14 +26,14 @@ public class Main extends Application {
 
     @Override
     public void stop() {
-        // Safely close the database when the user clicks the 'X' to close the app
+
         DatabaseManager.closeConnection();
     }
 
     public static void main(String[] args) {
-        // Trigger DB schema/bootstrap before the UI opens; close so we do not leak a connection.
+
         try (Connection ignored = DatabaseManager.getConnection()) {
-            // no-op
+
         } catch (SQLException e) {
             throw new IllegalStateException("Database bootstrap failed", e);
         }

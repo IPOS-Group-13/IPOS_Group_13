@@ -76,7 +76,7 @@ Please fill in and return:
 | Column for product id | |
 | Column for product name | |
 | Column for description | |
-| Column for retail price | |
+| Column for retail price | _(PU default: read **`Package_cost`**, apply **`RetailPricing`** / `app_config` markup + VAT — no extra CA column.)_ |
 | Column for stock quantity | |
 | Column for active/inactive status (if any) | |
 

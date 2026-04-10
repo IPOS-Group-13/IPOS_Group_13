@@ -22,9 +22,9 @@ class AuthServiceTest {
     void requireValidEmailTrimsWhitespace() {
         AuthService authService = new AuthService();
 
-        String normalized = authService.requireValidEmail("  cool1@example.com  ");
+        String normalized = authService.requireValidEmail("  test.ipos.pu@gmail.com  ");
 
-        assertEquals("cool1@example.com", normalized);
+        assertEquals("test.ipos.pu@gmail.com", normalized);
     }
 
     @Test

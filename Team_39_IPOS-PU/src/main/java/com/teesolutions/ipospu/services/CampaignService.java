@@ -87,10 +87,7 @@ public class CampaignService {
         return dedupePromotionItemsByName(campaignRepository.listPromotionItems());
     }
 
-    /**
-     * Hides legacy 8-digit sample rows when the same display name exists on a CA-style product id
-     * within the same campaign (matches catalogue deduplication).
-     */
+    
     private static List<Map<String, Object>> dedupePromotionItemsByName(List<Map<String, Object>> rows) {
         Map<PromotionGroupKey, List<Map<String, Object>>> groups = new LinkedHashMap<>();
         for (Map<String, Object> row : rows) {
