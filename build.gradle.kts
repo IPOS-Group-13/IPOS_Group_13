@@ -15,8 +15,12 @@ dependencies {
     testImplementation(platform("org.junit:junit-bom:5.10.0"))
     testImplementation("org.junit.jupiter:junit-jupiter")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+
+    implementation(platform("software.amazon.awssdk:bom:2.31.67"))
+    implementation("software.amazon.awssdk:s3")
     implementation("com.mysql:mysql-connector-j:9.0.0")
-    implementation("org.openjfx:javafx:25.0.2")
+    implementation("com.itextpdf:itext7-core:9.6.0")
+    runtimeOnly("org.slf4j:slf4j-simple:1.7.32")
 }
 
 tasks.test {

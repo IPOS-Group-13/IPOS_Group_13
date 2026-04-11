@@ -1,4 +1,4 @@
-package com.berrybyte.ORD.DTO;
+package com.berrybyte.ORD.helpers;
 
 import java.util.List;
 
@@ -7,6 +7,12 @@ public class InvoiceDetails {
     private final int invoiceId;
     private final int orderId;
     private final int merchantId;
+    private final String iposAccountNumber;
+    private final String companyName;
+    private final String merchantName;
+    private final String email;
+    private final String phoneNumber;
+    private final String address;
     private final String invoiceDate;
     private final String dueDate;
     private final double totalAmount;
@@ -16,6 +22,9 @@ public class InvoiceDetails {
     private final List<InvoiceLine> items;
 
     public InvoiceDetails(int invoiceId, int orderId, int merchantId,
+                          String iposAccountNumber, String companyName,
+                          String merchantName, String email,
+                          String phoneNumber, String address,
                           String invoiceDate, String dueDate,
                           double totalAmount, double amountPaid,
                           double outstandingBalance, String paymentStatus,
@@ -23,6 +32,12 @@ public class InvoiceDetails {
         this.invoiceId = invoiceId;
         this.orderId = orderId;
         this.merchantId = merchantId;
+        this.iposAccountNumber = iposAccountNumber;
+        this.companyName = companyName;
+        this.merchantName = merchantName;
+        this.email = email;
+        this.phoneNumber = phoneNumber;
+        this.address = address;
         this.invoiceDate = invoiceDate;
         this.dueDate = dueDate;
         this.totalAmount = totalAmount;
@@ -42,6 +57,30 @@ public class InvoiceDetails {
 
     public int getMerchantId() {
         return merchantId;
+    }
+
+    public String getIposAccountNumber() {
+        return iposAccountNumber;
+    }
+
+    public String getCompanyName() {
+        return companyName;
+    }
+
+    public String getMerchantName() {
+        return merchantName;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public String getAddress() {
+        return address;
     }
 
     public String getInvoiceDate() {

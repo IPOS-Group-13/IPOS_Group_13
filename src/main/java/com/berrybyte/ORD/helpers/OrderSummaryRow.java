@@ -1,4 +1,4 @@
-package com.berrybyte.ORD.DTO;
+package com.berrybyte.ORD.helpers;
 
 public class OrderSummaryRow {
 
@@ -11,6 +11,7 @@ public class OrderSummaryRow {
     private final String courierName;
     private final String courierRef;
     private final String expectedDelivery;
+    private final String deliveryDate;
 
     public OrderSummaryRow(int orderId,
                            String merchantName,
@@ -20,7 +21,8 @@ public class OrderSummaryRow {
                            String paidStatus,
                            String courierName,
                            String courierRef,
-                           String expectedDelivery) {
+                           String expectedDelivery,
+                           String deliveryDate) {
         this.orderId = orderId;
         this.merchantName = merchantName;
         this.dispatchedDate = dispatchedDate;
@@ -30,6 +32,7 @@ public class OrderSummaryRow {
         this.courierName = courierName;
         this.courierRef = courierRef;
         this.expectedDelivery = expectedDelivery;
+        this.deliveryDate = deliveryDate;
     }
 
     public int getOrderId() {
@@ -66,5 +69,9 @@ public class OrderSummaryRow {
 
     public String getExpectedDelivery() {
         return expectedDelivery;
+    }
+
+    public String getDeliveryDate() {
+        return deliveryDate;
     }
 }

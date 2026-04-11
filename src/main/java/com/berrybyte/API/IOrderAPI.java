@@ -1,6 +1,6 @@
 package com.berrybyte.API;
 
-import com.berrybyte.ORD.DTO.*;
+import com.berrybyte.ORD.helpers.*;
 import com.berrybyte.ORD.Status.AcceptOrderStatus;
 
 import java.time.LocalDate;
@@ -36,6 +36,7 @@ public interface IOrderAPI {
                                   LocalDateTime dispatchedDateTime,
                                   LocalDateTime expectedDeliveryDateTime,
                                   String status) throws Exception;
+    boolean markOrderAsDelivered(int orderId, LocalDateTime deliveredDateTime) throws Exception;
 
     String trackOrder(int orderId) throws Exception;
 }

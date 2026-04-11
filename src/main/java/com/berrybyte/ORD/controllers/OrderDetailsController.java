@@ -1,7 +1,7 @@
 package com.berrybyte.ORD.controllers;
 
-import com.berrybyte.ORD.DTO.OrderDetails;
-import com.berrybyte.ORD.DTO.OrderLine;
+import com.berrybyte.ORD.helpers.OrderDetails;
+import com.berrybyte.ORD.helpers.OrderLine;
 import com.berrybyte.ORD.Status.AcceptOrderStatus;
 import com.berrybyte.ORD.services.SaOrderService;
 import com.berrybyte.common.LoginSession;
@@ -16,11 +16,15 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Priority;
 import javafx.stage.Stage;
 
+import java.nio.file.Path;
 import java.util.List;
 
 public class OrderDetailsController {
@@ -100,7 +104,32 @@ public class OrderDetailsController {
         try {
             AcceptOrderStatus status = orderService.acceptOrder(orderId, staffUserId);
             if (status == AcceptOrderStatus.SUCCESS) {
-                showAlert(Alert.AlertType.INFORMATION, "Order accepted and invoice generated.");
+                try {
+                    Path pdfPath = orderService.generateInvoicePdfForOrder(orderId);
+                    try {
+                        String recipientEmail = orderService.queueOrderAcceptedEmailForOrder(orderId, pdfPath);
+                        showAlert(
+                                Alert.AlertType.INFORMATION,
+                                "Order accepted.\n\nInvoice PDF generated at:\n"
+                                        + pdfPath.toAbsolutePath()
+                                        + "\n\nOrder-accepted email queued for:\n"
+                                        + recipientEmail
+                        );
+                    } catch (Exception queueException) {
+                        queueException.printStackTrace();
+                        String failureReason = extractRootCauseMessage(queueException);
+                        showDetailedAlert(
+                                Alert.AlertType.WARNING,
+                                "Order accepted and invoice PDF generated at:\n"
+                                        + pdfPath.toAbsolutePath()
+                                        + "\n\nBut the invoice could not be uploaded and queued for email delivery.",
+                                failureReason
+                        );
+                    }
+                } catch (Exception pdfException) {
+                    pdfException.printStackTrace();
+                    showAlert(Alert.AlertType.WARNING, "Order accepted, but the invoice PDF could not be generated, so no queue email was created. You can retry from Orders Summary.");
+                }
                 loadOrder();
                 return;
             }
@@ -153,5 +182,42 @@ public class OrderDetailsController {
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();
+    }
+
+    private void showDetailedAlert(Alert.AlertType type, String summary, String details) {
+        Alert alert = new Alert(type);
+        alert.setHeaderText(null);
+        alert.setContentText(summary);
+        alert.setResizable(true);
+
+        TextArea detailsArea = new TextArea(details);
+        detailsArea.setEditable(false);
+        detailsArea.setWrapText(true);
+        detailsArea.setMaxWidth(Double.MAX_VALUE);
+        detailsArea.setMaxHeight(Double.MAX_VALUE);
+
+        GridPane.setVgrow(detailsArea, Priority.ALWAYS);
+        GridPane.setHgrow(detailsArea, Priority.ALWAYS);
+
+        GridPane expandableContent = new GridPane();
+        expandableContent.setMaxWidth(Double.MAX_VALUE);
+        expandableContent.add(detailsArea, 0, 0);
+
+        alert.getDialogPane().setExpandableContent(expandableContent);
+        alert.getDialogPane().setExpanded(true);
+        alert.showAndWait();
+    }
+
+    private String extractRootCauseMessage(Throwable throwable) {
+        Throwable current = throwable;
+        while (current.getCause() != null && current.getCause() != current) {
+            current = current.getCause();
+        }
+
+        String message = current.getMessage();
+        if (message == null || message.isBlank()) {
+            return current.getClass().getSimpleName();
+        }
+        return message;
     }
 }

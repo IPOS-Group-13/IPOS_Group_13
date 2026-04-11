@@ -1,4 +1,4 @@
-package com.berrybyte.ORD.DTO;
+package com.berrybyte.ORD.helpers;
 
 public class MerchantOrderSummary {
 

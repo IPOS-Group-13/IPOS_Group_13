@@ -1,6 +1,6 @@
-package com.berrybyte.ORD.DTO;
+package com.berrybyte.ORD.helpers;
 
-public class OrderLine {
+public class InvoiceLine {
 
     private final int itemId;
     private final String description;
@@ -10,8 +10,8 @@ public class OrderLine {
     private final int quantity;
     private final double lineTotal;
 
-    public OrderLine(int itemId, String description, String packageType,
-                     int unitsInPacks, double packsCost, int quantity, double lineTotal) {
+    public InvoiceLine(int itemId, String description, String packageType,
+                       int unitsInPacks, double packsCost, int quantity, double lineTotal) {
         this.itemId = itemId;
         this.description = description;
         this.packageType = packageType;

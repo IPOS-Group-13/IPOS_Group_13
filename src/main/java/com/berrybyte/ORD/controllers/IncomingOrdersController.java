@@ -1,6 +1,6 @@
 package com.berrybyte.ORD.controllers;
 
-import com.berrybyte.ORD.DTO.IncomingOrderRow;
+import com.berrybyte.ORD.helpers.IncomingOrderRow;
 import com.berrybyte.ORD.services.SaOrderService;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;

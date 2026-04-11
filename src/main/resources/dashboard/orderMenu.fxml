@@ -82,57 +82,38 @@
             </Button>
          </children>
       </AnchorPane>
-      <AnchorPane layoutX="200.0" layoutY="167.0" prefHeight="154.0" prefWidth="315.0" style="-fx-background-color: #B3A2C7; -fx-background-radius: 20;">
+      <AnchorPane layoutX="200.0" layoutY="185.0" prefHeight="260.0" prefWidth="315.0" style="-fx-background-color: #B3A2C7; -fx-background-radius: 20;">
          <children>
-            <Label layoutX="42.0" layoutY="26.0" text="Review Incoming Orders" textFill="#49454f">
+            <Label layoutX="79.0" layoutY="46.0" text="Review Orders" textFill="#49454f">
                <font>
-                  <Font name="System Bold" size="20.0" />
+                  <Font name="System Bold" size="23.0" />
                </font>
             </Label>
-            <Button layoutX="88.0" layoutY="103.0" mnemonicParsing="false" onAction="#openIncomingOrdersButton" prefHeight="33.0" prefWidth="127.0" style="-fx-background-color: #6C5A86; -fx-background-radius: 18;" text="Open" textFill="WHITE">
+            <Button layoutX="94.0" layoutY="198.0" mnemonicParsing="false" onAction="#openIncomingOrdersButton" prefHeight="33.0" prefWidth="127.0" style="-fx-background-color: #6C5A86; -fx-background-radius: 18;" text="Open" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Button>
-            <Label alignment="CENTER" contentDisplay="CENTER" layoutX="12.0" layoutY="68.0" prefHeight="18.0" prefWidth="291.0" text="Open merchant order forms, accept orders and generate invoices">
+            <Label alignment="CENTER" contentDisplay="CENTER" layoutX="12.0" layoutY="121.0" prefHeight="18.0" prefWidth="291.0" text="Open merchant order forms, accept orders and generate invoices">
                <font>
                   <Font size="10.0" />
                </font>
             </Label>
          </children>
       </AnchorPane>
-      <AnchorPane layoutX="375.0" layoutY="352.0" prefHeight="154.0" prefWidth="315.0" style="-fx-background-color: #B3A2C7; -fx-background-radius: 20;">
+      <AnchorPane layoutX="550.0" layoutY="185.0" prefHeight="260.0" prefWidth="315.0" style="-fx-background-color: #B3A2C7; -fx-background-radius: 20;">
          <children>
-            <Label layoutX="94.0" layoutY="23.0" text="View Invoices" textFill="#49454f">
+            <Label layoutX="18.0" layoutY="47.0" text="Merchant Order Summary" textFill="#49454f">
                <font>
-                  <Font name="System Bold" size="20.0" />
+                  <Font name="System Bold" size="23.0" />
                </font>
             </Label>
-            <Button layoutX="94.0" layoutY="98.0" mnemonicParsing="false" onAction="#viewInvoicesButton" prefHeight="33.0" prefWidth="127.0" style="-fx-background-color: #6C5A86; -fx-background-radius: 18;" text="View Invoices" textFill="WHITE">
+            <Button layoutX="94.0" layoutY="199.0" mnemonicParsing="false" onAction="#viewSummaryButton" prefHeight="33.0" prefWidth="127.0" style="-fx-background-color: #6C5A86; -fx-background-radius: 18;" text="View Summary" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Button>
-            <Label alignment="CENTER" contentDisplay="CENTER" layoutX="12.0" layoutY="68.0" prefHeight="18.0" prefWidth="291.0" text="Search and open invoices for accepted orders">
-               <font>
-                  <Font size="10.0" />
-               </font>
-            </Label>
-         </children>
-      </AnchorPane>
-      <AnchorPane layoutX="550.0" layoutY="167.0" prefHeight="154.0" prefWidth="315.0" style="-fx-background-color: #B3A2C7; -fx-background-radius: 20;">
-         <children>
-            <Label layoutX="29.0" layoutY="25.0" text="Merchant Order Summary" textFill="#49454f">
-               <font>
-                  <Font name="System Bold" size="20.0" />
-               </font>
-            </Label>
-            <Button layoutX="88.0" layoutY="103.0" mnemonicParsing="false" onAction="#viewSummaryButton" prefHeight="33.0" prefWidth="127.0" style="-fx-background-color: #6C5A86; -fx-background-radius: 18;" text="View Summary" textFill="WHITE">
-               <font>
-                  <Font name="System Bold" size="12.0" />
-               </font>
-            </Button>
-            <Label alignment="CENTER" contentDisplay="CENTER" layoutX="14.0" layoutY="68.0" prefHeight="18.0" prefWidth="291.0" text="Search a merchant and view all their SA order activity">
+            <Label alignment="CENTER" contentDisplay="CENTER" layoutX="14.0" layoutY="121.0" prefHeight="18.0" prefWidth="291.0" text="Search a merchant and view all their SA order activity">
                <font>
                   <Font size="10.0" />
                </font>

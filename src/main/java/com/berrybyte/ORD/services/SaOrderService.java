@@ -1,10 +1,11 @@
 package com.berrybyte.ORD.services;
 
 import com.berrybyte.API.IOrderAPI;
-import com.berrybyte.ORD.DTO.*;
+import com.berrybyte.ORD.helpers.*;
 import com.berrybyte.ORD.Status.AcceptOrderStatus;
 import com.berrybyte.common.DatabaseConnection;
 
+import java.nio.file.Path;
 import java.sql.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -12,6 +13,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SaOrderService implements IOrderAPI {
+
+    private final ExternalCommsQueueService externalCommsQueueService = new ExternalCommsQueueService();
+    private final InvoicePdfService invoicePdfService = new InvoicePdfService();
+    private final InvoiceStorageService invoiceStorageService = new InvoiceStorageService();
 
     @Override
     public List<IncomingOrderRow> getOrdersForReview() throws Exception {
@@ -39,8 +44,7 @@ public class SaOrderService implements IOrderAPI {
                         rs.getString("AccountHolder"),
                         rs.getString("OrderDate"),
                         rs.getDouble("TotalAmount"),
-                        rs.getString("Status")
-                ));
+                        rs.getString("Status")));
             }
         }
 
@@ -83,8 +87,7 @@ public class SaOrderService implements IOrderAPI {
                             rs.getString("AccountHolder"),
                             rs.getString("OrderDate"),
                             rs.getDouble("TotalAmount"),
-                            rs.getString("Status")
-                    ));
+                            rs.getString("Status")));
                 }
             }
         }
@@ -125,8 +128,7 @@ public class SaOrderService implements IOrderAPI {
                             rs.getString("Address"),
                             rs.getString("OrderDate"),
                             rs.getString("Status"),
-                            rs.getDouble("TotalAmount")
-                    );
+                            rs.getDouble("TotalAmount"));
                 }
             }
         }
@@ -165,8 +167,7 @@ public class SaOrderService implements IOrderAPI {
                             rs.getInt("UnitsInPack"),
                             rs.getDouble("UnitCost"),
                             rs.getInt("Quantity"),
-                            rs.getDouble("LineTotal")
-                    ));
+                            rs.getDouble("LineTotal")));
                 }
             }
         }
@@ -366,12 +367,20 @@ public class SaOrderService implements IOrderAPI {
     @Override
     public InvoiceDetails getInvoiceByOrderId(int orderId) throws Exception {
         String invoiceSql = """
-                SELECT InvoiceId, OrderId, MerchantId,
-                       DATE_FORMAT(InvoiceDate, '%d/%m/%Y') AS InvoiceDate,
-                       DATE_FORMAT(DueDate, '%d/%m/%Y') AS DueDate,
-                       TotalAmount, AmountPaid, OutstandingBalance, PaymentStatus
-                FROM Invoices
-                WHERE OrderId = ?
+                SELECT i.InvoiceId, i.OrderId, i.MerchantId,
+                       ma.IPOSAccountNumber,
+                       ma.CompanyName,
+                       u.Name AS MerchantName,
+                       u.Email,
+                       u.PhoneNumber,
+                       ma.Address,
+                       DATE_FORMAT(i.InvoiceDate, '%d/%m/%Y') AS InvoiceDate,
+                       DATE_FORMAT(i.DueDate, '%d/%m/%Y') AS DueDate,
+                       i.TotalAmount, i.AmountPaid, i.OutstandingBalance, i.PaymentStatus
+                FROM Invoices i
+                JOIN MerchantAccounts ma ON i.MerchantId = ma.MerchantId
+                JOIN Users u ON ma.UserId = u.UserId
+                WHERE i.OrderId = ?
                 """;
 
         try (Connection conn = new DatabaseConnection().getConnection();
@@ -413,8 +422,7 @@ public class SaOrderService implements IOrderAPI {
                                     itemsRs.getInt("UnitsInPack"),
                                     itemsRs.getDouble("UnitCost"),
                                     itemsRs.getInt("Quantity"),
-                                    itemsRs.getDouble("LineTotal")
-                            ));
+                                    itemsRs.getDouble("LineTotal")));
                         }
                     }
                 }
@@ -422,16 +430,44 @@ public class SaOrderService implements IOrderAPI {
                         invoiceRs.getInt("InvoiceId"),
                         invoiceRs.getInt("OrderId"),
                         invoiceRs.getInt("MerchantId"),
+                        invoiceRs.getString("IPOSAccountNumber"),
+                        invoiceRs.getString("CompanyName"),
+                        invoiceRs.getString("MerchantName"),
+                        invoiceRs.getString("Email"),
+                        invoiceRs.getString("PhoneNumber"),
+                        invoiceRs.getString("Address"),
                         invoiceRs.getString("InvoiceDate"),
                         invoiceRs.getString("DueDate"),
                         invoiceRs.getDouble("TotalAmount"),
                         invoiceRs.getDouble("AmountPaid"),
                         invoiceRs.getDouble("OutstandingBalance"),
                         invoiceRs.getString("PaymentStatus"),
-                        items
-                );
+                        items);
             }
         }
+    }
+
+    public Path generateInvoicePdfForOrder(int orderId) throws Exception {
+        InvoiceDetails invoiceDetails = getInvoiceByOrderId(orderId);
+        if (invoiceDetails == null) {
+            throw new IllegalArgumentException("No invoice exists for the selected order.");
+        }
+        return invoicePdfService.generateInvoicePdf(invoiceDetails);
+    }
+
+    public Path openInvoicePdfForOrder(int orderId) throws Exception {
+        Path pdfPath = generateInvoicePdfForOrder(orderId);
+        invoicePdfService.openInvoicePdf(pdfPath);
+        return pdfPath;
+    }
+
+    public String queueOrderAcceptedEmailForOrder(int orderId, Path pdfPath) throws Exception {
+        InvoiceDetails invoiceDetails = getInvoiceByOrderId(orderId);
+        if (invoiceDetails == null) {
+            throw new IllegalArgumentException("No invoice exists for the selected order.");
+        }
+        String invoiceUrl = invoiceStorageService.uploadInvoiceAndCreateAccessUrl(invoiceDetails, pdfPath);
+        return externalCommsQueueService.queueOrderAcceptedEmail(invoiceDetails, invoiceUrl);
     }
 
     @Override
@@ -459,8 +495,7 @@ public class SaOrderService implements IOrderAPI {
                             rs.getInt("OrderId"),
                             rs.getString("OrderedDate"),
                             rs.getDouble("TotalAmount"),
-                            rs.getString("Status")
-                    ));
+                            rs.getString("Status")));
                 }
             }
         }
@@ -495,8 +530,7 @@ public class SaOrderService implements IOrderAPI {
                             rs.getInt("OrderId"),
                             rs.getString("OrderedDate"),
                             rs.getDouble("TotalAmount"),
-                            rs.getString("Status")
-                    ));
+                            rs.getString("Status")));
                 }
             }
         }
@@ -514,7 +548,8 @@ public class SaOrderService implements IOrderAPI {
                        COALESCE(i.PaymentStatus, 'N/A') AS PaidStatus,
                        COALESCE(o.CourierName, '') AS CourierName,
                        COALESCE(o.CourierReference, '') AS CourierRef,
-                       COALESCE(DATE_FORMAT(o.ExpectedDeliveryDateTime, '%d/%m/%Y %H:%i'), '') AS ExpectedDelivery
+                       COALESCE(DATE_FORMAT(o.ExpectedDeliveryDateTime, '%d/%m/%Y %H:%i'), '') AS ExpectedDelivery,
+                       COALESCE(DATE_FORMAT(o.DeliveredDateTime, '%d/%m/%Y %H:%i'), '') AS DeliveryDate
                 FROM Orders o
                 JOIN MerchantAccounts ma ON o.MerchantId = ma.MerchantId
                 LEFT JOIN Invoices i ON o.OrderId = i.OrderId
@@ -546,7 +581,8 @@ public class SaOrderService implements IOrderAPI {
                        COALESCE(i.PaymentStatus, 'N/A') AS PaidStatus,
                        COALESCE(o.CourierName, '') AS CourierName,
                        COALESCE(o.CourierReference, '') AS CourierRef,
-                       COALESCE(DATE_FORMAT(o.ExpectedDeliveryDateTime, '%d/%m/%Y %H:%i'), '') AS ExpectedDelivery
+                       COALESCE(DATE_FORMAT(o.ExpectedDeliveryDateTime, '%d/%m/%Y %H:%i'), '') AS ExpectedDelivery,
+                       COALESCE(DATE_FORMAT(o.DeliveredDateTime, '%d/%m/%Y %H:%i'), '') AS DeliveryDate
                 FROM Orders o
                 JOIN MerchantAccounts ma ON o.MerchantId = ma.MerchantId
                 JOIN Users u ON ma.UserId = u.UserId
@@ -609,6 +645,26 @@ public class SaOrderService implements IOrderAPI {
     }
 
     @Override
+    public boolean markOrderAsDelivered(int orderId, LocalDateTime deliveredDateTime) throws Exception {
+        String sql = """
+                UPDATE Orders
+                SET Status = 'DELIVERED',
+                    DeliveredDateTime = ?
+                WHERE OrderId = ?
+                  AND Status = 'DISPATCHED'
+                """;
+
+        try (Connection conn = new DatabaseConnection().getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setTimestamp(1, Timestamp.valueOf(deliveredDateTime));
+            ps.setInt(2, orderId);
+
+            return ps.executeUpdate() > 0;
+        }
+    }
+
+    @Override
     public String trackOrder(int orderId) throws Exception {
         String sql = "SELECT Status FROM Orders WHERE OrderId = ?";
 
@@ -636,8 +692,8 @@ public class SaOrderService implements IOrderAPI {
                 rs.getString("PaidStatus"),
                 rs.getString("CourierName"),
                 rs.getString("CourierRef"),
-                rs.getString("ExpectedDelivery")
-        );
+                rs.getString("ExpectedDelivery"),
+                rs.getString("DeliveryDate"));
     }
 
     private record StockReduction(int itemId, int quantity) { }

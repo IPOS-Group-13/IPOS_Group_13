@@ -4,7 +4,6 @@ import com.berrybyte.common.RoleBasedNavigator;
 import com.berrybyte.common.SceneSwitcher;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
 import javafx.scene.layout.AnchorPane;
 
 public class OrderMenuController {
@@ -91,24 +90,11 @@ public class OrderMenuController {
     }
 
     @FXML
-    private void viewInvoicesButton(ActionEvent event) {
-        showUnavailableFeature("View Invoices");
-    }
-
-    @FXML
     private void viewSummaryButton(ActionEvent event) {
         try{
             SceneSwitcher.switchScene(event, "/ORD/orderSummary.fxml", "Orders Summary");
         } catch (Exception e){
             e.printStackTrace();
         }
-    }
-
-    private void showUnavailableFeature(String featureName) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle(featureName);
-        alert.setHeaderText(null);
-        alert.setContentText(featureName + " is not wired up yet.");
-        alert.showAndWait();
     }
 }

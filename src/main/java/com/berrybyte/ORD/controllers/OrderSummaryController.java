@@ -1,6 +1,6 @@
 package com.berrybyte.ORD.controllers;
 
-import com.berrybyte.ORD.DTO.OrderSummaryRow;
+import com.berrybyte.ORD.helpers.OrderSummaryRow;
 import com.berrybyte.ORD.services.SaOrderService;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
@@ -19,6 +19,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+
+import java.time.LocalDateTime;
 
 public class OrderSummaryController {
 
@@ -64,6 +66,9 @@ public class OrderSummaryController {
     private TableColumn<OrderSummaryRow, String> expectedDeliveryColumn;
 
     @FXML
+    private TableColumn<OrderSummaryRow, String> deliveryDateColumn;
+
+    @FXML
     public void initialize() {
         orderIdColumn.setCellValueFactory(new PropertyValueFactory<>("orderId"));
         merchantNameColumn.setCellValueFactory(new PropertyValueFactory<>("merchantName"));
@@ -71,9 +76,12 @@ public class OrderSummaryController {
         amountColumn.setCellValueFactory(new PropertyValueFactory<>("amount"));
         statusColoumn.setCellValueFactory(new PropertyValueFactory<>("deliveredStatus"));
         paidColumn.setCellValueFactory(new PropertyValueFactory<>("paidStatus"));
-        courierNameColumn.setCellValueFactory(new PropertyValueFactory<>("courierName"));
+        if (courierNameColumn != null) {
+            courierNameColumn.setCellValueFactory(new PropertyValueFactory<>("courierName"));
+        }
         courierRefColumn.setCellValueFactory(new PropertyValueFactory<>("courierRef"));
         expectedDeliveryColumn.setCellValueFactory(new PropertyValueFactory<>("expectedDelivery"));
+        deliveryDateColumn.setCellValueFactory(new PropertyValueFactory<>("deliveryDate"));
         refreshOrdersSummary();
     }
 
@@ -111,6 +119,65 @@ public class OrderSummaryController {
         } catch (Exception e) {
             e.printStackTrace();
             messageLabel.setText("Unable to open update dispatch details popup.");
+        }
+    }
+
+    @FXML
+    private void updateDeliveryStatus(ActionEvent event) {
+        OrderSummaryRow selectedOrder = ordersSummaryTable == null ? null : ordersSummaryTable.getSelectionModel().getSelectedItem();
+
+        if (selectedOrder == null) {
+            messageLabel.setText("Select an order first.");
+            return;
+        }
+
+        String currentStatus = selectedOrder.getDeliveredStatus() == null ? "" : selectedOrder.getDeliveredStatus().trim().toUpperCase();
+
+        if ("DELIVERED".equals(currentStatus)) {
+            messageLabel.setText("This order has already been marked as delivered.");
+            return;
+        }
+
+        if (!"DISPATCHED".equals(currentStatus)) {
+            messageLabel.setText("Only dispatched orders can be marked as delivered.");
+            return;
+        }
+
+        try {
+            boolean updated = orderService.markOrderAsDelivered(selectedOrder.getOrderId(), LocalDateTime.now());
+
+            if (!updated) {
+                messageLabel.setText("Unable to mark the order as delivered.");
+                return;
+            }
+
+            refreshOrdersSummary();
+            messageLabel.setText("Order marked as delivered.");
+        } catch (Exception e) {
+            e.printStackTrace();
+            messageLabel.setText("Unable to mark the order as delivered.");
+        }
+    }
+
+    @FXML
+    private void viewInvoicesButton(ActionEvent event) {
+        OrderSummaryRow selectedOrder = ordersSummaryTable == null ? null : ordersSummaryTable.getSelectionModel().getSelectedItem();
+
+        if (selectedOrder == null) {
+            messageLabel.setText("Select an order first.");
+            return;
+        }
+
+        try {
+            orderService.openInvoicePdfForOrder(selectedOrder.getOrderId());
+            messageLabel.setText("");
+        } catch (IllegalArgumentException e) {
+            messageLabel.setText(e.getMessage());
+        } catch (Exception e) {
+            e.printStackTrace();
+            messageLabel.setText(e.getMessage() == null || e.getMessage().isBlank()
+                    ? "Unable to open invoice PDF."
+                    : e.getMessage());
         }
     }
 
