@@ -2,6 +2,7 @@ package com.berrybyte.ORD.controllers;
 
 import com.berrybyte.ORD.helpers.IncomingOrderRow;
 import com.berrybyte.ORD.services.SaOrderService;
+import com.berrybyte.common.RoleBasedNavigator;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -96,11 +97,7 @@ public class IncomingOrdersController {
     @FXML
     private void handleBackButton(MouseEvent event) {
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("/dashboard/orderMenu.fxml"));
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.setTitle("Orders");
-            stage.show();
+            RoleBasedNavigator.openOrderMenu((Node) event.getSource());
         } catch (Exception e) {
             e.printStackTrace();
         }

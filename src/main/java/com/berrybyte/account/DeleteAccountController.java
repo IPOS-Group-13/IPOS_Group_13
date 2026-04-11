@@ -89,7 +89,7 @@ public class DeleteAccountController {
     @FXML
     private void handleBackButton(MouseEvent event) {
         try {
-            RoleBasedNavigator.openStaffAccounts((Node) event.getSource());
+            RoleBasedNavigator.openManageAccounts((Node) event.getSource());
         } catch (Exception e) {
             e.printStackTrace();
             messageLabel.setText("Unable to go back.");

@@ -5,6 +5,7 @@ import com.berrybyte.account.ConfirmDeleteDiscountPlanController;
 import com.berrybyte.account.DeleteAccountService;
 import com.berrybyte.account.DiscountPlanEditController;
 import com.berrybyte.common.DatabaseConnection;
+import com.berrybyte.common.LoginSession;
 import com.berrybyte.common.RoleBasedNavigator;
 import com.berrybyte.common.SceneSwitcher;
 import javafx.collections.FXCollections;
@@ -54,6 +55,9 @@ public class MerchantMenuController {
     private TableColumn<MerchantMenuRow, String> discountPlanColoumn;
 
     @FXML
+    private TableColumn<MerchantMenuRow, String> outstandingColoumn;
+
+    @FXML
     private Button editMerchantDetailsButton;
 
     @FXML
@@ -76,7 +80,6 @@ public class MerchantMenuController {
 
     private MerchantMenuRow selectedMerchant;
     private final DeleteAccountService deleteAccountService = new DeleteAccountService();
-    private boolean managerView;
 
     @FXML
     public void initialize() {
@@ -85,6 +88,9 @@ public class MerchantMenuController {
         iposIdColoumn.setCellValueFactory(new PropertyValueFactory<>("iposAccountNumber"));
         creditLimitColoumn.setCellValueFactory(new PropertyValueFactory<>("creditLimit"));
         discountPlanColoumn.setCellValueFactory(new PropertyValueFactory<>("discountPlan"));
+        if (outstandingColoumn != null) {
+            outstandingColoumn.setCellValueFactory(new PropertyValueFactory<>("outstandingBalance"));
+        }
 
         profileMenuPane.setVisible(false);
         profileMenuPane.setManaged(false);
@@ -99,18 +105,18 @@ public class MerchantMenuController {
             updateButtonState();
         });
 
-        managerView = deleteAccount != null;
+        configureDeleteAccountButton();
         setActionButtonsDisabled(true);
         loadMerchants("");
     }
 
     @FXML
-    private void handleSearch(ActionEvent event) {
+    protected void handleSearch(ActionEvent event) {
         loadMerchants(searchField.getText());
     }
 
     @FXML
-    private void handleEditMerchantDetails(ActionEvent event) {
+    protected void handleEditMerchantDetails(ActionEvent event) {
         if (!ensureMerchantSelected()) {
             return;
         }
@@ -125,16 +131,16 @@ public class MerchantMenuController {
     }
 
     @FXML
-    private void handleStaffAccountsClick(ActionEvent event) {
+    protected void handleStaffAccountsClick(ActionEvent event) {
         try {
-            RoleBasedNavigator.switchToStaffAccounts(event);
+            RoleBasedNavigator.switchToManageAccounts(event);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     @FXML
-    private void handleDashboardClick(ActionEvent event) {
+    protected void handleDashboardClick(ActionEvent event) {
         try {
             RoleBasedNavigator.switchToDashboard(event);
         } catch (Exception e) {
@@ -143,7 +149,7 @@ public class MerchantMenuController {
     }
 
     @FXML
-    private void handleCatalogueClick(ActionEvent event) {
+    protected void handleCatalogueClick(ActionEvent event) {
         try {
             SceneSwitcher.switchScene(event, "/catalogue/Catalogue.fxml", "Catalogue Page");
         } catch (Exception e) {
@@ -152,7 +158,7 @@ public class MerchantMenuController {
     }
 
     @FXML
-    private void handleMerchantsClick(ActionEvent event) {
+    protected void handleMerchantsClick(ActionEvent event) {
         try {
             RoleBasedNavigator.switchToMerchantMenu(event);
         } catch (Exception e) {
@@ -161,7 +167,7 @@ public class MerchantMenuController {
     }
 
     @FXML
-    private void handleOrdersClick(ActionEvent event) {
+    protected void handleOrdersClick(ActionEvent event) {
         try {
             RoleBasedNavigator.switchToOrderMenu(event);
         } catch (Exception e) {
@@ -170,7 +176,7 @@ public class MerchantMenuController {
     }
 
     @FXML
-    private void handleUpdateDiscountPlan(ActionEvent event) {
+    protected void handleUpdateDiscountPlan(ActionEvent event) {
         if (!ensureMerchantSelected()) {
             return;
         }
@@ -194,7 +200,7 @@ public class MerchantMenuController {
     }
 
     @FXML
-    private void handleDeleteDiscountPlan(ActionEvent event) {
+    protected void handleDeleteDiscountPlan(ActionEvent event) {
         if (!ensureMerchantSelected()) {
             return;
         }
@@ -231,7 +237,12 @@ public class MerchantMenuController {
     }
 
     @FXML
-    private void handleDeleteAccount(ActionEvent event) {
+    protected void handleDeleteAccount(ActionEvent event) {
+        if (!canDeleteMerchantAccounts()) {
+            messageLabel.setText("Only admins can delete merchant accounts.");
+            return;
+        }
+
         if (!ensureMerchantSelected()) {
             return;
         }
@@ -259,14 +270,14 @@ public class MerchantMenuController {
 
 
     @FXML
-    private void handleProfileClick() {
+    protected void handleProfileClick() {
         boolean isVisible = profileMenuPane.isVisible();
         profileMenuPane.setVisible(!isVisible);
         profileMenuPane.setManaged(!isVisible);
     }
 
     @FXML
-    private void handleLogoutMenuClick(ActionEvent event) {
+    protected void handleLogoutMenuClick(ActionEvent event) {
         profileMenuPane.setVisible(false);
         profileMenuPane.setManaged(false);
 
@@ -318,6 +329,7 @@ public class MerchantMenuController {
                     ma.CompanyName,
                     ma.IPOSAccountNumber,
                     ma.CreditLimit,
+                    ma.OutstandingBalance,
                     COALESCE((
                         SELECT dp.PlanType
                         FROM DiscountPlans dp
@@ -351,7 +363,8 @@ public class MerchantMenuController {
                             rs.getString("CompanyName"),
                             rs.getString("IPOSAccountNumber"),
                             String.format("%.2f", rs.getDouble("CreditLimit")),
-                            rs.getString("PlanType")
+                            rs.getString("PlanType"),
+                            String.format("%.2f", rs.getDouble("OutstandingBalance"))
                     ));
                 }
             }
@@ -384,8 +397,23 @@ public class MerchantMenuController {
             deleteDiscountPlanButton.setDisable(disabled);
         }
         if (deleteAccount != null) {
-            deleteAccount.setDisable(disabled);
+            deleteAccount.setDisable(disabled || !canDeleteMerchantAccounts());
         }
+    }
+
+    protected boolean canDeleteMerchantAccounts() {
+        return "ADMIN".equalsIgnoreCase(LoginSession.getCurrentRole());
+    }
+
+    private void configureDeleteAccountButton() {
+        if (deleteAccount == null) {
+            return;
+        }
+
+        boolean canDeleteMerchantAccounts = canDeleteMerchantAccounts();
+        deleteAccount.setVisible(canDeleteMerchantAccounts);
+        deleteAccount.setManaged(canDeleteMerchantAccounts);
+        deleteAccount.setDisable(true);
     }
 
     private void openSceneForSelectedMerchant(ActionEvent event,

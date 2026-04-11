@@ -162,14 +162,20 @@ public class EditStaffAccountController {
         String password = passwordField.getText() == null ? "" : passwordField.getText().trim();
         String email = emailTextField.getText() == null ? "" : emailTextField.getText().trim();
         String phone = phoneNumberTextField.getText() == null ? "" : phoneNumberTextField.getText().trim();
-        String role = roleTextField.getText() == null ? "" : roleTextField.getText().trim();
+        String role = "MANAGER".equals(pendingRole)
+                ? pendingRole
+                : (roleTextField.getText() == null ? "" : roleTextField.getText().trim());
 
         if (name.isEmpty()) throw new Exception("Name is required.");
         if (username.isEmpty()) throw new Exception("Username is required.");
         if (password.isEmpty()) throw new Exception("Password is required.");
         if (email.isEmpty()) throw new Exception("Email is required.");
         if (phone.isEmpty()) throw new Exception("Phone number is required.");
-        if (!"MANAGER".equals(pendingRole) && role.isEmpty()) throw new Exception("Role is required.");
+        if (role.isEmpty()) throw new Exception("Role is required.");
+        if (!"MANAGER".equals(StaffRoleRules.normalizeRole(pendingRole))
+                && StaffRoleRules.isReservedStaffRole(role)) {
+            throw new Exception("Role cannot be admin, administrator, manager, director of operations, or merchant.");
+        }
 
         if (!name.matches("[A-Za-z ]+")) {
             throw new Exception("Name must contain only letters and spaces.");
@@ -211,7 +217,7 @@ public class EditStaffAccountController {
             int rowsAffected = preparedStatement.executeUpdate();
 
             if (rowsAffected > 0) {
-                RoleBasedNavigator.switchToStaffAccounts(event);
+            RoleBasedNavigator.switchToManageAccounts(event);
             } else {
                 messageLabel.setText("No staff account was updated.");
             }
@@ -225,7 +231,7 @@ public class EditStaffAccountController {
     @FXML
     private void handleBackButton(MouseEvent event) {
         try {
-            RoleBasedNavigator.openStaffAccounts((Node) event.getSource());
+            RoleBasedNavigator.openManageAccounts((Node) event.getSource());
         } catch (Exception e) {
             e.printStackTrace();
             messageLabel.setText("Unable to go back.");

@@ -60,27 +60,29 @@ public class LoginController {
                 if (resultSet.next()) {
                     int userId = resultSet.getInt("UserId");
                     String role = resultSet.getString("Role");
+                    if (role == null || role.isBlank()) {
+                        LoginSession.clear();
+                        loginMessageLabel.setText("Unknown account role");
+                        return;
+                    }
+
+                    if ("MERCHANT".equalsIgnoreCase(role.trim())) {
+                        LoginSession.clear();
+                        loginMessageLabel.setText("Invalid username or password");
+                        return;
+                    }
+
                     LoginSession.setCurrentUserId(userId);
                     LoginSession.setCurrentRole(role);
-
-                    if ("ADMIN".equalsIgnoreCase(role) || "MANAGER".equalsIgnoreCase(role)) {
-                        RoleBasedNavigator.switchToDashboard(event);
-                    } else if ("MERCHANT".equalsIgnoreCase(role)) {
-                        loginMessageLabel.setText("Invalid username or password");
-                    } else if ("ACCOUNTANT".equalsIgnoreCase(role) ||
-                               "CLERK".equalsIgnoreCase(role) ||
-                               "WAREHOUSE".equalsIgnoreCase(role) ||
-                               "DELIVERY".equalsIgnoreCase(role)) {
-                        RoleBasedNavigator.switchToDashboard(event);
-                    } else {
-                        loginMessageLabel.setText("Unknown account role");
-                    }
+                    RoleBasedNavigator.switchToDashboard(event);
                 } else {
+                    LoginSession.clear();
                     loginMessageLabel.setText("Invalid username or password");
                 }
             }
         } catch (Exception e) {
             e.printStackTrace();
+            LoginSession.clear();
             loginMessageLabel.setText("cant connect");
         }
     }

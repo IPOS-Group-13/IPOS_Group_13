@@ -67,7 +67,7 @@ public class FlexibleDiscountController {
             );
             //messageLabel.setText("Merchant account created successfully.");
             MerchantDraftSession.clear();
-            RoleBasedNavigator.switchToStaffAccounts(event);
+            RoleBasedNavigator.switchToManageAccounts(event);
 
         } catch (IllegalArgumentException e) {
             messageLabel.setText(e.getMessage());

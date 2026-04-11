@@ -20,8 +20,10 @@ public final class RoleBasedNavigator {
     private static final String STAFF_DASHBOARD_PATH = "/dashboard/staffDashboard.fxml";
     private static final String ADMIN_MERCHANTS_PATH = "/dashboard/merchantMenu.fxml";
     private static final String MANAGER_MERCHANTS_PATH = "/dashboard/managerMerchantMenu.fxml";
-    private static final String STAFF_ACCOUNTS_PATH = "/dashboard/staffAccountsMenu.fxml";
+    private static final String MANAGE_ACCOUNTS_PATH = "/dashboard/staffAccountsMenu.fxml";
     private static final String ORDER_MENU_PATH = "/dashboard/orderMenu.fxml";
+    private static final String MANAGER_ORDER_MENU_PATH = "/dashboard/managerOrderMenu.fxml";
+    private static final String STAFF_ORDER_MENU_PATH = "/dashboard/staffOrderMenu.fxml";
 
     private RoleBasedNavigator() {
     }
@@ -54,15 +56,21 @@ public final class RoleBasedNavigator {
         return "Merchants";
     }
 
-    public static String getStaffAccountsPath() {
-        return STAFF_ACCOUNTS_PATH;
+    public static String getManageAccountsPath() {
+        return MANAGE_ACCOUNTS_PATH;
     }
 
-    public static String getStaffAccountsTitle() {
-        return "Staff Accounts";
+    public static String getManageAccountsTitle() {
+        return "Manage Accounts";
     }
 
     public static String getOrderMenuPath() {
+        if (isManager()) {
+            return MANAGER_ORDER_MENU_PATH;
+        }
+        if (isStaff()) {
+            return STAFF_ORDER_MENU_PATH;
+        }
         return ORDER_MENU_PATH;
     }
 
@@ -78,8 +86,8 @@ public final class RoleBasedNavigator {
         SceneSwitcher.switchScene(event, getMerchantMenuPath(), getMerchantMenuTitle());
     }
 
-    public static void switchToStaffAccounts(ActionEvent event) throws IOException {
-        SceneSwitcher.switchScene(event, getStaffAccountsPath(), getStaffAccountsTitle());
+    public static void switchToManageAccounts(ActionEvent event) throws IOException {
+        SceneSwitcher.switchScene(event, getManageAccountsPath(), getManageAccountsTitle());
     }
 
     public static void switchToOrderMenu(ActionEvent event) throws IOException {
@@ -94,8 +102,8 @@ public final class RoleBasedNavigator {
         openScene(sourceNode, getDashboardPath(), getDashboardTitle());
     }
 
-    public static void openStaffAccounts(Node sourceNode) throws IOException {
-        openScene(sourceNode, getStaffAccountsPath(), getStaffAccountsTitle());
+    public static void openManageAccounts(Node sourceNode) throws IOException {
+        openScene(sourceNode, getManageAccountsPath(), getManageAccountsTitle());
     }
 
     public static void openOrderMenu(Node sourceNode) throws IOException {
