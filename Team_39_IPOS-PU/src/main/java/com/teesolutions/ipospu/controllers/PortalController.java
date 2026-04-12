@@ -18,6 +18,7 @@ import com.teesolutions.ipospu.services.OrderService;
 import com.teesolutions.ipospu.services.ExternalCommsQueueService;
 import com.teesolutions.ipospu.services.ReportService;
 import com.teesolutions.ipospu.utils.ReportDateRange;
+import com.teesolutions.ipospu.utils.ReportPrintLayout;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.animation.FadeTransition;
@@ -36,6 +37,10 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.print.PageLayout;
+import javafx.print.PageOrientation;
+import javafx.print.Paper;
+import javafx.print.Printer;
 import javafx.print.PrinterJob;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -44,6 +49,7 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.ProgressIndicator;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.Tab;
@@ -56,6 +62,7 @@ import javafx.scene.input.Clipboard;
 import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
@@ -63,6 +70,7 @@ import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.util.Duration;
+import javafx.scene.paint.Color;
 import javafx.stage.Window;
 
 import java.net.URL;
@@ -76,6 +84,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.stream.Collectors;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -114,6 +123,8 @@ public class PortalController {
             "Use the email you used at checkout and the tracking code (shown after payment and in email_outbox).";
     private static final String DEFAULT_LAST_ORDER_TEXT = "No order placed yet in this session.";
 
+    @FXML
+    private ScrollPane authScrollPane;
     @FXML
     private VBox authPane;
     @FXML
@@ -446,8 +457,13 @@ public class PortalController {
     }
 
     private void enterPortalSession() {
-        authPane.setVisible(false);
-        authPane.setManaged(false);
+        if (authScrollPane != null) {
+            authScrollPane.setVisible(false);
+            authScrollPane.setManaged(false);
+        } else {
+            authPane.setVisible(false);
+            authPane.setManaged(false);
+        }
         appTabs.setVisible(true);
         appTabs.setManaged(true);
         promotionsButton.setVisible(catalogService.hasPromotions());
@@ -850,8 +866,13 @@ public class PortalController {
         cart.clear();
         orders.clear();
         campaigns.clear();
-        authPane.setVisible(true);
-        authPane.setManaged(true);
+        if (authScrollPane != null) {
+            authScrollPane.setVisible(true);
+            authScrollPane.setManaged(true);
+        } else {
+            authPane.setVisible(true);
+            authPane.setManaged(true);
+        }
         showAuthCard(authLoginPane);
         appTabs.setVisible(false);
         appTabs.setManaged(false);
@@ -1088,7 +1109,29 @@ public class PortalController {
             setStatus("Report printing cancelled");
             return;
         }
-        boolean printed = job.printPage(reportTable);
+        PageLayout pageLayout = job.getPrinter().createPageLayout(
+                Paper.A4,
+                PageOrientation.PORTRAIT,
+                Printer.MarginType.DEFAULT);
+        job.getJobSettings().setPageLayout(pageLayout);
+        double printableWidth = pageLayout.getPrintableWidth();
+
+        List<String> columnKeys = reportTable.getColumns().stream()
+                .map(TableColumn::getText)
+                .collect(Collectors.toList());
+        List<Map<String, Object>> rawRows = new ArrayList<>();
+        for (MapRow row : reportTable.getItems()) {
+            rawRows.add(row.toMap());
+        }
+        List<Map<String, Object>> printRows = ReportPrintLayout.rowsFromMaps(columnKeys, rawRows);
+        String printTitle = "IPOS-PU — " + (reportHeaderLabel.getText() == null ? "Report" : reportHeaderLabel.getText());
+        String periodText = reportPeriodLabel.getText() == null ? "" : reportPeriodLabel.getText();
+        VBox printRoot = ReportPrintLayout.buildPrintableRoot(printTitle, periodText, columnKeys, printRows, printableWidth);
+        new Scene(printRoot, printableWidth, pageLayout.getPrintableHeight(), Color.WHITE);
+        printRoot.applyCss();
+        printRoot.layout();
+        job.getJobSettings().setJobName(printTitle.replace('—', '-'));
+        boolean printed = job.printPage(pageLayout, printRoot);
         if (printed) {
             job.endJob();
             setStatus("Report sent to printer");
@@ -2133,6 +2176,10 @@ public class PortalController {
 
         public MapRow(Map<String, Object> data) {
             this.data = data;
+        }
+
+        public Map<String, Object> toMap() {
+            return new LinkedHashMap<>(data);
         }
 
         public Object getRaw(String key) {

@@ -22,7 +22,7 @@ University sample data is aligned with **IPOS_SampleData_2026** (Cosymed product
 | **Admin** | Campaign CRUD, overlap protection, terminate/delete; sales/campaign/engagement reports + print. |
 | **Shared MySQL** | `db.init.mode=LOCAL` vs `SHARED`; Railway-safe behaviour (no auto seed on shared). |
 | **SMTP** | `MailConfig`, `SmtpOutboxDispatcher`, `db.properties.local` / env overrides; rows still written to `email_outbox` if SMTP fails. |
-| **Team Gmail in seed** | PU0001/PU0002/Pond sample use team addresses; `shared_align_sample_data.sql` on SHARED startup migrates legacy `example.com` rows. |
+| **Shared DB sample emails** | With `db.init.mode=SHARED`, `shared_align_sample_data.sql` runs once per JVM on first connection: migrates legacy `example.com` PU rows to team Gmail, and sets the **Pond Pharmacy commercial application** contact to **`ipos_commercial@yahoo.com`** (also replaces `pondPharma@example.com` or the previous Pond Gmail if still present). |
 | **CA integration** | `db.inventory.api=ca` → `CaJdbcInventoryApiClient`: catalogue/stock from `ipos_ca`, `pu_online_order` / lines, `getOrderStatus` merged into PU order list and tracking (`OrderService.mergeCaStatusOntoOrder`). |
 | **SA integration** | `SaJdbcMemberApiClient` → `ipos_sa.pu_commercial_application_intake` (`MemberApiFactory`; no mock). |
 | **External comms** | `external_comms_queue`: CA/SA enqueue customer emails; `ExternalCommsQueueService` + ~45s poller in `PortalController` drain to `email_outbox`. SQL scripts under `docs/sql/`. |
@@ -86,11 +86,13 @@ Full key list and discovery order: **`src/main/resources/db.properties.info`**.
 ## 7. Database bootstrap
 
 - **LOCAL:** `DatabaseManager` runs `schema.sql`, ensures `login_alias`, runs `seed.sql`.
-- **SHARED:** skips schema/seed; ensures `external_comms_queue` if possible; runs `db/shared_align_sample_data.sql` (classpath).
+- **SHARED:** skips schema/seed; ensures `external_comms_queue` if possible; runs `db/shared_align_sample_data.sql` (classpath). That script aligns **group / Railway** sample data without re-running `seed.sql`: it updates PU0001/PU0002 legacy `example.com` rows to team Gmail and sets the **Pond Pharmacy** row in **`commercial_applications`** to **`ipos_commercial@yahoo.com`** (and migrates that row if it still uses `pondPharma@example.com` or the previous Pond Gmail).
 - **Reset (local only):** run `src/main/resources/db/reset.sql`, restart with `LOCAL` to reseed. **Never** run reset on shared production without agreement.
 
 **Seeded sample users (after team email swap):**  
-PU0001 / `dimitarprem@gmail.com` + `12ss_56_SS`; PU0002 / `test.ipos.pu@gmail.com` + `34pp_78_LL`; admins `sysdba@ipos.local` / `masterkey`, `manager@ipos.local` / `GetPU_it_done`. Pond commercial application email in seed: `dimitarprem777711@gmail.com`.
+PU0001 / `dimitarprem@gmail.com` + `12ss_56_SS`; PU0002 / `test.ipos.pu@gmail.com` + `34pp_78_LL`; admins `sysdba@ipos.local` / `masterkey`, `manager@ipos.local` / `GetPU_it_done`.
+
+**Pond Pharmacy commercial application (sample row):** canonical contact **`ipos_commercial@yahoo.com`**. On the **shared** database this is applied when **`shared_align_sample_data.sql`** runs (once per JVM on first connection with **`db.init.mode=SHARED`**). On **LOCAL**, the same address is inserted by **`seed.sql`** so behaviour matches.
 
 ---
 

@@ -48,7 +48,10 @@
 
     <center>
         <StackPane>
-            <VBox fx:id="authPane" alignment="CENTER" styleClass="auth-shell">
+            <ScrollPane fx:id="authScrollPane" fitToWidth="true" fitToHeight="true" pannable="true" hbarPolicy="AS_NEEDED"
+                        vbarPolicy="AS_NEEDED" styleClass="tab-root-scroll auth-scroll-outer" minHeight="0">
+                <StackPane maxWidth="Infinity" styleClass="auth-scroll-center">
+                <VBox fx:id="authPane" alignment="TOP_CENTER" styleClass="auth-shell" StackPane.alignment="CENTER">
                 <StackPane styleClass="auth-card-stack" maxWidth="520">
                     <VBox fx:id="authLoginPane" styleClass="login-card" spacing="18" alignment="TOP_CENTER">
                         <StackPane styleClass="brand-logo-frame-large">
@@ -60,7 +63,7 @@
                             <Label styleClass="login-tagline" wrapText="true" maxWidth="440" text="Sign in to browse the catalogue, promotions, and checkout — or continue as a guest."/>
                         </VBox>
 
-                        <VBox styleClass="login-fields-panel" spacing="14" maxWidth="440">
+                        <VBox styleClass="login-fields-panel" spacing="14" maxWidth="440" fillWidth="false">
                             <GridPane hgap="10" vgap="10">
                                 <Label styleClass="field-label" text="Email or username" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
                                 <TextField fx:id="loginEmailField" styleClass="input login-input-wide"
@@ -100,7 +103,7 @@
                         <Label styleClass="login-brand-title" text="Non-commercial registration"/>
                         <Label styleClass="login-helper" wrapText="true" maxWidth="440"
                                text="Create a membership account. Your email becomes your login and a temporary password is generated for you."/>
-                        <VBox styleClass="login-fields-panel" spacing="12" maxWidth="440">
+                        <VBox styleClass="login-fields-panel" spacing="12" maxWidth="440" fillWidth="false">
                             <VBox spacing="6">
                                 <Label styleClass="field-label" text="Email address"/>
                                 <TextField fx:id="regNonCommercialEmailField" styleClass="input login-input-wide" promptText="you@example.com"/>
@@ -139,7 +142,7 @@
                         <Label styleClass="login-brand-title" text="Registration complete"/>
                         <Label styleClass="login-helper" wrapText="true" maxWidth="440"
                                text="Use these details to sign in. The temporary password was copied to your clipboard."/>
-                        <VBox styleClass="login-fields-panel" spacing="12" maxWidth="440">
+                        <VBox styleClass="login-fields-panel" spacing="12" maxWidth="440" fillWidth="false">
                             <VBox spacing="4"><Label styleClass="field-label" text="Login email"/><TextField fx:id="regResultEmailField" styleClass="input login-input-wide" editable="false"/></VBox>
                             <VBox spacing="4"><Label styleClass="field-label" text="Temporary password"/><TextField fx:id="regResultPasswordField" styleClass="input login-input-wide" editable="false"/></VBox>
                             <HBox spacing="12" alignment="CENTER" styleClass="auth-form-actions">
@@ -149,44 +152,46 @@
                         </VBox>
                     </VBox>
                 </StackPane>
-            </VBox>
+                </VBox>
+                </StackPane>
+            </ScrollPane>
 
             <TabPane fx:id="appTabs" styleClass="app-tabs" visible="false" managed="false" tabClosingPolicy="UNAVAILABLE">
                 <tabs>
                     <Tab text="Catalogue">
-                        <VBox styleClass="panel-card" spacing="12">
-                            <Label styleClass="screen-title" text="Catalogue"/>
-                            <Label styleClass="screen-subtitle" text="Browse available pharmaceutical products and add them straight to your cart."/>
-                            <HBox spacing="10" styleClass="compact-toolbar">
-                                <TextField fx:id="searchField" styleClass="input" promptText="Search by keyword..." HBox.hgrow="ALWAYS"/>
-                                <Button styleClass="btn-primary btn-text-safe" text="Search" onAction="#onSearch"/>
-                                <Button fx:id="promotionsButton" styleClass="btn-accent btn-text-safe" text="Promotions" onAction="#onPromotionsView"/>
-                            </HBox>
-                            <Label fx:id="catalogueInfoLabel" styleClass="info-banner" wrapText="true"
-                                   text="Browse all active catalogue items."/>
-                            <ScrollPane fitToWidth="true" prefHeight="470" styleClass="flat-scroll">
-                                <content>
-                                    <FlowPane fx:id="catalogueCardsPane" hgap="14" vgap="14" prefWrapLength="980"/>
-                                </content>
-                            </ScrollPane>
-                        </VBox>
+                        <ScrollPane fitToWidth="true" pannable="true" hbarPolicy="AS_NEEDED" vbarPolicy="AS_NEEDED"
+                                    styleClass="tab-root-scroll" minHeight="0">
+                            <VBox styleClass="panel-card" spacing="12">
+                                <Label styleClass="screen-title" text="Catalogue"/>
+                                <Label styleClass="screen-subtitle" text="Browse available pharmaceutical products and add them straight to your cart."/>
+                                <HBox spacing="10" styleClass="compact-toolbar">
+                                    <TextField fx:id="searchField" styleClass="input" promptText="Search by keyword..." HBox.hgrow="ALWAYS"/>
+                                    <Button styleClass="btn-primary btn-text-safe" text="Search" onAction="#onSearch"/>
+                                    <Button fx:id="promotionsButton" styleClass="btn-accent btn-text-safe" text="Promotions" onAction="#onPromotionsView"/>
+                                </HBox>
+                                <Label fx:id="catalogueInfoLabel" styleClass="info-banner" wrapText="true"
+                                       text="Browse all active catalogue items."/>
+                                <FlowPane fx:id="catalogueCardsPane" hgap="14" vgap="14" prefWrapLength="980"/>
+                            </VBox>
+                        </ScrollPane>
                     </Tab>
 
                     <Tab fx:id="promotionsTab" text="Promotions">
-                        <VBox styleClass="panel-card" spacing="12">
-                            <Label styleClass="screen-title" text="Promotions"/>
-                            <Label styleClass="screen-subtitle" text="Current and upcoming discount campaigns for products in the catalogue."/>
-                            <Label styleClass="info-banner" wrapText="true"
-                                   text="Opening this screen counts as a promotions view for engagement tracking. Active campaigns can be added to cart directly."/>
-                            <ScrollPane fitToWidth="true" prefHeight="500" styleClass="flat-scroll">
-                                <content>
-                                    <VBox fx:id="promotionsContentBox" spacing="14"/>
-                                </content>
-                            </ScrollPane>
-                        </VBox>
+                        <ScrollPane fitToWidth="true" pannable="true" hbarPolicy="AS_NEEDED" vbarPolicy="AS_NEEDED"
+                                    styleClass="tab-root-scroll" minHeight="0">
+                            <VBox styleClass="panel-card" spacing="12">
+                                <Label styleClass="screen-title" text="Promotions"/>
+                                <Label styleClass="screen-subtitle" text="Current and upcoming discount campaigns for products in the catalogue."/>
+                                <Label styleClass="info-banner" wrapText="true"
+                                       text="Opening this screen counts as a promotions view for engagement tracking. Active campaigns can be added to cart directly."/>
+                                <VBox fx:id="promotionsContentBox" spacing="14"/>
+                            </VBox>
+                        </ScrollPane>
                     </Tab>
 
                     <Tab text="Cart / Checkout">
+                        <ScrollPane fitToWidth="true" pannable="true" hbarPolicy="AS_NEEDED" vbarPolicy="AS_NEEDED"
+                                    styleClass="tab-root-scroll" minHeight="0">
                         <HBox spacing="16">
                             <VBox styleClass="panel-card" spacing="12" HBox.hgrow="ALWAYS">
                                 <Label styleClass="screen-title" text="Shopping Cart"/>
@@ -271,9 +276,12 @@
                                 <Button styleClass="btn-accent checkout-button btn-text-safe" text="Pay and checkout" onAction="#onCheckout"/>
                             </VBox>
                         </HBox>
+                        </ScrollPane>
                     </Tab>
 
                     <Tab text="Orders">
+                        <ScrollPane fitToWidth="true" pannable="true" hbarPolicy="AS_NEEDED" vbarPolicy="AS_NEEDED"
+                                    styleClass="tab-root-scroll" minHeight="0">
                         <VBox styleClass="panel-card" spacing="12">
                             <Label styleClass="screen-title" text="Orders / Tracking"/>
                             <Label styleClass="screen-subtitle" text="Signed-in users can refresh their order list. Guests can still track orders using email and tracking code."/>
@@ -296,9 +304,12 @@
                                 </columns>
                             </TableView>
                         </VBox>
+                        </ScrollPane>
                     </Tab>
 
                     <Tab text="Profile">
+                        <ScrollPane fitToWidth="true" pannable="true" hbarPolicy="AS_NEEDED" vbarPolicy="AS_NEEDED"
+                                    styleClass="tab-root-scroll" minHeight="0">
                         <HBox spacing="16">
                             <VBox styleClass="panel-card profile-card" spacing="12" minWidth="280" prefWidth="320">
                                 <StackPane styleClass="avatar-frame">
@@ -335,9 +346,12 @@
                                        text="Profile details reflect the current signed-in session. Guest sessions can still track orders but do not receive loyalty discounts."/>
                             </VBox>
                         </HBox>
+                        </ScrollPane>
                     </Tab>
 
                     <Tab text="Admin">
+                        <ScrollPane fitToWidth="true" pannable="true" hbarPolicy="AS_NEEDED" vbarPolicy="AS_NEEDED"
+                                    styleClass="tab-root-scroll" minHeight="0">
                         <SplitPane dividerPositions="0.52">
                             <items>
                                 <VBox styleClass="panel-card" spacing="10">
@@ -399,6 +413,7 @@
                                 </VBox>
                             </items>
                         </SplitPane>
+                        </ScrollPane>
                     </Tab>
                 </tabs>
             </TabPane>

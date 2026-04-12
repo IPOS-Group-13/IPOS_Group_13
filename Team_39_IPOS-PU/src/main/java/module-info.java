@@ -10,4 +10,6 @@ module com.teesolutions.ipospu {
 
     opens com.teesolutions.ipospu.controllers to javafx.fxml;
     exports com.teesolutions.ipospu.controllers;
+
+    exports com.teesolutions.ipospu.utils;
 }

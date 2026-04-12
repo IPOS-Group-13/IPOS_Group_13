@@ -1,0 +1,24 @@
+/* Printable report node: black text, fixed logical width matches PageLayout. */
+.report-print-root {
+    -fx-background-color: #ffffff;
+}
+
+.report-print-title {
+    -fx-text-fill: #000000;
+}
+
+.report-print-summary {
+    -fx-background-color: #f4f4f4;
+    -fx-border-color: #cccccc;
+    -fx-border-width: 1;
+    -fx-border-radius: 4;
+    -fx-background-radius: 4;
+}
+
+.report-print-grid {
+    -fx-background-color: #ffffff;
+}
+
+.report-print-grid .label {
+    -fx-text-fill: #000000;
+}

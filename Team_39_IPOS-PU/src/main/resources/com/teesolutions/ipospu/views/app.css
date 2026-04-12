@@ -27,6 +27,15 @@
     -fx-font-size: 13px;
 }
 
+/* Login: outer scroll fills viewport; inner stack centers the card when content is shorter than window */
+.auth-scroll-outer > .viewport {
+    -fx-background-color: transparent;
+}
+
+.auth-scroll-center {
+    -fx-background-color: transparent;
+}
+
 .auth-shell {
     -fx-max-width: 980;
     -fx-padding: 40 32 48 32;
@@ -50,6 +59,7 @@
 
 .login-fields-panel {
     -fx-padding: 4 0 0 0;
+    -fx-alignment: top_center;
 }
 
 .login-tagline {
@@ -345,6 +355,22 @@
 
 .flat-scroll > .viewport {
     -fx-background-color: transparent;
+}
+
+/* Tab + auth: full-area scroll; wheel/trackpad scrolls content while headers stay visible on tabs */
+.tab-root-scroll {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-background-insets: 0;
+    -fx-padding: 0;
+}
+
+.tab-root-scroll > .viewport {
+    -fx-background-color: transparent;
+}
+
+.app-tabs .tab-content-area {
+    -fx-padding: 0;
 }
 
 .status-chip {

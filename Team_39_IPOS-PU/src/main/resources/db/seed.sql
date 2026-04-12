@@ -16,7 +16,7 @@ WHERE NOT EXISTS (SELECT 1 FROM users WHERE email = 'manager@ipos.local');
 
 UPDATE users SET email = 'dimitarprem@gmail.com' WHERE email = 'cool@example.com';
 UPDATE users SET email = 'test.ipos.pu@gmail.com' WHERE email = 'cool1@example.com';
-UPDATE commercial_applications SET email = 'dimitarprem777711@gmail.com' WHERE email = 'pondPharma@example.com';
+UPDATE commercial_applications SET email = 'ipos_commercial@yahoo.com' WHERE email IN ('pondPharma@example.com', 'dimitarprem777711@gmail.com');
 
 
 INSERT INTO users (email, login_alias, password_hash, member_type, account_status, first_login_required, completed_order_count)
@@ -144,11 +144,11 @@ SELECT c.id, '40000001', 0, 0, 0 FROM campaigns c WHERE c.name = 'April Promotio
 
 INSERT INTO commercial_applications (company_registration_number, director_name, business_type, address, email, submitted_at, submission_status)
 SELECT 'UK10003429CompH', 'Pond Pharmacy Director', 'Community Pharmacy',
-       '25 High Street, Chislehurst, BR7 5BN', 'dimitarprem777711@gmail.com', '2026-02-01 12:00:00', 'SUBMITTED_TO_SA'
-WHERE NOT EXISTS (SELECT 1 FROM commercial_applications WHERE email = 'dimitarprem777711@gmail.com');
+       '25 High Street, Chislehurst, BR7 5BN', 'ipos_commercial@yahoo.com', '2026-02-01 12:00:00', 'SUBMITTED_TO_SA'
+WHERE NOT EXISTS (SELECT 1 FROM commercial_applications WHERE email = 'ipos_commercial@yahoo.com');
 
 UPDATE commercial_applications SET company_registration_number = 'UK10003429CompH'
-WHERE email = 'dimitarprem777711@gmail.com';
+WHERE email = 'ipos_commercial@yahoo.com';
 
 INSERT INTO app_config (config_key, config_value)
 SELECT 'vat_rate', '0'
