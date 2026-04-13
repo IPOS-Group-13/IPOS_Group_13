@@ -68,6 +68,15 @@ public class OrderMenuController {
     }
 
     @FXML
+    private void handleCatalogueClick (ActionEvent event) {
+        try {
+            SceneSwitcher.switchScene(event, "/catalogue/catalogue.fxml", "Catalogue Page");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
     private void handleLogoutMenuClick(ActionEvent event) {
         if (profileMenuPane != null) {
             profileMenuPane.setVisible(false);

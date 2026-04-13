@@ -31,12 +31,12 @@
                   <Font name="System Bold" size="12.0" />
                </font>
             </Button>
-            <Button alignment="TOP_LEFT" layoutX="7.0" layoutY="222.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="102.0" style="-fx-background-color: #A89CB6; -fx-background-radius: 18;" text="Orders">
+            <Button alignment="TOP_LEFT" layoutX="7.0" layoutY="222.0" mnemonicParsing="false" onAction="#handleOrdersClick" prefHeight="26.0" prefWidth="102.0" style="-fx-background-color: #A89CB6; -fx-background-radius: 18;" text="Orders">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Button>
-            <Button alignment="TOP_LEFT" layoutX="7.0" layoutY="263.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="102.0" style="-fx-background-color: #A89CB6; -fx-background-radius: 18;" text="Payments">
+            <Button alignment="TOP_LEFT" layoutX="7.0" layoutY="263.0" mnemonicParsing="false" onAction="#handlePaymentsClick" prefHeight="26.0" prefWidth="102.0" style="-fx-background-color: #A89CB6; -fx-background-radius: 18;" text="Payments">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
@@ -63,7 +63,7 @@
             <Image url="@../login/images/account_circle-Photoroom.png" />
          </image>
       </ImageView>
-      <AnchorPane layoutX="219.0" layoutY="159.0" prefHeight="343.0" prefWidth="277.0" style="-fx-background-color: #B3A2C7; -fx-background-radius: 20;">
+      <AnchorPane layoutX="219.0" layoutY="139.0" prefHeight="343.0" prefWidth="277.0" style="-fx-background-color: #B3A2C7; -fx-background-radius: 20;">
          <children>
             <Label alignment="CENTER" layoutX="65.0" layoutY="131.0" text="View Catalogue" textFill="#49454f">
                <font>
@@ -82,7 +82,7 @@
             <Font name="Segoe UI Bold" size="36.0" />
          </font>
       </Label>
-      <AnchorPane layoutX="564.0" layoutY="159.0" prefHeight="343.0" prefWidth="277.0" style="-fx-background-color: #B3A2C7; -fx-background-radius: 20;">
+      <AnchorPane layoutX="564.0" layoutY="139.0" prefHeight="343.0" prefWidth="277.0" style="-fx-background-color: #B3A2C7; -fx-background-radius: 20;">
          <children>
             <Label alignment="CENTER" layoutX="50.0" layoutY="133.0" text="Manage Catalogue" textFill="#49454f">
                <font>

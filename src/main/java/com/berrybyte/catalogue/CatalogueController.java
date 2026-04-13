@@ -33,6 +33,7 @@ public class CatalogueController {
             e.printStackTrace();
         }
     }
+    
 
 
     @FXML
@@ -48,6 +49,15 @@ public class CatalogueController {
     private void manageCatalogueButton(ActionEvent event) {
         try {
             SceneSwitcher.switchScene(event, "/catalogue/manageCatalogue.fxml", "Manage Catalogue Page");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void handleOrdersClick(ActionEvent event) {
+        try {
+            SceneSwitcher.switchScene(event, "/dashboard/orderMenu.fxml", "Orders");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -70,6 +80,8 @@ public class CatalogueController {
             e.printStackTrace();
         }
     }
+
+
 
     @FXML
     private void handleDashboardClick(ActionEvent event) {

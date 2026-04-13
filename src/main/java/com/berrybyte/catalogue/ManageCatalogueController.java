@@ -59,6 +59,15 @@ public class ManageCatalogueController {
     }
 
     @FXML
+    private void handleBackButton(ActionEvent event) {
+        try {
+            SceneSwitcher.switchScene(event, "/catalogue/catalogue.fxml", "Catalogue Page");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
     private void modifyQuantityButton(ActionEvent event) {
         System.out.println("Add Product clicked");
     }

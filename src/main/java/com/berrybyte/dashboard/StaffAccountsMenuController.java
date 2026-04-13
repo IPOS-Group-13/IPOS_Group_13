@@ -72,7 +72,7 @@ public class StaffAccountsMenuController {
     @FXML
     private void handleCatalogueClick(ActionEvent event) {
         try {
-            SceneSwitcher.switchScene(event, "/catalogue/manageCatalogue.fxml", "Catalogue Page");
+            SceneSwitcher.switchScene(event, "/catalogue/catalogue.fxml", "Catalogue Page");
         } catch (Exception e) {
             e.printStackTrace();
         }
