@@ -204,7 +204,7 @@ public class EditManagerAccountController {
             int rowsAffected = preparedStatement.executeUpdate();
 
             if (rowsAffected > 0) {
-                RoleBasedNavigator.switchToStaffAccounts(event);
+            RoleBasedNavigator.switchToManageAccounts(event);
             } else {
                 messageLabel.setText("No manager account was updated.");
             }
@@ -218,7 +218,7 @@ public class EditManagerAccountController {
     @FXML
     private void handleBackButton(MouseEvent event) {
         try {
-            RoleBasedNavigator.openStaffAccounts((Node) event.getSource());
+            RoleBasedNavigator.openManageAccounts((Node) event.getSource());
         } catch (Exception e) {
             e.printStackTrace();
             messageLabel.setText("Unable to go back.");

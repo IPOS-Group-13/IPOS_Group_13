@@ -16,37 +16,32 @@
                   <Image url="@../login/images/menu-Photoroom.png" />
                </image>
             </ImageView>
-            <Button alignment="TOP_LEFT" layoutX="7.0" layoutY="101.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="102.0" style="-fx-background-color: #A89CB6; -fx-background-radius: 18;" text="Dashboard ">
+            <Button alignment="TOP_LEFT" layoutX="7.0" layoutY="96.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="102.0" style="-fx-background-color: #A89CB6; -fx-background-radius: 18;" text="Dashboard ">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Button>
-            <Button alignment="TOP_LEFT" layoutX="7.0" layoutY="145.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="102.0" style="-fx-background-color: #A89CB6; -fx-background-radius: 18;" text="Catalogue">
+            <Button alignment="TOP_LEFT" layoutX="7.0" layoutY="140.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="102.0" style="-fx-background-color: #A89CB6; -fx-background-radius: 18;" text="Catalogue">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Button>
-            <Button alignment="TOP_LEFT" layoutX="7.0" layoutY="186.0" mnemonicParsing="false" onAction="#handleMerchantsClick" prefHeight="26.0" prefWidth="102.0" style="-fx-background-color: #A89CB6; -fx-background-radius: 18;" text="Merchants">
+            <Button alignment="TOP_LEFT" layoutX="7.0" layoutY="181.0" mnemonicParsing="false" onAction="#handleMerchantsClick" prefHeight="26.0" prefWidth="102.0" style="-fx-background-color: #A89CB6; -fx-background-radius: 18;" text="Merchants">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Button>
-            <Button alignment="TOP_LEFT" layoutX="7.0" layoutY="226.0" mnemonicParsing="false" onAction="#handleOrdersClick" prefHeight="26.0" prefWidth="102.0" style="-fx-background-color: #A89CB6; -fx-background-radius: 18;" text="Orders">
+            <Button alignment="TOP_LEFT" layoutX="7.0" layoutY="220.0" mnemonicParsing="false" onAction="#handleOrdersClick" prefHeight="26.0" prefWidth="102.0" style="-fx-background-color: #A89CB6; -fx-background-radius: 18;" text="Orders">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Button>
-            <Button alignment="TOP_LEFT" layoutX="7.0" layoutY="269.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="102.0" style="-fx-background-color: #A89CB6; -fx-background-radius: 18;" text="Payments">
+            <Button alignment="TOP_LEFT" layoutX="7.0" layoutY="262.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="102.0" style="-fx-background-color: #A89CB6; -fx-background-radius: 18;" text="Reports">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Button>
-            <Button alignment="TOP_LEFT" layoutX="7.0" layoutY="311.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="102.0" style="-fx-background-color: #A89CB6; -fx-background-radius: 18;" text="Reports">
-               <font>
-                  <Font name="System Bold" size="12.0" />
-               </font>
-            </Button>
-            <Button alignment="TOP_LEFT" layoutX="6.0" layoutY="354.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="141.0" style="-fx-background-color: #A89CB6; -fx-background-radius: 18;" text="Pending Applications">
+            <Button alignment="TOP_LEFT" layoutX="6.0" layoutY="303.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="141.0" style="-fx-background-color: #A89CB6; -fx-background-radius: 18;" text="Pending Applications">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>

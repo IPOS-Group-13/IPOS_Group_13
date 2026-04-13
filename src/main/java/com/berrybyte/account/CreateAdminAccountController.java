@@ -98,7 +98,7 @@ public class CreateAdminAccountController {
             preparedStatement.setString(6, "ADMIN");
             preparedStatement.executeUpdate();
 
-            RoleBasedNavigator.switchToStaffAccounts(event);
+            RoleBasedNavigator.switchToManageAccounts(event);
             clearFields();
 
         } catch (Exception e) {

@@ -85,7 +85,7 @@ public class ManageCatalogueController {
     @FXML
     private void handleStaffAccountsClick(ActionEvent event) {
         try {
-            RoleBasedNavigator.switchToStaffAccounts(event);
+            RoleBasedNavigator.switchToManageAccounts(event);
         } catch (Exception e) {
             e.printStackTrace();
         }

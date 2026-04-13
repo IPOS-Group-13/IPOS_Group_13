@@ -28,53 +28,9 @@
             </Button>
             <ImageView fitHeight="33.0" fitWidth="38.0" layoutX="156.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../login/images/Log%20in-Photoroom.png" />
+                  <Image url="@../login/images/Log in-Photoroom.png" />
                </image>
             </ImageView>
-         </children>
-      </AnchorPane>
-      <AnchorPane layoutX="23.0" layoutY="37.0" prefHeight="526.0" prefWidth="141.0" style="-fx-background-color: #A89CB6; -fx-background-radius: 20;">
-         <children>
-            <ImageView fitHeight="52.0" fitWidth="81.0" layoutX="14.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../login/images/menu-Photoroom.png" />
-               </image>
-            </ImageView>
-            <Button alignment="TOP_LEFT" layoutX="7.0" layoutY="93.0" mnemonicParsing="false" onAction="#handleDashboardClick" prefHeight="26.0" prefWidth="102.0" style="-fx-background-color: #A89CB6; -fx-background-radius: 18;" text="Dashboard ">
-               <font>
-                  <Font name="System Bold" size="12.0" />
-               </font>
-            </Button>
-            <Button alignment="TOP_LEFT" layoutX="7.0" layoutY="137.0" mnemonicParsing="false" onAction="#handleCatalogueClick" prefHeight="26.0" prefWidth="102.0" style="-fx-background-color: #A89CB6; -fx-background-radius: 18;" text="Catalogue">
-               <font>
-                  <Font name="System Bold" size="12.0" />
-               </font>
-            </Button>
-            <Button alignment="TOP_LEFT" layoutX="7.0" layoutY="178.0" mnemonicParsing="false" onAction="#handleMerchantsClick" prefHeight="26.0" prefWidth="102.0" style="-fx-background-color: #A89CB6; -fx-background-radius: 18;" text="Merchants">
-               <font>
-                  <Font name="System Bold" size="12.0" />
-               </font>
-            </Button>
-            <Button alignment="TOP_LEFT" layoutX="7.0" layoutY="222.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="102.0" style="-fx-background-color: #A89CB6; -fx-background-radius: 18;" text="Orders">
-               <font>
-                  <Font name="System Bold" size="12.0" />
-               </font>
-            </Button>
-            <Button alignment="TOP_LEFT" layoutX="7.0" layoutY="262.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="102.0" style="-fx-background-color: #A89CB6; -fx-background-radius: 18;" text="Reports">
-               <font>
-                  <Font name="System Bold" size="12.0" />
-               </font>
-            </Button>
-            <Button alignment="TOP_LEFT" layoutX="7.0" layoutY="303.0" mnemonicParsing="false" onAction="#handleStaffAccountsClick" prefHeight="26.0" prefWidth="121.0" style="-fx-background-color: #A89CB6; -fx-background-radius: 18;" text="Manage Accounts">
-               <font>
-                  <Font name="System Bold" size="12.0" />
-               </font>
-            </Button>
-            <Button alignment="TOP_LEFT" layoutX="6.0" layoutY="347.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="141.0" style="-fx-background-color: #A89CB6; -fx-background-radius: 18;" text="Pending Applications">
-               <font>
-                  <Font name="System Bold" size="12.0" />
-               </font>
-            </Button>
          </children>
       </AnchorPane>
       <AnchorPane layoutX="200.0" layoutY="185.0" prefHeight="260.0" prefWidth="315.0" style="-fx-background-color: #B3A2C7; -fx-background-radius: 20;">
@@ -113,6 +69,40 @@
                   <Font size="10.0" />
                </font>
             </Label>
+         </children>
+      </AnchorPane>
+      <AnchorPane layoutX="23.0" layoutY="37.0" prefHeight="526.0" prefWidth="141.0" style="-fx-background-color: #A89CB6; -fx-background-radius: 20;">
+         <children>
+            <ImageView fitHeight="52.0" fitWidth="81.0" layoutX="14.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../login/images/menu-Photoroom.png" />
+               </image>
+            </ImageView>
+            <Button alignment="TOP_LEFT" layoutX="7.0" layoutY="101.0" mnemonicParsing="false" onAction="#handleDashboardClick" prefHeight="26.0" prefWidth="102.0" style="-fx-background-color: #A89CB6; -fx-background-radius: 18;" text="Dashboard ">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Button>
+            <Button alignment="TOP_LEFT" layoutX="7.0" layoutY="145.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="102.0" style="-fx-background-color: #A89CB6; -fx-background-radius: 18;" text="Catalogue">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Button>
+            <Button alignment="TOP_LEFT" layoutX="7.0" layoutY="185.0" mnemonicParsing="false" onAction="#handleOrdersClick" prefHeight="26.0" prefWidth="102.0" style="-fx-background-color: #A89CB6; -fx-background-radius: 18;" text="Orders">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Button>
+            <Button alignment="TOP_LEFT" layoutX="7.0" layoutY="226.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="102.0" style="-fx-background-color: #A89CB6; -fx-background-radius: 18;" text="Reports">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Button>
+            <Button alignment="TOP_LEFT" layoutX="6.0" layoutY="268.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="141.0" style="-fx-background-color: #A89CB6; -fx-background-radius: 18;" text="Pending Applications">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Button>
          </children>
       </AnchorPane>
    </children>

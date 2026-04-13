@@ -67,7 +67,7 @@ public class FixedDiscountController {
             );
             //messageLabel.setText("Merchant account created successfully");
             MerchantDraftSession.clear();
-            RoleBasedNavigator.switchToStaffAccounts(event);
+            RoleBasedNavigator.switchToManageAccounts(event);
 
         } catch (Exception e) {
             e.printStackTrace();

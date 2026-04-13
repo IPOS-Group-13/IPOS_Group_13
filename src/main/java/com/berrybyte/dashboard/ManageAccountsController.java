@@ -6,7 +6,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.layout.AnchorPane;
 
-public class StaffAccountsMenuController {
+public class ManageAccountsController {
 
     @FXML
     private AnchorPane profileMenuPane;
@@ -35,6 +35,7 @@ public class StaffAccountsMenuController {
             e.printStackTrace();
         }
     }
+
     @FXML
     private void handleMerchantsClick(ActionEvent event) {
         try {
@@ -52,6 +53,7 @@ public class StaffAccountsMenuController {
             e.printStackTrace();
         }
     }
+
     @FXML
     private void deleteAccountButton(ActionEvent event) {
         try {
@@ -60,6 +62,7 @@ public class StaffAccountsMenuController {
             e.printStackTrace();
         }
     }
+
     @FXML
     private void editAccountsButton(ActionEvent event) {
         try {

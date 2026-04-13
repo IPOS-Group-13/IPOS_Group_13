@@ -1,9 +1,9 @@
 package com.berrybyte.login;
 
+import com.berrybyte.account.MerchantStatusService;
 import com.berrybyte.common.DatabaseConnection;
 import com.berrybyte.common.LoginSession;
 import com.berrybyte.common.RoleBasedNavigator;
-import com.berrybyte.common.SceneSwitcher;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Hyperlink;
@@ -14,8 +14,11 @@ import javafx.scene.control.TextField;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.time.LocalDate;
 
 public class LoginController {
+
+    private final MerchantStatusService merchantStatusService = new MerchantStatusService();
 
     @FXML
     private Label loginMessageLabel;
@@ -60,27 +63,36 @@ public class LoginController {
                 if (resultSet.next()) {
                     int userId = resultSet.getInt("UserId");
                     String role = resultSet.getString("Role");
+                    if (role == null || role.isBlank()) {
+                        LoginSession.clear();
+                        loginMessageLabel.setText("Unknown account role");
+                        return;
+                    }
+
+                    if ("MERCHANT".equalsIgnoreCase(role.trim())) {
+                        LoginSession.clear();
+                        loginMessageLabel.setText("Invalid username or password");
+                        return;
+                    }
+
                     LoginSession.setCurrentUserId(userId);
                     LoginSession.setCurrentRole(role);
 
-                    if ("ADMIN".equalsIgnoreCase(role) || "MANAGER".equalsIgnoreCase(role)) {
-                        RoleBasedNavigator.switchToDashboard(event);
-                    } else if ("MERCHANT".equalsIgnoreCase(role)) {
-                        loginMessageLabel.setText("Invalid username or password");
-                    } else if ("ACCOUNTANT".equalsIgnoreCase(role) ||
-                               "CLERK".equalsIgnoreCase(role) ||
-                               "WAREHOUSE".equalsIgnoreCase(role) ||
-                               "DELIVERY".equalsIgnoreCase(role)) {
-                        RoleBasedNavigator.switchToDashboard(event);
-                    } else {
-                        loginMessageLabel.setText("Unknown account role");
+                    try {
+                        merchantStatusService.refreshAllMerchantStatuses(LocalDate.now());
+                    } catch (Exception refreshError) {
+                        refreshError.printStackTrace();
                     }
+
+                    RoleBasedNavigator.switchToDashboard(event);
                 } else {
+                    LoginSession.clear();
                     loginMessageLabel.setText("Invalid username or password");
                 }
             }
         } catch (Exception e) {
             e.printStackTrace();
+            LoginSession.clear();
             loginMessageLabel.setText("cant connect");
         }
     }

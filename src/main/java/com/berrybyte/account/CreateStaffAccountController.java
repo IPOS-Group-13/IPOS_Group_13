@@ -66,6 +66,9 @@ public class CreateStaffAccountController {
         if (email.isEmpty()) throw new Exception("Email is required.");
         if (phone.isEmpty()) throw new Exception("Phone number is required.");
         if (role.isEmpty()) throw new Exception("Role is required.");
+        if ("MERCHANT".equalsIgnoreCase(role)) {
+            throw new Exception("Staff accounts cannot use the MERCHANT role.");
+        }
 
         if (!name.matches("[A-Za-z ]+")) {
             throw new Exception("Name must contain only letters and spaces.");
@@ -87,6 +90,9 @@ public class CreateStaffAccountController {
             throw new Exception("Enter a valid phone number with country code (e.g. +44 7123456789).");
         }
 
+        if (StaffRoleRules.isReservedStaffRole(role)) {
+            throw new Exception("Role cannot be admin, administrator, manager, director of operations, or merchant.");
+        }
     }
 
     private void createStaff(ActionEvent event) {
@@ -110,7 +116,7 @@ public class CreateStaffAccountController {
 
             preparedStatement.executeUpdate();
             clearFields();
-            RoleBasedNavigator.switchToStaffAccounts(event);
+            RoleBasedNavigator.switchToManageAccounts(event);
 
         } catch (SQLException e) {
             e.printStackTrace();

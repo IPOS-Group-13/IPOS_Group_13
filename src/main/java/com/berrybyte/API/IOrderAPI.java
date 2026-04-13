@@ -1,8 +1,9 @@
 package com.berrybyte.API;
 
-import com.berrybyte.ORD.DTO.*;
+import com.berrybyte.ORD.helpers.*;
 import com.berrybyte.ORD.Status.AcceptOrderStatus;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -30,12 +31,14 @@ public interface IOrderAPI {
 
     List<OrderSummaryRow> getOrdersSummary() throws Exception;
     List<OrderSummaryRow> searchOrdersSummary(String keyword) throws Exception;
+    void recordPayment(int orderId, BigDecimal paymentAmount, String paymentMethod, int recordedByUserId) throws Exception;
     boolean updateDispatchDetails(int orderId,
                                   String courierName,
                                   String courierRef,
                                   LocalDateTime dispatchedDateTime,
                                   LocalDateTime expectedDeliveryDateTime,
                                   String status) throws Exception;
+    boolean markOrderAsDelivered(int orderId, LocalDateTime deliveredDateTime) throws Exception;
 
     String trackOrder(int orderId) throws Exception;
 }

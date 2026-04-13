@@ -98,7 +98,7 @@ public class CreateManagerAccountController {
             preparedStatement.setString(6, "MANAGER");
             preparedStatement.executeUpdate();
 
-            RoleBasedNavigator.switchToStaffAccounts(event);
+            RoleBasedNavigator.switchToManageAccounts(event);
             clearFields();
 
         } catch (Exception e) {
