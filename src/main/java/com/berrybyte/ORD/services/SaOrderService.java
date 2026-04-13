@@ -3,9 +3,12 @@ package com.berrybyte.ORD.services;
 import com.berrybyte.API.IOrderAPI;
 import com.berrybyte.ORD.helpers.*;
 import com.berrybyte.ORD.Status.AcceptOrderStatus;
+import com.berrybyte.account.MerchantStatusService;
 import com.berrybyte.common.DatabaseConnection;
 
 import java.nio.file.Path;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -17,6 +20,7 @@ public class SaOrderService implements IOrderAPI {
     private final ExternalCommsQueueService externalCommsQueueService = new ExternalCommsQueueService();
     private final InvoicePdfService invoicePdfService = new InvoicePdfService();
     private final InvoiceStorageService invoiceStorageService = new InvoiceStorageService();
+    private final MerchantStatusService merchantStatusService = new MerchantStatusService();
 
     @Override
     public List<IncomingOrderRow> getOrdersForReview() throws Exception {
@@ -211,6 +215,8 @@ public class SaOrderService implements IOrderAPI {
                 return AcceptOrderStatus.ORDER_ALREADY_ACCEPTED;
             }
 
+            merchantStatusService.refreshMerchantStatus(conn, merchantId, LocalDate.now());
+
             String merchantSql = """
                     SELECT AccountStatus
                     FROM MerchantAccounts
@@ -272,6 +278,8 @@ public class SaOrderService implements IOrderAPI {
                 return AcceptOrderStatus.ERROR;
             }
 
+            double discountedTotalAmount = calculateDiscountedTotal(conn, merchantId, totalAmount);
+
             String reduceStockSql = """
                     UPDATE Catalogue
                     SET AvailabilityPacks = AvailabilityPacks - ?
@@ -298,8 +306,8 @@ public class SaOrderService implements IOrderAPI {
             try (PreparedStatement ps = conn.prepareStatement(insertInvoiceSql, Statement.RETURN_GENERATED_KEYS)) {
                 ps.setInt(1, orderId);
                 ps.setInt(2, merchantId);
-                ps.setDouble(3, totalAmount);
-                ps.setDouble(4, totalAmount);
+                ps.setDouble(3, discountedTotalAmount);
+                ps.setDouble(4, discountedTotalAmount);
                 ps.executeUpdate();
 
                 try (ResultSet keys = ps.getGeneratedKeys()) {
@@ -345,7 +353,7 @@ public class SaOrderService implements IOrderAPI {
                     """;
 
             try (PreparedStatement ps = conn.prepareStatement(updateBalanceSql)) {
-                ps.setDouble(1, totalAmount);
+                ps.setDouble(1, discountedTotalAmount);
                 ps.setInt(2, merchantId);
                 ps.executeUpdate();
             }
@@ -471,6 +479,175 @@ public class SaOrderService implements IOrderAPI {
     }
 
     @Override
+    public void recordPayment(int orderId, BigDecimal paymentAmount, String paymentMethod, int recordedByUserId) throws Exception {
+        if (orderId <= 0) {
+            throw new IllegalArgumentException("Select an order first.");
+        }
+        if (paymentAmount == null) {
+            throw new IllegalArgumentException("Enter a payment amount.");
+        }
+        if (paymentAmount.compareTo(BigDecimal.ZERO) <= 0) {
+            throw new IllegalArgumentException("Payment amount must be greater than 0.");
+        }
+        if (paymentMethod == null || paymentMethod.isBlank()) {
+            throw new IllegalArgumentException("Select a payment method.");
+        }
+        if (recordedByUserId <= 0) {
+            throw new IllegalArgumentException("No logged-in user was found.");
+        }
+
+        BigDecimal normalizedPaymentAmount = paymentAmount.setScale(2, RoundingMode.HALF_UP);
+        Connection conn = null;
+
+        try {
+            conn = new DatabaseConnection().getConnection();
+            conn.setAutoCommit(false);
+
+            String invoiceSql = """
+                    SELECT InvoiceId, MerchantId, TotalAmount, AmountPaid, OutstandingBalance
+                    FROM Invoices
+                    WHERE OrderId = ?
+                    FOR UPDATE
+                    """;
+
+            int invoiceId;
+            int merchantId;
+            BigDecimal invoiceTotal;
+            BigDecimal currentAmountPaid;
+            BigDecimal currentOutstandingBalance;
+
+            try (PreparedStatement ps = conn.prepareStatement(invoiceSql)) {
+                ps.setInt(1, orderId);
+
+                try (ResultSet rs = ps.executeQuery()) {
+                    if (!rs.next()) {
+                        conn.rollback();
+                        throw new IllegalArgumentException("No invoice exists for the selected order.");
+                    }
+
+                    invoiceId = rs.getInt("InvoiceId");
+                    merchantId = rs.getInt("MerchantId");
+                    invoiceTotal = normalizeCurrency(rs.getBigDecimal("TotalAmount"));
+                    currentAmountPaid = normalizeCurrency(rs.getBigDecimal("AmountPaid"));
+
+                    BigDecimal outstandingBalanceValue = rs.getBigDecimal("OutstandingBalance");
+                    if (outstandingBalanceValue == null) {
+                        currentOutstandingBalance = invoiceTotal.subtract(currentAmountPaid)
+                                .max(BigDecimal.ZERO)
+                                .setScale(2, RoundingMode.HALF_UP);
+                    } else {
+                        currentOutstandingBalance = normalizeCurrency(outstandingBalanceValue);
+                    }
+                }
+            }
+
+            if (currentOutstandingBalance.compareTo(BigDecimal.ZERO) == 0) {
+                conn.rollback();
+                throw new IllegalArgumentException("This invoice is already fully paid.");
+            }
+
+            if (normalizedPaymentAmount.compareTo(currentOutstandingBalance) > 0) {
+                conn.rollback();
+                throw new IllegalArgumentException("Payment amount cannot exceed the invoice outstanding balance.");
+            }
+
+            String merchantOutstandingSql = """
+                    SELECT OutstandingBalance
+                    FROM MerchantAccounts
+                    WHERE MerchantId = ?
+                    FOR UPDATE
+                    """;
+
+            BigDecimal merchantOutstandingBalance;
+
+            try (PreparedStatement ps = conn.prepareStatement(merchantOutstandingSql)) {
+                ps.setInt(1, merchantId);
+
+                try (ResultSet rs = ps.executeQuery()) {
+                    if (!rs.next()) {
+                        conn.rollback();
+                        throw new IllegalArgumentException("Merchant account not found.");
+                    }
+
+                    merchantOutstandingBalance = normalizeCurrency(rs.getBigDecimal("OutstandingBalance"));
+                }
+            }
+
+            BigDecimal newAmountPaid = currentAmountPaid.add(normalizedPaymentAmount).setScale(2, RoundingMode.HALF_UP);
+            BigDecimal newInvoiceOutstandingBalance = currentOutstandingBalance.subtract(normalizedPaymentAmount)
+                    .max(BigDecimal.ZERO)
+                    .setScale(2, RoundingMode.HALF_UP);
+            BigDecimal newMerchantOutstandingBalance = merchantOutstandingBalance.subtract(normalizedPaymentAmount)
+                    .max(BigDecimal.ZERO)
+                    .setScale(2, RoundingMode.HALF_UP);
+
+            String paymentStatus;
+            if (newInvoiceOutstandingBalance.compareTo(BigDecimal.ZERO) == 0) {
+                paymentStatus = "PAID";
+            } else if (newAmountPaid.compareTo(BigDecimal.ZERO) > 0 && newAmountPaid.compareTo(invoiceTotal) < 0) {
+                paymentStatus = "PARTIAL";
+            } else {
+                paymentStatus = "PENDING";
+            }
+
+            String insertPaymentSql = """
+                    INSERT INTO Payments
+                    (MerchantId, InvoiceId, PaymentDate, Amount, PaymentMethod, ReferenceNumber, RecordedByUserId)
+                    VALUES (?, ?, CURDATE(), ?, ?, NULL, ?)
+                    """;
+
+            try (PreparedStatement ps = conn.prepareStatement(insertPaymentSql)) {
+                ps.setInt(1, merchantId);
+                ps.setInt(2, invoiceId);
+                ps.setBigDecimal(3, normalizedPaymentAmount);
+                ps.setString(4, paymentMethod);
+                ps.setInt(5, recordedByUserId);
+                ps.executeUpdate();
+            }
+
+            String updateInvoiceSql = """
+                    UPDATE Invoices
+                    SET AmountPaid = ?,
+                        OutstandingBalance = ?,
+                        PaymentStatus = ?
+                    WHERE InvoiceId = ?
+                    """;
+
+            try (PreparedStatement ps = conn.prepareStatement(updateInvoiceSql)) {
+                ps.setBigDecimal(1, newAmountPaid);
+                ps.setBigDecimal(2, newInvoiceOutstandingBalance);
+                ps.setString(3, paymentStatus);
+                ps.setInt(4, invoiceId);
+                ps.executeUpdate();
+            }
+
+            String updateMerchantSql = """
+                    UPDATE MerchantAccounts
+                    SET OutstandingBalance = ?
+                    WHERE MerchantId = ?
+                    """;
+
+            try (PreparedStatement ps = conn.prepareStatement(updateMerchantSql)) {
+                ps.setBigDecimal(1, newMerchantOutstandingBalance);
+                ps.setInt(2, merchantId);
+                ps.executeUpdate();
+            }
+            merchantStatusService.refreshMerchantStatus(conn, merchantId, LocalDate.now());
+            conn.commit();
+
+        } catch (Exception e) {
+            if (conn != null) {
+                conn.rollback();
+            }
+            throw e;
+        } finally {
+            if (conn != null) {
+                conn.close();
+            }
+        }
+    }
+
+    @Override
     public List<MerchantOrderSummary> getMerchantOrderSummary(int merchantId) throws Exception {
         String sql = """
                 SELECT OrderId,
@@ -566,7 +743,6 @@ public class SaOrderService implements IOrderAPI {
                 rows.add(mapOrderSummaryRow(rs));
             }
         }
-
         return rows;
     }
 
@@ -695,6 +871,91 @@ public class SaOrderService implements IOrderAPI {
                 rs.getString("ExpectedDelivery"),
                 rs.getString("DeliveryDate"));
     }
+
+    private double calculateDiscountedTotal(Connection conn, int merchantId, double grossAmount) throws SQLException {
+        DiscountTierMatch discountTier = findApplicableDiscountTier(conn, merchantId, grossAmount);
+        if (discountTier == null || discountTier.discountPercent() <= 0) {
+            return roundCurrency(grossAmount);
+        }
+
+        BigDecimal gross = BigDecimal.valueOf(grossAmount);
+        BigDecimal discountRate = BigDecimal.valueOf(discountTier.discountPercent())
+                .divide(BigDecimal.valueOf(100), 6, RoundingMode.HALF_UP);
+
+        return gross.multiply(BigDecimal.ONE.subtract(discountRate))
+                .setScale(2, RoundingMode.HALF_UP)
+                .doubleValue();
+    }
+
+    private DiscountTierMatch findApplicableDiscountTier(Connection conn, int merchantId, double orderAmount) throws SQLException {
+        String activePlanSql = """
+                SELECT DiscountPlanId
+                FROM DiscountPlans
+                WHERE MerchantId = ?
+                  AND IsActive = 1
+                ORDER BY DiscountPlanId DESC
+                LIMIT 1
+                """;
+
+        Integer discountPlanId = null;
+
+        try (PreparedStatement planPs = conn.prepareStatement(activePlanSql)) {
+            planPs.setInt(1, merchantId);
+
+            try (ResultSet planRs = planPs.executeQuery()) {
+                if (planRs.next()) {
+                    discountPlanId = planRs.getInt("DiscountPlanId");
+                }
+            }
+        }
+
+        if (discountPlanId == null) {
+            return null;
+        }
+
+        String tiersSql = """
+                SELECT MinOrderValue, MaxOrderValue, DiscountPercent
+                FROM DiscountPlanTiers
+                WHERE DiscountPlanId = ?
+                ORDER BY MinOrderValue ASC, MaxOrderValue ASC
+                """;
+
+        try (PreparedStatement tiersPs = conn.prepareStatement(tiersSql)) {
+            tiersPs.setInt(1, discountPlanId);
+
+            try (ResultSet tiersRs = tiersPs.executeQuery()) {
+                while (tiersRs.next()) {
+                    double minOrderValue = tiersRs.getDouble("MinOrderValue");
+                    Double maxOrderValue = tiersRs.getObject("MaxOrderValue") == null
+                            ? null
+                            : tiersRs.getDouble("MaxOrderValue");
+
+                    boolean matchesTier = orderAmount >= minOrderValue
+                            && (maxOrderValue == null || orderAmount <= maxOrderValue);
+
+                    if (matchesTier) {
+                        return new DiscountTierMatch(
+                                minOrderValue,
+                                maxOrderValue,
+                                tiersRs.getDouble("DiscountPercent"));
+                    }
+                }
+            }
+        }
+        return null;
+    }
+
+    private double roundCurrency(double value) {
+        return BigDecimal.valueOf(value)
+                .setScale(2, RoundingMode.HALF_UP)
+                .doubleValue();
+    }
+
+    private BigDecimal normalizeCurrency(BigDecimal value) {
+        return (value == null ? BigDecimal.ZERO : value).setScale(2, RoundingMode.HALF_UP);
+    }
+
+    private record DiscountTierMatch(double minOrderValue, Double maxOrderValue, double discountPercent) { }
 
     private record StockReduction(int itemId, int quantity) { }
 }

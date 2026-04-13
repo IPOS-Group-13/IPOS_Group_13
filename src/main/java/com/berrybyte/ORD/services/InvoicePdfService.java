@@ -157,6 +157,16 @@ public class InvoicePdfService {
     private void addSummarySection(Document document, InvoiceDetails invoice) {
         Table summaryTable = new Table(UnitValue.createPercentArray(new float[]{2f, 1f})).setWidth(UnitValue.createPercentValue(45)).setHorizontalAlignment(HorizontalAlignment.RIGHT);
 
+        double subtotalAmount = invoice.getItems().stream()
+                .mapToDouble(InvoiceLine::getLineTotal)
+                .sum();
+        double discountApplied = subtotalAmount - invoice.getTotalAmount();
+
+        if (discountApplied > 0.004d) {
+            addSummaryRow(summaryTable, "Subtotal", formatCurrency(subtotalAmount));
+            addSummaryRow(summaryTable, "Discount Applied", formatCurrency(discountApplied));
+        }
+
         addSummaryRow(summaryTable, "Total Amount", formatCurrency(invoice.getTotalAmount()));
         addSummaryRow(summaryTable, "Amount Paid", formatCurrency(invoice.getAmountPaid()));
         addSummaryRow(summaryTable, "Outstanding Balance", formatCurrency(invoice.getOutstandingBalance()));

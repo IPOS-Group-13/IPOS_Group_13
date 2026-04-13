@@ -1,9 +1,9 @@
 package com.berrybyte.login;
 
+import com.berrybyte.account.MerchantStatusService;
 import com.berrybyte.common.DatabaseConnection;
 import com.berrybyte.common.LoginSession;
 import com.berrybyte.common.RoleBasedNavigator;
-import com.berrybyte.common.SceneSwitcher;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Hyperlink;
@@ -14,8 +14,11 @@ import javafx.scene.control.TextField;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.time.LocalDate;
 
 public class LoginController {
+
+    private final MerchantStatusService merchantStatusService = new MerchantStatusService();
 
     @FXML
     private Label loginMessageLabel;
@@ -74,6 +77,13 @@ public class LoginController {
 
                     LoginSession.setCurrentUserId(userId);
                     LoginSession.setCurrentRole(role);
+
+                    try {
+                        merchantStatusService.refreshAllMerchantStatuses(LocalDate.now());
+                    } catch (Exception refreshError) {
+                        refreshError.printStackTrace();
+                    }
+
                     RoleBasedNavigator.switchToDashboard(event);
                 } else {
                     LoginSession.clear();

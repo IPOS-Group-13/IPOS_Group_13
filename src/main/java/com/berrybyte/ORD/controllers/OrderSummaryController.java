@@ -183,6 +183,40 @@ public class OrderSummaryController {
     }
 
     @FXML
+    private void recordPayment(ActionEvent event) {
+        OrderSummaryRow selectedOrder = ordersSummaryTable == null ? null : ordersSummaryTable.getSelectionModel().getSelectedItem();
+
+        if (selectedOrder == null) {
+            messageLabel.setText("Select an order first.");
+            return;
+        }
+
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/ORD/recordPaymentPopUp.fxml"));
+            Parent root = loader.load();
+
+            RecordPaymentPopupController controller = loader.getController();
+            controller.setOrderId(selectedOrder.getOrderId());
+            controller.setOnPaymentRecorded(() -> {
+                refreshOrdersSummary();
+                messageLabel.setText("Payment recorded successfully.");
+            });
+
+            Stage popupStage = new Stage();
+            popupStage.initModality(Modality.APPLICATION_MODAL);
+            popupStage.initOwner(((Node) event.getSource()).getScene().getWindow());
+            popupStage.initStyle(StageStyle.UTILITY);
+            popupStage.setTitle("Record Payment");
+            popupStage.setScene(new Scene(root));
+            popupStage.setResizable(false);
+            popupStage.showAndWait();
+        } catch (Exception e) {
+            e.printStackTrace();
+            messageLabel.setText("Unable to open record payment popup.");
+        }
+    }
+
+    @FXML
     private void handleBackButton(MouseEvent event) {
         try {
             RoleBasedNavigator.openOrderMenu((Node) event.getSource());
