@@ -119,6 +119,80 @@ public class CatalogueService implements ICatalogueAPI {
         return items;
     }
 
+    public void updateProductDetails(int itemId,
+                                     String description,
+                                     String packageType,
+                                     String unit,
+                                     int unitsInPack,
+                                     double packageCost,
+                                     int availabilityPacks,
+                                     int stockLimitPacks) throws Exception {
+
+        if (itemId <= 0) {
+            throw new IllegalArgumentException("Invalid item ID.");
+        }
+
+
+        validateProductDetails(
+                description,
+                packageType,
+                unit,
+                unitsInPack,
+                packageCost,
+                availabilityPacks,
+                stockLimitPacks
+        );
+
+        String updateSql = """
+            UPDATE Catalogue
+            SET Description = ?,
+                PackageType = ?,
+                Unit = ?,
+                UnitsInPack = ?,
+                PackageCost = ?,
+                AvailabilityPacks = ?,
+                StockLimitPacks = ?
+            WHERE ItemId = ?
+              AND IsDeleted = 0
+            """;
+
+        DatabaseConnection connectNow = new DatabaseConnection();
+
+        try (Connection conn = connectNow.getConnection()) {
+
+            conn.setAutoCommit(false);
+
+            try (PreparedStatement ps = conn.prepareStatement(updateSql)) {
+
+                ps.setString(1, description.trim());
+                ps.setString(2, packageType.trim());
+                ps.setString(3, unit.trim());
+                ps.setInt(4, unitsInPack);
+                ps.setDouble(5, packageCost);
+                ps.setInt(6, availabilityPacks);
+                ps.setInt(7, stockLimitPacks);
+                ps.setInt(8, itemId);
+
+                int rowsUpdated = ps.executeUpdate();
+
+                if (rowsUpdated == 0) {
+                    throw new SQLException("No product was updated.");
+                }
+
+                conn.commit();
+
+            } catch (Exception e) {
+                conn.rollback();
+                throw e;
+            } finally {
+                conn.setAutoCommit(true);
+            }
+        }
+    }
+
+
+
+
     @Override
     public List<String> getCatalogue(String keyword) throws Exception {
         List<String> rows = new ArrayList<>();
@@ -281,6 +355,36 @@ public class CatalogueService implements ICatalogueAPI {
         if (!unit.matches(UNIT_REGEX)) {
             throw new IllegalArgumentException("Unit must contain letters only.");
         }
+    }
+
+    public List<LowStockItemRow> getLowStockItems() throws Exception {
+        String sql = """
+                SELECT ItemId, Description, AvailabilityPacks, StockLimitPacks
+                FROM Catalogue
+                WHERE AvailabilityPacks <= StockLimitPacks
+                  AND IsDeleted = 0
+                ORDER BY ItemId
+                """;
+
+        List<LowStockItemRow> items = new ArrayList<>();
+        DatabaseConnection connectNow = new DatabaseConnection();
+
+        try (Connection conn = connectNow.getConnection()) {
+            ensureIsDeletedColumn(conn);
+            try (PreparedStatement ps = conn.prepareStatement(sql);
+                 ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    items.add(new LowStockItemRow(
+                            rs.getInt("ItemId"),
+                            rs.getString("Description"),
+                            rs.getInt("AvailabilityPacks"),
+                            rs.getInt("StockLimitPacks")
+                    ));
+                }
+            }
+        }
+
+        return items;
     }
 
     private void ensureIsDeletedColumn(Connection conn) throws Exception {

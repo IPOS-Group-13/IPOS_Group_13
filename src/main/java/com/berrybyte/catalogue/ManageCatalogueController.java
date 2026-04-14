@@ -69,8 +69,13 @@ public class ManageCatalogueController {
 
     @FXML
     private void modifyQuantityButton(ActionEvent event) {
-        System.out.println("Add Product clicked");
+        try {
+            SceneSwitcher.switchScene(event, "/catalogue/editProductDetails.fxml", "Edit Product Details Page");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
+
     @FXML
     private void handleCatalogueClick (ActionEvent event) {
         try {
@@ -79,8 +84,6 @@ public class ManageCatalogueController {
             e.printStackTrace();
         }
     }
-
-
 
     @FXML
     private void handleStaffAccountsClick(ActionEvent event) {

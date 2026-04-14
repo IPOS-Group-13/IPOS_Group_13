@@ -91,7 +91,7 @@
             </Button>
          </children>
       </AnchorPane>
-      <AnchorPane layoutX="219.0" layoutY="352.0" prefHeight="126.0" prefWidth="277.0" style="-fx-background-color: #B3A2C7; -fx-background-radius: 20;">
+      <AnchorPane layoutX="385.0" layoutY="300.0" prefHeight="126.0" prefWidth="277.0" style="-fx-background-color: #B3A2C7; -fx-background-radius: 20;">
          <children>
             <Label alignment="CENTER" layoutX="80.0" layoutY="24.0" text="Update Item" textFill="#49454f">
                <font>
@@ -99,20 +99,6 @@
                </font>
             </Label>
             <Button fx:id="modifyQuantity" layoutX="80.0" layoutY="71.0" mnemonicParsing="false" onAction="#modifyQuantityButton" prefHeight="33.0" prefWidth="127.0" style="-fx-background-color: #6C5A86; -fx-background-radius: 18;" text="Update Item" textFill="WHITE">
-               <font>
-                  <Font name="System Bold" size="12.0" />
-               </font>
-            </Button>
-         </children>
-      </AnchorPane>
-      <AnchorPane layoutX="564.0" layoutY="352.0" prefHeight="126.0" prefWidth="277.0" style="-fx-background-color: #B3A2C7; -fx-background-radius: 20;">
-         <children>
-            <Label alignment="CENTER" layoutX="36.0" layoutY="22.0" text="Set Minimum Quantity" textFill="#49454f">
-               <font>
-                  <Font name="System Bold" size="20.0" />
-               </font>
-            </Label>
-            <Button fx:id="setQuantity" layoutX="80.0" layoutY="71.0" mnemonicParsing="false" onAction="#setQuantityButton" prefHeight="33.0" prefWidth="127.0" style="-fx-background-color: #6C5A86; -fx-background-radius: 18;" text="Set Quantity" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
