@@ -22,7 +22,7 @@ public class StaffRoleRulesTest {
 
     @Test
     void checkNotReserved() {
-        assertFalse(StaffRoleRules.isReservedStaffRole("STAFF"));
+        assertFalse(StaffRoleRules.isReservedStaffRole("DIRECTOR"));
     }
 
     @Test
