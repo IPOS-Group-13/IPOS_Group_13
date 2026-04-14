@@ -98,4 +98,8 @@ public class ManageAccountsController {
             e.printStackTrace();
         }
     }
+
+    public void handlePaymentsClick(ActionEvent event) {
+        System.out.println("Payments Click - From Manage Accounts Controller");
+    }
 }

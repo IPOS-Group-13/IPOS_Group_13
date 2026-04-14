@@ -8,7 +8,6 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.berrybyte.catalogue.AddNewProductController">
    <children>
       <AnchorPane prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: #D2C3E3;">

@@ -67,6 +67,7 @@ public class ManageCatalogueController {
         }
     }
 
+
     @FXML
     private void modifyQuantityButton(ActionEvent event) {
         try {
@@ -92,6 +93,10 @@ public class ManageCatalogueController {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public void handlePaymentsClick(ActionEvent event) {
+        System.out.println("Payments Click - From Manage Catalogue");
     }
 
     @FXML

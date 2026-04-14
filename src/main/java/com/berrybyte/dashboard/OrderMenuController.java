@@ -75,6 +75,10 @@ public class OrderMenuController {
         }
     }
 
+    public void handlePaymentsClick(ActionEvent event) {
+        System.out.println("Payments Click - From Order Menu");
+    }
+
     @FXML
     private void handleLogoutMenuClick(ActionEvent event) {
         if (profileMenuPane != null) {

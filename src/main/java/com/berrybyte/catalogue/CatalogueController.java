@@ -81,7 +81,10 @@ public class CatalogueController {
         }
     }
 
-
+    @FXML
+    public void handlePaymentsClick(ActionEvent event) {
+        System.out.println("Payments Click - Catalogue");
+    }
 
     @FXML
     private void handleDashboardClick(ActionEvent event) {

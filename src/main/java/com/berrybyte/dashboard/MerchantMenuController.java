@@ -176,6 +176,11 @@ public class MerchantMenuController {
     }
 
     @FXML
+    public void handlePaymentsClick(ActionEvent event) {
+        System.out.println("Payments Click - From Merchant Menu");
+    }
+
+    @FXML
     protected void handleUpdateDiscountPlan(ActionEvent event) {
         if (!ensureMerchantSelected()) {
             return;

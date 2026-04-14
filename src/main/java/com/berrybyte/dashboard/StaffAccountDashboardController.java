@@ -33,6 +33,10 @@ public class StaffAccountDashboardController {
         }
     }
 
+    public void handlePaymentsClick(ActionEvent event) {
+        System.out.println("Payments Click - Staff");
+    }
+
     @FXML
     private void handleLogoutMenuClick(ActionEvent event) {
         profileMenuPane.setVisible(false);

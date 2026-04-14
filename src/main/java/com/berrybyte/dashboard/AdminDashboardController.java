@@ -115,8 +115,8 @@ public class AdminDashboardController {
         }
     }
 
-    public void viewCatalogueButton(ActionEvent event) {
-        System.out.println("View Catalogue Button Clicked");
+    public void handlePaymentsClick(ActionEvent event) {
+        System.out.println("Payments Click - From Dashboard");
     }
 
     @FXML
