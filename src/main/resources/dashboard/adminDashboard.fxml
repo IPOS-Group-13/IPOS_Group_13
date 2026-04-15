@@ -136,6 +136,11 @@
             </HBox>
          </children>
       </AnchorPane>
+      <Label layoutX="224.0" layoutY="85.0" prefHeight="24.0" prefWidth="141.0" text="Admin Account">
+         <font>
+            <Font name="Segoe UI Bold" size="19.0" />
+         </font>
+      </Label>
 
    </children>
 </AnchorPane>

@@ -39,6 +39,7 @@ public class AccountTypeController {
 
     @FXML
     private void handleMerchantButton(ActionEvent event) throws Exception {
+        MerchantDraftSession.setPreviousPage(null);
         SceneSwitcher.switchScene(event, "/account/createMerchantAccount.fxml", "Create Merchant Account");
     }
 

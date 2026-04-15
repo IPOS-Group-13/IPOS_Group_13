@@ -286,6 +286,15 @@ public class MerchantMenuController {
     }
 
     @FXML
+    public void handlePendingApplications(ActionEvent event) {
+        try {
+            SceneSwitcher.switchScene(event, "/pendingapplications/pendingApplications.fxml", "Pending Applications Page");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
     protected void handleLogoutMenuClick(ActionEvent event) {
         profileMenuPane.setVisible(false);
         profileMenuPane.setManaged(false);

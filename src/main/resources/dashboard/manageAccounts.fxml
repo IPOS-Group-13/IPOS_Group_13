@@ -9,133 +9,60 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: #D2C3E3;"
-            xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="com.berrybyte.dashboard.ManageAccountsController">
+<AnchorPane prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: #D2C3E3;" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.berrybyte.dashboard.ManageAccountsController">
    <children>
 
-      <AnchorPane prefWidth="141.0"
-                  style="-fx-background-color: #A89CB6; -fx-background-radius: 20;"
-                  AnchorPane.topAnchor="37.0"
-                  AnchorPane.bottomAnchor="37.0"
-                  AnchorPane.leftAnchor="23.0">
+      <AnchorPane prefWidth="141.0" style="-fx-background-color: #A89CB6; -fx-background-radius: 20;" AnchorPane.bottomAnchor="37.0" AnchorPane.leftAnchor="23.0" AnchorPane.topAnchor="37.0">
          <children>
-            <ImageView fitHeight="52.0"
-                       fitWidth="81.0"
-                       layoutX="14.0"
-                       layoutY="14.0"
-                       pickOnBounds="true"
-                       preserveRatio="true">
+            <ImageView fitHeight="52.0" fitWidth="81.0" layoutX="14.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../login/images/menu-Photoroom.png" />
                </image>
             </ImageView>
 
-            <Button alignment="TOP_LEFT"
-                    layoutX="7.0"
-                    layoutY="93.0"
-                    mnemonicParsing="false"
-                    onAction="#handleDashboardClick"
-                    prefHeight="26.0"
-                    prefWidth="102.0"
-                    style="-fx-background-color: #A89CB6; -fx-background-radius: 18;"
-                    text="Dashboard ">
+            <Button alignment="TOP_LEFT" layoutX="7.0" layoutY="93.0" mnemonicParsing="false" onAction="#handleDashboardClick" prefHeight="26.0" prefWidth="102.0" style="-fx-background-color: #A89CB6; -fx-background-radius: 18;" text="Dashboard ">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Button>
 
-            <Button alignment="TOP_LEFT"
-                    layoutX="7.0"
-                    layoutY="137.0"
-                    mnemonicParsing="false"
-                    onAction="#handleCatalogueClick"
-                    prefHeight="26.0"
-                    prefWidth="102.0"
-                    style="-fx-background-color: #A89CB6; -fx-background-radius: 18;"
-                    text="Catalogue">
+            <Button alignment="TOP_LEFT" layoutX="7.0" layoutY="137.0" mnemonicParsing="false" onAction="#handleCatalogueClick" prefHeight="26.0" prefWidth="102.0" style="-fx-background-color: #A89CB6; -fx-background-radius: 18;" text="Catalogue">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Button>
 
-            <Button alignment="TOP_LEFT"
-                    layoutX="7.0"
-                    layoutY="178.0"
-                    mnemonicParsing="false"
-                    onAction="#handleMerchantsClick"
-                    prefHeight="26.0"
-                    prefWidth="102.0"
-                    style="-fx-background-color: #A89CB6; -fx-background-radius: 18;"
-                    text="Merchants">
+            <Button alignment="TOP_LEFT" layoutX="7.0" layoutY="178.0" mnemonicParsing="false" onAction="#handleMerchantsClick" prefHeight="26.0" prefWidth="102.0" style="-fx-background-color: #A89CB6; -fx-background-radius: 18;" text="Merchants">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Button>
 
-            <Button alignment="TOP_LEFT"
-                    layoutX="7.0"
-                    layoutY="222.0"
-                    mnemonicParsing="false"
-                    onAction="#handleOrdersClick"
-                    prefHeight="26.0"
-                    prefWidth="102.0"
-                    style="-fx-background-color: #A89CB6; -fx-background-radius: 18;"
-                    text="Orders">
+            <Button alignment="TOP_LEFT" layoutX="7.0" layoutY="222.0" mnemonicParsing="false" onAction="#handleOrdersClick" prefHeight="26.0" prefWidth="102.0" style="-fx-background-color: #A89CB6; -fx-background-radius: 18;" text="Orders">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Button>
 
-            <Button alignment="TOP_LEFT"
-                    layoutX="7.0"
-                    layoutY="263.0"
-                    mnemonicParsing="false"
-                    onAction="#handlePaymentsClick"
-                    prefHeight="26.0"
-                    prefWidth="102.0"
-                    style="-fx-background-color: #A89CB6; -fx-background-radius: 18;"
-                    text="Payments">
+            <Button alignment="TOP_LEFT" layoutX="7.0" layoutY="263.0" mnemonicParsing="false" onAction="#handlePaymentsClick" prefHeight="26.0" prefWidth="102.0" style="-fx-background-color: #A89CB6; -fx-background-radius: 18;" text="Payments">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Button>
 
-            <Button alignment="TOP_LEFT"
-                    layoutX="7.0"
-                    layoutY="303.0"
-                    mnemonicParsing="false"
-                    prefHeight="26.0"
-                    prefWidth="102.0"
-                    style="-fx-background-color: #A89CB6; -fx-background-radius: 18;"
-                    text="Reports">
+            <Button alignment="TOP_LEFT" layoutX="7.0" layoutY="303.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="102.0" style="-fx-background-color: #A89CB6; -fx-background-radius: 18;" text="Reports">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Button>
 
-            <Button alignment="TOP_LEFT"
-                    layoutX="7.0"
-                    layoutY="347.0"
-                    mnemonicParsing="false"
-                    prefHeight="26.0"
-                    prefWidth="120.0"
-                    style="-fx-background-color: #6C5A86; -fx-background-radius: 18;"
-                    text="Manage Accounts"
-                    textFill="WHITE">
+            <Button alignment="TOP_LEFT" layoutX="7.0" layoutY="347.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="120.0" style="-fx-background-color: #6C5A86; -fx-background-radius: 18;" text="Manage Accounts" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Button>
 
-            <Button alignment="TOP_LEFT"
-                    layoutX="6.0"
-                    layoutY="395.0"
-                    mnemonicParsing="false"
-                    prefHeight="26.0"
-                    prefWidth="141.0"
-                    style="-fx-background-color: #A89CB6; -fx-background-radius: 18;"
-                    text="Pending Applications">
+            <Button alignment="TOP_LEFT" layoutX="6.0" layoutY="395.0" mnemonicParsing="false" onAction="#handlePendingApplications" prefHeight="26.0" prefWidth="141.0" style="-fx-background-color: #A89CB6; -fx-background-radius: 18;" text="Pending Applications">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
@@ -143,51 +70,27 @@
          </children>
       </AnchorPane>
 
-      <Label text="Manage Accounts"
-             AnchorPane.topAnchor="36.0"
-             AnchorPane.leftAnchor="200.0">
+      <Label text="Manage Accounts" AnchorPane.leftAnchor="200.0" AnchorPane.topAnchor="36.0">
          <font>
             <Font name="Segoe UI Bold" size="36.0" />
          </font>
       </Label>
 
-      <ImageView fx:id="profileImage"
-                 fitHeight="52.0"
-                 fitWidth="82.0"
-                 onMouseClicked="#handleProfileClick"
-                 pickOnBounds="true"
-                 preserveRatio="true"
-                 AnchorPane.topAnchor="36.0"
-                 AnchorPane.rightAnchor="18.0">
+      <ImageView fx:id="profileImage" fitHeight="52.0" fitWidth="82.0" onMouseClicked="#handleProfileClick" pickOnBounds="true" preserveRatio="true" AnchorPane.rightAnchor="18.0" AnchorPane.topAnchor="36.0">
          <image>
             <Image url="@../login/images/account_circle-Photoroom.png" />
          </image>
       </ImageView>
 
-      <AnchorPane fx:id="profileMenuPane"
-                  prefHeight="43.0"
-                  prefWidth="200.0"
-                  style="-fx-background-color: white; -fx-background-radius: 10;"
-                  AnchorPane.topAnchor="79.0"
-                  AnchorPane.rightAnchor="74.0">
+      <AnchorPane fx:id="profileMenuPane" prefHeight="43.0" prefWidth="200.0" style="-fx-background-color: white; -fx-background-radius: 10;" AnchorPane.rightAnchor="74.0" AnchorPane.topAnchor="79.0">
          <children>
-            <Button layoutX="14.0"
-                    layoutY="9.0"
-                    mnemonicParsing="false"
-                    onAction="#handleLogoutMenuClick"
-                    style="-fx-background-color: white;"
-                    text="Logout">
+            <Button layoutX="14.0" layoutY="9.0" mnemonicParsing="false" onAction="#handleLogoutMenuClick" style="-fx-background-color: white;" text="Logout">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Button>
 
-            <ImageView fitHeight="33.0"
-                       fitWidth="38.0"
-                       layoutX="156.0"
-                       layoutY="5.0"
-                       pickOnBounds="true"
-                       preserveRatio="true">
+            <ImageView fitHeight="33.0" fitWidth="38.0" layoutX="156.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../login/images/Log in-Photoroom.png" />
                </image>
@@ -195,55 +98,22 @@
          </children>
       </AnchorPane>
 
-      <StackPane AnchorPane.topAnchor="125.0"
-                 AnchorPane.bottomAnchor="35.0"
-                 AnchorPane.leftAnchor="190.0"
-                 AnchorPane.rightAnchor="30.0">
+      <StackPane AnchorPane.bottomAnchor="35.0" AnchorPane.leftAnchor="190.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="125.0">
          <children>
-            <AnchorPane prefHeight="470.0"
-                        prefWidth="430.0"
-                        minHeight="430.0"
-                        minWidth="380.0"
-                        maxHeight="500.0"
-                        maxWidth="520.0"
-                        style="-fx-background-color: #E8DEF8; -fx-background-radius: 20;">
+            <AnchorPane maxHeight="500.0" maxWidth="520.0" minHeight="430.0" minWidth="380.0" prefHeight="470.0" prefWidth="430.0" style="-fx-background-color: #E8DEF8; -fx-background-radius: 20;">
                <children>
-                  <VBox alignment="CENTER"
-                        spacing="22.0"
-                        AnchorPane.topAnchor="0.0"
-                        AnchorPane.bottomAnchor="0.0"
-                        AnchorPane.leftAnchor="0.0"
-                        AnchorPane.rightAnchor="0.0">
+                  <VBox alignment="CENTER" spacing="22.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <children>
 
-                        <AnchorPane prefHeight="126.0"
-                                    prefWidth="304.0"
-                                    minHeight="126.0"
-                                    minWidth="304.0"
-                                    maxHeight="126.0"
-                                    maxWidth="304.0"
-                                    style="-fx-background-color: #B3A2C7; -fx-background-radius: 20;">
+                        <AnchorPane maxHeight="126.0" maxWidth="304.0" minHeight="126.0" minWidth="304.0" prefHeight="126.0" prefWidth="304.0" style="-fx-background-color: #B3A2C7; -fx-background-radius: 20;">
                            <children>
-                              <Label alignment="CENTER"
-                                     layoutY="24.0"
-                                     prefHeight="30.0"
-                                     prefWidth="304.0"
-                                     text="Create New Account"
-                                     textFill="#49454f">
+                              <Label alignment="CENTER" layoutY="24.0" prefHeight="30.0" prefWidth="304.0" text="Create New Account" textFill="#49454f">
                                  <font>
                                     <Font name="System Bold" size="20.0" />
                                  </font>
                               </Label>
 
-                              <Button layoutX="88.5"
-                                      layoutY="78.0"
-                                      mnemonicParsing="false"
-                                      onAction="#createNewAccountButton"
-                                      prefHeight="33.0"
-                                      prefWidth="127.0"
-                                      style="-fx-background-color: #6C5A86; -fx-background-radius: 18;"
-                                      text="Create new account"
-                                      textFill="WHITE">
+                              <Button layoutX="88.5" layoutY="78.0" mnemonicParsing="false" onAction="#createNewAccountButton" prefHeight="33.0" prefWidth="127.0" style="-fx-background-color: #6C5A86; -fx-background-radius: 18;" text="Create new account" textFill="WHITE">
                                  <font>
                                     <Font name="System Bold" size="12.0" />
                                  </font>
@@ -251,34 +121,15 @@
                            </children>
                         </AnchorPane>
 
-                        <AnchorPane prefHeight="126.0"
-                                    prefWidth="304.0"
-                                    minHeight="126.0"
-                                    minWidth="304.0"
-                                    maxHeight="126.0"
-                                    maxWidth="304.0"
-                                    style="-fx-background-color: #B3A2C7; -fx-background-radius: 20;">
+                        <AnchorPane maxHeight="126.0" maxWidth="304.0" minHeight="126.0" minWidth="304.0" prefHeight="126.0" prefWidth="304.0" style="-fx-background-color: #B3A2C7; -fx-background-radius: 20;">
                            <children>
-                              <Label alignment="CENTER"
-                                     layoutY="22.0"
-                                     prefHeight="30.0"
-                                     prefWidth="304.0"
-                                     text="Delete Account"
-                                     textFill="#49454f">
+                              <Label alignment="CENTER" layoutY="22.0" prefHeight="30.0" prefWidth="304.0" text="Delete Account" textFill="#49454f">
                                  <font>
                                     <Font name="System Bold" size="20.0" />
                                  </font>
                               </Label>
 
-                              <Button layoutX="88.5"
-                                      layoutY="72.0"
-                                      mnemonicParsing="false"
-                                      onAction="#deleteAccountButton"
-                                      prefHeight="33.0"
-                                      prefWidth="127.0"
-                                      style="-fx-background-color: #6C5A86; -fx-background-radius: 18;"
-                                      text="Delete Account"
-                                      textFill="WHITE">
+                              <Button layoutX="88.5" layoutY="72.0" mnemonicParsing="false" onAction="#deleteAccountButton" prefHeight="33.0" prefWidth="127.0" style="-fx-background-color: #6C5A86; -fx-background-radius: 18;" text="Delete Account" textFill="WHITE">
                                  <font>
                                     <Font name="System Bold" size="12.0" />
                                  </font>
@@ -286,34 +137,15 @@
                            </children>
                         </AnchorPane>
 
-                        <AnchorPane prefHeight="126.0"
-                                    prefWidth="304.0"
-                                    minHeight="126.0"
-                                    minWidth="304.0"
-                                    maxHeight="126.0"
-                                    maxWidth="304.0"
-                                    style="-fx-background-color: #B3A2C7; -fx-background-radius: 20;">
+                        <AnchorPane maxHeight="126.0" maxWidth="304.0" minHeight="126.0" minWidth="304.0" prefHeight="126.0" prefWidth="304.0" style="-fx-background-color: #B3A2C7; -fx-background-radius: 20;">
                            <children>
-                              <Label alignment="CENTER"
-                                     layoutY="22.0"
-                                     prefHeight="30.0"
-                                     prefWidth="304.0"
-                                     text="Edit Account Details"
-                                     textFill="#49454f">
+                              <Label alignment="CENTER" layoutY="22.0" prefHeight="30.0" prefWidth="304.0" text="Edit Account Details" textFill="#49454f">
                                  <font>
                                     <Font name="System Bold" size="20.0" />
                                  </font>
                               </Label>
 
-                              <Button layoutX="88.5"
-                                      layoutY="72.0"
-                                      mnemonicParsing="false"
-                                      onAction="#editAccountsButton"
-                                      prefHeight="33.0"
-                                      prefWidth="127.0"
-                                      style="-fx-background-color: #6C5A86; -fx-background-radius: 18;"
-                                      text="Edit"
-                                      textFill="WHITE">
+                              <Button layoutX="88.5" layoutY="72.0" mnemonicParsing="false" onAction="#editAccountsButton" prefHeight="33.0" prefWidth="127.0" style="-fx-background-color: #6C5A86; -fx-background-radius: 18;" text="Edit" textFill="WHITE">
                                  <font>
                                     <Font name="System Bold" size="12.0" />
                                  </font>

@@ -106,6 +106,15 @@ public class PaymentsMenuController {
     }
 
     @FXML
+    public void handlePendingApplications(ActionEvent event) {
+        try {
+            SceneSwitcher.switchScene(event, "/pendingapplications/pendingApplications.fxml", "Pending Applications Page");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
     private void handleMerchantsClick(ActionEvent event) {
         try {
             RoleBasedNavigator.switchToMerchantMenu(event);

@@ -99,6 +99,15 @@ public class ManageAccountsController {
         }
     }
 
+    @FXML
+    public void handlePendingApplications(ActionEvent event) {
+        try {
+            SceneSwitcher.switchScene(event, "/pendingapplications/pendingApplications.fxml", "Pending Applications Page");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     public void handlePaymentsClick(ActionEvent event) {
         try {
             RoleBasedNavigator.switchToPaymentsMenu(event);

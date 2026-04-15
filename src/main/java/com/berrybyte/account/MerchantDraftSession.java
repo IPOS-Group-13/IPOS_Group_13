@@ -2,6 +2,8 @@ package com.berrybyte.account;
 
 public class MerchantDraftSession {
 
+    private static String previousPage;
+
     private static String fullName;
     private static String companyName;
     private static String username;
@@ -46,7 +48,11 @@ public class MerchantDraftSession {
                 && creditLimit != null;
     }
 
+    public static void setPreviousPage(String page) { previousPage = page; }
+    public static String getPreviousPage() { return previousPage; }
+
     public static void clear() {
+        previousPage = null;
         fullName = null;
         companyName = null;
         username = null;

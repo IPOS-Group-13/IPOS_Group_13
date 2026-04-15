@@ -64,10 +64,21 @@ public class CreateMerchantAccountController {
     @FXML
     private void handleBackButton(MouseEvent event) {
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("/account/accountType.fxml"));
+            String fxmlPath;
+            String title;
+
+            if ("pendingApplications".equals(MerchantDraftSession.getPreviousPage())) {
+                fxmlPath = "/pendingapplications/pendingApplications.fxml";
+                title = "Pending Applications";
+            } else {
+                fxmlPath = "/account/accountType.fxml";
+                title = "Select Account Type";
+            }
+
+            Parent root = FXMLLoader.load(getClass().getResource(fxmlPath));
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             SceneSwitcher.setStageRoot(stage, root);
-            stage.setTitle("Select Account Type");
+            stage.setTitle(title);
             stage.show();
         } catch (Exception e) {
             e.printStackTrace();

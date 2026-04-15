@@ -10,8 +10,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="CONTROLLER_NAME">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.berrybyte.pendingapplications.PendingApplicationsController">
    <children>
       <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: #D2C3E3;">
          <children>
@@ -24,11 +23,10 @@
                <columns>
                   <TableColumn fx:id="nameColoumn" prefWidth="89.3333740234375" text="Name" />
                   <TableColumn fx:id="companyColoumn" prefWidth="97.33331298828125" text="Company" />
-                  <TableColumn fx:id="iposIdColoumn" prefWidth="101.33331298828125" text="Username" />
-                  <TableColumn fx:id="creditLimitColoumn" prefWidth="91.99993896484375" text="Password" />
-                  <TableColumn fx:id="discountPlanColoumn" prefWidth="100.0" text="Phone Number" />
-                  <TableColumn fx:id="discountPlanColoumn1" prefWidth="117.3333740234375" text="Email Address" />
-                  <TableColumn fx:id="discountPlanColoumn2" prefWidth="108.6666259765625" text="Sumbission Date" />
+                  <TableColumn fx:id="iposIdColoumn" prefWidth="121.33331298828125" text="Username" />
+                  <TableColumn fx:id="discountPlanColoumn" prefWidth="120.0" text="Phone Number" />
+                  <TableColumn fx:id="discountPlanColoumn1" prefWidth="137.3333740234375" text="Email Address" />
+                  <TableColumn fx:id="discountPlanColoumn2" prefWidth="150.6666259765625" text="Submission Date" />
                </columns>
                <columnResizePolicy>
                   <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
@@ -80,14 +78,14 @@
                   <Font name="System Bold" size="12.0" />
                </font>
             </Button>
-            <Button alignment="TOP_LEFT" layoutX="6.0" layoutY="395.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="141.0" style="-fx-background-color: #A89CB6; -fx-background-radius: 18;" text="Pending Applications">
+            <Button alignment="TOP_LEFT" layoutX="7.0" layoutY="263.0" mnemonicParsing="false" onAction="#handlePaymentsClick" prefHeight="26.0" prefWidth="102.0" style="-fx-background-color: #A89CB6; -fx-background-radius: 18;" text="Payments">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Button>
-            <Button alignment="TOP_LEFT" layoutX="7.0" layoutY="263.0" mnemonicParsing="false" onAction="#handlePaymentsClick" prefHeight="26.0" prefWidth="102.0" style="-fx-background-color: #A89CB6; -fx-background-radius: 18;" text="Payments">
+            <Button alignment="TOP_LEFT" layoutX="6.0" layoutY="393.0" mnemonicParsing="false" onAction="#handleCatalogueClick" prefHeight="26.0" prefWidth="127.0" style="-fx-background-color: #6C5A86; -fx-background-radius: 18;" text="Pending Applications" textFill="WHITE">
                <font>
-                  <Font name="System Bold" size="12.0" />
+                  <Font name="System Bold" size="11.0" />
                </font>
             </Button>
          </children>

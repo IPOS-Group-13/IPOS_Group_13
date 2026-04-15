@@ -7,102 +7,48 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: #D2C3E3;"
-            xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="com.berrybyte.dashboard.ManagerDashboardController">
+<AnchorPane prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: #D2C3E3;" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.berrybyte.dashboard.ManagerDashboardController">
    <children>
 
-      <AnchorPane prefWidth="141.0"
-                  style="-fx-background-color: #A89CB6; -fx-background-radius: 20;"
-                  AnchorPane.topAnchor="37.0"
-                  AnchorPane.bottomAnchor="37.0"
-                  AnchorPane.leftAnchor="23.0">
+      <AnchorPane prefWidth="141.0" style="-fx-background-color: #A89CB6; -fx-background-radius: 20;" AnchorPane.bottomAnchor="37.0" AnchorPane.leftAnchor="23.0" AnchorPane.topAnchor="37.0">
          <children>
-            <ImageView fitHeight="52.0" fitWidth="81.0"
-                       layoutX="14.0" layoutY="14.0"
-                       pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="52.0" fitWidth="81.0" layoutX="14.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../login/images/menu-Photoroom.png" />
                </image>
             </ImageView>
 
-            <Button alignment="TOP_LEFT"
-                    layoutX="7.0" layoutY="101.0"
-                    mnemonicParsing="false"
-                    prefHeight="26.0" prefWidth="102.0"
-                    style="-fx-background-color: #6C5A86; -fx-background-radius: 18;"
-                    text="Dashboard "
-                    textFill="WHITE">
+            <Button alignment="TOP_LEFT" layoutX="7.0" layoutY="101.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="102.0" style="-fx-background-color: #6C5A86; -fx-background-radius: 18;" text="Dashboard " textFill="WHITE">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Button>
 
-            <Button alignment="TOP_LEFT"
-                    layoutX="7.0" layoutY="145.0"
-                    mnemonicParsing="false"
-                    onAction="#handleCatalogueClick"
-                    prefHeight="26.0" prefWidth="102.0"
-                    style="-fx-background-color: #A89CB6; -fx-background-radius: 18;"
-                    text="Catalogue">
+            <Button alignment="TOP_LEFT" layoutX="7.0" layoutY="145.0" mnemonicParsing="false" onAction="#handleCatalogueClick" prefHeight="26.0" prefWidth="102.0" style="-fx-background-color: #A89CB6; -fx-background-radius: 18;" text="Catalogue">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Button>
 
-            <Button alignment="TOP_LEFT"
-                    layoutX="7.0" layoutY="186.0"
-                    mnemonicParsing="false"
-                    onAction="#handleMerchantsClick"
-                    prefHeight="26.0" prefWidth="102.0"
-                    style="-fx-background-color: #A89CB6; -fx-background-radius: 18;"
-                    text="Merchants">
+            <Button alignment="TOP_LEFT" layoutX="7.0" layoutY="186.0" mnemonicParsing="false" onAction="#handleMerchantsClick" prefHeight="26.0" prefWidth="102.0" style="-fx-background-color: #A89CB6; -fx-background-radius: 18;" text="Merchants">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Button>
 
-            <Button alignment="TOP_LEFT"
-                    layoutX="7.0" layoutY="226.0"
-                    mnemonicParsing="false"
-                    onAction="#handleOrdersClick"
-                    prefHeight="26.0" prefWidth="102.0"
-                    style="-fx-background-color: #A89CB6; -fx-background-radius: 18;"
-                    text="Orders">
+            <Button alignment="TOP_LEFT" layoutX="7.0" layoutY="226.0" mnemonicParsing="false" onAction="#handleOrdersClick" prefHeight="26.0" prefWidth="102.0" style="-fx-background-color: #A89CB6; -fx-background-radius: 18;" text="Orders">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Button>
 
-            <Button alignment="TOP_LEFT"
-                    layoutX="7.0" layoutY="268.0"
-                    mnemonicParsing="false"
-                    onAction="#handlePaymentsClick"
-                    prefHeight="26.0" prefWidth="102.0"
-                    style="-fx-background-color: #A89CB6; -fx-background-radius: 18;"
-                    text="Payments">
+            <Button alignment="TOP_LEFT" layoutX="7.0" layoutY="268.0" mnemonicParsing="false" onAction="#handlePaymentsClick" prefHeight="26.0" prefWidth="102.0" style="-fx-background-color: #A89CB6; -fx-background-radius: 18;" text="Payments">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Button>
 
-            <Button alignment="TOP_LEFT"
-                    layoutX="7.0" layoutY="309.0"
-                    mnemonicParsing="false"
-                    prefHeight="26.0" prefWidth="102.0"
-                    style="-fx-background-color: #A89CB6; -fx-background-radius: 18;"
-                    text="Reports">
-               <font>
-                  <Font name="System Bold" size="12.0" />
-               </font>
-            </Button>
-
-            <Button alignment="TOP_LEFT"
-                    layoutX="6.0" layoutY="352.0"
-                    mnemonicParsing="false"
-                    prefHeight="26.0" prefWidth="141.0"
-                    style="-fx-background-color: #A89CB6; -fx-background-radius: 18;"
-                    text="Pending Applications">
+            <Button alignment="TOP_LEFT" layoutX="7.0" layoutY="309.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="102.0" style="-fx-background-color: #A89CB6; -fx-background-radius: 18;" text="Reports">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
@@ -110,50 +56,38 @@
          </children>
       </AnchorPane>
 
-      <Label text="Dashboard"
-             AnchorPane.topAnchor="36.0"
-             AnchorPane.leftAnchor="200.0">
+      <Label text="Dashboard" AnchorPane.leftAnchor="200.0" AnchorPane.topAnchor="36.0">
          <font>
             <Font name="Segoe UI Bold" size="36.0" />
          </font>
       </Label>
 
-      <ImageView fx:id="profileImage"
-                 fitHeight="52.0" fitWidth="82.0"
-                 onMouseClicked="#handleProfileClick"
-                 pickOnBounds="true" preserveRatio="true"
-                 AnchorPane.topAnchor="36.0"
-                 AnchorPane.rightAnchor="18.0">
+      <ImageView fx:id="profileImage" fitHeight="52.0" fitWidth="82.0" onMouseClicked="#handleProfileClick" pickOnBounds="true" preserveRatio="true" AnchorPane.rightAnchor="18.0" AnchorPane.topAnchor="36.0">
          <image>
             <Image url="@../login/images/account_circle-Photoroom.png" />
          </image>
       </ImageView>
 
-      <AnchorPane fx:id="profileMenuPane"
-                  prefHeight="43.0" prefWidth="200.0"
-                  style="-fx-background-color: white; -fx-background-radius: 10;"
-                  AnchorPane.topAnchor="79.0"
-                  AnchorPane.rightAnchor="74.0">
+      <AnchorPane fx:id="profileMenuPane" prefHeight="43.0" prefWidth="200.0" style="-fx-background-color: white; -fx-background-radius: 10;" AnchorPane.rightAnchor="74.0" AnchorPane.topAnchor="79.0">
          <children>
-            <Button layoutX="14.0" layoutY="9.0"
-                    mnemonicParsing="false"
-                    onAction="#handleLogoutMenuClick"
-                    style="-fx-background-color: white;"
-                    text="Logout">
+            <Button layoutX="14.0" layoutY="9.0" mnemonicParsing="false" onAction="#handleLogoutMenuClick" style="-fx-background-color: white;" text="Logout">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Button>
 
-            <ImageView fitHeight="33.0" fitWidth="38.0"
-                       layoutX="156.0" layoutY="5.0"
-                       pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="33.0" fitWidth="38.0" layoutX="156.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../login/images/Log in-Photoroom.png" />
                </image>
             </ImageView>
          </children>
       </AnchorPane>
+      <Label layoutX="212.0" layoutY="85.0" prefHeight="24.0" prefWidth="160.0" text="Manager Account">
+         <font>
+            <Font name="Segoe UI Bold" size="19.0" />
+         </font>
+      </Label>
 
    </children>
 </AnchorPane>

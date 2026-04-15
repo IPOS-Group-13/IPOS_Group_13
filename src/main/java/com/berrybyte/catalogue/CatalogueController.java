@@ -118,6 +118,15 @@ public class CatalogueController {
     }
 
     @FXML
+    public void handlePendingApplications(ActionEvent event) {
+        try {
+            SceneSwitcher.switchScene(event, "/pendingapplications/pendingApplications.fxml", "Pending Applications Page");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
     private void handleDashboardClick(ActionEvent event) {
         try {
             RoleBasedNavigator.switchToDashboard(event);

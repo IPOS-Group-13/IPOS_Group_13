@@ -98,6 +98,15 @@ public class OrderMenuController {
     }
 
     @FXML
+    public void handlePendingApplications(ActionEvent event) {
+        try {
+            SceneSwitcher.switchScene(event, "/pendingapplications/pendingApplications.fxml", "Pending Applications Page");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
     private void openIncomingOrdersButton(ActionEvent event) {
         try {
             SceneSwitcher.switchScene(event, "/ORD/incomingOrders.fxml", "Incoming Orders");
