@@ -56,7 +56,7 @@ public class MerchantAccountService {
                 userPs.setString(2, username);
                 userPs.setString(3, password);
                 userPs.setString(4, email);
-                userPs.setString(5, normalizePhoneNumber(phoneNumber));
+                userPs.setString(5, PhoneNumberRules.normalizeAndValidate(phoneNumber));
                 userPs.setString(6, "MERCHANT");
                 userPs.executeUpdate();
 
@@ -155,7 +155,7 @@ public class MerchantAccountService {
                 userPs.setString(2, username);
                 userPs.setString(3, password);
                 userPs.setString(4, email);
-                userPs.setString(5, normalizePhoneNumber(phoneNumber));
+                userPs.setString(5, PhoneNumberRules.normalizeAndValidate(phoneNumber));
                 userPs.setInt(6, userId);
 
                 int userRows = userPs.executeUpdate();
@@ -220,7 +220,7 @@ public class MerchantAccountService {
                                                String email, String phoneNumber, String address, String accountStatus,
                                                double creditLimit) {
 
-        String normalizedPhoneNumber = normalizePhoneNumber(phoneNumber);
+        String normalizedPhoneNumber = PhoneNumberRules.normalize(phoneNumber);
 
         if (fullName == null || fullName.isBlank()) throw new IllegalArgumentException("Name is required");
         if (companyName == null || companyName.isBlank()) throw new IllegalArgumentException("Company name is required");
@@ -244,13 +244,7 @@ public class MerchantAccountService {
         if (password.length() < 6) {
             throw new IllegalArgumentException("Password must be at least 6 characters long.");
         }
-        if (!normalizedPhoneNumber.matches("[0-9 ]+")) {
-            throw new IllegalArgumentException("Phone number must contain only numbers and spaces.");
-        }
-        int phoneDigits = normalizedPhoneNumber.replace(" ", "").length();
-        if (phoneDigits < 7 || phoneDigits > 12) {
-            throw new IllegalArgumentException("Enter a valid phone number using 7 to 12 digits.");
-        }
+        PhoneNumberRules.validateNormalized(normalizedPhoneNumber);
         if (!email.matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$")) {
             throw new IllegalArgumentException("Enter a valid email address.");
         }
@@ -259,18 +253,6 @@ public class MerchantAccountService {
                 && !accountStatus.equals("IN_DEFAULT")) {
             throw new IllegalArgumentException("Status must be NORMAL, SUSPENDED or IN_DEFAULT.");
         }
-    }
-
-    private String normalizePhoneNumber(String phoneNumber) {
-        if (phoneNumber == null) {
-            return "";
-        }
-
-        String normalized = phoneNumber.trim().replaceAll("\\s+", " ");
-        if (normalized.startsWith("+")) {
-            normalized = normalized.replaceFirst("^\\+\\d{1,3}\\s*", "");
-        }
-        return normalized.trim();
     }
 
     public void updateMerchantFixedDiscountPlan(int merchantId, double discountPercent) throws Exception {

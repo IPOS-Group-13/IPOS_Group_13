@@ -229,6 +229,7 @@
                         <TableColumn fx:id="creditLimitColoumn" prefWidth="121.60003662109375" text="Credit Limit" />
                         <TableColumn fx:id="discountPlanColoumn" prefWidth="96.0" text="Discount Plan" />
                         <TableColumn fx:id="outstandingColoumn" prefWidth="150.0" text="Outstanding Balance" />
+                        <TableColumn fx:id="accountStatusColoumn" prefWidth="120.0" text="Account State" />
                      </columns>
                      <columnResizePolicy>
                         <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
@@ -245,7 +246,7 @@
                                 mnemonicParsing="false"
                                 onAction="#handleEditMerchantDetails"
                                 prefHeight="34.0"
-                                prefWidth="175.0"
+                                prefWidth="165.0"
                                 style="-fx-background-color: #6C5A86; -fx-background-radius: 18;"
                                 text="Edit Merchant Details"
                                 textFill="WHITE">
@@ -258,7 +259,7 @@
                                 mnemonicParsing="false"
                                 onAction="#handleUpdateDiscountPlan"
                                 prefHeight="34.0"
-                                prefWidth="175.0"
+                                prefWidth="165.0"
                                 style="-fx-background-color: #6C5A86; -fx-background-radius: 18;"
                                 text="Update Discount Plan"
                                 textFill="WHITE">
@@ -271,9 +272,22 @@
                                 mnemonicParsing="false"
                                 onAction="#handleDeleteDiscountPlan"
                                 prefHeight="34.0"
-                                prefWidth="175.0"
+                                prefWidth="165.0"
                                 style="-fx-background-color: #6C5A86; -fx-background-radius: 18;"
                                 text="Delete Discount Plan"
+                                textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Button>
+
+                        <Button fx:id="restoreStateButton"
+                                mnemonicParsing="false"
+                                onAction="#handleRestoreState"
+                                prefHeight="34.0"
+                                prefWidth="165.0"
+                                style="-fx-background-color: #6C5A86; -fx-background-radius: 18;"
+                                text="Restore State"
                                 textFill="WHITE">
                            <font>
                               <Font name="System Bold" size="12.0" />

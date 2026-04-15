@@ -8,7 +8,10 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
-import javafx.scene.control.*;
+import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
@@ -19,31 +22,31 @@ public class EditProductDetailsController {
     private TextField searchField;
 
     @FXML
-    private TableView<CatalogueItemRow> merchantsTable;
+    private TableView<CatalogueItemRow> catalogueItemsTable;
 
     @FXML
-    private TableColumn<CatalogueItemRow, Integer> nameColoumn;
+    private TableColumn<CatalogueItemRow, Integer> itemIdColumn;
 
     @FXML
-    private TableColumn<CatalogueItemRow, String> companyColoumn;
+    private TableColumn<CatalogueItemRow, String> descriptionColumn;
 
     @FXML
-    private TableColumn<CatalogueItemRow, String> iposIdColoumn;
+    private TableColumn<CatalogueItemRow, String> packageTypeColumn;
 
     @FXML
-    private TableColumn<CatalogueItemRow, String> creditLimitColoumn;
+    private TableColumn<CatalogueItemRow, String> unitColumn;
 
     @FXML
-    private TableColumn<CatalogueItemRow, Integer> discountPlanColoumn;
+    private TableColumn<CatalogueItemRow, Integer> unitsInPackColumn;
 
     @FXML
-    private TableColumn<CatalogueItemRow, Double> discountPlanColoumn1;
+    private TableColumn<CatalogueItemRow, String> packageCostColumn;
 
     @FXML
-    private TableColumn<CatalogueItemRow, Integer> discountPlanColoumn2;
+    private TableColumn<CatalogueItemRow, Integer> availabilityPacksColumn;
 
     @FXML
-    private TableColumn<CatalogueItemRow, Integer> discountPlanColoumn3;
+    private TableColumn<CatalogueItemRow, Integer> stockLimitPacksColumn;
 
     @FXML
     private Label messageLabel;
@@ -60,18 +63,17 @@ public class EditProductDetailsController {
             profileMenuPane.setManaged(false);
         }
 
-        nameColoumn.setCellValueFactory(new PropertyValueFactory<>("itemId"));
-        companyColoumn.setCellValueFactory(new PropertyValueFactory<>("description"));
-        iposIdColoumn.setCellValueFactory(new PropertyValueFactory<>("packageType"));
-        creditLimitColoumn.setCellValueFactory(new PropertyValueFactory<>("unit"));
-        discountPlanColoumn.setCellValueFactory(new PropertyValueFactory<>("unitsInPack"));
-        discountPlanColoumn1.setCellValueFactory(new PropertyValueFactory<>("packageCost"));
-        discountPlanColoumn2.setCellValueFactory(new PropertyValueFactory<>("availabilityPacks"));
-        discountPlanColoumn3.setCellValueFactory(new PropertyValueFactory<>("stockLimitPacks"));
+        itemIdColumn.setCellValueFactory(new PropertyValueFactory<>("itemId"));
+        descriptionColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
+        packageTypeColumn.setCellValueFactory(new PropertyValueFactory<>("packageType"));
+        unitColumn.setCellValueFactory(new PropertyValueFactory<>("unit"));
+        unitsInPackColumn.setCellValueFactory(new PropertyValueFactory<>("unitsInPack"));
+        packageCostColumn.setCellValueFactory(new PropertyValueFactory<>("packageCost"));
+        availabilityPacksColumn.setCellValueFactory(new PropertyValueFactory<>("availabilityPacks"));
+        stockLimitPacksColumn.setCellValueFactory(new PropertyValueFactory<>("stockLimitPacks"));
 
         loadItems("");
     }
-
 
     @FXML
     private void handleSearch(ActionEvent event) {
@@ -87,6 +89,9 @@ public class EditProductDetailsController {
         boolean isVisible = profileMenuPane.isVisible();
         profileMenuPane.setVisible(!isVisible);
         profileMenuPane.setManaged(!isVisible);
+        if (!isVisible) {
+            profileMenuPane.toFront();
+        }
     }
 
     @FXML
@@ -104,7 +109,6 @@ public class EditProductDetailsController {
         }
     }
 
-
     @FXML
     private void handleBackButton(ActionEvent event) {
         try {
@@ -115,11 +119,10 @@ public class EditProductDetailsController {
         }
     }
 
-    // ✏️ EDIT PRODUCT
     @FXML
     private void handleEditButton(ActionEvent event) {
         try {
-            CatalogueItemRow selectedItem = merchantsTable.getSelectionModel().getSelectedItem();
+            CatalogueItemRow selectedItem = catalogueItemsTable.getSelectionModel().getSelectedItem();
 
             if (selectedItem == null) {
                 messageLabel.setText("Please select an item to edit.");
@@ -143,10 +146,9 @@ public class EditProductDetailsController {
         }
     }
 
-
     private void loadItems(String searchText) {
         try {
-            merchantsTable.setItems(
+            catalogueItemsTable.setItems(
                     FXCollections.observableArrayList(
                             catalogueService.searchCatalogueItems(searchText)
                     )
