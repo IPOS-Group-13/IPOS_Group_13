@@ -58,7 +58,7 @@
             <Image url="@../login/images/account_circle-Photoroom.png" />
          </image>
       </ImageView>
-      <AnchorPane layoutX="311.0" layoutY="139.0" prefHeight="343.0" prefWidth="277.0" style="-fx-background-color: #B3A2C7; -fx-background-radius: 20;">
+      <AnchorPane layoutX="371.0" layoutY="137.0" prefHeight="343.0" prefWidth="277.0" style="-fx-background-color: #B3A2C7; -fx-background-radius: 20;">
          <children>
             <Label alignment="CENTER" layoutX="65.0" layoutY="131.0" text="View Catalogue" textFill="#49454f">
                <font>
