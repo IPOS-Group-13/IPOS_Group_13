@@ -20,8 +20,14 @@ public class LogoutController {
 
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
+            stage.setMaximized(false);
+            stage.setMinWidth(0);
+            stage.setMinHeight(0);
             stage.setScene(loginScene);
-            stage.setTitle("Login");
+            stage.setTitle("BerryByte");
+            stage.sizeToScene();
+            stage.setResizable(false);
+            stage.centerOnScreen();
             stage.show();
 
         } catch (Exception e) {

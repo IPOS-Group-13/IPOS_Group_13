@@ -6,7 +6,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -129,8 +128,7 @@ public class AddNewProductController {
             Parent root = FXMLLoader.load(getClass().getResource("/catalogue/manageCatalogue.fxml"));
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.setTitle("Manage Catalogue Page");
-            stage.setScene(new Scene(root));
-            stage.sizeToScene();
+            SceneSwitcher.setStageRoot(stage, root);
             stage.show();
         } catch (IOException e) {
             messageLabel.setText("Unable to open Manage Catalogue page.");

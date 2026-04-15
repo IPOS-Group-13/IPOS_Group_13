@@ -1,11 +1,7 @@
 package com.berrybyte.common;
 
 import javafx.event.ActionEvent;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
 
 import java.io.IOException;
 
@@ -20,10 +16,16 @@ public final class RoleBasedNavigator {
     private static final String STAFF_DASHBOARD_PATH = "/dashboard/staffDashboard.fxml";
     private static final String ADMIN_MERCHANTS_PATH = "/dashboard/merchantMenu.fxml";
     private static final String MANAGER_MERCHANTS_PATH = "/dashboard/managerMerchantMenu.fxml";
-    private static final String MANAGE_ACCOUNTS_PATH = "/dashboard/staffAccountsMenu.fxml";
+    private static final String MANAGE_ACCOUNTS_PATH = "/dashboard/manageAccounts.fxml";
     private static final String ORDER_MENU_PATH = "/dashboard/orderMenu.fxml";
     private static final String MANAGER_ORDER_MENU_PATH = "/dashboard/managerOrderMenu.fxml";
     private static final String STAFF_ORDER_MENU_PATH = "/dashboard/staffOrderMenu.fxml";
+    private static final String CATALOGUE_PATH = "/catalogue/catalogue.fxml";
+    private static final String MANAGER_CATALOGUE_PATH = "/catalogue/managerCatalogue.fxml";
+    private static final String STAFF_CATALOGUE_PATH = "/catalogue/staffCatalogue.fxml";
+    private static final String PAYMENTS_MENU_PATH = "/ORD/paymentsMenu.fxml";
+    private static final String MANAGER_PAYMENTS_MENU_PATH = "/ORD/managerPaymentsMenu.fxml";
+    private static final String STAFF_PAYMENTS_MENU_PATH = "/ORD/staffPaymentsMenu.fxml";
 
     private RoleBasedNavigator() {
     }
@@ -78,6 +80,34 @@ public final class RoleBasedNavigator {
         return "Orders";
     }
 
+    public static String getCataloguePath() {
+        if (isManager()) {
+            return MANAGER_CATALOGUE_PATH;
+        }
+        if (isStaff()) {
+            return STAFF_CATALOGUE_PATH;
+        }
+        return CATALOGUE_PATH;
+    }
+
+    public static String getCatalogueTitle() {
+        return "Catalogue Page";
+    }
+
+    public static String getPaymentsMenuPath() {
+        if (isManager()) {
+            return MANAGER_PAYMENTS_MENU_PATH;
+        }
+        if (isStaff()) {
+            return STAFF_PAYMENTS_MENU_PATH;
+        }
+        return PAYMENTS_MENU_PATH;
+    }
+
+    public static String getPaymentsMenuTitle() {
+        return "Payments";
+    }
+
     public static void switchToDashboard(ActionEvent event) throws IOException {
         SceneSwitcher.switchScene(event, getDashboardPath(), getDashboardTitle());
     }
@@ -92,6 +122,14 @@ public final class RoleBasedNavigator {
 
     public static void switchToOrderMenu(ActionEvent event) throws IOException {
         SceneSwitcher.switchScene(event, getOrderMenuPath(), getOrderMenuTitle());
+    }
+
+    public static void switchToCatalogue(ActionEvent event) throws IOException {
+        SceneSwitcher.switchScene(event, getCataloguePath(), getCatalogueTitle());
+    }
+
+    public static void switchToPaymentsMenu(ActionEvent event) throws IOException {
+        SceneSwitcher.switchScene(event, getPaymentsMenuPath(), getPaymentsMenuTitle());
     }
 
     public static void openMerchantMenu(Node sourceNode) throws IOException {
@@ -110,13 +148,16 @@ public final class RoleBasedNavigator {
         openScene(sourceNode, getOrderMenuPath(), getOrderMenuTitle());
     }
 
-    private static void openScene(Node sourceNode, String fxmlPath, String title) throws IOException {
-        Parent root = FXMLLoader.load(RoleBasedNavigator.class.getResource(fxmlPath));
+    public static void openCatalogue(Node sourceNode) throws IOException {
+        openScene(sourceNode, getCataloguePath(), getCatalogueTitle());
+    }
 
-        Stage stage = (Stage) sourceNode.getScene().getWindow();
-        stage.setScene(new Scene(root));
-        stage.setTitle(title);
-        stage.show();
+    public static void openPaymentsMenu(Node sourceNode) throws IOException {
+        openScene(sourceNode, getPaymentsMenuPath(), getPaymentsMenuTitle());
+    }
+
+    private static void openScene(Node sourceNode, String fxmlPath, String title) throws IOException {
+        SceneSwitcher.switchScene(sourceNode, fxmlPath, title);
     }
 
     private static boolean isManager() {

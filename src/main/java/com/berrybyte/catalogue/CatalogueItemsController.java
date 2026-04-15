@@ -1,5 +1,6 @@
 package com.berrybyte.catalogue;
 
+import com.berrybyte.common.RoleBasedNavigator;
 import com.berrybyte.common.SceneSwitcher;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
@@ -9,6 +10,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.AnchorPane;
 
 public class CatalogueItemsController {
     @FXML
@@ -44,10 +46,18 @@ public class CatalogueItemsController {
     @FXML
     private Label messageLabel;
 
+    @FXML
+    private AnchorPane profileMenuPane;
+
     private final CatalogueService catalogueService = new CatalogueService();
 
     @FXML
     public void initialize() {
+        if (profileMenuPane != null) {
+            profileMenuPane.setVisible(false);
+            profileMenuPane.setManaged(false);
+        }
+
         nameColoumn.setCellValueFactory(new PropertyValueFactory<>("itemId"));
         companyColoumn.setCellValueFactory(new PropertyValueFactory<>("description"));
         iposIdColoumn.setCellValueFactory(new PropertyValueFactory<>("packageType"));
@@ -63,7 +73,7 @@ public class CatalogueItemsController {
     @FXML
     private void handleBackButton(ActionEvent event) {
         try {
-            SceneSwitcher.switchScene(event, "/catalogue/Catalogue.fxml", "Catalogue Page");
+            RoleBasedNavigator.switchToCatalogue(event);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -76,7 +86,27 @@ public class CatalogueItemsController {
 
     @FXML
     private void handleProfileClick() {
-        System.out.println("Profile clicked");
+        if (profileMenuPane == null) {
+            return;
+        }
+
+        boolean isVisible = profileMenuPane.isVisible();
+        profileMenuPane.setVisible(!isVisible);
+        profileMenuPane.setManaged(!isVisible);
+    }
+
+    @FXML
+    private void handleLogoutMenuClick(ActionEvent event) {
+        if (profileMenuPane != null) {
+            profileMenuPane.setVisible(false);
+            profileMenuPane.setManaged(false);
+        }
+
+        try {
+            SceneSwitcher.switchScene(event, "/logout/logout.fxml", "Log Out");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void loadItems(String searchText) {

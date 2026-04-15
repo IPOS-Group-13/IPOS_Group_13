@@ -12,16 +12,43 @@ public class CatalogueController {
     private AnchorPane catalogueMenuPane;
 
     @FXML
+    private AnchorPane profileMenuPane;
+
+    @FXML
     public void initialize() {
-        catalogueMenuPane.setVisible(true);
-        catalogueMenuPane.setManaged(true);
+        if (catalogueMenuPane != null) {
+            catalogueMenuPane.setVisible(true);
+            catalogueMenuPane.setManaged(true);
+        }
+        if (profileMenuPane != null) {
+            profileMenuPane.setVisible(false);
+            profileMenuPane.setManaged(false);
+        }
     }
 
     @FXML
     private void handleProfileClick() {
-        boolean isVisible = catalogueMenuPane.isVisible();
-        catalogueMenuPane.setVisible(!isVisible);
-        catalogueMenuPane.setManaged(!isVisible);
+        if (profileMenuPane == null) {
+            return;
+        }
+
+        boolean isVisible = profileMenuPane.isVisible();
+        profileMenuPane.setVisible(!isVisible);
+        profileMenuPane.setManaged(!isVisible);
+    }
+
+    @FXML
+    private void handleLogoutMenuClick(ActionEvent event) {
+        if (profileMenuPane != null) {
+            profileMenuPane.setVisible(false);
+            profileMenuPane.setManaged(false);
+        }
+
+        try {
+            SceneSwitcher.switchScene(event, "/logout/logout.fxml", "Log Out");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 
@@ -39,7 +66,7 @@ public class CatalogueController {
     @FXML
     private void handleCatalogueClick (ActionEvent event) {
         try {
-            SceneSwitcher.switchScene(event, "/catalogue/catalogue.fxml", "Catalogue Page");
+            RoleBasedNavigator.switchToCatalogue(event);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -57,7 +84,7 @@ public class CatalogueController {
     @FXML
     private void handleOrdersClick(ActionEvent event) {
         try {
-            SceneSwitcher.switchScene(event, "/dashboard/orderMenu.fxml", "Orders");
+            RoleBasedNavigator.switchToOrderMenu(event);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -83,7 +110,11 @@ public class CatalogueController {
 
     @FXML
     public void handlePaymentsClick(ActionEvent event) {
-        System.out.println("Payments Click - Catalogue");
+        try {
+            RoleBasedNavigator.switchToPaymentsMenu(event);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML

@@ -5,12 +5,12 @@ import com.berrybyte.ORD.helpers.OrderLine;
 import com.berrybyte.ORD.Status.AcceptOrderStatus;
 import com.berrybyte.ORD.services.SaOrderService;
 import com.berrybyte.common.LoginSession;
+import com.berrybyte.common.SceneSwitcher;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -85,7 +85,7 @@ public class OrderDetailsController {
         try {
             Parent root = FXMLLoader.load(getClass().getResource("/ORD/incomingOrders.fxml"));
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stage.setScene(new Scene(root));
+            SceneSwitcher.setStageRoot(stage, root);
             stage.setTitle("Incoming Orders");
             stage.show();
         } catch (Exception e) {

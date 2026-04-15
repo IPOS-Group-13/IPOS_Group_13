@@ -25,7 +25,7 @@ public class ExternalCommsQueueService {
                 VALUES (?, ?, ?, ?, ?, ?)
                 """;
 
-        String recipientEmail = resolveRecipientEmail(invoiceDetails);
+        String recipientEmail = resolveRecipientEmail();
         String subject = buildSubject(invoiceDetails);
         String body = buildBody(invoiceDetails, invoiceUrl);
         String referenceKey = buildReferenceKey(invoiceDetails);
@@ -45,8 +45,8 @@ public class ExternalCommsQueueService {
         return recipientEmail;
     }
 
-    private String resolveRecipientEmail(InvoiceDetails invoiceDetails) {
-        String merchantEmail = invoiceDetails.getEmail();
+    private String resolveRecipientEmail() {
+        String merchantEmail =  "ipos_commercial@yahoo.com";
         if (merchantEmail == null || merchantEmail.isBlank()) {
             throw new IllegalArgumentException("Merchant email is not available for this invoice.");
         }

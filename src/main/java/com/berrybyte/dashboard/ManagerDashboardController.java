@@ -33,12 +33,30 @@ public class ManagerDashboardController {
         }
     }
 
+    @FXML
+    private void handleCatalogueClick(ActionEvent event) {
+        try {
+            RoleBasedNavigator.switchToCatalogue(event);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 
 
     @FXML
     private void handleOrdersClick(ActionEvent event) {
         try {
             RoleBasedNavigator.switchToOrderMenu(event);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void handlePaymentsClick(ActionEvent event) {
+        try {
+            RoleBasedNavigator.switchToPaymentsMenu(event);
         } catch (Exception e) {
             e.printStackTrace();
         }

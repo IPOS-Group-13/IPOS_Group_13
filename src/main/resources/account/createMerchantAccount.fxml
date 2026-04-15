@@ -7,39 +7,66 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: #D2C3E3;" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.berrybyte.account.CreateMerchantAccountController">
+<AnchorPane prefHeight="600.0"
+            prefWidth="900.0"
+            style="-fx-background-color: #D2C3E3;"
+            xmlns="http://javafx.com/javafx/25"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.berrybyte.account.CreateMerchantAccountController">
    <children>
-      <ImageView fitHeight="62.0" fitWidth="88.0" layoutX="38.0" layoutY="33.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="62.0" fitWidth="88.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="38.0" AnchorPane.topAnchor="33.0">
          <image>
             <Image url="@../login/images/Logo_No_Background.PNG" />
          </image>
       </ImageView>
-      <Label alignment="CENTER" layoutX="280.0" layoutY="42.0" prefHeight="30.0" prefWidth="338.0" text="Enter Merchant Details">
+
+      <Label alignment="CENTER" text="Enter Merchant Details" AnchorPane.leftAnchor="190.0" AnchorPane.rightAnchor="190.0" AnchorPane.topAnchor="40.0">
          <font>
             <Font name="Verdana Bold" size="22.0" />
          </font>
       </Label>
-      <TextField fx:id="companyNameTextField" layoutX="290.0" layoutY="163.0" prefHeight="30.0" prefWidth="320.0" promptText="Company" style="-fx-background-radius: 15;" />
-      <TextField fx:id="usernameTextField" layoutX="290.0" layoutY="207.0" prefHeight="30.0" prefWidth="320.0" promptText="Username" style="-fx-background-radius: 15;" />
-      <TextField fx:id="phoneNumberTextField" layoutX="290.0" layoutY="300.0" prefHeight="30.0" prefWidth="320.0" promptText="Phone Number " style="-fx-background-radius: 15;" />
-      <Button fx:id="nextButton" layoutX="578.0" layoutY="547.0" mnemonicParsing="false" onAction="#handleNext" prefHeight="26.0" prefWidth="62.0" style="-fx-background-color: #6C5A86; -fx-background-radius: 18;" text="Next" textFill="WHITE" textOverrun="LEADING_ELLIPSIS">
-         <font>
-            <Font name="System Bold" size="12.0" />
-         </font>
-      </Button>
-      <PasswordField fx:id="passwordField" layoutX="289.0" layoutY="257.0" prefHeight="30.0" prefWidth="320.0" promptText="Password" style="-fx-background-radius: 15;" />
-      <TextField fx:id="emailTextField" layoutX="289.0" layoutY="345.0" prefHeight="30.0" prefWidth="320.0" promptText="Email Address" style="-fx-background-radius: 15;" />
-      <TextField fx:id="addressTextArea" layoutX="290.0" layoutY="392.0" prefHeight="30.0" prefWidth="320.0" promptText="Address" style="-fx-background-radius: 15;" />
-      <TextField fx:id="nameTextField" layoutX="290.0" layoutY="118.0" prefHeight="30.0" prefWidth="320.0" promptText="Name" style="-fx-background-radius: 15;" />
-      <TextField fx:id="accountStatusField" layoutX="290.0" layoutY="437.0" prefHeight="30.0" prefWidth="320.0" promptText="Status" style="-fx-background-radius: 15;" />
-      <TextField fx:id="creditLimitField" layoutX="290.0" layoutY="482.0" prefHeight="30.0" prefWidth="320.0" promptText="Credit Limit" style="-fx-background-radius: 15;" />
-      <ImageView fx:id="backButton" fitHeight="52.0" fitWidth="40.0" layoutX="826.0" layoutY="36.0" onMouseClicked="#handleBackButton" pickOnBounds="true" preserveRatio="true">
+
+      <ImageView fx:id="backButton" fitHeight="52.0" fitWidth="40.0" onMouseClicked="#handleBackButton" pickOnBounds="true" preserveRatio="true" AnchorPane.rightAnchor="34.0" AnchorPane.topAnchor="36.0">
          <image>
             <Image url="@../login/images/BackButton.png" />
          </image>
       </ImageView>
-      <Label fx:id="messageLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="244.0" layoutY="86.0" prefHeight="18.0" prefWidth="412.0" textFill="#8f0808" />
+
+      <StackPane AnchorPane.bottomAnchor="24.0" AnchorPane.leftAnchor="150.0" AnchorPane.rightAnchor="150.0" AnchorPane.topAnchor="82.0">
+         <children>
+            <AnchorPane maxHeight="500.0" maxWidth="520.0" minHeight="470.0" minWidth="390.0" prefHeight="492.0" prefWidth="460.0" style="-fx-background-color: #E8DEF8; -fx-background-radius: 20;">
+               <children>
+                  <VBox alignment="CENTER" spacing="9.0" AnchorPane.bottomAnchor="22.0" AnchorPane.leftAnchor="45.0" AnchorPane.rightAnchor="45.0" AnchorPane.topAnchor="22.0">
+                     <children>
+                        <Label fx:id="messageLabel" alignment="CENTER" contentDisplay="CENTER" prefHeight="20.0" prefWidth="360.0" textFill="#8f0808" />
+                        <TextField fx:id="nameTextField" prefHeight="30.0" prefWidth="340.0" promptText="Name" style="-fx-background-radius: 15;" />
+                        <TextField fx:id="companyNameTextField" prefHeight="30.0" prefWidth="340.0" promptText="Company" style="-fx-background-radius: 15;" />
+                        <TextField fx:id="usernameTextField" prefHeight="30.0" prefWidth="340.0" promptText="Username" style="-fx-background-radius: 15;" />
+                        <PasswordField fx:id="passwordField" prefHeight="30.0" prefWidth="340.0" promptText="Password" style="-fx-background-radius: 15;" />
+                        <TextField fx:id="phoneNumberTextField" prefHeight="30.0" prefWidth="340.0" promptText="Phone Number" style="-fx-background-radius: 15;" />
+                        <TextField fx:id="emailTextField" prefHeight="30.0" prefWidth="340.0" promptText="Email Address" style="-fx-background-radius: 15;" />
+                        <TextField fx:id="addressTextArea" prefHeight="30.0" prefWidth="340.0" promptText="Address" style="-fx-background-radius: 15;" />
+                        <TextField fx:id="accountStatusField" prefHeight="30.0" prefWidth="340.0" promptText="Status" style="-fx-background-radius: 15;" />
+                        <TextField fx:id="creditLimitField" prefHeight="30.0" prefWidth="340.0" promptText="Credit Limit" style="-fx-background-radius: 15;" />
+                        <HBox alignment="CENTER_RIGHT" prefWidth="340.0">
+                           <children>
+                              <Button fx:id="nextButton" mnemonicParsing="false" onAction="#handleNext" prefHeight="30.0" prefWidth="78.0" style="-fx-background-color: #6C5A86; -fx-background-radius: 18;" text="Next" textFill="WHITE" textOverrun="LEADING_ELLIPSIS">
+                                 <font>
+                                    <Font name="System Bold" size="12.0" />
+                                 </font>
+                              </Button>
+                           </children>
+                        </HBox>
+                     </children>
+                  </VBox>
+               </children>
+            </AnchorPane>
+         </children>
+      </StackPane>
    </children>
 </AnchorPane>
