@@ -85,9 +85,7 @@ public class CreateStaffAccountController {
             throw new Exception("Enter a valid email address.");
         }
 
-        if (!phone.matches("\\+\\d{1,3}\\s\\d{7,12}")) {
-            throw new Exception("Enter a valid phone number with country code (e.g. +44 7123456789).");
-        }
+        PhoneNumberRules.normalizeAndValidate(phone);
 
         if (StaffRoleRules.isReservedStaffRole(role)) {
             throw new Exception("Role cannot be admin, administrator, manager, director of operations, or merchant.");
@@ -110,7 +108,7 @@ public class CreateStaffAccountController {
             preparedStatement.setString(2, usernameTextField.getText().trim());
             preparedStatement.setString(3, passwordField.getText().trim());
             preparedStatement.setString(4, emailTextField.getText().trim());
-            preparedStatement.setString(5, phoneNumberTextField.getText().trim());
+            preparedStatement.setString(5, PhoneNumberRules.normalizeAndValidate(phoneNumberTextField.getText()));
             preparedStatement.setString(6, roleTextField.getText().trim());
 
             preparedStatement.executeUpdate();

@@ -12,6 +12,7 @@ import java.util.List;
 
 public class CatalogueService implements ICatalogueAPI {
 
+    private static final String CATALOGUE_ITEM_ID_LOCK = "ipos_sa_catalogue_item_id";
     private static final String DESCRIPTION_REGEX = "^[A-Za-z0-9 ,.&()'/-]{2,100}$";
     private static final String PACKAGE_TYPE_REGEX = "^[A-Za-z0-9 .&()'/-]{2,50}$";
     private static final String UNIT_REGEX = "^[A-Za-z]{1,20}$";
@@ -46,26 +47,48 @@ public class CatalogueService implements ICatalogueAPI {
 
         try (Connection conn = connectNow.getConnection()) {
             ensureIsDeletedColumn(conn);
+            conn.setAutoCommit(false);
 
-            int nextItemId = 10000001;
+            boolean lockAcquired = false;
 
-            try (PreparedStatement nextIdPs = conn.prepareStatement(nextIdSql);
-                 ResultSet rs = nextIdPs.executeQuery()) {
-                if (rs.next()) {
-                    nextItemId = rs.getInt("NextItemId");
+            try {
+                acquireCatalogueItemIdLock(conn);
+                lockAcquired = true;
+
+                int nextItemId = 10000001;
+
+                try (PreparedStatement nextIdPs = conn.prepareStatement(nextIdSql);
+                     ResultSet rs = nextIdPs.executeQuery()) {
+                    if (rs.next()) {
+                        nextItemId = rs.getInt("NextItemId");
+                    }
                 }
-            }
 
-            try (PreparedStatement ps = conn.prepareStatement(insertSql)) {
-                ps.setInt(1, nextItemId);
-                ps.setString(2, description.trim());
-                ps.setString(3, packageType.trim());
-                ps.setString(4, unit.trim());
-                ps.setInt(5, unitsInPack);
-                ps.setDouble(6, packageCost);
-                ps.setInt(7, availabilityPacks);
-                ps.setInt(8, stockLimitPacks);
-                ps.executeUpdate();
+                try (PreparedStatement ps = conn.prepareStatement(insertSql)) {
+                    ps.setInt(1, nextItemId);
+                    ps.setString(2, description.trim());
+                    ps.setString(3, packageType.trim());
+                    ps.setString(4, unit.trim());
+                    ps.setInt(5, unitsInPack);
+                    ps.setDouble(6, packageCost);
+                    ps.setInt(7, availabilityPacks);
+                    ps.setInt(8, stockLimitPacks);
+                    ps.executeUpdate();
+                }
+
+                conn.commit();
+            } catch (Exception e) {
+                conn.rollback();
+                throw e;
+            } finally {
+                if (lockAcquired) {
+                    try {
+                        releaseCatalogueItemIdLock(conn);
+                    } catch (SQLException ignored) {
+                        // The database connection closing will release MySQL named locks as a fallback.
+                    }
+                }
+                conn.setAutoCommit(true);
             }
         }
     }
@@ -396,6 +419,31 @@ public class CatalogueService implements ICatalogueAPI {
             String message = e.getMessage() == null ? "" : e.getMessage().toLowerCase();
             if (!message.contains("duplicate column")) {
                 throw e;
+            }
+        }
+    }
+
+    private void acquireCatalogueItemIdLock(Connection conn) throws SQLException {
+        String lockSql = "SELECT GET_LOCK(?, 10) AS LockAcquired";
+
+        try (PreparedStatement ps = conn.prepareStatement(lockSql)) {
+            ps.setString(1, CATALOGUE_ITEM_ID_LOCK);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                if (!rs.next() || rs.getInt("LockAcquired") != 1) {
+                    throw new SQLException("Unable to reserve the next catalogue item ID. Please try again.");
+                }
+            }
+        }
+    }
+
+    private void releaseCatalogueItemIdLock(Connection conn) throws SQLException {
+        String releaseSql = "SELECT RELEASE_LOCK(?)";
+
+        try (PreparedStatement ps = conn.prepareStatement(releaseSql)) {
+            ps.setString(1, CATALOGUE_ITEM_ID_LOCK);
+            try (ResultSet ignored = ps.executeQuery()) {
+                // Result intentionally ignored; closing it is enough.
             }
         }
     }

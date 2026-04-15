@@ -98,7 +98,12 @@ public class DeleteProductService {
     public void deleteProduct(int itemId) throws Exception {
         DatabaseConnection connectNow = new DatabaseConnection();
 
-        String softDeleteSql = "UPDATE Catalogue SET IsDeleted = 1 WHERE ItemId = ?";
+        String softDeleteSql = """
+                UPDATE Catalogue
+                SET IsDeleted = 1
+                WHERE ItemId = ?
+                  AND IsDeleted = 0
+                """;
 
         try (Connection conn = connectNow.getConnection()) {
             conn.setAutoCommit(false);

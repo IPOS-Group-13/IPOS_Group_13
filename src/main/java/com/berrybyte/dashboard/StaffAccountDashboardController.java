@@ -22,6 +22,9 @@ public class StaffAccountDashboardController {
         boolean isVisible = profileMenuPane.isVisible();
         profileMenuPane.setVisible(!isVisible);
         profileMenuPane.setManaged(!isVisible);
+        if (!isVisible) {
+            profileMenuPane.toFront();
+        }
     }
 
     @FXML

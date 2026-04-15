@@ -98,14 +98,14 @@
                              AnchorPane.rightAnchor="18.0"
                              AnchorPane.topAnchor="18.0">
                      <columns>
-                        <TableColumn fx:id="itemIdColoumn" prefWidth="90.0" text="Item ID" />
-                        <TableColumn fx:id="descriptionColoumn" prefWidth="170.0" text="Description" />
-                        <TableColumn fx:id="packageTypeColoumn" prefWidth="120.0" text="Package Type" />
-                        <TableColumn fx:id="unitColoumn" prefWidth="80.0" text="Unit" />
-                        <TableColumn fx:id="unitsInPackColoumn" prefWidth="110.0" text="Units in a pack" />
-                        <TableColumn fx:id="packageCostColoumn" prefWidth="110.0" text="Package Cost, &#163;" />
-                        <TableColumn fx:id="availabilityColoumn" prefWidth="105.0" text="Availability, Packs" />
-                        <TableColumn fx:id="stockLimitColoumn" prefWidth="110.0" text="Stock Limit, Packs" />
+                        <TableColumn fx:id="itemIdColumn" prefWidth="90.0" text="Item ID" />
+                        <TableColumn fx:id="descriptionColumn" prefWidth="170.0" text="Description" />
+                        <TableColumn fx:id="packageTypeColumn" prefWidth="120.0" text="Package Type" />
+                        <TableColumn fx:id="unitColumn" prefWidth="80.0" text="Unit" />
+                        <TableColumn fx:id="unitsInPackColumn" prefWidth="110.0" text="Units in a pack" />
+                        <TableColumn fx:id="packageCostColumn" prefWidth="110.0" text="Package Cost, &#163;" />
+                        <TableColumn fx:id="availabilityPacksColumn" prefWidth="105.0" text="Availability, Packs" />
+                        <TableColumn fx:id="stockLimitPacksColumn" prefWidth="110.0" text="Stock Limit, Packs" />
                      </columns>
                      <columnResizePolicy>
                         <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />

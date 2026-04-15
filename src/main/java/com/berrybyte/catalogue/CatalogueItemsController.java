@@ -17,31 +17,31 @@ public class CatalogueItemsController {
     private TextField searchField;
 
     @FXML
-    private TableView<CatalogueItemRow> merchantsTable;
+    private TableView<CatalogueItemRow> catalogueItemsTable;
 
     @FXML
-    private TableColumn<CatalogueItemRow, Integer> nameColoumn;
+    private TableColumn<CatalogueItemRow, Integer> itemIdColumn;
 
     @FXML
-    private TableColumn<CatalogueItemRow, String> companyColoumn;
+    private TableColumn<CatalogueItemRow, String> descriptionColumn;
 
     @FXML
-    private TableColumn<CatalogueItemRow, String> iposIdColoumn;
+    private TableColumn<CatalogueItemRow, String> packageTypeColumn;
 
     @FXML
-    private TableColumn<CatalogueItemRow, String> creditLimitColoumn;
+    private TableColumn<CatalogueItemRow, String> unitColumn;
 
     @FXML
-    private TableColumn<CatalogueItemRow, Integer> discountPlanColoumn;
+    private TableColumn<CatalogueItemRow, Integer> unitsInPackColumn;
 
     @FXML
-    private TableColumn<CatalogueItemRow, String> discountPlanColoumn1;
+    private TableColumn<CatalogueItemRow, String> packageCostColumn;
 
     @FXML
-    private TableColumn<CatalogueItemRow, Integer> discountPlanColoumn2;
+    private TableColumn<CatalogueItemRow, Integer> availabilityPacksColumn;
 
     @FXML
-    private TableColumn<CatalogueItemRow, Integer> discountPlanColoumn3;
+    private TableColumn<CatalogueItemRow, Integer> stockLimitPacksColumn;
 
     @FXML
     private Label messageLabel;
@@ -58,14 +58,14 @@ public class CatalogueItemsController {
             profileMenuPane.setManaged(false);
         }
 
-        nameColoumn.setCellValueFactory(new PropertyValueFactory<>("itemId"));
-        companyColoumn.setCellValueFactory(new PropertyValueFactory<>("description"));
-        iposIdColoumn.setCellValueFactory(new PropertyValueFactory<>("packageType"));
-        creditLimitColoumn.setCellValueFactory(new PropertyValueFactory<>("unit"));
-        discountPlanColoumn.setCellValueFactory(new PropertyValueFactory<>("unitsInPack"));
-        discountPlanColoumn1.setCellValueFactory(new PropertyValueFactory<>("packageCost"));
-        discountPlanColoumn2.setCellValueFactory(new PropertyValueFactory<>("availabilityPacks"));
-        discountPlanColoumn3.setCellValueFactory(new PropertyValueFactory<>("stockLimitPacks"));
+        itemIdColumn.setCellValueFactory(new PropertyValueFactory<>("itemId"));
+        descriptionColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
+        packageTypeColumn.setCellValueFactory(new PropertyValueFactory<>("packageType"));
+        unitColumn.setCellValueFactory(new PropertyValueFactory<>("unit"));
+        unitsInPackColumn.setCellValueFactory(new PropertyValueFactory<>("unitsInPack"));
+        packageCostColumn.setCellValueFactory(new PropertyValueFactory<>("packageCost"));
+        availabilityPacksColumn.setCellValueFactory(new PropertyValueFactory<>("availabilityPacks"));
+        stockLimitPacksColumn.setCellValueFactory(new PropertyValueFactory<>("stockLimitPacks"));
 
         loadItems("");
     }
@@ -93,6 +93,9 @@ public class CatalogueItemsController {
         boolean isVisible = profileMenuPane.isVisible();
         profileMenuPane.setVisible(!isVisible);
         profileMenuPane.setManaged(!isVisible);
+        if (!isVisible) {
+            profileMenuPane.toFront();
+        }
     }
 
     @FXML
@@ -111,7 +114,7 @@ public class CatalogueItemsController {
 
     private void loadItems(String searchText) {
         try {
-            merchantsTable.setItems(FXCollections.observableArrayList(catalogueService.searchCatalogueItems(searchText)));
+            catalogueItemsTable.setItems(FXCollections.observableArrayList(catalogueService.searchCatalogueItems(searchText)));
             if (messageLabel != null) {
                 messageLabel.setText("");
             }

@@ -72,6 +72,62 @@ public class MerchantStatusService {
         }
     }
 
+    public boolean restoreDefaultState(int merchantId) throws Exception {
+        if (merchantId <= 0) {
+            throw new IllegalArgumentException("Invalid merchant id.");
+        }
+
+        try (Connection conn = new DatabaseConnection().getConnection()) {
+            boolean originalAutoCommit = conn.getAutoCommit();
+            conn.setAutoCommit(false);
+
+            try {
+                boolean restored = restoreDefaultState(conn, merchantId);
+                conn.commit();
+                return restored;
+            } catch (Exception e) {
+                conn.rollback();
+                throw e;
+            } finally {
+                conn.setAutoCommit(originalAutoCommit);
+            }
+        }
+    }
+
+    public boolean restoreDefaultState(Connection conn, int merchantId) throws Exception {
+        if (conn == null) {
+            throw new IllegalArgumentException("A database connection is required.");
+        }
+        if (merchantId <= 0) {
+            throw new IllegalArgumentException("Invalid merchant id.");
+        }
+
+        String currentStatusSql = """
+                SELECT AccountStatus
+                FROM MerchantAccounts
+                WHERE MerchantId = ?
+                FOR UPDATE
+                """;
+
+        try (PreparedStatement ps = conn.prepareStatement(currentStatusSql)) {
+            ps.setInt(1, merchantId);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                if (!rs.next()) {
+                    throw new IllegalArgumentException("Merchant account not found.");
+                }
+
+                String currentStatus = rs.getString("AccountStatus");
+                if (!"IN_DEFAULT".equalsIgnoreCase(currentStatus)) {
+                    return false;
+                }
+            }
+        }
+
+        updateMerchantStatus(conn, merchantId, "NORMAL");
+        return true;
+    }
+
     private String getCurrentStatus(Connection conn, int merchantId) throws Exception {
         String sql = """
                 SELECT AccountStatus

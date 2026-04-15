@@ -4,6 +4,7 @@ import com.berrybyte.account.ConfirmDeleteAccountController;
 import com.berrybyte.account.ConfirmDeleteDiscountPlanController;
 import com.berrybyte.account.DeleteAccountService;
 import com.berrybyte.account.DiscountPlanEditController;
+import com.berrybyte.account.MerchantStatusService;
 import com.berrybyte.common.DatabaseConnection;
 import com.berrybyte.common.LoginSession;
 import com.berrybyte.common.RoleBasedNavigator;
@@ -58,6 +59,9 @@ public class MerchantMenuController {
     private TableColumn<MerchantMenuRow, String> outstandingColoumn;
 
     @FXML
+    private TableColumn<MerchantMenuRow, String> accountStatusColoumn;
+
+    @FXML
     private Button editMerchantDetailsButton;
 
     @FXML
@@ -70,6 +74,9 @@ public class MerchantMenuController {
     private Button deleteAccount;
 
     @FXML
+    private Button restoreStateButton;
+
+    @FXML
     private Label messageLabel;
 
     @FXML
@@ -80,6 +87,7 @@ public class MerchantMenuController {
 
     private MerchantMenuRow selectedMerchant;
     private final DeleteAccountService deleteAccountService = new DeleteAccountService();
+    private final MerchantStatusService merchantStatusService = new MerchantStatusService();
 
     @FXML
     public void initialize() {
@@ -90,6 +98,9 @@ public class MerchantMenuController {
         discountPlanColoumn.setCellValueFactory(new PropertyValueFactory<>("discountPlan"));
         if (outstandingColoumn != null) {
             outstandingColoumn.setCellValueFactory(new PropertyValueFactory<>("outstandingBalance"));
+        }
+        if (accountStatusColoumn != null) {
+            accountStatusColoumn.setCellValueFactory(new PropertyValueFactory<>("accountStatus"));
         }
 
         profileMenuPane.setVisible(false);
@@ -106,6 +117,7 @@ public class MerchantMenuController {
         });
 
         configureDeleteAccountButton();
+        configureRestoreStateButton();
         setActionButtonsDisabled(true);
         loadMerchants("");
     }
@@ -213,6 +225,11 @@ public class MerchantMenuController {
         if (!ensureMerchantSelected()) {
             return;
         }
+        if (!hasActiveDiscountPlan(selectedMerchant)) {
+            messageLabel.setText("Discount plan is already deleted.");
+            updateButtonState();
+            return;
+        }
 
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/account/confirmDeleteDiscountPlan.fxml"));
@@ -277,12 +294,44 @@ public class MerchantMenuController {
         }
     }
 
+    @FXML
+    protected void handleRestoreState(ActionEvent event) {
+        if (!canRestoreMerchantState()) {
+            messageLabel.setText("Only admins and managers can restore merchant account state.");
+            return;
+        }
+
+        if (!ensureMerchantSelected()) {
+            return;
+        }
+
+        if (!"IN_DEFAULT".equalsIgnoreCase(selectedMerchant.getAccountStatus())) {
+            messageLabel.setText("Only accounts in default can be restored.");
+            updateButtonState();
+            return;
+        }
+
+        try {
+            boolean restored = merchantStatusService.restoreDefaultState(selectedMerchant.getMerchantId());
+            loadMerchants(searchField.getText());
+            messageLabel.setText(restored
+                    ? "Merchant account state restored to NORMAL."
+                    : "Only accounts in default can be restored.");
+        } catch (Exception e) {
+            e.printStackTrace();
+            messageLabel.setText("Unable to restore merchant account state.");
+        }
+    }
+
 
     @FXML
     protected void handleProfileClick() {
         boolean isVisible = profileMenuPane.isVisible();
         profileMenuPane.setVisible(!isVisible);
         profileMenuPane.setManaged(!isVisible);
+        if (!isVisible) {
+            profileMenuPane.toFront();
+        }
     }
 
     @FXML
@@ -339,6 +388,7 @@ public class MerchantMenuController {
                     ma.IPOSAccountNumber,
                     ma.CreditLimit,
                     ma.OutstandingBalance,
+                    COALESCE(ma.AccountStatus, 'NORMAL') AS AccountStatus,
                     COALESCE((
                         SELECT dp.PlanType
                         FROM DiscountPlans dp
@@ -373,7 +423,8 @@ public class MerchantMenuController {
                             rs.getString("IPOSAccountNumber"),
                             String.format("%.2f", rs.getDouble("CreditLimit")),
                             rs.getString("PlanType"),
-                            String.format("%.2f", rs.getDouble("OutstandingBalance"))
+                            String.format("%.2f", rs.getDouble("OutstandingBalance")),
+                            rs.getString("AccountStatus")
                     ));
                 }
             }
@@ -403,15 +454,32 @@ public class MerchantMenuController {
             updateDiscountPlanButton.setDisable(disabled);
         }
         if (deleteDiscountPlanButton != null) {
-            deleteDiscountPlanButton.setDisable(disabled);
+            deleteDiscountPlanButton.setDisable(disabled
+                    || selectedMerchant == null
+                    || !hasActiveDiscountPlan(selectedMerchant));
         }
         if (deleteAccount != null) {
             deleteAccount.setDisable(disabled || !canDeleteMerchantAccounts());
+        }
+        if (restoreStateButton != null) {
+            restoreStateButton.setDisable(disabled
+                    || !canRestoreMerchantState()
+                    || selectedMerchant == null
+                    || !"IN_DEFAULT".equalsIgnoreCase(selectedMerchant.getAccountStatus()));
         }
     }
 
     protected boolean canDeleteMerchantAccounts() {
         return "ADMIN".equalsIgnoreCase(LoginSession.getCurrentRole());
+    }
+
+    protected boolean canRestoreMerchantState() {
+        String role = LoginSession.getCurrentRole();
+        return "ADMIN".equalsIgnoreCase(role) || "MANAGER".equalsIgnoreCase(role);
+    }
+
+    private boolean hasActiveDiscountPlan(MerchantMenuRow merchant) {
+        return merchant != null && !"NONE".equalsIgnoreCase(merchant.getDiscountPlan());
     }
 
     private void configureDeleteAccountButton() {
@@ -423,6 +491,17 @@ public class MerchantMenuController {
         deleteAccount.setVisible(canDeleteMerchantAccounts);
         deleteAccount.setManaged(canDeleteMerchantAccounts);
         deleteAccount.setDisable(true);
+    }
+
+    private void configureRestoreStateButton() {
+        if (restoreStateButton == null) {
+            return;
+        }
+
+        boolean canRestoreMerchantState = canRestoreMerchantState();
+        restoreStateButton.setVisible(canRestoreMerchantState);
+        restoreStateButton.setManaged(canRestoreMerchantState);
+        restoreStateButton.setDisable(true);
     }
 
     private void openSceneForSelectedMerchant(ActionEvent event,

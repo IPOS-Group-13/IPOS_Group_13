@@ -24,28 +24,28 @@ public class DeleteProductController {
     private TableView<CatalogueItemRow> productsTable;
 
     @FXML
-    private TableColumn<CatalogueItemRow, Integer> itemIdColoumn;
+    private TableColumn<CatalogueItemRow, Integer> itemIdColumn;
 
     @FXML
-    private TableColumn<CatalogueItemRow, String> descriptionColoumn;
+    private TableColumn<CatalogueItemRow, String> descriptionColumn;
 
     @FXML
-    private TableColumn<CatalogueItemRow, String> packageTypeColoumn;
+    private TableColumn<CatalogueItemRow, String> packageTypeColumn;
 
     @FXML
-    private TableColumn<CatalogueItemRow, String> unitColoumn;
+    private TableColumn<CatalogueItemRow, String> unitColumn;
 
     @FXML
-    private TableColumn<CatalogueItemRow, Integer> unitsInPackColoumn;
+    private TableColumn<CatalogueItemRow, Integer> unitsInPackColumn;
 
     @FXML
-    private TableColumn<CatalogueItemRow, String> packageCostColoumn;
+    private TableColumn<CatalogueItemRow, String> packageCostColumn;
 
     @FXML
-    private TableColumn<CatalogueItemRow, Integer> availabilityColoumn;
+    private TableColumn<CatalogueItemRow, Integer> availabilityPacksColumn;
 
     @FXML
-    private TableColumn<CatalogueItemRow, Integer> stockLimitColoumn;
+    private TableColumn<CatalogueItemRow, Integer> stockLimitPacksColumn;
 
     @FXML
     private Label messageLabel;
@@ -55,14 +55,14 @@ public class DeleteProductController {
 
     @FXML
     public void initialize() {
-        itemIdColoumn.setCellValueFactory(new PropertyValueFactory<>("itemId"));
-        descriptionColoumn.setCellValueFactory(new PropertyValueFactory<>("description"));
-        packageTypeColoumn.setCellValueFactory(new PropertyValueFactory<>("packageType"));
-        unitColoumn.setCellValueFactory(new PropertyValueFactory<>("unit"));
-        unitsInPackColoumn.setCellValueFactory(new PropertyValueFactory<>("unitsInPack"));
-        packageCostColoumn.setCellValueFactory(new PropertyValueFactory<>("packageCost"));
-        availabilityColoumn.setCellValueFactory(new PropertyValueFactory<>("availabilityPacks"));
-        stockLimitColoumn.setCellValueFactory(new PropertyValueFactory<>("stockLimitPacks"));
+        itemIdColumn.setCellValueFactory(new PropertyValueFactory<>("itemId"));
+        descriptionColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
+        packageTypeColumn.setCellValueFactory(new PropertyValueFactory<>("packageType"));
+        unitColumn.setCellValueFactory(new PropertyValueFactory<>("unit"));
+        unitsInPackColumn.setCellValueFactory(new PropertyValueFactory<>("unitsInPack"));
+        packageCostColumn.setCellValueFactory(new PropertyValueFactory<>("packageCost"));
+        availabilityPacksColumn.setCellValueFactory(new PropertyValueFactory<>("availabilityPacks"));
+        stockLimitPacksColumn.setCellValueFactory(new PropertyValueFactory<>("stockLimitPacks"));
 
         productsTable.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
             selectedProduct = newSelection;

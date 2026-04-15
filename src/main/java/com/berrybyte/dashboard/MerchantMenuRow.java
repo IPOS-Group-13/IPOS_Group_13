@@ -10,6 +10,7 @@ public class MerchantMenuRow {
     private final String creditLimit;
     private final String discountPlan;
     private final String outstandingBalance;
+    private final String accountStatus;
 
     public MerchantMenuRow(int merchantId,
                            int userId,
@@ -18,7 +19,8 @@ public class MerchantMenuRow {
                            String iposAccountNumber,
                            String creditLimit,
                            String discountPlan,
-                           String outstandingBalance) {
+                           String outstandingBalance,
+                           String accountStatus) {
         this.merchantId = merchantId;
         this.userId = userId;
         this.merchantName = merchantName;
@@ -27,6 +29,7 @@ public class MerchantMenuRow {
         this.creditLimit = creditLimit;
         this.discountPlan = discountPlan;
         this.outstandingBalance = outstandingBalance;
+        this.accountStatus = accountStatus;
     }
 
     public int getMerchantId() {return merchantId;}
@@ -44,4 +47,6 @@ public class MerchantMenuRow {
     public String getDiscountPlan() {return discountPlan;}
 
     public String getOutstandingBalance() {return outstandingBalance;}
+
+    public String getAccountStatus() {return accountStatus;}
 }
