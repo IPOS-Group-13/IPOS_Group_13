@@ -10,54 +10,29 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: #D2C3E3;"
-            xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="com.berrybyte.dashboard.AdminDashboardController">
+<AnchorPane prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: #D2C3E3;" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.berrybyte.dashboard.AdminDashboardController">
    <children>
 
-      <Label text="Dashboard"
-             AnchorPane.topAnchor="36.0"
-             AnchorPane.leftAnchor="200.0">
+      <Label text="Dashboard" AnchorPane.leftAnchor="200.0" AnchorPane.topAnchor="36.0">
          <font>
             <Font name="Segoe UI Bold" size="36.0" />
          </font>
       </Label>
 
-      <ImageView fx:id="profileImage"
-                 fitHeight="52.0"
-                 fitWidth="82.0"
-                 onMouseClicked="#handleProfileClick"
-                 pickOnBounds="true"
-                 preserveRatio="true"
-                 AnchorPane.topAnchor="36.0"
-                 AnchorPane.rightAnchor="18.0">
+      <ImageView fx:id="profileImage" fitHeight="52.0" fitWidth="82.0" onMouseClicked="#handleProfileClick" pickOnBounds="true" preserveRatio="true" AnchorPane.rightAnchor="18.0" AnchorPane.topAnchor="36.0">
          <image>
             <Image url="@../login/images/account_circle-Photoroom.png" />
          </image>
       </ImageView>
 
-      <AnchorPane fx:id="profileMenuPane"
-                  prefHeight="43.0"
-                  prefWidth="200.0"
-                  style="-fx-background-color: White; -fx-background-radius: 10;"
-                  AnchorPane.topAnchor="79.0"
-                  AnchorPane.rightAnchor="74.0">
+      <AnchorPane fx:id="profileMenuPane" prefHeight="43.0" prefWidth="200.0" style="-fx-background-color: White; -fx-background-radius: 10;" AnchorPane.rightAnchor="74.0" AnchorPane.topAnchor="79.0">
          <children>
-            <Button layoutX="14.0" layoutY="9.0"
-                    mnemonicParsing="false"
-                    onAction="#handleLogoutMenuClick"
-                    style="-fx-background-color: white;"
-                    text="Logout">
+            <Button layoutX="14.0" layoutY="9.0" mnemonicParsing="false" onAction="#handleLogoutMenuClick" style="-fx-background-color: white;" text="Logout">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Button>
-            <ImageView fitHeight="33.0"
-                       fitWidth="38.0"
-                       layoutX="156.0"
-                       layoutY="5.0"
-                       pickOnBounds="true"
-                       preserveRatio="true">
+            <ImageView fitHeight="33.0" fitWidth="38.0" layoutX="156.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../login/images/Log in-Photoroom.png" />
                </image>
@@ -65,128 +40,57 @@
          </children>
       </AnchorPane>
 
-      <AnchorPane prefWidth="141.0"
-                  style="-fx-background-color: #A89CB6; -fx-background-radius: 20;"
-                  AnchorPane.topAnchor="37.0"
-                  AnchorPane.bottomAnchor="37.0"
-                  AnchorPane.leftAnchor="23.0">
+      <AnchorPane prefWidth="141.0" style="-fx-background-color: #A89CB6; -fx-background-radius: 20;" AnchorPane.bottomAnchor="37.0" AnchorPane.leftAnchor="23.0" AnchorPane.topAnchor="37.0">
          <children>
-            <ImageView fitHeight="52.0"
-                       fitWidth="81.0"
-                       layoutX="14.0"
-                       layoutY="14.0"
-                       pickOnBounds="true"
-                       preserveRatio="true">
+            <ImageView fitHeight="52.0" fitWidth="81.0" layoutX="14.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../login/images/menu-Photoroom.png" />
                </image>
             </ImageView>
 
-            <Button alignment="TOP_LEFT"
-                    layoutX="7.0"
-                    layoutY="93.0"
-                    mnemonicParsing="false"
-                    prefHeight="26.0"
-                    prefWidth="102.0"
-                    style="-fx-background-color: #6C5A86; -fx-background-radius: 18;"
-                    text="Dashboard "
-                    textFill="WHITE">
+            <Button alignment="TOP_LEFT" layoutX="7.0" layoutY="93.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="102.0" style="-fx-background-color: #6C5A86; -fx-background-radius: 18;" text="Dashboard " textFill="WHITE">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Button>
 
-            <Button alignment="TOP_LEFT"
-                    layoutX="7.0"
-                    layoutY="137.0"
-                    mnemonicParsing="false"
-                    onAction="#handleCatalogueClick"
-                    prefHeight="26.0"
-                    prefWidth="102.0"
-                    style="-fx-background-color: #A89CB6; -fx-background-radius: 18;"
-                    text="Catalogue">
+            <Button alignment="TOP_LEFT" layoutX="7.0" layoutY="137.0" mnemonicParsing="false" onAction="#handleCatalogueClick" prefHeight="26.0" prefWidth="102.0" style="-fx-background-color: #A89CB6; -fx-background-radius: 18;" text="Catalogue">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Button>
 
-            <Button alignment="TOP_LEFT"
-                    layoutX="7.0"
-                    layoutY="178.0"
-                    mnemonicParsing="false"
-                    onAction="#handleMerchantsClick"
-                    prefHeight="26.0"
-                    prefWidth="102.0"
-                    style="-fx-background-color: #A89CB6; -fx-background-radius: 18;"
-                    text="Merchants">
+            <Button alignment="TOP_LEFT" layoutX="7.0" layoutY="178.0" mnemonicParsing="false" onAction="#handleMerchantsClick" prefHeight="26.0" prefWidth="102.0" style="-fx-background-color: #A89CB6; -fx-background-radius: 18;" text="Merchants">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Button>
 
-            <Button alignment="TOP_LEFT"
-                    layoutX="7.0"
-                    layoutY="222.0"
-                    mnemonicParsing="false"
-                    onAction="#handleOrdersClick"
-                    prefHeight="26.0"
-                    prefWidth="102.0"
-                    style="-fx-background-color: #A89CB6; -fx-background-radius: 18;"
-                    text="Orders">
+            <Button alignment="TOP_LEFT" layoutX="7.0" layoutY="222.0" mnemonicParsing="false" onAction="#handleOrdersClick" prefHeight="26.0" prefWidth="102.0" style="-fx-background-color: #A89CB6; -fx-background-radius: 18;" text="Orders">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Button>
 
-            <Button alignment="TOP_LEFT"
-                    layoutX="7.0"
-                    layoutY="263.0"
-                    mnemonicParsing="false"
-                    onAction="#handlePaymentsClick"
-                    prefHeight="26.0"
-                    prefWidth="102.0"
-                    style="-fx-background-color: #A89CB6; -fx-background-radius: 18;"
-                    text="Payments">
+            <Button alignment="TOP_LEFT" layoutX="7.0" layoutY="263.0" mnemonicParsing="false" onAction="#handlePaymentsClick" prefHeight="26.0" prefWidth="102.0" style="-fx-background-color: #A89CB6; -fx-background-radius: 18;" text="Payments">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Button>
 
-            <Button alignment="TOP_LEFT"
-                    layoutX="7.0"
-                    layoutY="303.0"
-                    mnemonicParsing="false"
-                    prefHeight="26.0"
-                    prefWidth="102.0"
-                    style="-fx-background-color: #A89CB6; -fx-background-radius: 18;"
-                    text="Reports">
+            <Button alignment="TOP_LEFT" layoutX="7.0" layoutY="303.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="102.0" style="-fx-background-color: #A89CB6; -fx-background-radius: 18;" text="Reports">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Button>
 
-            <Button alignment="TOP_LEFT"
-                    layoutX="7.0"
-                    layoutY="347.0"
-                    mnemonicParsing="false"
-                    onAction="#handleStaffAccountsClick"
-                    prefHeight="26.0"
-                    prefWidth="121.0"
-                    style="-fx-background-color: #A89CB6; -fx-background-radius: 18;"
-                    text="Manage Accounts">
+            <Button alignment="TOP_LEFT" layoutX="7.0" layoutY="347.0" mnemonicParsing="false" onAction="#handleStaffAccountsClick" prefHeight="26.0" prefWidth="121.0" style="-fx-background-color: #A89CB6; -fx-background-radius: 18;" text="Manage Accounts">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Button>
 
-            <Button alignment="TOP_LEFT"
-                    layoutX="6.0"
-                    layoutY="395.0"
-                    mnemonicParsing="false"
-                    prefHeight="26.0"
-                    prefWidth="141.0"
-                    style="-fx-background-color: #A89CB6; -fx-background-radius: 18;"
-                    text="Pending Applications">
+            <Button alignment="TOP_LEFT" layoutX="6.0" layoutY="395.0" mnemonicParsing="false" onAction="#handlePendingApplications" prefHeight="26.0" prefWidth="141.0" style="-fx-background-color: #A89CB6; -fx-background-radius: 18;" text="Pending Applications">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
@@ -194,24 +98,11 @@
          </children>
       </AnchorPane>
 
-      <AnchorPane fx:id="lowStockPane"
-                  style="-fx-background-color: white; -fx-background-radius: 15;"
-                  visible="false"
-                  AnchorPane.topAnchor="145.0"
-                  AnchorPane.bottomAnchor="55.0"
-                  AnchorPane.leftAnchor="190.0"
-                  AnchorPane.rightAnchor="45.0">
+      <AnchorPane fx:id="lowStockPane" style="-fx-background-color: white; -fx-background-radius: 15;" visible="false" AnchorPane.bottomAnchor="55.0" AnchorPane.leftAnchor="190.0" AnchorPane.rightAnchor="45.0" AnchorPane.topAnchor="145.0">
          <children>
-            <AnchorPane prefHeight="55.0"
-                        style="-fx-background-color: #e1c3c3; -fx-background-radius: 15 15 0 0;"
-                        AnchorPane.topAnchor="0.0"
-                        AnchorPane.leftAnchor="0.0"
-                        AnchorPane.rightAnchor="0.0">
+            <AnchorPane prefHeight="55.0" style="-fx-background-color: #e1c3c3; -fx-background-radius: 15 15 0 0;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
-                  <Label layoutX="20.0"
-                         layoutY="13.0"
-                         text="Low Stock Alert"
-                         textFill="#49454f">
+                  <Label layoutX="20.0" layoutY="13.0" text="Low Stock Alert" textFill="#49454f">
                      <font>
                         <Font name="Verdana Bold" size="20.0" />
                      </font>
@@ -219,21 +110,13 @@
                </children>
             </AnchorPane>
 
-            <Label prefWidth="640.0"
-                   text="The following items are at or below their stock limit:"
-                   textFill="#49454f"
-                   AnchorPane.topAnchor="68.0"
-                   AnchorPane.leftAnchor="20.0">
+            <Label prefWidth="640.0" text="The following items are at or below their stock limit:" textFill="#49454f" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="68.0">
                <font>
                   <Font size="13.0" />
                </font>
             </Label>
 
-            <TableView fx:id="lowStockTable"
-                       AnchorPane.topAnchor="93.0"
-                       AnchorPane.leftAnchor="20.0"
-                       AnchorPane.rightAnchor="20.0"
-                       AnchorPane.bottomAnchor="62.0">
+            <TableView fx:id="lowStockTable" AnchorPane.bottomAnchor="62.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="93.0">
                <columns>
                   <TableColumn fx:id="itemIdColumn" prefWidth="85.0" text="Item ID" />
                   <TableColumn fx:id="descriptionColumn" prefWidth="255.0" text="Description" />
@@ -242,18 +125,9 @@
                </columns>
             </TableView>
 
-            <HBox alignment="CENTER"
-                  AnchorPane.leftAnchor="0.0"
-                  AnchorPane.rightAnchor="0.0"
-                  AnchorPane.bottomAnchor="18.0">
+            <HBox alignment="CENTER" AnchorPane.bottomAnchor="18.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
                <children>
-                  <Button mnemonicParsing="false"
-                          onAction="#handleDismissLowStockAlert"
-                          prefHeight="30.0"
-                          prefWidth="80.0"
-                          style="-fx-background-color: #6C5A86; -fx-background-radius: 18;"
-                          text="OK"
-                          textFill="WHITE">
+                  <Button mnemonicParsing="false" onAction="#handleDismissLowStockAlert" prefHeight="30.0" prefWidth="80.0" style="-fx-background-color: #6C5A86; -fx-background-radius: 18;" text="OK" textFill="WHITE">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>
