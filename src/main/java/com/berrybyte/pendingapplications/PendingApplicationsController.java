@@ -11,6 +11,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.AnchorPane;
 
 public class PendingApplicationsController {
 
@@ -41,10 +42,18 @@ public class PendingApplicationsController {
     @FXML
     private Label messageLabel;
 
+    @FXML
+    private AnchorPane profileMenuPane;
+
     private final PendingApplicationsService service = new PendingApplicationsService();
 
     @FXML
     public void initialize() {
+        if (profileMenuPane != null) {
+            profileMenuPane.setVisible(false);
+            profileMenuPane.setManaged(false);
+        }
+
         nameColoumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         companyColoumn.setCellValueFactory(new PropertyValueFactory<>("companyName"));
         iposIdColoumn.setCellValueFactory(new PropertyValueFactory<>("companyRegistrationNumber"));
@@ -107,6 +116,31 @@ public class PendingApplicationsController {
 
     @FXML
     private void handleProfileClick() {
+        if (profileMenuPane == null) {
+            return;
+        }
+
+        boolean isVisible = profileMenuPane.isVisible();
+        profileMenuPane.setVisible(!isVisible);
+        profileMenuPane.setManaged(!isVisible);
+        if (!isVisible) {
+            profileMenuPane.toFront();
+        }
+    }
+
+    @FXML
+    private void handleLogoutMenuClick(ActionEvent event) {
+        if (profileMenuPane != null) {
+            profileMenuPane.setVisible(false);
+            profileMenuPane.setManaged(false);
+        }
+
+        try {
+            SceneSwitcher.switchScene(event, "/logout/logout.fxml", "Log Out");
+        } catch (Exception e) {
+            e.printStackTrace();
+            messageLabel.setText("Unable to open logout page.");
+        }
     }
 
     @FXML
@@ -122,6 +156,15 @@ public class PendingApplicationsController {
     private void handleCatalogueClick(ActionEvent event) {
         try {
             RoleBasedNavigator.switchToCatalogue(event);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void handleMerchantsClick(ActionEvent event) {
+        try {
+            RoleBasedNavigator.switchToMerchantMenu(event);
         } catch (Exception e) {
             e.printStackTrace();
         }
