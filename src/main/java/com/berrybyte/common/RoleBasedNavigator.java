@@ -1,11 +1,7 @@
 package com.berrybyte.common;
 
 import javafx.event.ActionEvent;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
 
 import java.io.IOException;
 
@@ -20,7 +16,7 @@ public final class RoleBasedNavigator {
     private static final String STAFF_DASHBOARD_PATH = "/dashboard/staffDashboard.fxml";
     private static final String ADMIN_MERCHANTS_PATH = "/dashboard/merchantMenu.fxml";
     private static final String MANAGER_MERCHANTS_PATH = "/dashboard/managerMerchantMenu.fxml";
-    private static final String MANAGE_ACCOUNTS_PATH = "/dashboard/staffAccountsMenu.fxml";
+    private static final String MANAGE_ACCOUNTS_PATH = "/dashboard/manageAccounts.fxml";
     private static final String ORDER_MENU_PATH = "/dashboard/orderMenu.fxml";
     private static final String MANAGER_ORDER_MENU_PATH = "/dashboard/managerOrderMenu.fxml";
     private static final String STAFF_ORDER_MENU_PATH = "/dashboard/staffOrderMenu.fxml";
@@ -161,12 +157,7 @@ public final class RoleBasedNavigator {
     }
 
     private static void openScene(Node sourceNode, String fxmlPath, String title) throws IOException {
-        Parent root = FXMLLoader.load(RoleBasedNavigator.class.getResource(fxmlPath));
-
-        Stage stage = (Stage) sourceNode.getScene().getWindow();
-        stage.setScene(new Scene(root));
-        stage.setTitle(title);
-        stage.show();
+        SceneSwitcher.switchScene(sourceNode, fxmlPath, title);
     }
 
     private static boolean isManager() {

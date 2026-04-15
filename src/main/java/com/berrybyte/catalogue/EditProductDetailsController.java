@@ -8,9 +8,9 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 public class EditProductDetailsController {
@@ -48,10 +48,18 @@ public class EditProductDetailsController {
     @FXML
     private Label messageLabel;
 
+    @FXML
+    private AnchorPane profileMenuPane;
+
     private final CatalogueService catalogueService = new CatalogueService();
 
     @FXML
     public void initialize() {
+        if (profileMenuPane != null) {
+            profileMenuPane.setVisible(false);
+            profileMenuPane.setManaged(false);
+        }
+
         nameColoumn.setCellValueFactory(new PropertyValueFactory<>("itemId"));
         companyColoumn.setCellValueFactory(new PropertyValueFactory<>("description"));
         iposIdColoumn.setCellValueFactory(new PropertyValueFactory<>("packageType"));
@@ -68,6 +76,32 @@ public class EditProductDetailsController {
     @FXML
     private void handleSearch(ActionEvent event) {
         loadItems(searchField.getText());
+    }
+
+    @FXML
+    private void handleProfileClick() {
+        if (profileMenuPane == null) {
+            return;
+        }
+
+        boolean isVisible = profileMenuPane.isVisible();
+        profileMenuPane.setVisible(!isVisible);
+        profileMenuPane.setManaged(!isVisible);
+    }
+
+    @FXML
+    private void handleLogoutMenuClick(ActionEvent event) {
+        if (profileMenuPane != null) {
+            profileMenuPane.setVisible(false);
+            profileMenuPane.setManaged(false);
+        }
+
+        try {
+            SceneSwitcher.switchScene(event, "/logout/logout.fxml", "Log Out");
+        } catch (Exception e) {
+            e.printStackTrace();
+            messageLabel.setText("Unable to open logout page.");
+        }
     }
 
 
@@ -99,7 +133,7 @@ public class EditProductDetailsController {
             controller.setProduct(selectedItem);
 
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stage.setScene(new Scene(root));
+            SceneSwitcher.setStageRoot(stage, root);
             stage.setTitle("Update Product");
             stage.show();
 

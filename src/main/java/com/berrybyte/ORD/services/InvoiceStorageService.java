@@ -240,9 +240,8 @@ public class InvoiceStorageService {
             }
 
             throw new IllegalStateException(
-                    "Missing Railway bucket configuration for %s. Set one of: %s"
-                            .formatted(displayName, String.join(", ", environmentNames))
-            );
+                    "Missing bucket configuration for %s. Set one of: %s"
+                            .formatted(displayName, String.join(", ", environmentNames)));
         }
 
         private static boolean resolveBoolean(String systemPropertyName, boolean defaultValue, String... environmentNames) {

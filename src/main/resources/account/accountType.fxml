@@ -5,68 +5,58 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
-<?import javafx.scene.text.Text?>
 
 <AnchorPane prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: #D2C3E3;" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.berrybyte.account.AccountTypeController">
    <children>
-      <AnchorPane layoutX="252.0" layoutY="65.0" prefHeight="470.0" prefWidth="396.0" style="-fx-background-color: #A89CB6; -fx-background-radius: 20;">
-         <children>
-            <Label alignment="CENTER" layoutX="80.0" layoutY="54.0" text="Select Account Type:">
-               <font>
-                  <Font name="Segoe UI Bold" size="24.0" />
-               </font>
-            </Label>
-            <Button fx:id="adminButton" alignment="CENTER" layoutX="24.0" layoutY="115.0" mnemonicParsing="false" onAction="#handleAdminButton" prefHeight="60.0" prefWidth="346.0" style="-fx-background-radius: 20; -fx-background-color: #6B4F7A;" text="Administrator" textFill="WHITE">
-               <font>
-                  <Font name="System Bold" size="13.0" />
-               </font>
-            </Button>
-            <Button fx:id="managerButton" layoutX="25.0" layoutY="200.0" mnemonicParsing="false" onAction="#handleManagerButton" prefHeight="60.0" prefWidth="346.0" style="-fx-background-radius: 20; -fx-background-color: #6B4F7A;" text="Manager" textFill="WHITE">
-               <font>
-                  <Font name="System Bold" size="13.0" />
-               </font>
-            </Button>
-            <Button fx:id="merchantButton" layoutX="25.0" layoutY="364.0" mnemonicParsing="false" onAction="#handleMerchantButton" prefHeight="60.0" prefWidth="346.0" style="-fx-background-radius: 20; -fx-background-color: #6B4F7A;" text="Merchant" textFill="WHITE">
-               <font>
-                  <Font name="System Bold" size="13.0" />
-               </font>
-            </Button>
-            <Circle fill="#e3d9ef" layoutX="58.0" layoutY="145.0" radius="15.0" stroke="#d2c3e3" strokeType="INSIDE" />
-            <Circle fill="#e3d9ef" layoutX="57.0" layoutY="230.0" radius="15.0" stroke="#d2c3e3" strokeType="INSIDE" />
-            <Circle fill="#e3d9ef" layoutX="58.0" layoutY="394.0" radius="15.0" stroke="#d2c3e3" strokeType="INSIDE" />
-            <Text layoutX="53.0" layoutY="149.0" strokeType="OUTSIDE" strokeWidth="0.0" text="A">
-               <font>
-                  <Font name="System Bold" size="13.0" />
-               </font>
-            </Text>
-            <Text layoutX="51.0" layoutY="235.0" strokeType="OUTSIDE" strokeWidth="0.0" text="M">
-               <font>
-                  <Font name="System Bold" size="13.0" />
-               </font>
-            </Text>
-            <Text layoutX="51.0" layoutY="398.0" strokeType="OUTSIDE" strokeWidth="0.0" text="M">
-               <font>
-                  <Font name="System Bold" size="13.0" />
-               </font>
-            </Text>
-            <Button fx:id="staffButton" layoutX="24.0" layoutY="282.0" mnemonicParsing="false" onAction="#handleStaffButton" prefHeight="60.0" prefWidth="346.0" style="-fx-background-radius: 20; -fx-background-color: #6B4F7A;" text="Staff" textFill="WHITE">
-               <font>
-                  <Font name="System Bold" size="13.0" />
-               </font>
-            </Button>
-            <Circle fill="#e3d9ef" layoutX="57.0" layoutY="312.0" radius="15.0" stroke="#d2c3e3" strokeType="INSIDE" />
-            <Text layoutX="54.0" layoutY="317.0" strokeType="OUTSIDE" strokeWidth="0.0" text="S">
-               <font>
-                  <Font name="System Bold" size="13.0" />
-               </font>
-            </Text>
-         </children>
-      </AnchorPane>
-      <ImageView fx:id="backButton" fitHeight="52.0" fitWidth="40.0" layoutX="826.0" layoutY="36.0" onMouseClicked="#handleBackButton" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="backButton" fitHeight="52.0" fitWidth="40.0" onMouseClicked="#handleBackButton" pickOnBounds="true" preserveRatio="true" AnchorPane.rightAnchor="34.0" AnchorPane.topAnchor="36.0">
          <image>
             <Image url="@../login/images/BackButton.png" />
+         </image>
+      </ImageView>
+
+      <StackPane AnchorPane.bottomAnchor="45.0" AnchorPane.leftAnchor="140.0" AnchorPane.rightAnchor="140.0" AnchorPane.topAnchor="65.0">
+         <children>
+            <AnchorPane maxHeight="480.0" maxWidth="460.0" minHeight="430.0" minWidth="380.0" prefHeight="470.0" prefWidth="420.0" style="-fx-background-color: #E8DEF8; -fx-background-radius: 20;">
+               <children>
+                  <VBox alignment="CENTER" spacing="22.0" AnchorPane.bottomAnchor="34.0" AnchorPane.leftAnchor="38.0" AnchorPane.rightAnchor="38.0" AnchorPane.topAnchor="34.0">
+                     <children>
+                        <Label alignment="CENTER" text="Select Account Type:">
+                           <font>
+                              <Font name="Segoe UI Bold" size="24.0" />
+                           </font>
+                        </Label>
+                        <Button fx:id="adminButton" alignment="CENTER" mnemonicParsing="false" onAction="#handleAdminButton" prefHeight="58.0" prefWidth="330.0" style="-fx-background-radius: 20; -fx-background-color: #6B4F7A;" text="Administrator" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="13.0" />
+                           </font>
+                        </Button>
+                        <Button fx:id="managerButton" mnemonicParsing="false" onAction="#handleManagerButton" prefHeight="58.0" prefWidth="330.0" style="-fx-background-radius: 20; -fx-background-color: #6B4F7A;" text="Manager" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="13.0" />
+                           </font>
+                        </Button>
+                        <Button fx:id="staffButton" mnemonicParsing="false" onAction="#handleStaffButton" prefHeight="58.0" prefWidth="330.0" style="-fx-background-radius: 20; -fx-background-color: #6B4F7A;" text="Staff" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="13.0" />
+                           </font>
+                        </Button>
+                        <Button fx:id="merchantButton" mnemonicParsing="false" onAction="#handleMerchantButton" prefHeight="58.0" prefWidth="330.0" style="-fx-background-radius: 20; -fx-background-color: #6B4F7A;" text="Merchant" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="13.0" />
+                           </font>
+                        </Button>
+                     </children>
+                  </VBox>
+               </children>
+            </AnchorPane>
+         </children>
+      </StackPane>
+      <ImageView fitHeight="62.0" fitWidth="88.0" layoutX="38.0" layoutY="33.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../login/images/Logo_No_Background.PNG" />
          </image>
       </ImageView>
    </children>

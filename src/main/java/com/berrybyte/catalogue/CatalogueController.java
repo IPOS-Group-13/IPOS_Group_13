@@ -37,6 +37,20 @@ public class CatalogueController {
         profileMenuPane.setManaged(!isVisible);
     }
 
+    @FXML
+    private void handleLogoutMenuClick(ActionEvent event) {
+        if (profileMenuPane != null) {
+            profileMenuPane.setVisible(false);
+            profileMenuPane.setManaged(false);
+        }
+
+        try {
+            SceneSwitcher.switchScene(event, "/logout/logout.fxml", "Log Out");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 
     @FXML
     private void handleMerchantsClick(ActionEvent event) {

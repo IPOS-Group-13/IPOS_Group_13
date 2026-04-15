@@ -5,11 +5,24 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="catalogueMenuPane" prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: #D2C3E3;" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.berrybyte.catalogue.ManageCatalogueController">
+<AnchorPane fx:id="catalogueMenuPane"
+            prefHeight="600.0"
+            prefWidth="900.0"
+            style="-fx-background-color: #D2C3E3;"
+            xmlns="http://javafx.com/javafx/25"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.berrybyte.catalogue.ManageCatalogueController">
    <children>
-      <AnchorPane layoutX="23.0" layoutY="37.0" prefHeight="526.0" prefWidth="141.0" style="-fx-background-color: #A89CB6; -fx-background-radius: 20;">
+      <AnchorPane prefHeight="526.0"
+                  prefWidth="141.0"
+                  style="-fx-background-color: #A89CB6; -fx-background-radius: 20;"
+                  AnchorPane.bottomAnchor="37.0"
+                  AnchorPane.leftAnchor="23.0"
+                  AnchorPane.topAnchor="37.0">
          <children>
             <ImageView fitHeight="52.0" fitWidth="81.0" layoutX="14.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -46,7 +59,7 @@
                   <Font name="System Bold" size="12.0" />
                </font>
             </Button>
-            <Button alignment="TOP_LEFT" layoutX="7.0" layoutY="347.0" mnemonicParsing="false" onAction="#handleStaffAccountsClick" prefHeight="26.0" prefWidth="102.0" style="-fx-background-color: #A89CB6; -fx-background-radius: 18;" text="Staff Accounts">
+            <Button alignment="TOP_LEFT" layoutX="7.0" layoutY="347.0" mnemonicParsing="false" onAction="#handleStaffAccountsClick" prefHeight="26.0" prefWidth="118.0" style="-fx-background-color: #A89CB6; -fx-background-radius: 18;" text="Manage Accounts">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
@@ -58,59 +71,178 @@
             </Button>
          </children>
       </AnchorPane>
-      <ImageView fx:id="profileImage" fitHeight="52.0" fitWidth="82.0" layoutX="808.0" layoutY="36.0" onMouseClicked="#handleProfileClick" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../login/images/account_circle-Photoroom.png" />
-         </image>
-      </ImageView>
-      <AnchorPane layoutX="219.0" layoutY="139.0" prefHeight="126.0" prefWidth="277.0" style="-fx-background-color: #B3A2C7; -fx-background-radius: 20;">
-         <children>
-            <Label alignment="CENTER" layoutX="84.0" layoutY="23.0" text="Add Product" textFill="#49454f">
-               <font>
-                  <Font name="System Bold" size="20.0" />
-               </font>
-            </Label>
-            <Button fx:id="addProduct" layoutX="80.0" layoutY="71.0" mnemonicParsing="false" onAction="#addProductButton" prefHeight="33.0" prefWidth="127.0" style="-fx-background-color: #6C5A86; -fx-background-radius: 18;" text="Add Product" textFill="WHITE">
-               <font>
-                  <Font name="System Bold" size="12.0" />
-               </font>
-            </Button>
-         </children>
-      </AnchorPane>
-      <AnchorPane layoutX="564.0" layoutY="139.0" prefHeight="126.0" prefWidth="277.0" style="-fx-background-color: #B3A2C7; -fx-background-radius: 20;">
-         <children>
-            <Label alignment="CENTER" layoutX="73.0" layoutY="23.0" text="Delete Product" textFill="#49454f">
-               <font>
-                  <Font name="System Bold" size="20.0" />
-               </font>
-            </Label>
-            <Button fx:id="deleteProduct" layoutX="80.0" layoutY="71.0" mnemonicParsing="false" onAction="#deleteProductButton" prefHeight="33.0" prefWidth="127.0" style="-fx-background-color: #6C5A86; -fx-background-radius: 18;" text="Delete Product" textFill="WHITE">
-               <font>
-                  <Font name="System Bold" size="12.0" />
-               </font>
-            </Button>
-         </children>
-      </AnchorPane>
-      <AnchorPane layoutX="385.0" layoutY="300.0" prefHeight="126.0" prefWidth="277.0" style="-fx-background-color: #B3A2C7; -fx-background-radius: 20;">
-         <children>
-            <Label alignment="CENTER" layoutX="80.0" layoutY="24.0" text="Update Item" textFill="#49454f">
-               <font>
-                  <Font name="System Bold" size="20.0" />
-               </font>
-            </Label>
-            <Button fx:id="modifyQuantity" layoutX="80.0" layoutY="71.0" mnemonicParsing="false" onAction="#modifyQuantityButton" prefHeight="33.0" prefWidth="127.0" style="-fx-background-color: #6C5A86; -fx-background-radius: 18;" text="Update Item" textFill="WHITE">
-               <font>
-                  <Font name="System Bold" size="12.0" />
-               </font>
-            </Button>
-         </children>
-      </AnchorPane>
-      <Label layoutX="200.0" layoutY="36.0" text="Catalogue">
+
+      <Label text="Catalogue"
+             AnchorPane.leftAnchor="200.0"
+             AnchorPane.topAnchor="36.0">
          <font>
             <Font name="Segoe UI Bold" size="36.0" />
          </font>
       </Label>
-      <Button fx:id="backButton" layoutX="200.0" layoutY="529.0" mnemonicParsing="false" onAction="#handleBackButton" prefHeight="34.0" prefWidth="69.0" style="-fx-background-color: #6C5A86; -fx-background-radius: 18;" text="Back" textFill="WHITE">
+
+      <ImageView fx:id="profileImage"
+                 fitHeight="52.0"
+                 fitWidth="82.0"
+                 onMouseClicked="#handleProfileClick"
+                 pickOnBounds="true"
+                 preserveRatio="true"
+                 AnchorPane.rightAnchor="24.0"
+                 AnchorPane.topAnchor="36.0">
+         <image>
+            <Image url="@../login/images/account_circle-Photoroom.png" />
+         </image>
+      </ImageView>
+
+      <AnchorPane fx:id="profileMenuPane"
+                  prefHeight="43.0"
+                  prefWidth="200.0"
+                  style="-fx-background-color: white; -fx-background-radius: 10;"
+                  AnchorPane.rightAnchor="74.0"
+                  AnchorPane.topAnchor="79.0">
+         <children>
+            <Button layoutX="14.0"
+                    layoutY="9.0"
+                    mnemonicParsing="false"
+                    onAction="#handleLogoutMenuClick"
+                    style="-fx-background-color: white;"
+                    text="Logout">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Button>
+            <ImageView fitHeight="33.0"
+                       fitWidth="38.0"
+                       layoutX="156.0"
+                       layoutY="5.0"
+                       pickOnBounds="true"
+                       preserveRatio="true">
+               <image>
+                  <Image url="@../login/images/Log in-Photoroom.png" />
+               </image>
+            </ImageView>
+         </children>
+      </AnchorPane>
+
+      <StackPane AnchorPane.bottomAnchor="65.0"
+                 AnchorPane.leftAnchor="190.0"
+                 AnchorPane.rightAnchor="30.0"
+                 AnchorPane.topAnchor="145.0">
+         <children>
+            <AnchorPane maxHeight="340.0"
+                        maxWidth="780.0"
+                        minHeight="300.0"
+                        minWidth="680.0"
+                        prefHeight="340.0"
+                        prefWidth="760.0"
+                        style="-fx-background-color: #E8DEF8; -fx-background-radius: 20;">
+               <children>
+                  <HBox alignment="CENTER"
+                        spacing="20.0"
+                        AnchorPane.bottomAnchor="0.0"
+                        AnchorPane.leftAnchor="0.0"
+                        AnchorPane.rightAnchor="0.0"
+                        AnchorPane.topAnchor="0.0">
+                     <children>
+                        <AnchorPane maxHeight="230.0"
+                                    maxWidth="205.0"
+                                    minHeight="230.0"
+                                    minWidth="205.0"
+                                    prefHeight="230.0"
+                                    prefWidth="205.0"
+                                    style="-fx-background-color: #B3A2C7; -fx-background-radius: 20;">
+                           <children>
+                              <Label alignment="CENTER" layoutY="42.0" prefWidth="205.0" text="Add Product" textFill="#49454f">
+                                 <font>
+                                    <Font name="System Bold" size="20.0" />
+                                 </font>
+                              </Label>
+
+                              <Label alignment="CENTER" contentDisplay="CENTER" layoutX="20.0" layoutY="99.0" prefWidth="165.0" text="Enter a new catalogue item with package, cost and stock details" wrapText="true">
+                                 <font>
+                                    <Font size="10.0" />
+                                 </font>
+                              </Label>
+
+                              <Button fx:id="addProduct" layoutX="39.0" layoutY="172.0" mnemonicParsing="false" onAction="#addProductButton" prefHeight="33.0" prefWidth="127.0" style="-fx-background-color: #6C5A86; -fx-background-radius: 18;" text="Add Product" textFill="WHITE">
+                                 <font>
+                                    <Font name="System Bold" size="12.0" />
+                                 </font>
+                              </Button>
+                           </children>
+                        </AnchorPane>
+
+                        <AnchorPane maxHeight="230.0"
+                                    maxWidth="205.0"
+                                    minHeight="230.0"
+                                    minWidth="205.0"
+                                    prefHeight="230.0"
+                                    prefWidth="205.0"
+                                    style="-fx-background-color: #B3A2C7; -fx-background-radius: 20;">
+                           <children>
+                              <Label alignment="CENTER" layoutY="42.0" prefWidth="205.0" text="Delete Product" textFill="#49454f">
+                                 <font>
+                                    <Font name="System Bold" size="20.0" />
+                                 </font>
+                              </Label>
+
+                              <Label alignment="CENTER" contentDisplay="CENTER" layoutX="20.0" layoutY="99.0" prefWidth="165.0" text="Search the catalogue and remove a selected product" wrapText="true">
+                                 <font>
+                                    <Font size="10.0" />
+                                 </font>
+                              </Label>
+
+                              <Button fx:id="deleteProduct" layoutX="39.0" layoutY="172.0" mnemonicParsing="false" onAction="#deleteProductButton" prefHeight="33.0" prefWidth="127.0" style="-fx-background-color: #6C5A86; -fx-background-radius: 18;" text="Delete Product" textFill="WHITE">
+                                 <font>
+                                    <Font name="System Bold" size="12.0" />
+                                 </font>
+                              </Button>
+                           </children>
+                        </AnchorPane>
+
+                        <AnchorPane maxHeight="230.0"
+                                    maxWidth="205.0"
+                                    minHeight="230.0"
+                                    minWidth="205.0"
+                                    prefHeight="230.0"
+                                    prefWidth="205.0"
+                                    style="-fx-background-color: #B3A2C7; -fx-background-radius: 20;">
+                           <children>
+                              <Label alignment="CENTER" layoutY="42.0" prefWidth="205.0" text="Update Item" textFill="#49454f">
+                                 <font>
+                                    <Font name="System Bold" size="20.0" />
+                                 </font>
+                              </Label>
+
+                              <Label alignment="CENTER" contentDisplay="CENTER" layoutX="20.0" layoutY="99.0" prefWidth="165.0" text="Choose an item and edit its catalogue details" wrapText="true">
+                                 <font>
+                                    <Font size="10.0" />
+                                 </font>
+                              </Label>
+
+                              <Button fx:id="modifyQuantity" layoutX="39.0" layoutY="172.0" mnemonicParsing="false" onAction="#modifyQuantityButton" prefHeight="33.0" prefWidth="127.0" style="-fx-background-color: #6C5A86; -fx-background-radius: 18;" text="Update Item" textFill="WHITE">
+                                 <font>
+                                    <Font name="System Bold" size="12.0" />
+                                 </font>
+                              </Button>
+                           </children>
+                        </AnchorPane>
+                     </children>
+                  </HBox>
+               </children>
+            </AnchorPane>
+         </children>
+      </StackPane>
+
+      <Button fx:id="backButton"
+              mnemonicParsing="false"
+              onAction="#handleBackButton"
+              prefHeight="34.0"
+              prefWidth="78.0"
+              style="-fx-background-color: #6C5A86; -fx-background-radius: 18;"
+              text="Back"
+              textFill="WHITE"
+              AnchorPane.bottomAnchor="24.0"
+              AnchorPane.leftAnchor="200.0">
          <font>
             <Font name="System Bold" size="12.0" />
          </font>

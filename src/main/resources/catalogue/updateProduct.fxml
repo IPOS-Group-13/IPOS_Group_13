@@ -6,42 +6,143 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.berrybyte.catalogue.UpdateProductController">
+<AnchorPane prefHeight="600.0"
+            prefWidth="900.0"
+            style="-fx-background-color: #D2C3E3;"
+            xmlns="http://javafx.com/javafx/25"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.berrybyte.catalogue.UpdateProductController">
    <children>
-      <AnchorPane prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: #D2C3E3;">
+      <ImageView fitHeight="62.0"
+                 fitWidth="88.0"
+                 pickOnBounds="true"
+                 preserveRatio="true"
+                 AnchorPane.leftAnchor="38.0"
+                 AnchorPane.topAnchor="33.0">
+         <image>
+            <Image url="@../login/images/Logo_No_Background.PNG" />
+         </image>
+      </ImageView>
+
+      <Label alignment="CENTER"
+             text="Enter Product Details"
+             AnchorPane.leftAnchor="210.0"
+             AnchorPane.rightAnchor="210.0"
+             AnchorPane.topAnchor="40.0">
+         <font>
+            <Font name="Verdana Bold" size="22.0" />
+         </font>
+      </Label>
+
+      <ImageView fx:id="backButton"
+                 fitHeight="52.0"
+                 fitWidth="40.0"
+                 onMouseClicked="#handleBackButton"
+                 pickOnBounds="true"
+                 preserveRatio="true"
+                 AnchorPane.rightAnchor="34.0"
+                 AnchorPane.topAnchor="36.0">
+         <image>
+            <Image url="@../login/images/BackButton.png" />
+         </image>
+      </ImageView>
+
+      <StackPane AnchorPane.bottomAnchor="42.0"
+                 AnchorPane.leftAnchor="150.0"
+                 AnchorPane.rightAnchor="150.0"
+                 AnchorPane.topAnchor="105.0">
          <children>
-            <ImageView fitHeight="62.0" fitWidth="88.0" layoutX="38.0" layoutY="33.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../login/images/Logo_No_Background.PNG" />
-               </image>
-            </ImageView>
-            <Label alignment="CENTER" layoutX="280.0" layoutY="42.0" prefHeight="30.0" prefWidth="338.0" text="Enter Product Details">
-               <font>
-                  <Font name="Verdana Bold" size="22.0" />
-               </font>
-            </Label>
-            <TextField fx:id="packageTypeField" layoutX="291.0" layoutY="193.0" prefHeight="30.0" prefWidth="320.0" promptText="Package Type" style="-fx-background-radius: 15;" />
-            <TextField fx:id="unitField" layoutX="291.0" layoutY="237.0" prefHeight="30.0" prefWidth="320.0" promptText="Unit" style="-fx-background-radius: 15;" />
-            <TextField fx:id="packageCostField" layoutX="291.0" layoutY="330.0" prefHeight="30.0" prefWidth="320.0" promptText="Package Cost, £" style="-fx-background-radius: 15;" />
-            <Button fx:id="saveButton" layoutX="578.0" layoutY="547.0" mnemonicParsing="false" onAction="#handleSave" prefHeight="26.0" prefWidth="62.0" style="-fx-background-color: #6C5A86; -fx-background-radius: 18;" text="Save" textFill="WHITE" textOverrun="LEADING_ELLIPSIS">
-               <font>
-                  <Font name="System Bold" size="12.0" />
-               </font>
-            </Button>
-            <TextField fx:id="availabilityField" layoutX="290.0" layoutY="375.0" prefHeight="30.0" prefWidth="320.0" promptText="Availability, Packs" style="-fx-background-radius: 15;" />
-            <TextField fx:id="stockLimitField" layoutX="291.0" layoutY="422.0" prefHeight="30.0" prefWidth="320.0" promptText="Stock Limit, Packs" style="-fx-background-radius: 15;" />
-            <TextField fx:id="descriptionField" layoutX="291.0" layoutY="148.0" prefHeight="30.0" prefWidth="320.0" promptText="Description" style="-fx-background-radius: 15;" />
-            <ImageView fx:id="backButton" fitHeight="52.0" fitWidth="40.0" layoutX="826.0" layoutY="36.0" onMouseClicked="#handleBackButton" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../login/images/BackButton.png" />
-               </image>
-            </ImageView>
-            <Label fx:id="messageLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="244.0" layoutY="86.0" prefHeight="18.0" prefWidth="412.0" textFill="#8f0808" />
-            <TextField fx:id="unitsInPackField" layoutX="291.0" layoutY="284.0" prefHeight="30.0" prefWidth="320.0" promptText="Units in a pack" style="-fx-background-radius: 15;" />
+            <AnchorPane maxHeight="465.0"
+                        maxWidth="520.0"
+                        minHeight="410.0"
+                        minWidth="390.0"
+                        prefHeight="440.0"
+                        prefWidth="460.0"
+                        style="-fx-background-color: #E8DEF8; -fx-background-radius: 20;">
+               <children>
+                  <VBox alignment="CENTER"
+                        spacing="13.0"
+                        AnchorPane.bottomAnchor="24.0"
+                        AnchorPane.leftAnchor="45.0"
+                        AnchorPane.rightAnchor="45.0"
+                        AnchorPane.topAnchor="24.0">
+                     <children>
+                        <Label fx:id="messageLabel"
+                               alignment="CENTER"
+                               contentDisplay="CENTER"
+                               prefHeight="20.0"
+                               prefWidth="360.0"
+                               textFill="#8f0808" />
+
+                        <TextField fx:id="descriptionField"
+                                   prefHeight="30.0"
+                                   prefWidth="340.0"
+                                   promptText="Description"
+                                   style="-fx-background-radius: 15;" />
+
+                        <TextField fx:id="packageTypeField"
+                                   prefHeight="30.0"
+                                   prefWidth="340.0"
+                                   promptText="Package Type"
+                                   style="-fx-background-radius: 15;" />
+
+                        <TextField fx:id="unitField"
+                                   prefHeight="30.0"
+                                   prefWidth="340.0"
+                                   promptText="Unit"
+                                   style="-fx-background-radius: 15;" />
+
+                        <TextField fx:id="unitsInPackField"
+                                   prefHeight="30.0"
+                                   prefWidth="340.0"
+                                   promptText="Units in a pack"
+                                   style="-fx-background-radius: 15;" />
+
+                        <TextField fx:id="packageCostField"
+                                   prefHeight="30.0"
+                                   prefWidth="340.0"
+                                   promptText="Package Cost, &#163;"
+                                   style="-fx-background-radius: 15;" />
+
+                        <TextField fx:id="availabilityField"
+                                   prefHeight="30.0"
+                                   prefWidth="340.0"
+                                   promptText="Availability, Packs"
+                                   style="-fx-background-radius: 15;" />
+
+                        <TextField fx:id="stockLimitField"
+                                   prefHeight="30.0"
+                                   prefWidth="340.0"
+                                   promptText="Stock Limit, Packs"
+                                   style="-fx-background-radius: 15;" />
+
+                        <HBox alignment="CENTER_RIGHT" prefWidth="340.0">
+                           <children>
+                              <Button fx:id="saveButton"
+                                      mnemonicParsing="false"
+                                      onAction="#handleSave"
+                                      prefHeight="28.0"
+                                      prefWidth="72.0"
+                                      style="-fx-background-color: #6C5A86; -fx-background-radius: 18;"
+                                      text="Save"
+                                      textFill="WHITE"
+                                      textOverrun="LEADING_ELLIPSIS">
+                                 <font>
+                                    <Font name="System Bold" size="12.0" />
+                                 </font>
+                              </Button>
+                           </children>
+                        </HBox>
+                     </children>
+                  </VBox>
+               </children>
+            </AnchorPane>
          </children>
-      </AnchorPane>
+      </StackPane>
    </children>
 </AnchorPane>

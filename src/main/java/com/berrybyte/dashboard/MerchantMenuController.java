@@ -198,7 +198,7 @@ public class MerchantMenuController {
             controller.setMerchantId(selectedMerchant.getMerchantId());
 
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stage.setScene(new Scene(root));
+            SceneSwitcher.setStageRoot(stage, root);
             stage.setTitle("Edit Discount Plan");
             stage.show();
 
@@ -439,7 +439,7 @@ public class MerchantMenuController {
             setterMethod.invoke(controller, value);
 
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stage.setScene(new Scene(root));
+            SceneSwitcher.setStageRoot(stage, root);
             stage.setTitle(title);
             stage.show();
 
