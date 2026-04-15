@@ -1,6 +1,6 @@
 package com.berrybyte.catalogue;
 
-import com.berrybyte.common.SceneSwitcher;
+import com.berrybyte.common.RoleBasedNavigator;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -63,7 +63,7 @@ public class CatalogueItemsController {
     @FXML
     private void handleBackButton(ActionEvent event) {
         try {
-            SceneSwitcher.switchScene(event, "/catalogue/Catalogue.fxml", "Catalogue Page");
+            RoleBasedNavigator.switchToCatalogue(event);
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -151,7 +151,7 @@ public class MerchantMenuController {
     @FXML
     protected void handleCatalogueClick(ActionEvent event) {
         try {
-            SceneSwitcher.switchScene(event, "/catalogue/Catalogue.fxml", "Catalogue Page");
+            RoleBasedNavigator.switchToCatalogue(event);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -177,7 +177,11 @@ public class MerchantMenuController {
 
     @FXML
     public void handlePaymentsClick(ActionEvent event) {
-        System.out.println("Payments Click - From Merchant Menu");
+        try {
+            RoleBasedNavigator.switchToPaymentsMenu(event);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML

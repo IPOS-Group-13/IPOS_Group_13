@@ -21,7 +21,7 @@
                   <Font name="System Bold" size="12.0" />
                </font>
             </Button>
-            <Button alignment="TOP_LEFT" layoutX="7.0" layoutY="137.0" mnemonicParsing="false" onAction="#handleCatalogueClick" prefHeight="26.0" prefWidth="102.0" style="-fx-background-color: #A89CB6; -fx-background-radius: 18;" text="Catalogue">
+            <Button alignment="TOP_LEFT" layoutX="7.0" layoutY="137.0" mnemonicParsing="false" onAction="#handleCatalogueClick" prefHeight="26.0" prefWidth="102.0" style="-fx-background-color: #6C5A86; -fx-background-radius: 18;" text="Catalogue" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
@@ -31,7 +31,7 @@
                   <Font name="System Bold" size="12.0" />
                </font>
             </Button>
-            <Button alignment="TOP_LEFT" layoutX="7.0" layoutY="222.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="102.0" style="-fx-background-color: #A89CB6; -fx-background-radius: 18;" text="Orders">
+            <Button alignment="TOP_LEFT" layoutX="7.0" layoutY="222.0" mnemonicParsing="false" onAction="#handleOrdersClick" prefHeight="26.0" prefWidth="102.0" style="-fx-background-color: #A89CB6; -fx-background-radius: 18;" text="Orders">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>

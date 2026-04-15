@@ -33,8 +33,21 @@ public class StaffAccountDashboardController {
         }
     }
 
+    @FXML
+    private void handleCatalogueClick(ActionEvent event) {
+        try {
+            RoleBasedNavigator.switchToCatalogue(event);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     public void handlePaymentsClick(ActionEvent event) {
-        System.out.println("Payments Click - Staff");
+        try {
+            RoleBasedNavigator.switchToPaymentsMenu(event);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML

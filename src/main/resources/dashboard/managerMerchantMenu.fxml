@@ -24,12 +24,12 @@
                   <Font name="System Bold" size="12.0" />
                </font>
             </Button>
-            <Button alignment="TOP_LEFT" layoutX="7.0" layoutY="145.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="102.0" style="-fx-background-color: #A89CB6; -fx-background-radius: 18;" text="Catalogue">
+            <Button alignment="TOP_LEFT" layoutX="7.0" layoutY="145.0" mnemonicParsing="false" onAction="#handleCatalogueClick" prefHeight="26.0" prefWidth="102.0" style="-fx-background-color: #A89CB6; -fx-background-radius: 18;" text="Catalogue">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Button>
-            <Button alignment="TOP_LEFT" layoutX="7.0" layoutY="186.0" mnemonicParsing="false" onAction="#handleMerchantsClick" prefHeight="26.0" prefWidth="102.0" style="-fx-background-color: #A89CB6; -fx-background-radius: 18;" text="Merchants">
+            <Button alignment="TOP_LEFT" layoutX="7.0" layoutY="186.0" mnemonicParsing="false" onAction="#handleMerchantsClick" prefHeight="26.0" prefWidth="102.0" style="-fx-background-color: #6C5A86; -fx-background-radius: 18;" text="Merchants" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
@@ -39,12 +39,17 @@
                   <Font name="System Bold" size="12.0" />
                </font>
             </Button>
-            <Button alignment="TOP_LEFT" layoutX="7.0" layoutY="268.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="102.0" style="-fx-background-color: #A89CB6; -fx-background-radius: 18;" text="Reports">
+            <Button alignment="TOP_LEFT" layoutX="7.0" layoutY="268.0" mnemonicParsing="false" onAction="#handlePaymentsClick" prefHeight="26.0" prefWidth="102.0" style="-fx-background-color: #A89CB6; -fx-background-radius: 18;" text="Payments">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Button>
-            <Button alignment="TOP_LEFT" layoutX="6.0" layoutY="311.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="141.0" style="-fx-background-color: #A89CB6; -fx-background-radius: 18;" text="Pending Applications">
+            <Button alignment="TOP_LEFT" layoutX="7.0" layoutY="309.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="102.0" style="-fx-background-color: #A89CB6; -fx-background-radius: 18;" text="Reports">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Button>
+            <Button alignment="TOP_LEFT" layoutX="6.0" layoutY="352.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="141.0" style="-fx-background-color: #A89CB6; -fx-background-radius: 18;" text="Pending Applications">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>

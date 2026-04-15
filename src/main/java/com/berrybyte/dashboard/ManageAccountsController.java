@@ -75,7 +75,7 @@ public class ManageAccountsController {
     @FXML
     private void handleCatalogueClick(ActionEvent event) {
         try {
-            SceneSwitcher.switchScene(event, "/catalogue/catalogue.fxml", "Catalogue Page");
+            RoleBasedNavigator.switchToCatalogue(event);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -100,6 +100,10 @@ public class ManageAccountsController {
     }
 
     public void handlePaymentsClick(ActionEvent event) {
-        System.out.println("Payments Click - From Manage Accounts Controller");
+        try {
+            RoleBasedNavigator.switchToPaymentsMenu(event);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

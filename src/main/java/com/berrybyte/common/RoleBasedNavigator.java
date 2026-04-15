@@ -24,6 +24,12 @@ public final class RoleBasedNavigator {
     private static final String ORDER_MENU_PATH = "/dashboard/orderMenu.fxml";
     private static final String MANAGER_ORDER_MENU_PATH = "/dashboard/managerOrderMenu.fxml";
     private static final String STAFF_ORDER_MENU_PATH = "/dashboard/staffOrderMenu.fxml";
+    private static final String CATALOGUE_PATH = "/catalogue/catalogue.fxml";
+    private static final String MANAGER_CATALOGUE_PATH = "/catalogue/managerCatalogue.fxml";
+    private static final String STAFF_CATALOGUE_PATH = "/catalogue/staffCatalogue.fxml";
+    private static final String PAYMENTS_MENU_PATH = "/ORD/paymentsMenu.fxml";
+    private static final String MANAGER_PAYMENTS_MENU_PATH = "/ORD/managerPaymentsMenu.fxml";
+    private static final String STAFF_PAYMENTS_MENU_PATH = "/ORD/staffPaymentsMenu.fxml";
 
     private RoleBasedNavigator() {
     }
@@ -78,6 +84,34 @@ public final class RoleBasedNavigator {
         return "Orders";
     }
 
+    public static String getCataloguePath() {
+        if (isManager()) {
+            return MANAGER_CATALOGUE_PATH;
+        }
+        if (isStaff()) {
+            return STAFF_CATALOGUE_PATH;
+        }
+        return CATALOGUE_PATH;
+    }
+
+    public static String getCatalogueTitle() {
+        return "Catalogue Page";
+    }
+
+    public static String getPaymentsMenuPath() {
+        if (isManager()) {
+            return MANAGER_PAYMENTS_MENU_PATH;
+        }
+        if (isStaff()) {
+            return STAFF_PAYMENTS_MENU_PATH;
+        }
+        return PAYMENTS_MENU_PATH;
+    }
+
+    public static String getPaymentsMenuTitle() {
+        return "Payments";
+    }
+
     public static void switchToDashboard(ActionEvent event) throws IOException {
         SceneSwitcher.switchScene(event, getDashboardPath(), getDashboardTitle());
     }
@@ -94,6 +128,14 @@ public final class RoleBasedNavigator {
         SceneSwitcher.switchScene(event, getOrderMenuPath(), getOrderMenuTitle());
     }
 
+    public static void switchToCatalogue(ActionEvent event) throws IOException {
+        SceneSwitcher.switchScene(event, getCataloguePath(), getCatalogueTitle());
+    }
+
+    public static void switchToPaymentsMenu(ActionEvent event) throws IOException {
+        SceneSwitcher.switchScene(event, getPaymentsMenuPath(), getPaymentsMenuTitle());
+    }
+
     public static void openMerchantMenu(Node sourceNode) throws IOException {
         openScene(sourceNode, getMerchantMenuPath(), getMerchantMenuTitle());
     }
@@ -108,6 +150,14 @@ public final class RoleBasedNavigator {
 
     public static void openOrderMenu(Node sourceNode) throws IOException {
         openScene(sourceNode, getOrderMenuPath(), getOrderMenuTitle());
+    }
+
+    public static void openCatalogue(Node sourceNode) throws IOException {
+        openScene(sourceNode, getCataloguePath(), getCatalogueTitle());
+    }
+
+    public static void openPaymentsMenu(Node sourceNode) throws IOException {
+        openScene(sourceNode, getPaymentsMenuPath(), getPaymentsMenuTitle());
     }
 
     private static void openScene(Node sourceNode, String fxmlPath, String title) throws IOException {

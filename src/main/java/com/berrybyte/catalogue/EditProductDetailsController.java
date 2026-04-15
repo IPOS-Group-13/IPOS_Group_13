@@ -74,7 +74,7 @@ public class EditProductDetailsController {
     @FXML
     private void handleBackButton(ActionEvent event) {
         try {
-            SceneSwitcher.switchScene(event, "/catalogue/Catalogue.fxml", "Catalogue Page");
+            RoleBasedNavigator.switchToCatalogue(event);
         } catch (Exception e) {
             e.printStackTrace();
             messageLabel.setText("Unable to go back.");
