@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: linear-gradient(to bottom right, #D8CBE8, #D1C1E1);" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.berrybyte.RPT.controllers.LowStockReportController">
+
+    <children>
+
+        <AnchorPane layoutX="27.0" layoutY="22.0" prefHeight="78.0" prefWidth="840.0" style="-fx-background-color: transparent;">
+            <children>
+                <Label layoutX="12.0" layoutY="20.0" text="Low Stock Report" textFill="#2D2334">
+                    <font>
+                        <Font name="Segoe UI Bold" size="24.0" />
+                    </font>
+                </Label>
+
+                <AnchorPane layoutX="779.0" layoutY="12.0" prefHeight="46.0" prefWidth="46.0" style="-fx-background-color: transparent;" />
+                <ImageView fitHeight="48.0" fitWidth="48.0" layoutX="778.0" layoutY="11.0" pickOnBounds="true">
+                    <image>
+                        <Image url="@../login/images/account_circle-Photoroom.png" />
+                    </image>
+                </ImageView>
+                <Circle centerX="23.0" centerY="23.0" layoutX="779.0" layoutY="12.0" radius="18.0" style="-fx-fill: transparent; -fx-stroke: #2D2334; -fx-stroke-width: 2;" />
+            </children>
+        </AnchorPane>
+
+        <AnchorPane layoutX="30.0" layoutY="100.0" prefHeight="476.0" prefWidth="840.0" style="-fx-background-color: rgba(255,255,255,0.10); -fx-background-radius: 24; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 16, 0.14, 0, 4);">
+            <children>
+
+                <Label layoutX="20.0" layoutY="14.0" text="Current Low Stock Items" textFill="#2D2334">
+                    <font>
+                        <Font name="Segoe UI Bold" size="20.0" />
+                    </font>
+                </Label>
+
+                <Label fx:id="messageLabel" layoutX="20.0" layoutY="44.0" prefWidth="500.0" textFill="#6F6877">
+                    <font>
+                        <Font name="Segoe UI" size="12.0" />
+                    </font>
+                </Label>
+
+                <TableView fx:id="lowStockTable" layoutX="15.0" layoutY="44.0" prefHeight="347.0" prefWidth="810.0" style="-fx-background-radius: 16; -fx-border-radius: 16;">
+                    <columns>
+                        <TableColumn fx:id="itemIdColumn" prefWidth="148.7999496459961" text="Item ID" />
+                        <TableColumn fx:id="descriptionColumn" prefWidth="325.6000671386719" text="Description" />
+                        <TableColumn fx:id="availabilityColumn" prefWidth="188.800048828125" text="Available" />
+                        <TableColumn fx:id="stockLimitColumn" minWidth="0.0" prefWidth="146.39996337890625" text="Limit" />
+                    </columns>
+                </TableView>
+
+                <VBox layoutX="658.0" layoutY="338.0" spacing="10.0" />
+                <VBox layoutX="337.0" layoutY="348.0" spacing="10.0" />
+                <VBox layoutX="15.0" layoutY="348.0" spacing="10.0" />
+                <Button fx:id="refreshButton2" layoutX="20.0" layoutY="412.0" mnemonicParsing="false" onAction="#handleRefresh" prefHeight="34.0" prefWidth="166.0" style="-fx-background-color: #A99CB7; -fx-text-fill: #2D2334; -fx-font-size: 12px; -fx-font-weight: bold; -fx-background-radius: 14;" text="Refresh Report" />
+                <Button fx:id="exportPdfButton1" layoutX="337.0" layoutY="412.0" mnemonicParsing="false" onAction="#handleExportPdf" prefHeight="34.0" prefWidth="166.0" style="-fx-background-color: #A99CB7; -fx-text-fill: #2D2334; -fx-font-size: 12px; -fx-font-weight: bold; -fx-background-radius: 14;" text="Export PDF" />
+                <Button fx:id="back_Button" layoutX="659.0" layoutY="412.0" mnemonicParsing="false" onAction="#handleBack" prefHeight="34.0" prefWidth="166.0" style="-fx-background-color: rgba(255,255,255,0.55); -fx-text-fill: #2D2334; -fx-font-size: 12px; -fx-font-weight: bold; -fx-background-radius: 14;" text="Back" />
+
+            </children>
+        </AnchorPane>
+
+    </children>
+</AnchorPane>

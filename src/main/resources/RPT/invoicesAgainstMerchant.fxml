@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="600.0" prefWidth="900.0"
+            style="-fx-background-color: linear-gradient(to bottom right, #D8CBE8, #D1C1E1);"
+            xmlns="http://javafx.com/javafx/25"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.berrybyte.RPT.controllers.InvoicesAgainstMerchantController">
+
+    <children>
+
+        <AnchorPane layoutX="30.0" layoutY="22.0" prefHeight="78.0" prefWidth="840.0"
+                    style="-fx-background-color: transparent;">
+            <children>
+                <Label layoutX="12.0" layoutY="20.0"
+                       text="Invoices Raised Against Merchant"
+                       textFill="#2D2334">
+                    <font>
+                        <Font name="Segoe UI Bold" size="22.0" />
+                    </font>
+                </Label>
+
+                <ImageView fitHeight="48.0" fitWidth="48.0"
+                           layoutX="774.0" layoutY="13.0"
+                           pickOnBounds="true"
+                           preserveRatio="true">
+                    <image>
+                        <Image url="@../login/images/account_circle-Photoroom.png" />
+                    </image>
+                </ImageView>
+            </children>
+        </AnchorPane>
+
+        <AnchorPane layoutX="30.0" layoutY="100.0" prefHeight="476.0" prefWidth="840.0"
+                    style="-fx-background-color: rgba(255,255,255,0.10); -fx-background-radius: 24; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 16, 0.14, 0, 4);">
+            <children>
+
+                <Label layoutX="20.0" layoutY="14.0"
+                       text="Merchant Invoice List"
+                       textFill="#2D2334">
+                    <font>
+                        <Font name="Segoe UI Bold" size="20.0" />
+                    </font>
+                </Label>
+
+                <Label fx:id="filterSummaryLabel"
+                       layoutX="20.0" layoutY="42.0"
+                       prefWidth="520.0"
+                       text="Filters will appear here"
+                       textFill="#6F6877">
+                    <font>
+                        <Font name="Segoe UI" size="12.0" />
+                    </font>
+                </Label>
+
+                <Label fx:id="messageLabel"
+                       layoutX="20.0" layoutY="60.0"
+                       prefWidth="520.0"
+                       textFill="#6F6877">
+                    <font>
+                        <Font name="Segoe UI" size="12.0" />
+                    </font>
+                </Label>
+
+                <TableView fx:id="invoiceTable"
+                           layoutX="20.0" layoutY="84.0"
+                           prefHeight="310.0" prefWidth="800.0"
+                           style="-fx-background-radius: 16; -fx-border-radius: 16;">
+                    <columns>
+                        <TableColumn fx:id="invoiceIdColumn" prefWidth="85.0" text="Invoice ID" />
+                        <TableColumn fx:id="orderIdColumn" prefWidth="75.0" text="Order ID" />
+                        <TableColumn fx:id="merchantIdColumn" prefWidth="185.0" text="Merchant" />
+                        <TableColumn fx:id="invoiceDateColumn" prefWidth="95.0" text="Invoice Date" />
+                        <TableColumn fx:id="dueDateColumn" prefWidth="107.0" text="Due Date" />
+                        <TableColumn fx:id="totalAmountColumn" prefWidth="114.0" text="Total" />
+                        <TableColumn fx:id="outstandingColumn" prefWidth="139.0" text="Outstanding" />
+                    </columns>
+                </TableView>
+
+                <Button fx:id="exportPdfButton"
+                        layoutX="20.0" layoutY="418.0"
+                        mnemonicParsing="false"
+                        onAction="#handleExportPdf"
+                        prefHeight="34.0" prefWidth="166.0"
+                        text="Export PDF"
+                        style="-fx-background-color: #A99CB7; -fx-text-fill: #2D2334; -fx-font-size: 12px; -fx-font-weight: bold; -fx-background-radius: 14;" />
+
+                <Button fx:id="sendEmailButton"
+                        layoutX="193.0" layoutY="418.0"
+                        mnemonicParsing="false"
+                        onAction="#handleSendEmail"
+                        prefHeight="34.0" prefWidth="166.0"
+                        text="Send Email"
+                        style="-fx-background-color: #A99CB7; -fx-text-fill: #2D2334; -fx-font-size: 12px; -fx-font-weight: bold; -fx-background-radius: 14;" />
+
+                <Button fx:id="refreshButton"
+                        layoutX="481.0" layoutY="418.0"
+                        mnemonicParsing="false"
+                        onAction="#handleRefresh"
+                        prefHeight="34.0" prefWidth="166.0"
+                        text="Refresh Report"
+                        style="-fx-background-color: #A99CB7; -fx-text-fill: #2D2334; -fx-font-size: 12px; -fx-font-weight: bold; -fx-background-radius: 14;" />
+
+                <Button fx:id="backButton"
+                        layoutX="654.0" layoutY="418.0"
+                        mnemonicParsing="false"
+                        onAction="#handleBack"
+                        prefHeight="34.0" prefWidth="166.0"
+                        text="Back"
+                        style="-fx-background-color: rgba(255,255,255,0.55); -fx-text-fill: #2D2334; -fx-font-size: 12px; -fx-font-weight: bold; -fx-background-radius: 14;" />
+
+            </children>
+        </AnchorPane>
+
+    </children>
+</AnchorPane>
