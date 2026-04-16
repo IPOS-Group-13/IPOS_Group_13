@@ -1,26 +1,33 @@
 package com.berrybyte.RPT.controllers;
 
+import com.berrybyte.RPT.model.MerchantOption;
+import com.berrybyte.RPT.repository.ReportRepository;
+import com.berrybyte.RPT.repository.ReportRepositoryImpl;
 import com.berrybyte.common.RoleBasedNavigator;
 import com.berrybyte.common.SceneSwitcher;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.collections.FXCollections;
 import javafx.scene.Node;
 import javafx.scene.Parent;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
-import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.TilePane;
 import javafx.stage.Stage;
 
 import java.time.LocalDate;
+import java.util.List;
 
 public class ReportsMenuController {
 
+    private final ReportRepository reportRepository = new ReportRepositoryImpl();
+
     @FXML
-    private TextField merchantSearchField;
+    private ComboBox<MerchantOption> merchantComboBox;
 
     @FXML
     private DatePicker beforeDatePicker;
@@ -40,6 +47,8 @@ public class ReportsMenuController {
             profileMenuPane.setVisible(false);
             profileMenuPane.setManaged(false);
         }
+
+        loadMerchantOptions();
 
         if (reportsTilePane != null) {
             reportsTilePane.widthProperty().addListener((observable, oldValue, newValue) ->
@@ -168,7 +177,8 @@ public class ReportsMenuController {
 
             MerchantActivityReportController controller = loader.getController();
             controller.setFilters(
-                    safeTrim(merchantSearchField),
+                    selectedMerchantId(),
+                    selectedMerchantName(),
                     safeDate(afterDatePicker),
                     safeDate(beforeDatePicker)
             );
@@ -210,7 +220,8 @@ public class ReportsMenuController {
 
             MerchantOrderSummaryReportController controller = loader.getController();
             controller.setFilters(
-                    safeTrim(merchantSearchField),
+                    selectedMerchantId(),
+                    selectedMerchantName(),
                     safeDate(afterDatePicker),
                     safeDate(beforeDatePicker)
             );
@@ -229,7 +240,8 @@ public class ReportsMenuController {
 
             InvoicesAgainstMerchantController controller = loader.getController();
             controller.setFilters(
-                    safeTrim(merchantSearchField),
+                    selectedMerchantId(),
+                    selectedMerchantName(),
                     safeDate(afterDatePicker),
                     safeDate(beforeDatePicker)
             );
@@ -246,7 +258,7 @@ public class ReportsMenuController {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/RPT/invoicesByInfoPharma.fxml"));
             Parent root = loader.load();
 
-            InvoicesByInfoPharmaController  controller = loader.getController();
+            InvoicesByInfoPharmaController controller = loader.getController();
             controller.setFilters(
                     safeDate(afterDatePicker),
                     safeDate(beforeDatePicker)
@@ -272,12 +284,31 @@ public class ReportsMenuController {
         SceneSwitcher.setStageRoot(stage, root, title);
     }
 
-    private String safeTrim(TextField field) {
-        return field == null || field.getText() == null ? "" : field.getText().trim();
-    }
-
     private LocalDate safeDate(DatePicker picker) {
         return picker == null ? null : picker.getValue();
+    }
+
+    private Integer selectedMerchantId() {
+        MerchantOption selected = merchantComboBox == null ? null : merchantComboBox.getValue();
+        return selected == null ? null : selected.getMerchantId();
+    }
+
+    private String selectedMerchantName() {
+        MerchantOption selected = merchantComboBox == null ? null : merchantComboBox.getValue();
+        return selected == null ? "" : selected.getCompanyName();
+    }
+
+    private void loadMerchantOptions() {
+        try {
+            if (merchantComboBox == null) {
+                return;
+            }
+
+            List<MerchantOption> merchants = reportRepository.findMerchantOptions();
+            merchantComboBox.setItems(FXCollections.observableArrayList(merchants));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void updateReportTileWidth(double availableWidth) {

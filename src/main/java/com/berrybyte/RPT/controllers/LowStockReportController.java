@@ -79,7 +79,12 @@ public class LowStockReportController extends ReportProfileMenuController {
             }
 
             Path pdfPath = lowStockPdfService.generateLowStockPdf(currentReport);
-            messageLabel.setText("PDF saved to: " + pdfPath.toAbsolutePath());
+            if (pdfPath == null || !java.nio.file.Files.exists(pdfPath)) {
+                messageLabel.setText("PDF export failed.");
+                return;
+            }
+            lowStockPdfService.openLowStockPdf(pdfPath);
+            messageLabel.setText("PDF opened: " + pdfPath.toAbsolutePath());
         } catch (Exception e) {
             e.printStackTrace();
             messageLabel.setText("Unable to export PDF.");

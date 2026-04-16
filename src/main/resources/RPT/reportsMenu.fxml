@@ -14,6 +14,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
+<?import javafx.scene.control.ComboBox?>
 <AnchorPane prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: #D2C3E3;" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.berrybyte.RPT.controllers.ReportsMenuController">
    <children>
 
@@ -106,7 +107,11 @@
          <children>
             <AnchorPane prefHeight="54.0" prefWidth="250.0">
                <children>
-                  <TextField fx:id="merchantSearchField" layoutY="20.0" prefHeight="32.0" prefWidth="250.0" promptText="Merchant ID" style="-fx-background-color: white; -fx-background-radius: 16; -fx-border-color: transparent; -fx-prompt-text-fill: #7A7285; -fx-text-fill: #2F2437; -fx-font-size: 12px;" />
+                  <ComboBox fx:id="merchantComboBox"
+                            layoutX="12.0" layoutY="5.0"
+                            prefHeight="30.0" prefWidth="248.0"
+                            promptText="Select merchant"
+                            style="-fx-background-color: transparent; -fx-font-size: 12px;" />
                   <ImageView fitHeight="22.0" fitWidth="22.0" layoutX="218.0" layoutY="25.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../login/images/Search.png" />

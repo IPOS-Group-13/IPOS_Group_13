@@ -110,7 +110,12 @@ public class InvoicesByInfoPharmaController extends ReportProfileMenuController 
             }
 
             Path pdfPath = invoiceListingPdfService.generateInvoiceListingPdf(currentReport);
-            messageLabel.setText("PDF saved to: " + pdfPath.toAbsolutePath());
+            if (pdfPath == null || !java.nio.file.Files.exists(pdfPath)) {
+                messageLabel.setText("PDF export failed.");
+                return;
+            }
+            invoiceListingPdfService.openInvoiceListingPdf(pdfPath);
+            messageLabel.setText("PDF opened: " + pdfPath.toAbsolutePath());
         } catch (Exception e) {
             e.printStackTrace();
             messageLabel.setText("Unable to export PDF.");

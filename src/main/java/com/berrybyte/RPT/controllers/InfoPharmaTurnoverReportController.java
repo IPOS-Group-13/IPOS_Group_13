@@ -71,7 +71,12 @@ public class InfoPharmaTurnoverReportController extends ReportProfileMenuControl
             }
 
             Path pdfPath = infoPharmaTurnoverPdfService.generateInfoPharmaTurnoverPdf(currentReport);
-            messageLabel.setText("PDF saved to: " + pdfPath.toAbsolutePath());
+            if (pdfPath == null || !java.nio.file.Files.exists(pdfPath)) {
+                messageLabel.setText("PDF export failed.");
+                return;
+            }
+            infoPharmaTurnoverPdfService.openInfoPharmaTurnoverPdf(pdfPath);
+            messageLabel.setText("PDF opened: " + pdfPath.toAbsolutePath());
         } catch (Exception e) {
             e.printStackTrace();
             messageLabel.setText("Unable to export PDF.");

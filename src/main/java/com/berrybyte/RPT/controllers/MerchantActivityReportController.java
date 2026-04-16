@@ -2,35 +2,38 @@ package com.berrybyte.RPT.controllers;
 
 import com.berrybyte.RPT.email.ReportEmailService;
 import com.berrybyte.RPT.email.ReportEmailServiceImpl;
-import com.berrybyte.RPT.model.MerchantActivityOrderSection;
-import com.berrybyte.RPT.model.MerchantActivityItemRow;
-import com.berrybyte.RPT.model.MerchantActivityReport;
 import com.berrybyte.RPT.export.MerchantActivityPdfService;
+import com.berrybyte.RPT.model.MerchantActivityItemRow;
+import com.berrybyte.RPT.model.MerchantActivityOrderSection;
+import com.berrybyte.RPT.model.MerchantActivityReport;
 import com.berrybyte.RPT.repository.ReportRepositoryImpl;
 import com.berrybyte.RPT.services.ReportService;
 import com.berrybyte.RPT.services.ReportServiceImpl;
-import com.berrybyte.common.SceneSwitcher;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
+import javafx.stage.Stage;
 
 import java.nio.file.Path;
-
 import java.time.LocalDate;
 
-public class MerchantActivityReportController extends ReportProfileMenuController {
+public class MerchantActivityReportController {
+
+    private static final String DEMO_RECIPIENT_EMAIL = "ipos_commercial@yahoo.com";
 
     private final ReportService reportService = new ReportServiceImpl(new ReportRepositoryImpl());
+    private final MerchantActivityPdfService merchantActivityPdfService = new MerchantActivityPdfService();
+    private final ReportEmailService reportEmailService = new ReportEmailServiceImpl();
 
-    private String merchantSearch;
+    private Integer merchantId;
+    private String merchantName;
     private LocalDate afterDate;
     private LocalDate beforeDate;
     private MerchantActivityReport currentReport;
-    private final MerchantActivityPdfService merchantActivityPdfService = new MerchantActivityPdfService();
-    private static final String DEMO_RECIPIENT_EMAIL = "ipos_commercial@yahoo.com";
-    private final ReportEmailService reportEmailService = new ReportEmailServiceImpl();
 
     @FXML
     private Label filterSummaryLabel;
@@ -58,12 +61,12 @@ public class MerchantActivityReportController extends ReportProfileMenuControlle
 
     @FXML
     public void initialize() {
-        initializeProfileMenu();
         updateFilterSummary();
     }
 
-    public void setFilters(String merchantSearch, LocalDate afterDate, LocalDate beforeDate) {
-        this.merchantSearch = merchantSearch == null ? "" : merchantSearch.trim();
+    public void setFilters(Integer merchantId, String merchantName, LocalDate afterDate, LocalDate beforeDate) {
+        this.merchantId = merchantId;
+        this.merchantName = merchantName == null ? "" : merchantName.trim();
         this.afterDate = afterDate;
         this.beforeDate = beforeDate;
         updateFilterSummary();
@@ -84,7 +87,12 @@ public class MerchantActivityReportController extends ReportProfileMenuControlle
             }
 
             Path pdfPath = merchantActivityPdfService.generateMerchantActivityPdf(currentReport);
-            messageLabel.setText("PDF saved to: " + pdfPath.toAbsolutePath());
+            if (pdfPath == null || !java.nio.file.Files.exists(pdfPath)) {
+                messageLabel.setText("PDF export failed.");
+                return;
+            }
+            merchantActivityPdfService.openMerchantActivityPdf(pdfPath);
+            messageLabel.setText("PDF opened: " + pdfPath.toAbsolutePath());
         } catch (Exception e) {
             e.printStackTrace();
             messageLabel.setText("Unable to export PDF.");
@@ -114,9 +122,13 @@ public class MerchantActivityReportController extends ReportProfileMenuControlle
     }
 
     @FXML
-    private void handleBack(ActionEvent event) {
+    private void handleBack() {
         try {
-            SceneSwitcher.switchScene(event, "/RPT/reportsMenu.fxml", "Reports");
+            Parent root = FXMLLoader.load(getClass().getResource("/RPT/reportsMenu.fxml"));
+            Stage stage = (Stage) backButton.getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Reports");
+            stage.show();
         } catch (Exception e) {
             e.printStackTrace();
             messageLabel.setText("Unable to go back.");
@@ -125,11 +137,10 @@ public class MerchantActivityReportController extends ReportProfileMenuControlle
 
     private void loadReport() {
         try {
-            Integer merchantId = parseMerchantId(merchantSearch);
             if (merchantId == null) {
                 merchantHeaderLabel.setText("Merchant details will appear here");
                 activityTextArea.clear();
-                messageLabel.setText("Enter a numeric Merchant ID on the reports menu.");
+                messageLabel.setText("Select a merchant from the reports menu.");
                 return;
             }
 
@@ -189,22 +200,10 @@ public class MerchantActivityReportController extends ReportProfileMenuControlle
     }
 
     private void updateFilterSummary() {
-        String merchantText = (merchantSearch == null || merchantSearch.isBlank()) ? "Merchant ID required" : merchantSearch;
+        String merchantText = (merchantName == null || merchantName.isBlank()) ? "Merchant required" : merchantName;
         String afterText = afterDate == null ? "Any" : afterDate.toString();
         String beforeText = beforeDate == null ? "Any" : beforeDate.toString();
 
         filterSummaryLabel.setText("Merchant: " + merchantText + " | After: " + afterText + " | Before: " + beforeText);
-    }
-
-    private Integer parseMerchantId(String text) {
-        if (text == null || text.isBlank()) {
-            return null;
-        }
-
-        try {
-            return Integer.parseInt(text.trim());
-        } catch (NumberFormatException e) {
-            return null;
-        }
     }
 }

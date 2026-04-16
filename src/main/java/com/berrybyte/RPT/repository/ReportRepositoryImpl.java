@@ -372,4 +372,35 @@ public class ReportRepositoryImpl implements ReportRepository {
         return rows;
     }
 
+    @Override
+    public List<MerchantOption> findMerchantOptions() {
+        List<MerchantOption> merchants = new ArrayList<>();
+
+        String sql = """
+        SELECT MerchantId, CompanyName
+        FROM MerchantAccounts
+        WHERE COALESCE(IsActivated, 1) = 1
+        ORDER BY CompanyName ASC
+    """;
+
+        DatabaseConnection databaseConnection = new DatabaseConnection();
+
+        try (Connection connection = databaseConnection.getConnection();
+             PreparedStatement stmt = connection.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+
+            while (rs.next()) {
+                merchants.add(new MerchantOption(
+                        rs.getInt("MerchantId"),
+                        rs.getString("CompanyName")
+                ));
+            }
+
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to fetch merchant options.", e);
+        }
+
+        return merchants;
+    }
+
 }

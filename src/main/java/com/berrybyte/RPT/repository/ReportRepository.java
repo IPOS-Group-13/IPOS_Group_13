@@ -21,4 +21,5 @@ public interface ReportRepository {
                                                       LocalDate endDate);
     List<InfoPharmaTurnoverRow> findInfoPharmaTurnover(LocalDate startDate,
                                                        LocalDate endDate);
+    List<MerchantOption> findMerchantOptions();
 }

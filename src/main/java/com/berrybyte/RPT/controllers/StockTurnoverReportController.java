@@ -93,7 +93,12 @@ public class StockTurnoverReportController extends ReportProfileMenuController {
             }
 
             Path pdfPath = stockTurnoverPdfService.generateStockTurnoverPdf(currentReport);
-            messageLabel.setText("PDF saved to: " + pdfPath.toAbsolutePath());
+            if (pdfPath == null || !java.nio.file.Files.exists(pdfPath)) {
+                messageLabel.setText("PDF export failed.");
+                return;
+            }
+            stockTurnoverPdfService.openStockTurnoverPdf(pdfPath);
+            messageLabel.setText("PDF opened: " + pdfPath.toAbsolutePath());
         } catch (Exception e) {
             e.printStackTrace();
             messageLabel.setText("Unable to export PDF.");

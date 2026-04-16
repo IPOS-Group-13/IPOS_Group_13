@@ -21,8 +21,7 @@ dependencies {
     implementation("com.mysql:mysql-connector-j:9.0.0")
     implementation("com.itextpdf:itext7-core:9.6.0")
     implementation("com.sun.mail:jakarta.mail:2.0.1")
-    runtimeOnly("org.slf4j:slf4j-simple:1.7.32")
-}
+    runtimeOnly("org.slf4j:slf4j-simple:2.0.13")}
 
 tasks.test {
     useJUnitPlatform()

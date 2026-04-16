@@ -8,30 +8,34 @@ import com.berrybyte.RPT.model.InvoiceListingRow;
 import com.berrybyte.RPT.repository.ReportRepositoryImpl;
 import com.berrybyte.RPT.services.ReportService;
 import com.berrybyte.RPT.services.ReportServiceImpl;
-import com.berrybyte.common.SceneSwitcher;
 import javafx.collections.FXCollections;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
 
 import java.nio.file.Path;
 import java.time.LocalDate;
 
-public class InvoicesAgainstMerchantController extends ReportProfileMenuController {
+public class InvoicesAgainstMerchantController {
+
+    private static final String DEMO_RECIPIENT_EMAIL = "ipos_commercial@yahoo.com";
 
     private final ReportService reportService = new ReportServiceImpl(new ReportRepositoryImpl());
+    private final InvoiceListingPdfService invoiceListingPdfService = new InvoiceListingPdfService();
+    private final ReportEmailService reportEmailService = new ReportEmailServiceImpl();
 
-    private String merchantSearch;
+    private Integer merchantId;
+    private String merchantName;
     private LocalDate afterDate;
     private LocalDate beforeDate;
     private InvoiceListingReport currentReport;
-    private final InvoiceListingPdfService invoiceListingPdfService = new InvoiceListingPdfService();
-    private static final String DEMO_RECIPIENT_EMAIL = "ipos_commercial@yahoo.com";
-    private final ReportEmailService reportEmailService = new ReportEmailServiceImpl();
 
     @FXML
     private Label filterSummaryLabel;
@@ -77,7 +81,6 @@ public class InvoicesAgainstMerchantController extends ReportProfileMenuControll
 
     @FXML
     public void initialize() {
-        initializeProfileMenu();
         invoiceIdColumn.setCellValueFactory(new PropertyValueFactory<>("invoiceId"));
         orderIdColumn.setCellValueFactory(new PropertyValueFactory<>("orderId"));
         merchantIdColumn.setCellValueFactory(new PropertyValueFactory<>("merchantId"));
@@ -85,13 +88,13 @@ public class InvoicesAgainstMerchantController extends ReportProfileMenuControll
         dueDateColumn.setCellValueFactory(new PropertyValueFactory<>("dueDate"));
         totalAmountColumn.setCellValueFactory(new PropertyValueFactory<>("totalAmount"));
         outstandingColumn.setCellValueFactory(new PropertyValueFactory<>("outstandingBalance"));
-        bindColumnWidths();
 
         updateFilterSummary();
     }
 
-    public void setFilters(String merchantSearch, LocalDate afterDate, LocalDate beforeDate) {
-        this.merchantSearch = merchantSearch == null ? "" : merchantSearch.trim();
+    public void setFilters(Integer merchantId, String merchantName, LocalDate afterDate, LocalDate beforeDate) {
+        this.merchantId = merchantId;
+        this.merchantName = merchantName == null ? "" : merchantName.trim();
         this.afterDate = afterDate;
         this.beforeDate = beforeDate;
         updateFilterSummary();
@@ -112,7 +115,12 @@ public class InvoicesAgainstMerchantController extends ReportProfileMenuControll
             }
 
             Path pdfPath = invoiceListingPdfService.generateInvoiceListingPdf(currentReport);
-            messageLabel.setText("PDF saved to: " + pdfPath.toAbsolutePath());
+            if (pdfPath == null || !java.nio.file.Files.exists(pdfPath)) {
+                messageLabel.setText("PDF export failed.");
+                return;
+            }
+            invoiceListingPdfService.openInvoiceListingPdf(pdfPath);
+            messageLabel.setText("PDF opened: " + pdfPath.toAbsolutePath());
         } catch (Exception e) {
             e.printStackTrace();
             messageLabel.setText("Unable to export PDF.");
@@ -142,9 +150,13 @@ public class InvoicesAgainstMerchantController extends ReportProfileMenuControll
     }
 
     @FXML
-    private void handleBack(ActionEvent event) {
+    private void handleBack() {
         try {
-            SceneSwitcher.switchScene(event, "/RPT/reportsMenu.fxml", "Reports");
+            Parent root = FXMLLoader.load(getClass().getResource("/RPT/reportsMenu.fxml"));
+            Stage stage = (Stage) backButton.getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Reports");
+            stage.show();
         } catch (Exception e) {
             e.printStackTrace();
             messageLabel.setText("Unable to go back.");
@@ -153,7 +165,11 @@ public class InvoicesAgainstMerchantController extends ReportProfileMenuControll
 
     private void loadReport() {
         try {
-            Integer merchantId = parseMerchantId(merchantSearch);
+            if (merchantId == null) {
+                invoiceTable.setItems(FXCollections.observableArrayList());
+                messageLabel.setText("Select a merchant from the reports menu.");
+                return;
+            }
 
             LocalDate startDate = afterDate != null ? afterDate : LocalDate.of(2000, 1, 1);
             LocalDate endDate = beforeDate != null ? beforeDate : LocalDate.now();
@@ -169,32 +185,10 @@ public class InvoicesAgainstMerchantController extends ReportProfileMenuControll
     }
 
     private void updateFilterSummary() {
-        String merchantText = (merchantSearch == null || merchantSearch.isBlank()) ? "Any merchant" : merchantSearch;
+        String merchantText = (merchantName == null || merchantName.isBlank()) ? "Merchant required" : merchantName;
         String afterText = afterDate == null ? "Any" : afterDate.toString();
         String beforeText = beforeDate == null ? "Any" : beforeDate.toString();
 
         filterSummaryLabel.setText("Merchant: " + merchantText + " | After: " + afterText + " | Before: " + beforeText);
-    }
-
-    private Integer parseMerchantId(String text) {
-        if (text == null || text.isBlank()) {
-            return null;
-        }
-
-        try {
-            return Integer.parseInt(text.trim());
-        } catch (NumberFormatException e) {
-            return null;
-        }
-    }
-
-    private void bindColumnWidths() {
-        invoiceIdColumn.prefWidthProperty().bind(invoiceTable.widthProperty().multiply(0.11));
-        orderIdColumn.prefWidthProperty().bind(invoiceTable.widthProperty().multiply(0.10));
-        merchantIdColumn.prefWidthProperty().bind(invoiceTable.widthProperty().multiply(0.20));
-        invoiceDateColumn.prefWidthProperty().bind(invoiceTable.widthProperty().multiply(0.13));
-        dueDateColumn.prefWidthProperty().bind(invoiceTable.widthProperty().multiply(0.14));
-        totalAmountColumn.prefWidthProperty().bind(invoiceTable.widthProperty().multiply(0.15));
-        outstandingColumn.prefWidthProperty().bind(invoiceTable.widthProperty().multiply(0.17));
     }
 }
