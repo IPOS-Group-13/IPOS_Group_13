@@ -9,14 +9,12 @@ import com.berrybyte.RPT.model.MerchantActivityReport;
 import com.berrybyte.RPT.repository.ReportRepositoryImpl;
 import com.berrybyte.RPT.services.ReportService;
 import com.berrybyte.RPT.services.ReportServiceImpl;
+import com.berrybyte.common.SceneSwitcher;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
-import javafx.stage.Stage;
 
 import java.nio.file.Path;
 import java.time.LocalDate;
@@ -122,13 +120,9 @@ public class MerchantActivityReportController {
     }
 
     @FXML
-    private void handleBack() {
+    private void handleBack(ActionEvent event) {
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("/RPT/reportsMenu.fxml"));
-            Stage stage = (Stage) backButton.getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.setTitle("Reports");
-            stage.show();
+            SceneSwitcher.switchScene(event, "/RPT/reportsMenu.fxml", "Reports");
         } catch (Exception e) {
             e.printStackTrace();
             messageLabel.setText("Unable to go back.");
