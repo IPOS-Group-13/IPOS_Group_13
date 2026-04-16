@@ -108,6 +108,7 @@
                     layoutX="7.0"
                     layoutY="303.0"
                     mnemonicParsing="false"
+                    onAction="#handleReportsClick"
                     prefHeight="26.0"
                     prefWidth="102.0"
                     style="-fx-background-color: #A89CB6; -fx-background-radius: 18;"

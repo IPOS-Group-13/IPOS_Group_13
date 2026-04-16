@@ -197,6 +197,15 @@ public class PendingApplicationsController {
         }
     }
 
+    @FXML
+    private void handleReportsClick(ActionEvent event) {
+        try {
+            RoleBasedNavigator.switchToReportsMenu(event);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     private void loadApplications(String searchText) {
         try {
             merchantsTable.setItems(FXCollections.observableArrayList(service.getPendingApplications(searchText)));

@@ -87,6 +87,15 @@ public class OrderMenuController {
     }
 
     @FXML
+    public void handleReportsClick(ActionEvent event) {
+        try {
+            RoleBasedNavigator.switchToReportsMenu(event);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
     private void handleLogoutMenuClick(ActionEvent event) {
         if (profileMenuPane != null) {
             profileMenuPane.setVisible(false);

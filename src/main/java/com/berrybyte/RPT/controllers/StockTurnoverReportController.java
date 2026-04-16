@@ -6,23 +6,21 @@ import com.berrybyte.RPT.export.StockTurnoverPdfService;
 import com.berrybyte.RPT.repository.ReportRepositoryImpl;
 import com.berrybyte.RPT.services.ReportService;
 import com.berrybyte.RPT.services.ReportServiceImpl;
+import com.berrybyte.common.SceneSwitcher;
 import javafx.collections.FXCollections;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.stage.Stage;
 
 import java.nio.file.Path;
 
 import java.time.LocalDate;
 
-public class StockTurnoverReportController {
+public class StockTurnoverReportController extends ReportProfileMenuController {
 
     private final ReportService reportService = new ReportServiceImpl(new ReportRepositoryImpl());
 
@@ -64,10 +62,12 @@ public class StockTurnoverReportController {
 
     @FXML
     public void initialize() {
+        initializeProfileMenu();
         itemIdColumn.setCellValueFactory(new PropertyValueFactory<>("itemId"));
         descriptionColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
         quantitySoldColumn.setCellValueFactory(new PropertyValueFactory<>("quantitySold"));
         salesValueColumn.setCellValueFactory(new PropertyValueFactory<>("salesValue"));
+        bindColumnWidths();
 
         updateFilterSummary();
     }
@@ -101,13 +101,9 @@ public class StockTurnoverReportController {
     }
 
     @FXML
-    private void handleBack() {
+    private void handleBack(ActionEvent event) {
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("/RPT/reportsMenu.fxml"));
-            Stage stage = (Stage) backButton.getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.setTitle("Reports");
-            stage.show();
+            SceneSwitcher.switchScene(event, "/RPT/reportsMenu.fxml", "Reports");
         } catch (Exception e) {
             e.printStackTrace();
             messageLabel.setText("Unable to go back.");
@@ -134,5 +130,12 @@ public class StockTurnoverReportController {
         String beforeText = beforeDate == null ? "Any" : beforeDate.toString();
 
         filterSummaryLabel.setText("After: " + afterText + " | Before: " + beforeText);
+    }
+
+    private void bindColumnWidths() {
+        itemIdColumn.prefWidthProperty().bind(stockTurnoverTable.widthProperty().multiply(0.12));
+        descriptionColumn.prefWidthProperty().bind(stockTurnoverTable.widthProperty().multiply(0.50));
+        quantitySoldColumn.prefWidthProperty().bind(stockTurnoverTable.widthProperty().multiply(0.19));
+        salesValueColumn.prefWidthProperty().bind(stockTurnoverTable.widthProperty().multiply(0.19));
     }
 }

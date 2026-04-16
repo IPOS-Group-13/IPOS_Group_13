@@ -143,6 +143,15 @@ public class ManageCatalogueController {
     }
 
     @FXML
+    public void handleReportsClick(ActionEvent event) {
+        try {
+            RoleBasedNavigator.switchToReportsMenu(event);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
     public void handlePendingApplications(ActionEvent event) {
         try {
             SceneSwitcher.switchScene(event, "/pendingapplications/pendingApplications.fxml", "Pending Applications Page");

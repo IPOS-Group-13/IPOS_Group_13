@@ -6,56 +6,78 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: linear-gradient(to bottom right, #D8CBE8, #D1C1E1);" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.berrybyte.RPT.controllers.InfoPharmaTurnoverReportController">
-
+<AnchorPane prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: #D2C3E3;" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.berrybyte.RPT.controllers.InfoPharmaTurnoverReportController">
     <children>
 
-        <AnchorPane layoutX="30.0" layoutY="22.0" prefHeight="78.0" prefWidth="840.0" style="-fx-background-color: transparent;">
-            <children>
-                <Label layoutX="12.0" layoutY="20.0" text="InfoPharma Turnover Report" textFill="#2D2334">
-                    <font>
-                        <Font name="Segoe UI Bold" size="22.0" />
-                    </font>
-                </Label>
+        <Label text="InfoPharma Turnover Report" textFill="#2D2334" AnchorPane.leftAnchor="42.0" AnchorPane.topAnchor="42.0">
+            <font>
+                <Font name="Segoe UI Bold" size="24.0" />
+            </font>
+        </Label>
 
-                <ImageView fitHeight="48.0" fitWidth="48.0" layoutX="774.0" layoutY="13.0" pickOnBounds="true" preserveRatio="true">
+        <ImageView fx:id="profileImage" fitHeight="52.0" fitWidth="82.0" onMouseClicked="#handleProfileClick" pickOnBounds="true" preserveRatio="true" AnchorPane.rightAnchor="42.0" AnchorPane.topAnchor="36.0">
+            <image>
+                <Image url="@../login/images/account_circle-Photoroom.png" />
+            </image>
+        </ImageView>
+
+        <AnchorPane fx:id="profileMenuPane" prefHeight="43.0" prefWidth="200.0" style="-fx-background-color: white; -fx-background-radius: 10;" AnchorPane.rightAnchor="98.0" AnchorPane.topAnchor="79.0">
+            <children>
+                <Button layoutX="14.0" layoutY="9.0" mnemonicParsing="false" onAction="#handleLogoutMenuClick" style="-fx-background-color: white;" text="Logout">
+                    <font>
+                        <Font name="System Bold" size="12.0" />
+                    </font>
+                </Button>
+                <ImageView fitHeight="33.0" fitWidth="38.0" layoutX="156.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true">
                     <image>
-                        <Image url="@../login/images/account_circle-Photoroom.png" />
+                        <Image url="@../login/images/Log in-Photoroom.png" />
                     </image>
                 </ImageView>
             </children>
         </AnchorPane>
 
-        <AnchorPane layoutX="30.0" layoutY="100.0" prefHeight="476.0" prefWidth="840.0" style="-fx-background-color: rgba(255,255,255,0.10); -fx-background-radius: 24; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 16, 0.14, 0, 4);">
+        <AnchorPane style="-fx-background-color: #E8DEF8; -fx-background-radius: 15;" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="105.0">
             <children>
 
-                <Label layoutX="20.0" layoutY="14.0" text="Internal Turnover Summary" textFill="#2D2334">
+                <Label text="Internal Turnover Summary" textFill="#49454F" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="14.0">
                     <font>
                         <Font name="Segoe UI Bold" size="20.0" />
                     </font>
                 </Label>
 
-                <Label fx:id="filterSummaryLabel" layoutX="20.0" layoutY="42.0" prefWidth="520.0" text="Date range filter will appear here" textFill="#6F6877">
+                <Label fx:id="filterSummaryLabel" text="Date range filter will appear here" textFill="#6F6877" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="42.0">
                     <font>
                         <Font name="Segoe UI" size="12.0" />
                     </font>
                 </Label>
 
-                <Label fx:id="messageLabel" layoutX="20.0" layoutY="60.0" prefWidth="520.0" textFill="#6F6877">
+                <Label fx:id="messageLabel" textFill="#6F6877" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="60.0">
                     <font>
                         <Font name="Segoe UI" size="12.0" />
                     </font>
                 </Label>
 
-                <TextArea fx:id="turnoverSummaryTextArea" editable="false" layoutX="20.0" layoutY="84.0" prefHeight="310.0" prefWidth="800.0" style="-fx-background-radius: 16; -fx-border-radius: 16; -fx-font-family: 'Segoe UI'; -fx-font-size: 12px;" wrapText="true" />
+                <TextArea fx:id="turnoverSummaryTextArea" editable="false" style="-fx-background-radius: 16; -fx-border-radius: 16; -fx-font-family: 'Segoe UI'; -fx-font-size: 12px;" wrapText="true" AnchorPane.bottomAnchor="74.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="84.0" />
 
-                <Button fx:id="refreshButton" layoutX="20.0" layoutY="418.0" mnemonicParsing="false" onAction="#handleRefresh" prefHeight="34.0" prefWidth="166.0" style="-fx-background-color: #A99CB7; -fx-text-fill: #2D2334; -fx-font-size: 12px; -fx-font-weight: bold; -fx-background-radius: 14;" text="Refresh Report" />
-
-                <Button fx:id="exportPdfButton" layoutX="337.0" layoutY="418.0" mnemonicParsing="false" onAction="#handleExportPdf" prefHeight="34.0" prefWidth="166.0" style="-fx-background-color: #A99CB7; -fx-text-fill: #2D2334; -fx-font-size: 12px; -fx-font-weight: bold; -fx-background-radius: 14;" text="Export PDF" />
-
-                <Button fx:id="backButton" layoutX="654.0" layoutY="418.0" mnemonicParsing="false" onAction="#handleBack" prefHeight="34.0" prefWidth="166.0" style="-fx-background-color: rgba(255,255,255,0.55); -fx-text-fill: #2D2334; -fx-font-size: 12px; -fx-font-weight: bold; -fx-background-radius: 14;" text="Back" />
+                <HBox alignment="CENTER" spacing="40.0" AnchorPane.bottomAnchor="24.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0">
+                    <children>
+                        <Button fx:id="refreshButton" mnemonicParsing="false" onAction="#handleRefresh" prefHeight="34.0" prefWidth="166.0" style="-fx-background-color: #6C5A86; -fx-background-radius: 14;" text="Refresh Report" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font></Button>
+                        <Button fx:id="exportPdfButton" mnemonicParsing="false" onAction="#handleExportPdf" prefHeight="34.0" prefWidth="166.0" style="-fx-background-color: #6C5A86; -fx-background-radius: 14;" text="Export PDF" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font></Button>
+                        <Button fx:id="backButton" mnemonicParsing="false" onAction="#handleBack" prefHeight="34.0" prefWidth="166.0" style="-fx-background-color: #6C5A86; -fx-background-radius: 14;" text="Back" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font></Button>
+                    </children>
+                </HBox>
 
             </children>
         </AnchorPane>

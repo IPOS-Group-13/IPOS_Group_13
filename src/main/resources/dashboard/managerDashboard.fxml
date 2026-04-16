@@ -48,7 +48,7 @@
                </font>
             </Button>
 
-            <Button alignment="TOP_LEFT" layoutX="7.0" layoutY="309.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="102.0" style="-fx-background-color: #A89CB6; -fx-background-radius: 18;" text="Reports">
+      <Button alignment="TOP_LEFT" layoutX="7.0" layoutY="309.0" mnemonicParsing="false" onAction="#handleReportsClick" prefHeight="26.0" prefWidth="102.0" style="-fx-background-color: #A89CB6; -fx-background-radius: 18;" text="Reports">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>

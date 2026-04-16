@@ -14,16 +14,14 @@ import java.util.Properties;
 public class ReportEmailServiceImpl implements ReportEmailService {
 
     private final Properties mailProperties = new Properties();
-
-    public ReportEmailServiceImpl() {
-        loadMailProperties();
-    }
+    private boolean mailPropertiesLoaded;
 
     @Override
     public void sendReportEmail(String recipientEmail,
                                 String subject,
                                 String body,
                                 Path attachmentPath) throws Exception {
+        ensureMailPropertiesLoaded();
 
         if (recipientEmail == null || recipientEmail.isBlank()) {
             throw new IllegalArgumentException("Recipient email is required.");
@@ -61,6 +59,15 @@ public class ReportEmailServiceImpl implements ReportEmailService {
         message.setContent(multipart);
 
         Transport.send(message);
+    }
+
+    private void ensureMailPropertiesLoaded() {
+        if (mailPropertiesLoaded) {
+            return;
+        }
+
+        loadMailProperties();
+        mailPropertiesLoaded = true;
     }
 
     private void loadMailProperties() {

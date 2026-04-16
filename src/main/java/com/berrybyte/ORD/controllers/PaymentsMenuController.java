@@ -148,6 +148,16 @@ public class PaymentsMenuController {
     }
 
     @FXML
+    private void handleReportsClick(ActionEvent event) {
+        try {
+            RoleBasedNavigator.switchToReportsMenu(event);
+        } catch (Exception e) {
+            e.printStackTrace();
+            setMessage("Unable to open reports.");
+        }
+    }
+
+    @FXML
     private void handleSearch(ActionEvent event) {
         loadPayments(searchField == null ? "" : searchField.getText());
     }

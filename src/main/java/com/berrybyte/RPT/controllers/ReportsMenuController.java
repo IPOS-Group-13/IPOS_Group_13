@@ -1,14 +1,18 @@
 package com.berrybyte.RPT.controllers;
 
+import com.berrybyte.common.RoleBasedNavigator;
+import com.berrybyte.common.SceneSwitcher;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.TilePane;
 import javafx.stage.Stage;
 
 import java.time.LocalDate;
@@ -25,38 +29,117 @@ public class ReportsMenuController {
     private DatePicker afterDatePicker;
 
     @FXML
+    private AnchorPane profileMenuPane;
+
+    @FXML
+    private TilePane reportsTilePane;
+
+    @FXML
+    public void initialize() {
+        if (profileMenuPane != null) {
+            profileMenuPane.setVisible(false);
+            profileMenuPane.setManaged(false);
+        }
+
+        if (reportsTilePane != null) {
+            reportsTilePane.widthProperty().addListener((observable, oldValue, newValue) ->
+                    updateReportTileWidth(newValue.doubleValue()));
+            Platform.runLater(() -> updateReportTileWidth(reportsTilePane.getWidth()));
+        }
+    }
+
+    @FXML
     private void handleDashboardClick(ActionEvent event) {
-        openSimplePage(event, "/dashboard/managerDashboard.fxml", "Dashboard");
+        try {
+            RoleBasedNavigator.switchToDashboard(event);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML
     private void handleCatalougeClick(ActionEvent event) {
-        openSimplePage(event, "/catalogue/catalogue.fxml", "Catalogue");
+        try {
+            RoleBasedNavigator.switchToCatalogue(event);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML
     private void handleMerchantsClick(ActionEvent event) {
-        openSimplePage(event, "/dashboard/merchantMenu.fxml", "Merchants");
+        try {
+            RoleBasedNavigator.switchToMerchantMenu(event);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML
     private void handleOrderClick(ActionEvent event) {
-        openSimplePage(event, "/dashbord/orderMenu.fxml", "Orders");
+        try {
+            RoleBasedNavigator.switchToOrderMenu(event);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void handlePaymentsClick(ActionEvent event) {
+        try {
+            RoleBasedNavigator.switchToPaymentsMenu(event);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML
     private void handleStaffAccountsClick(ActionEvent event) {
-        openSimplePage(event, "/dashboard/staffAccounts.fxml", "Manage Accounts");
+        try {
+            RoleBasedNavigator.switchToManageAccounts(event);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML
     private void handlePendingClick(ActionEvent event) {
-        openSimplePage(event, "/account/pendingApplications.fxml", "Pending Applications");
+        try {
+            SceneSwitcher.switchScene(event, "/pendingapplications/pendingApplications.fxml", "Pending Applications");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void handleReportsClick(ActionEvent event) {
+        try {
+            RoleBasedNavigator.switchToReportsMenu(event);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML
     private void handleProfileClick(MouseEvent event) {
-        System.out.println("Profile clicked.");
+        boolean isVisible = profileMenuPane.isVisible();
+        profileMenuPane.setVisible(!isVisible);
+        profileMenuPane.setManaged(!isVisible);
+        if (!isVisible) {
+            profileMenuPane.toFront();
+        }
+    }
+
+    @FXML
+    private void handleLogoutMenuClick(ActionEvent event) {
+        profileMenuPane.setVisible(false);
+        profileMenuPane.setManaged(false);
+
+        try {
+            SceneSwitcher.switchScene(event, "/logout/logout.fxml", "Log Out");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML
@@ -71,10 +154,7 @@ public class ReportsMenuController {
                     safeDate(beforeDatePicker)
             );
 
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.setTitle("Stock Turnover Report");
-            stage.show();
+            openLoadedRoot(event, root, "Stock Turnover Report");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -93,10 +173,7 @@ public class ReportsMenuController {
                     safeDate(beforeDatePicker)
             );
 
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.setTitle("Merchant Activity Report");
-            stage.show();
+            openLoadedRoot(event, root, "Merchant Activity Report");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -104,7 +181,7 @@ public class ReportsMenuController {
 
     @FXML
     private void openLowStockReport(MouseEvent event) {
-        openSimpleMousePage(event, "/RPT/lowStockReport.fxml", "Low Stock Report");
+        openMousePage(event, "/RPT/lowStockReport.fxml", "Low Stock Report");
     }
 
     @FXML
@@ -119,10 +196,7 @@ public class ReportsMenuController {
                     safeDate(beforeDatePicker)
             );
 
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.setTitle("InfoPharma Turnover Report");
-            stage.show();
+            openLoadedRoot(event, root, "InfoPharma Turnover Report");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -141,10 +215,7 @@ public class ReportsMenuController {
                     safeDate(beforeDatePicker)
             );
 
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.setTitle("Merchant Order Report");
-            stage.show();
+            openLoadedRoot(event, root, "Merchant Order Report");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -153,7 +224,7 @@ public class ReportsMenuController {
     @FXML
     private void openInvoicesRaisedAgainstMerchant(MouseEvent event) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/RPT/invoiceListingReport.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/RPT/invoicesAgainstMerchant.fxml"));
             Parent root = loader.load();
 
             InvoicesAgainstMerchantController controller = loader.getController();
@@ -163,10 +234,7 @@ public class ReportsMenuController {
                     safeDate(beforeDatePicker)
             );
 
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.setTitle("Invoices Raised Against Merchant");
-            stage.show();
+            openLoadedRoot(event, root, "Invoices Raised Against Merchant");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -175,7 +243,7 @@ public class ReportsMenuController {
     @FXML
     private void openInvoicesRaisedByInfoPharma(MouseEvent event) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/RPT/invoiceListingReport.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/RPT/invoicesByInfoPharma.fxml"));
             Parent root = loader.load();
 
             InvoicesByInfoPharmaController  controller = loader.getController();
@@ -184,37 +252,24 @@ public class ReportsMenuController {
                     safeDate(beforeDatePicker)
             );
 
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.setTitle("Invoices Raised By InfoPharma");
-            stage.show();
+            openLoadedRoot(event, root, "Invoices Raised By InfoPharma");
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    private void openSimplePage(ActionEvent event, String fxmlPath, String title) {
+    private void openMousePage(MouseEvent event, String fxmlPath, String title) {
         try {
             Parent root = FXMLLoader.load(getClass().getResource(fxmlPath));
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.setTitle(title);
-            stage.show();
+            openLoadedRoot(event, root, title);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    private void openSimpleMousePage(MouseEvent event, String fxmlPath, String title) {
-        try {
-            Parent root = FXMLLoader.load(getClass().getResource(fxmlPath));
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.setTitle(title);
-            stage.show();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    private void openLoadedRoot(MouseEvent event, Parent root, String title) {
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        SceneSwitcher.setStageRoot(stage, root, title);
     }
 
     private String safeTrim(TextField field) {
@@ -223,5 +278,15 @@ public class ReportsMenuController {
 
     private LocalDate safeDate(DatePicker picker) {
         return picker == null ? null : picker.getValue();
+    }
+
+    private void updateReportTileWidth(double availableWidth) {
+        if (availableWidth <= 0 || reportsTilePane == null) {
+            return;
+        }
+
+        int columns = availableWidth >= 920 ? 3 : 2;
+        reportsTilePane.setPrefColumns(columns);
+        reportsTilePane.setPrefTileWidth(286.0);
     }
 }

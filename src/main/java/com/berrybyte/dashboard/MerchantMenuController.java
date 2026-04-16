@@ -197,6 +197,15 @@ public class MerchantMenuController {
     }
 
     @FXML
+    public void handleReportsClick(ActionEvent event) {
+        try {
+            RoleBasedNavigator.switchToReportsMenu(event);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
     protected void handleUpdateDiscountPlan(ActionEvent event) {
         if (!ensureMerchantSelected()) {
             return;

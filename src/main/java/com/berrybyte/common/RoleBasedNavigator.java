@@ -26,6 +26,7 @@ public final class RoleBasedNavigator {
     private static final String PAYMENTS_MENU_PATH = "/ORD/paymentsMenu.fxml";
     private static final String MANAGER_PAYMENTS_MENU_PATH = "/ORD/managerPaymentsMenu.fxml";
     private static final String STAFF_PAYMENTS_MENU_PATH = "/ORD/staffPaymentsMenu.fxml";
+    private static final String REPORTS_MENU_PATH = "/RPT/reportsMenu.fxml";
 
     private RoleBasedNavigator() {
     }
@@ -108,6 +109,14 @@ public final class RoleBasedNavigator {
         return "Payments";
     }
 
+    public static String getReportsMenuPath() {
+        return REPORTS_MENU_PATH;
+    }
+
+    public static String getReportsMenuTitle() {
+        return "Reports";
+    }
+
     public static void switchToDashboard(ActionEvent event) throws IOException {
         SceneSwitcher.switchScene(event, getDashboardPath(), getDashboardTitle());
     }
@@ -132,6 +141,10 @@ public final class RoleBasedNavigator {
         SceneSwitcher.switchScene(event, getPaymentsMenuPath(), getPaymentsMenuTitle());
     }
 
+    public static void switchToReportsMenu(ActionEvent event) throws IOException {
+        SceneSwitcher.switchScene(event, getReportsMenuPath(), getReportsMenuTitle());
+    }
+
     public static void openMerchantMenu(Node sourceNode) throws IOException {
         openScene(sourceNode, getMerchantMenuPath(), getMerchantMenuTitle());
     }
@@ -154,6 +167,10 @@ public final class RoleBasedNavigator {
 
     public static void openPaymentsMenu(Node sourceNode) throws IOException {
         openScene(sourceNode, getPaymentsMenuPath(), getPaymentsMenuTitle());
+    }
+
+    public static void openReportsMenu(Node sourceNode) throws IOException {
+        openScene(sourceNode, getReportsMenuPath(), getReportsMenuTitle());
     }
 
     private static void openScene(Node sourceNode, String fxmlPath, String title) throws IOException {
