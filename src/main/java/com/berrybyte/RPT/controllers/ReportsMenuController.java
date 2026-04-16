@@ -270,6 +270,24 @@ public class ReportsMenuController {
         }
     }
 
+    @FXML
+    private void openOverdueBalanceReport(MouseEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/RPT/overdueBalanceReport.fxml"));
+            Parent root = loader.load();
+
+            OverdueBalanceReportController controller = loader.getController();
+            controller.setFilters(
+                    selectedMerchantId(),
+                    selectedMerchantName()
+            );
+
+            openLoadedRoot(event, root, "Overdue Balance Report");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     private void openMousePage(MouseEvent event, String fxmlPath, String title) {
         try {
             Parent root = FXMLLoader.load(getClass().getResource(fxmlPath));

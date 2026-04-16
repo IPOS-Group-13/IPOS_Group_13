@@ -216,4 +216,31 @@ public class ReportServiceImpl implements ReportService {
             throw new IllegalArgumentException("Start date must not be after end date.");
         }
     }
+    @Override
+    public OverdueBalanceReport generateOverdueBalanceReport(Integer merchantId, String merchantName) {
+        if (merchantId != null) {
+            validateMerchantId(merchantId);
+        }
+
+        List<OverdueBalanceRow> rows = reportRepository.findOverdueBalanceReport(merchantId);
+
+        BigDecimal totalOverdueAmount = rows.stream()
+                .map(OverdueBalanceRow::getTotalOverdueAmount)
+                .filter(amount -> amount != null)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+
+        String title = merchantId == null
+                ? "Overdue Balance Report"
+                : "Overdue Balance Report - " + (merchantName == null || merchantName.isBlank() ? "Selected Merchant" : merchantName);
+
+        return new OverdueBalanceReport(
+                title,
+                merchantId,
+                merchantName,
+                LocalDateTime.now(),
+                rows,
+                rows.size(),
+                totalOverdueAmount
+        );
+    }
 }

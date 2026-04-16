@@ -403,4 +403,68 @@ public class ReportRepositoryImpl implements ReportRepository {
         return merchants;
     }
 
+    @Override
+    public List<OverdueBalanceRow> findOverdueBalanceReport(Integer merchantId) {
+        List<OverdueBalanceRow> rows = new ArrayList<>();
+
+        String sql = """
+        SELECT m.MerchantId,
+               m.CompanyName,
+               m.IPOSAccountNumber,
+               m.AccountStatus,
+               m.CreditLimit,
+               m.OutstandingBalance,
+               MIN(i.DueDate) AS OldestDueDate,
+               SUM(i.OutstandingBalance) AS TotalOverdueAmount,
+               COUNT(i.InvoiceId) AS OverdueInvoiceCount
+        FROM MerchantAccounts m
+        JOIN Invoices i ON m.MerchantId = i.MerchantId
+        WHERE i.OutstandingBalance > 0
+          AND i.DueDate < CURRENT_DATE
+          AND (? IS NULL OR m.MerchantId = ?)
+        GROUP BY m.MerchantId,
+                 m.CompanyName,
+                 m.IPOSAccountNumber,
+                 m.AccountStatus,
+                 m.CreditLimit,
+                 m.OutstandingBalance
+        ORDER BY TotalOverdueAmount DESC, OldestDueDate ASC
+    """;
+
+        DatabaseConnection databaseConnection = new DatabaseConnection();
+
+        try (Connection connection = databaseConnection.getConnection();
+             PreparedStatement stmt = connection.prepareStatement(sql)) {
+
+            if (merchantId == null) {
+                stmt.setNull(1, java.sql.Types.INTEGER);
+                stmt.setNull(2, java.sql.Types.INTEGER);
+            } else {
+                stmt.setInt(1, merchantId);
+                stmt.setInt(2, merchantId);
+            }
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    rows.add(new OverdueBalanceRow(
+                            rs.getInt("MerchantId"),
+                            rs.getString("CompanyName"),
+                            rs.getString("IPOSAccountNumber"),
+                            rs.getString("AccountStatus"),
+                            rs.getBigDecimal("CreditLimit"),
+                            rs.getBigDecimal("OutstandingBalance"),
+                            rs.getDate("OldestDueDate").toLocalDate(),
+                            rs.getBigDecimal("TotalOverdueAmount"),
+                            rs.getInt("OverdueInvoiceCount")
+                    ));
+                }
+            }
+
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to fetch overdue balance report", e);
+        }
+
+        return rows;
+    }
+
 }

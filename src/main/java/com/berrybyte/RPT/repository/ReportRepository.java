@@ -22,4 +22,6 @@ public interface ReportRepository {
     List<InfoPharmaTurnoverRow> findInfoPharmaTurnover(LocalDate startDate,
                                                        LocalDate endDate);
     List<MerchantOption> findMerchantOptions();
+
+    List<OverdueBalanceRow> findOverdueBalanceReport(Integer merchantId);
 }

@@ -20,4 +20,5 @@ public interface ReportService {
                                                           LocalDate endDate);
     InfoPharmaTurnoverReport generateInfoPharmaTurnoverReport(LocalDate startDate,
                                                               LocalDate endDate);
+    OverdueBalanceReport generateOverdueBalanceReport(Integer merchantId, String merchantName);
 }
