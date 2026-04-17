@@ -3,7 +3,7 @@ package com.berrybyte.ORD.services;
 import com.berrybyte.API.IOrderAPI;
 import com.berrybyte.ORD.helpers.*;
 import com.berrybyte.ORD.Status.AcceptOrderStatus;
-import com.berrybyte.account.MerchantStatusService;
+import com.berrybyte.ACC.services.MerchantStatusService;
 import com.berrybyte.common.DatabaseConnection;
 
 import java.nio.file.Path;
@@ -720,7 +720,7 @@ public class SaOrderService implements IOrderAPI {
                 SELECT o.OrderId,
                        ma.CompanyName AS MerchantName,
                        COALESCE(DATE_FORMAT(o.DispatchDateTime, '%d/%m/%Y %H:%i'), '') AS DispatchedDate,
-                       o.TotalAmount,
+                       COALESCE(i.TotalAmount, o.TotalAmount) AS TotalAmount,
                        o.Status AS DeliveredStatus,
                        COALESCE(i.PaymentStatus, 'N/A') AS PaidStatus,
                        COALESCE(o.CourierName, '') AS CourierName,
@@ -752,7 +752,7 @@ public class SaOrderService implements IOrderAPI {
                 SELECT o.OrderId,
                        ma.CompanyName AS MerchantName,
                        COALESCE(DATE_FORMAT(o.DispatchDateTime, '%d/%m/%Y %H:%i'), '') AS DispatchedDate,
-                       o.TotalAmount,
+                       COALESCE(i.TotalAmount, o.TotalAmount) AS TotalAmount,
                        o.Status AS DeliveredStatus,
                        COALESCE(i.PaymentStatus, 'N/A') AS PaidStatus,
                        COALESCE(o.CourierName, '') AS CourierName,
@@ -959,3 +959,4 @@ public class SaOrderService implements IOrderAPI {
 
     private record StockReduction(int itemId, int quantity) { }
 }
+

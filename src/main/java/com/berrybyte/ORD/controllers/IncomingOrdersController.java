@@ -68,9 +68,7 @@ public class IncomingOrdersController {
 
     @FXML
     private void viewDetailsButton(ActionEvent event) {
-        IncomingOrderRow selectedOrder = incomingOrdersTable == null
-                ? null
-                : incomingOrdersTable.getSelectionModel().getSelectedItem();
+        IncomingOrderRow selectedOrder = incomingOrdersTable == null ? null : incomingOrdersTable.getSelectionModel().getSelectedItem();
 
         if (selectedOrder == null) {
             messageLabel.setText("Select an order first.");

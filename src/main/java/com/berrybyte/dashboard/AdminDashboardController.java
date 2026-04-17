@@ -121,7 +121,7 @@ public class AdminDashboardController {
     @FXML
     private void handlePendingApplications(ActionEvent event) {
         try {
-            SceneSwitcher.switchScene(event, "/pendingapplications/pendingApplications.fxml", "Manage Catalogue Page");
+            SceneSwitcher.switchScene(event, "/account/pendingapplications/pendingApplications.fxml", "Manage Catalogue Page");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -157,3 +157,4 @@ public class AdminDashboardController {
         }
     }
 }
+

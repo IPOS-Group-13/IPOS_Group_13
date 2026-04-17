@@ -154,7 +154,7 @@ public class ManageCatalogueController {
     @FXML
     public void handlePendingApplications(ActionEvent event) {
         try {
-            SceneSwitcher.switchScene(event, "/pendingapplications/pendingApplications.fxml", "Pending Applications Page");
+            SceneSwitcher.switchScene(event, "/account/pendingapplications/pendingApplications.fxml", "Pending Applications Page");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -169,3 +169,4 @@ public class ManageCatalogueController {
         }
     }
 }
+

@@ -17,7 +17,7 @@
             style="-fx-background-color: #D2C3E3;"
             xmlns="http://javafx.com/javafx/25"
             xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="com.berrybyte.account.CreateMerchantAccountController">
+            fx:controller="com.berrybyte.ACC.controllers.CreateMerchantAccountController">
    <children>
       <ImageView fitHeight="62.0" fitWidth="88.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="38.0" AnchorPane.topAnchor="33.0">
          <image>
@@ -70,3 +70,4 @@
       </StackPane>
    </children>
 </AnchorPane>
+

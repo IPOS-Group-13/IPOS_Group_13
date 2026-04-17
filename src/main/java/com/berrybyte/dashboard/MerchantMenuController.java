@@ -1,10 +1,10 @@
 package com.berrybyte.dashboard;
 
-import com.berrybyte.account.ConfirmDeleteAccountController;
-import com.berrybyte.account.ConfirmDeleteDiscountPlanController;
-import com.berrybyte.account.DeleteAccountService;
-import com.berrybyte.account.DiscountPlanEditController;
-import com.berrybyte.account.MerchantStatusService;
+import com.berrybyte.ACC.controllers.ConfirmDeleteAccountController;
+import com.berrybyte.ACC.controllers.ConfirmDeleteDiscountPlanController;
+import com.berrybyte.ACC.services.DeleteAccountService;
+import com.berrybyte.ACC.controllers.DiscountPlanEditController;
+import com.berrybyte.ACC.services.MerchantStatusService;
 import com.berrybyte.common.DatabaseConnection;
 import com.berrybyte.common.LoginSession;
 import com.berrybyte.common.RoleBasedNavigator;
@@ -346,7 +346,7 @@ public class MerchantMenuController {
     @FXML
     public void handlePendingApplications(ActionEvent event) {
         try {
-            SceneSwitcher.switchScene(event, "/pendingapplications/pendingApplications.fxml", "Pending Applications Page");
+            SceneSwitcher.switchScene(event, "/account/pendingapplications/pendingApplications.fxml", "Pending Applications Page");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -549,3 +549,9 @@ public class MerchantMenuController {
         }
     }
 }
+
+
+
+
+
+

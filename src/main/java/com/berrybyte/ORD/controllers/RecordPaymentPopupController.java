@@ -97,14 +97,11 @@ public class RecordPaymentPopupController {
     }
 
     private int parseOrderId() {
-        String orderIdText = orderIdField == null || orderIdField.getText() == null
-                ? ""
-                : orderIdField.getText().trim();
+        String orderIdText = orderIdField == null || orderIdField.getText() == null ? "" : orderIdField.getText().trim();
 
         if (orderIdText.isEmpty()) {
             throw new IllegalArgumentException("Select an order first.");
         }
-
         try {
             return Integer.parseInt(orderIdText);
         } catch (NumberFormatException e) {
@@ -113,9 +110,7 @@ public class RecordPaymentPopupController {
     }
 
     private BigDecimal parseAmountPaid() {
-        String amountText = amountPaidField == null || amountPaidField.getText() == null
-                ? ""
-                : amountPaidField.getText().trim();
+        String amountText = amountPaidField == null || amountPaidField.getText() == null ? "" : amountPaidField.getText().trim();
 
         if (amountText.isEmpty()) {
             throw new IllegalArgumentException("Enter a payment amount.");

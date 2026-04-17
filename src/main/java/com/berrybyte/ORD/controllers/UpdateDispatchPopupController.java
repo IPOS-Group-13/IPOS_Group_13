@@ -51,10 +51,10 @@ public class UpdateDispatchPopupController {
 
     @FXML
     private void handleUpdate(ActionEvent event) {
-        String courierName = safeTrim(courierNameField);
-        String courierRef = safeTrim(courierRefField);
+        String courierName = trim(courierNameField);
+        String courierRef = trim(courierRefField);
 
-        if (courierName.isBlank() || courierRef.isBlank() || safeTrim(expectedTimeField).isBlank() || expectedDatePicker == null || expectedDatePicker.getValue() == null) {
+        if (courierName.isBlank() || courierRef.isBlank() || trim(expectedTimeField).isBlank() || expectedDatePicker == null || expectedDatePicker.getValue() == null) {
             messageLabel.setText("All fields are required.");
             return;
         }
@@ -117,7 +117,7 @@ public class UpdateDispatchPopupController {
 
     private LocalDateTime buildExpectedDeliveryDateTime() {
         LocalDate expectedDate = expectedDatePicker.getValue();
-        LocalTime expectedTime = parseTime(safeTrim(expectedTimeField));
+        LocalTime expectedTime = parseTime(trim(expectedTimeField));
 
         if (expectedDate == null || expectedTime == null) {
             return null;
@@ -126,7 +126,7 @@ public class UpdateDispatchPopupController {
         return LocalDateTime.of(expectedDate, expectedTime);
     }
 
-    private String safeTrim(TextField field) {
+    private String trim(TextField field) {
         return field == null || field.getText() == null ? "" : field.getText().trim();
     }
 

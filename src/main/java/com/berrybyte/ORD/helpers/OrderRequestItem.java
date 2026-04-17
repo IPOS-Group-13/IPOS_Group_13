@@ -13,7 +13,6 @@ public class OrderRequestItem {
     public int getItemId() {
         return itemId;
     }
-
     public int getQuantity() {
         return quantity;
     }

@@ -23,7 +23,6 @@ public class PaymentRequestService {
                 """;
 
         List<PaymentRequestRow> rows = new ArrayList<>();
-
         try (Connection conn = new DatabaseConnection().getConnection();
              PreparedStatement ps = conn.prepareStatement(sql);
              ResultSet rs = ps.executeQuery()) {
@@ -38,7 +37,6 @@ public class PaymentRequestService {
                 ));
             }
         }
-
         return rows;
     }
 }

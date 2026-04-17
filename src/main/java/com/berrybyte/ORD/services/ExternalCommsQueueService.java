@@ -41,7 +41,6 @@ public class ExternalCommsQueueService {
             ps.setString(6, referenceKey);
             ps.executeUpdate();
         }
-
         return recipientEmail;
     }
 
@@ -86,8 +85,7 @@ public class ExternalCommsQueueService {
                         invoiceDetails.getTotalAmount(),
                         invoiceDetails.getOutstandingBalance(),
                         safeValue(invoiceDetails.getPaymentStatus()),
-                        invoiceUrl
-                );
+                        invoiceUrl);
     }
 
     private String buildReferenceKey(InvoiceDetails invoiceDetails) {

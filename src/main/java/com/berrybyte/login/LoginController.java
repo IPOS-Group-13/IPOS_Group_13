@@ -1,6 +1,6 @@
 package com.berrybyte.login;
 
-import com.berrybyte.account.MerchantStatusService;
+import com.berrybyte.ACC.services.MerchantStatusService;
 import com.berrybyte.common.DatabaseConnection;
 import com.berrybyte.common.LoginSession;
 import com.berrybyte.common.RoleBasedNavigator;
@@ -97,3 +97,4 @@ public class LoginController {
         }
     }
 }
+

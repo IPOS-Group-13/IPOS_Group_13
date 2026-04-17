@@ -177,8 +177,7 @@ public class InvoiceStorageService {
             boolean pathStyleAccessEnabled = resolveBoolean(
                     "railway.bucket.path.style",
                     false,
-                    "RAILWAY_BUCKET_PATH_STYLE"
-            );
+                    "RAILWAY_BUCKET_PATH_STYLE");
 
             AwsBasicCredentials credentials = AwsBasicCredentials.create(accessKeyId, secretAccessKey);
 
@@ -201,13 +200,11 @@ public class InvoiceStorageService {
             if (!endpointUri.equals(railwayDefaultEndpoint)) {
                 addCandidate(candidates, seen, withEndpoint(railwayDefaultEndpoint));
             }
-
             addCandidate(candidates, seen, withPathStyle(!pathStyleAccessEnabled));
 
             if (!endpointUri.equals(railwayDefaultEndpoint)) {
                 addCandidate(candidates, seen, withEndpoint(railwayDefaultEndpoint).withPathStyle(!pathStyleAccessEnabled));
             }
-
             return candidates;
         }
 
@@ -238,7 +235,6 @@ public class InvoiceStorageService {
                     return environmentValue.trim();
                 }
             }
-
             throw new IllegalStateException(
                     "Missing bucket configuration for %s. Set one of: %s"
                             .formatted(displayName, String.join(", ", environmentNames)));
@@ -256,7 +252,6 @@ public class InvoiceStorageService {
                     return Boolean.parseBoolean(environmentValue.trim());
                 }
             }
-
             return defaultValue;
         }
     }

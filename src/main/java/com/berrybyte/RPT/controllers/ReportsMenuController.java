@@ -114,7 +114,7 @@ public class ReportsMenuController {
     @FXML
     private void handlePendingClick(ActionEvent event) {
         try {
-            SceneSwitcher.switchScene(event, "/pendingapplications/pendingApplications.fxml", "Pending Applications");
+            SceneSwitcher.switchScene(event, "/account/pendingapplications/pendingApplications.fxml", "Pending Applications");
         } catch (Exception e) {
             e.printStackTrace();
         }
