@@ -19,13 +19,13 @@
             </font>
         </Label>
 
-        <ImageView fx:id="profileImage" fitHeight="52.0" fitWidth="82.0" onMouseClicked="#handleProfileClick" pickOnBounds="true" preserveRatio="true" AnchorPane.rightAnchor="42.0" AnchorPane.topAnchor="36.0">
+        <ImageView fx:id="profileImage" fitHeight="52.0" fitWidth="82.0" onMouseClicked="#handleProfileClick" pickOnBounds="true" preserveRatio="true" AnchorPane.rightAnchor="18.0" AnchorPane.topAnchor="36.0">
             <image>
                 <Image url="@../login/images/account_circle-Photoroom.png" />
             </image>
         </ImageView>
 
-        <AnchorPane fx:id="profileMenuPane" prefHeight="43.0" prefWidth="200.0" style="-fx-background-color: white; -fx-background-radius: 10;" AnchorPane.rightAnchor="98.0" AnchorPane.topAnchor="79.0">
+        <AnchorPane fx:id="profileMenuPane" prefHeight="43.0" prefWidth="200.0" style="-fx-background-color: white; -fx-background-radius: 10;" AnchorPane.rightAnchor="74.0" AnchorPane.topAnchor="79.0">
             <children>
                 <Button layoutX="14.0" layoutY="9.0" mnemonicParsing="false" onAction="#handleLogoutMenuClick" style="-fx-background-color: white;" text="Logout">
                     <font>
@@ -61,7 +61,7 @@
                     </font>
                 </Label>
 
-                <TableView fx:id="stockTurnoverTable" style="-fx-background-radius: 16; -fx-border-radius: 16;" AnchorPane.bottomAnchor="74.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="84.0">
+                <TableView fx:id="stockTurnoverTable" style="-fx-background-radius: 16; -fx-border-radius: 16;" AnchorPane.bottomAnchor="88.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="100.0">
                     <columns>
                         <TableColumn fx:id="itemIdColumn" prefWidth="90.0" text="Item ID" />
                         <TableColumn fx:id="descriptionColumn" prefWidth="398.0" text="Description" />

@@ -106,12 +106,7 @@
          <children>
             <AnchorPane prefHeight="54.0" prefWidth="250.0">
                <children>
-                  <ComboBox fx:id="merchantComboBox" layoutX="12.0" layoutY="5.0" prefHeight="30.0" prefWidth="248.0" promptText="Select merchant" style="-fx-font-size: 12px; -fx-background-color: white; -fx-background-radius: 14;" />
-                  <ImageView fitHeight="22.0" fitWidth="22.0" layoutX="218.0" layoutY="25.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../login/images/Search.png" />
-                     </image>
-                  </ImageView>
+                  <ComboBox fx:id="merchantComboBox" layoutX="12.0" layoutY="22.0" prefHeight="30.0" prefWidth="248.0" promptText="Select merchant" style="-fx-font-size: 12px; -fx-background-color: white; -fx-background-radius: 14;" />
                </children>
             </AnchorPane>
 
@@ -154,7 +149,7 @@
                <content>
                   <TilePane fx:id="reportsTilePane" alignment="TOP_CENTER" hgap="20.0" prefColumns="2" prefTileHeight="108.0" prefTileWidth="286.0" style="-fx-padding: 8 8 12 8;" vgap="18.0">
 
-                     <AnchorPane maxWidth="1.7976931348623157E308" minWidth="260.0" onMouseClicked="#openStockTurnoverReport" prefHeight="108.0" prefWidth="286.0" style="-fx-background-color: #F5F2F8; -fx-background-radius: 8; -fx-cursor: hand;">
+                     <AnchorPane maxWidth="1.7976931348623157E308" minWidth="260.0" onMouseClicked="#openStockTurnoverReport" prefHeight="108.0" prefWidth="286.0" style="-fx-background-color: rgba(255,255,255,0.45); -fx-background-radius: 18; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.10), 12, 0.14, 0, 3); -fx-cursor: hand;">
                         <children>
                            <ImageView fitHeight="24.0" fitWidth="24.0" layoutX="14.0" layoutY="16.0" pickOnBounds="true" preserveRatio="true">
                               <image>
@@ -178,7 +173,7 @@
                         </children>
                      </AnchorPane>
 
-                     <AnchorPane maxWidth="1.7976931348623157E308" minWidth="260.0" onMouseClicked="#openMerchantActivityReport" prefHeight="108.0" prefWidth="286.0" style="-fx-background-color: #F5F2F8; -fx-background-radius: 8; -fx-cursor: hand;">
+                     <AnchorPane maxWidth="1.7976931348623157E308" minWidth="260.0" onMouseClicked="#openMerchantActivityReport" prefHeight="108.0" prefWidth="286.0" style="-fx-background-color: rgba(255,255,255,0.45); -fx-background-radius: 18; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.10), 12, 0.14, 0, 3); -fx-cursor: hand;">
                         <children>
                            <ImageView fitHeight="24.0" fitWidth="24.0" layoutX="14.0" layoutY="16.0" pickOnBounds="true" preserveRatio="true">
                               <image>
@@ -202,7 +197,7 @@
                         </children>
                      </AnchorPane>
 
-                     <AnchorPane maxWidth="1.7976931348623157E308" minWidth="260.0" onMouseClicked="#openLowStockReport" prefHeight="108.0" prefWidth="286.0" style="-fx-background-color: #F5F2F8; -fx-background-radius: 8; -fx-cursor: hand;">
+                     <AnchorPane maxWidth="1.7976931348623157E308" minWidth="260.0" onMouseClicked="#openLowStockReport" prefHeight="108.0" prefWidth="286.0" style="-fx-background-color: rgba(255,255,255,0.45); -fx-background-radius: 18; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.10), 12, 0.14, 0, 3); -fx-cursor: hand;">
                         <children>
                            <ImageView fitHeight="24.0" fitWidth="24.0" layoutX="14.0" layoutY="16.0" pickOnBounds="true" preserveRatio="true">
                               <image>
@@ -226,7 +221,7 @@
                         </children>
                      </AnchorPane>
 
-                     <AnchorPane maxWidth="1.7976931348623157E308" minWidth="260.0" onMouseClicked="#openInfoPharmaTurnoverReport" prefHeight="108.0" prefWidth="286.0" style="-fx-background-color: #F5F2F8; -fx-background-radius: 8; -fx-cursor: hand;">
+                     <AnchorPane maxWidth="1.7976931348623157E308" minWidth="260.0" onMouseClicked="#openInfoPharmaTurnoverReport" prefHeight="108.0" prefWidth="286.0" style="-fx-background-color: rgba(255,255,255,0.45); -fx-background-radius: 18; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.10), 12, 0.14, 0, 3); -fx-cursor: hand;">
                         <children>
                            <ImageView fitHeight="24.0" fitWidth="24.0" layoutX="14.0" layoutY="16.0" pickOnBounds="true" preserveRatio="true">
                               <image>
@@ -250,7 +245,7 @@
                         </children>
                      </AnchorPane>
 
-                     <AnchorPane maxWidth="1.7976931348623157E308" minWidth="260.0" onMouseClicked="#openMerchantOrderReport" prefHeight="108.0" prefWidth="286.0" style="-fx-background-color: #F5F2F8; -fx-background-radius: 8; -fx-cursor: hand;">
+                     <AnchorPane maxWidth="1.7976931348623157E308" minWidth="260.0" onMouseClicked="#openMerchantOrderReport" prefHeight="108.0" prefWidth="286.0" style="-fx-background-color: rgba(255,255,255,0.45); -fx-background-radius: 18; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.10), 12, 0.14, 0, 3); -fx-cursor: hand;">
                         <children>
                            <ImageView fitHeight="24.0" fitWidth="24.0" layoutX="14.0" layoutY="16.0" pickOnBounds="true" preserveRatio="true">
                               <image>
@@ -274,7 +269,7 @@
                         </children>
                      </AnchorPane>
 
-                     <AnchorPane maxWidth="1.7976931348623157E308" minWidth="260.0" onMouseClicked="#openInvoicesRaisedAgainstMerchant" prefHeight="108.0" prefWidth="286.0" style="-fx-background-color: #F5F2F8; -fx-background-radius: 8; -fx-cursor: hand;">
+                     <AnchorPane maxWidth="1.7976931348623157E308" minWidth="260.0" onMouseClicked="#openInvoicesRaisedAgainstMerchant" prefHeight="108.0" prefWidth="286.0" style="-fx-background-color: rgba(255,255,255,0.45); -fx-background-radius: 18; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.10), 12, 0.14, 0, 3); -fx-cursor: hand;">
                         <children>
                            <ImageView fitHeight="24.0" fitWidth="24.0" layoutX="14.0" layoutY="16.0" pickOnBounds="true" preserveRatio="true">
                               <image>
@@ -298,7 +293,7 @@
                         </children>
                      </AnchorPane>
 
-                     <AnchorPane maxWidth="1.7976931348623157E308" minWidth="260.0" onMouseClicked="#openInvoicesRaisedByInfoPharma" prefHeight="108.0" prefWidth="286.0" style="-fx-background-color: #F5F2F8; -fx-background-radius: 8; -fx-cursor: hand;">
+                     <AnchorPane maxWidth="1.7976931348623157E308" minWidth="260.0" onMouseClicked="#openInvoicesRaisedByInfoPharma" prefHeight="108.0" prefWidth="286.0" style="-fx-background-color: rgba(255,255,255,0.45); -fx-background-radius: 18; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.10), 12, 0.14, 0, 3); -fx-cursor: hand;">
                         <children>
                            <ImageView fitHeight="24.0" fitWidth="24.0" layoutX="14.0" layoutY="16.0" pickOnBounds="true" preserveRatio="true">
                               <image>
@@ -322,26 +317,21 @@
                         </children>
                      </AnchorPane>
 
-                     <AnchorPane onMouseClicked="#openOverdueBalanceReport"
-                                 prefHeight="108.0" prefWidth="286.0"
-                                 style="-fx-background-color: rgba(255,255,255,0.45); -fx-background-radius: 18; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.10), 12, 0.14, 0, 3);">
+                     <AnchorPane maxWidth="1.7976931348623157E308" minWidth="260.0" onMouseClicked="#openOverdueBalanceReport" prefHeight="108.0" prefWidth="286.0" style="-fx-background-color: rgba(255,255,255,0.45); -fx-background-radius: 18; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.10), 12, 0.14, 0, 3); -fx-cursor: hand;">
                         <children>
-                           <ImageView fitHeight="24.0" fitWidth="24.0"
-                                      layoutX="14.0" layoutY="16.0"
-                                      pickOnBounds="true" preserveRatio="true">
+                           <ImageView fitHeight="24.0" fitWidth="24.0" layoutX="14.0" layoutY="16.0" pickOnBounds="true" preserveRatio="true">
                               <image>
                                  <Image url="@../login/images/Info-removebg-preview.png" />
                               </image>
                            </ImageView>
-                           <VBox layoutX="46.0" layoutY="14.0" prefWidth="224.0" spacing="6.0">
+                           <VBox spacing="6.0" AnchorPane.leftAnchor="46.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0">
                               <children>
-                                 <Label text="OverdueBalanceReport" textFill="#2D2334">
+                                 <Label text="Overdue Balance Report" textFill="#2D2334">
                                     <font>
                                        <Font name="Segoe UI Bold" size="14.0" />
                                     </font>
                                  </Label>
-                                 <Label text="Generate a report of all overdue accounts or the selected merchant only."
-                                        textFill="#6F6877" wrapText="true">
+                                 <Label text="Generate a report of all overdue accounts or the selected merchant only." textFill="#6F6877" wrapText="true">
                                     <font>
                                        <Font name="Segoe UI" size="12.0" />
                                     </font>

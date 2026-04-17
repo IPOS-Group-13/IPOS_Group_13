@@ -9,12 +9,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="600.0"
-            prefWidth="900.0"
-            style="-fx-background-color: #D2C3E3;"
-            xmlns="http://javafx.com/javafx/25"
-            xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="com.berrybyte.account.FlexibleDiscountController">
+<AnchorPane prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: #D2C3E3;" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.berrybyte.account.FlexibleDiscountController">
    <children>
       <ImageView fitHeight="62.0" fitWidth="88.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="38.0" AnchorPane.topAnchor="33.0">
          <image>
@@ -32,68 +27,68 @@
          <children>
             <AnchorPane maxHeight="560.0" maxWidth="460.0" minHeight="520.0" minWidth="400.0" prefHeight="548.0" prefWidth="430.0" style="-fx-background-color: #E8DEF8; -fx-background-radius: 20;">
                <children>
-                  <Label alignment="CENTER" prefWidth="430.0" layoutY="22.0" text="Flexible Discount:" textFill="#49454f">
+                  <Label alignment="CENTER" layoutX="15.0" layoutY="28.0" prefWidth="430.0" text="Flexible Discount:" textFill="#49454f">
                      <font>
                         <Font name="Segoe UI Bold" size="24.0" />
                      </font>
                   </Label>
                   <Label fx:id="messageLabel" alignment="CENTER" layoutX="35.0" layoutY="58.0" prefHeight="20.0" prefWidth="360.0" textFill="#8f0808" />
 
-                  <AnchorPane layoutX="35.0" layoutY="88.0" prefHeight="110.0" prefWidth="360.0" style="-fx-background-color: #B3A2C7; -fx-background-radius: 18;">
+                  <AnchorPane layoutX="50.0" layoutY="86.0" prefHeight="110.0" prefWidth="360.0" style="-fx-background-color: #B3A2C7; -fx-background-radius: 18;">
                      <children>
-                        <Label alignment="CENTER" prefWidth="360.0" layoutY="12.0" text="Tier 1:" textFill="#49454f">
+                        <Label alignment="CENTER" layoutY="12.0" prefWidth="360.0" text="Tier 1:" textFill="#49454f">
                            <font>
                               <Font name="System Bold" size="14.0" />
                            </font>
                         </Label>
-                        <TextField fx:id="tier1MinField" layoutX="32.0" layoutY="44.0" prefHeight="26.0" prefWidth="118.0" promptText="Min Order Value" style="-fx-background-radius: 20;" />
-                        <Label layoutX="174.0" layoutY="42.0" text="-">
+                        <TextField fx:id="tier1MinField" layoutX="35.0" layoutY="41.0" prefHeight="26.0" prefWidth="118.0" promptText="Min Order Value" style="-fx-background-radius: 20;" />
+                        <Label layoutX="174.0" layoutY="39.0" text="-">
                            <font>
                               <Font name="System Bold" size="20.0" />
                            </font>
                         </Label>
-                        <TextField fx:id="tier1MaxField" layoutX="210.0" layoutY="44.0" prefHeight="26.0" prefWidth="118.0" promptText="Max Order Value" style="-fx-background-radius: 20;" />
-                        <TextField fx:id="tier1PercentField" layoutX="32.0" layoutY="78.0" prefHeight="26.0" prefWidth="296.0" promptText="Discount Percentage" style="-fx-background-radius: 20;" />
+                        <TextField fx:id="tier1MaxField" layoutX="207.0" layoutY="41.0" prefHeight="26.0" prefWidth="118.0" promptText="Max Order Value" style="-fx-background-radius: 20;" />
+                        <TextField fx:id="tier1PercentField" layoutX="32.0" layoutY="75.0" prefHeight="26.0" prefWidth="296.0" promptText="Discount Percentage" style="-fx-background-radius: 20;" />
                      </children>
                   </AnchorPane>
 
-                  <AnchorPane layoutX="35.0" layoutY="224.0" prefHeight="110.0" prefWidth="360.0" style="-fx-background-color: #B3A2C7; -fx-background-radius: 18;">
+                  <AnchorPane layoutX="50.0" layoutY="225.0" prefHeight="110.0" prefWidth="360.0" style="-fx-background-color: #B3A2C7; -fx-background-radius: 18;">
                      <children>
-                        <Label alignment="CENTER" prefWidth="360.0" layoutY="12.0" text="Tier 2:" textFill="#49454f">
+                        <Label alignment="CENTER" layoutY="12.0" prefWidth="360.0" text="Tier 2:" textFill="#49454f">
                            <font>
                               <Font name="System Bold" size="14.0" />
                            </font>
                         </Label>
-                        <TextField fx:id="tier2MinField" layoutX="32.0" layoutY="44.0" prefHeight="26.0" prefWidth="118.0" promptText="Min Order Value" style="-fx-background-radius: 20;" />
-                        <Label layoutX="174.0" layoutY="42.0" text="-">
+                        <TextField fx:id="tier2MinField" layoutX="35.0" layoutY="41.0" prefHeight="26.0" prefWidth="118.0" promptText="Min Order Value" style="-fx-background-radius: 20;" />
+                        <Label layoutX="174.0" layoutY="39.0" text="-">
                            <font>
                               <Font name="System Bold" size="20.0" />
                            </font>
                         </Label>
-                        <TextField fx:id="tier2MaxField" layoutX="210.0" layoutY="44.0" prefHeight="26.0" prefWidth="118.0" promptText="Max Order Value" style="-fx-background-radius: 20;" />
-                        <TextField fx:id="tier2PercentField" layoutX="32.0" layoutY="78.0" prefHeight="26.0" prefWidth="296.0" promptText="Discount Percentage" style="-fx-background-radius: 20;" />
+                        <TextField fx:id="tier2MaxField" layoutX="207.0" layoutY="41.0" prefHeight="26.0" prefWidth="118.0" promptText="Max Order Value" style="-fx-background-radius: 20;" />
+                        <TextField fx:id="tier2PercentField" layoutX="32.0" layoutY="76.0" prefHeight="26.0" prefWidth="296.0" promptText="Discount Percentage" style="-fx-background-radius: 20;" />
                      </children>
                   </AnchorPane>
 
-                  <AnchorPane layoutX="35.0" layoutY="360.0" prefHeight="110.0" prefWidth="360.0" style="-fx-background-color: #B3A2C7; -fx-background-radius: 18;">
+                  <AnchorPane layoutX="50.0" layoutY="361.0" prefHeight="110.0" prefWidth="360.0" style="-fx-background-color: #B3A2C7; -fx-background-radius: 18;">
                      <children>
-                        <Label alignment="CENTER" prefWidth="360.0" layoutY="12.0" text="Tier 3:" textFill="#49454f">
+                        <Label alignment="CENTER" layoutY="12.0" prefWidth="360.0" text="Tier 3:" textFill="#49454f">
                            <font>
                               <Font name="System Bold" size="14.0" />
                            </font>
                         </Label>
-                        <TextField fx:id="tier3MinField" layoutX="32.0" layoutY="44.0" prefHeight="26.0" prefWidth="118.0" promptText="Min Order Value" style="-fx-background-radius: 20;" />
-                        <Label layoutX="174.0" layoutY="42.0" text="-">
+                        <TextField fx:id="tier3MinField" layoutX="35.0" layoutY="41.0" prefHeight="26.0" prefWidth="118.0" promptText="Min Order Value" style="-fx-background-radius: 20;" />
+                        <Label layoutX="174.0" layoutY="39.0" text="-">
                            <font>
                               <Font name="System Bold" size="20.0" />
                            </font>
                         </Label>
-                        <TextField fx:id="tier3MaxField" layoutX="210.0" layoutY="44.0" prefHeight="26.0" prefWidth="118.0" promptText="Max Order Value" style="-fx-background-radius: 20;" />
-                        <TextField fx:id="tier3PercentField" layoutX="32.0" layoutY="78.0" prefHeight="26.0" prefWidth="296.0" promptText="Discount Percentage" style="-fx-background-radius: 20;" />
+                        <TextField fx:id="tier3MaxField" layoutX="207.0" layoutY="41.0" prefHeight="26.0" prefWidth="118.0" promptText="Max Order Value" style="-fx-background-radius: 20;" />
+                        <TextField fx:id="tier3PercentField" layoutX="32.0" layoutY="76.0" prefHeight="26.0" prefWidth="296.0" promptText="Discount Percentage" style="-fx-background-radius: 20;" />
                      </children>
                   </AnchorPane>
 
-                  <Button fx:id="createButton" layoutX="165.0" layoutY="498.0" mnemonicParsing="false" onAction="#handleCreateAccount" prefHeight="32.0" prefWidth="100.0" style="-fx-background-color: #6C5A86; -fx-background-radius: 18;" text="Create" textFill="WHITE" textOverrun="LEADING_ELLIPSIS">
+                  <Button fx:id="createButton" layoutX="180.0" layoutY="498.0" mnemonicParsing="false" onAction="#handleCreateAccount" prefHeight="32.0" prefWidth="100.0" style="-fx-background-color: #6C5A86; -fx-background-radius: 18;" text="Create" textFill="WHITE" textOverrun="LEADING_ELLIPSIS">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>

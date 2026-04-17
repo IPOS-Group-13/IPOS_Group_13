@@ -6,22 +6,20 @@ import com.berrybyte.RPT.model.OverdueBalanceRow;
 import com.berrybyte.RPT.repository.ReportRepositoryImpl;
 import com.berrybyte.RPT.services.ReportService;
 import com.berrybyte.RPT.services.ReportServiceImpl;
+import com.berrybyte.common.SceneSwitcher;
 import javafx.collections.FXCollections;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.stage.Stage;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-public class OverdueBalanceReportController {
+public class OverdueBalanceReportController extends ReportProfileMenuController {
 
     private final ReportService reportService = new ReportServiceImpl(new ReportRepositoryImpl());
     private final OverdueBalancePdfService overdueBalancePdfService = new OverdueBalancePdfService();
@@ -71,6 +69,7 @@ public class OverdueBalanceReportController {
 
     @FXML
     public void initialize() {
+        initializeProfileMenu();
         merchantIdColumn.setCellValueFactory(new PropertyValueFactory<>("merchantId"));
         companyNameColumn.setCellValueFactory(new PropertyValueFactory<>("companyName"));
         accountNumberColumn.setCellValueFactory(new PropertyValueFactory<>("iposAccountNumber"));
@@ -78,6 +77,7 @@ public class OverdueBalanceReportController {
         oldestDueDateColumn.setCellValueFactory(new PropertyValueFactory<>("oldestDueDate"));
         overdueAmountColumn.setCellValueFactory(new PropertyValueFactory<>("totalOverdueAmount"));
         overdueInvoiceCountColumn.setCellValueFactory(new PropertyValueFactory<>("overdueInvoiceCount"));
+        bindColumnWidths();
 
         updateFilterSummary();
     }
@@ -118,13 +118,9 @@ public class OverdueBalanceReportController {
     }
 
     @FXML
-    private void handleBack() {
+    private void handleBack(ActionEvent event) {
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("/RPT/reportsMenu.fxml"));
-            Stage stage = (Stage) backButton.getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.setTitle("Reports");
-            stage.show();
+            SceneSwitcher.switchScene(event, "/RPT/reportsMenu.fxml", "Reports");
         } catch (Exception e) {
             e.printStackTrace();
             messageLabel.setText("Unable to go back.");
@@ -146,5 +142,15 @@ public class OverdueBalanceReportController {
     private void updateFilterSummary() {
         String merchantText = (merchantName == null || merchantName.isBlank()) ? "All overdue accounts" : merchantName;
         filterSummaryLabel.setText("Scope: " + merchantText);
+    }
+
+    private void bindColumnWidths() {
+        merchantIdColumn.prefWidthProperty().bind(overdueTable.widthProperty().multiply(0.11));
+        companyNameColumn.prefWidthProperty().bind(overdueTable.widthProperty().multiply(0.26));
+        accountNumberColumn.prefWidthProperty().bind(overdueTable.widthProperty().multiply(0.17));
+        accountStatusColumn.prefWidthProperty().bind(overdueTable.widthProperty().multiply(0.12));
+        oldestDueDateColumn.prefWidthProperty().bind(overdueTable.widthProperty().multiply(0.12));
+        overdueAmountColumn.prefWidthProperty().bind(overdueTable.widthProperty().multiply(0.14));
+        overdueInvoiceCountColumn.prefWidthProperty().bind(overdueTable.widthProperty().multiply(0.08));
     }
 }

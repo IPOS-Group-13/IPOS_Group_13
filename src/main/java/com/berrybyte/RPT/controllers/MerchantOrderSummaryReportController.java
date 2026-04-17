@@ -22,7 +22,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import java.nio.file.Path;
 import java.time.LocalDate;
 
-public class MerchantOrderSummaryReportController {
+public class MerchantOrderSummaryReportController extends ReportProfileMenuController {
 
     private static final String DEMO_RECIPIENT_EMAIL = "ipos_commercial@yahoo.com";
 
@@ -80,6 +80,7 @@ public class MerchantOrderSummaryReportController {
 
     @FXML
     public void initialize() {
+        initializeProfileMenu();
         orderIdColumn.setCellValueFactory(new PropertyValueFactory<>("orderId"));
         orderDateColumn.setCellValueFactory(new PropertyValueFactory<>("orderDate"));
         totalAmountColumn.setCellValueFactory(new PropertyValueFactory<>("totalAmount"));
@@ -99,6 +100,7 @@ public class MerchantOrderSummaryReportController {
                     : cellData.getValue().getDeliveredDateTime().toString();
             return new SimpleStringProperty(value);
         });
+        bindColumnWidths();
 
         updateFilterSummary();
     }
@@ -197,5 +199,15 @@ public class MerchantOrderSummaryReportController {
         String beforeText = beforeDate == null ? "Any" : beforeDate.toString();
 
         filterSummaryLabel.setText("Merchant: " + merchantText + " | After: " + afterText + " | Before: " + beforeText);
+    }
+
+    private void bindColumnWidths() {
+        orderIdColumn.prefWidthProperty().bind(merchantOrderTable.widthProperty().multiply(0.10));
+        orderDateColumn.prefWidthProperty().bind(merchantOrderTable.widthProperty().multiply(0.1875));
+        totalAmountColumn.prefWidthProperty().bind(merchantOrderTable.widthProperty().multiply(0.18375));
+        dispatchColumn.prefWidthProperty().bind(merchantOrderTable.widthProperty().multiply(0.13375));
+        deliveredColumn.prefWidthProperty().bind(merchantOrderTable.widthProperty().multiply(0.1375));
+        statusColumn.prefWidthProperty().bind(merchantOrderTable.widthProperty().multiply(0.1175));
+        paymentStatusColumn.prefWidthProperty().bind(merchantOrderTable.widthProperty().multiply(0.14));
     }
 }

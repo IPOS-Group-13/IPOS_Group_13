@@ -174,8 +174,7 @@ public class MerchantStatusService {
                     return new MerchantStatusAssessment(
                             normalizeCurrency(rs.getBigDecimal("OutstandingDebt")),
                             rs.getInt("HasDefaultDebt") == 1,
-                            rs.getInt("HasSuspensionDebt") == 1
-                    );
+                            rs.getInt("HasSuspensionDebt") == 1);
                 }
             }
         }

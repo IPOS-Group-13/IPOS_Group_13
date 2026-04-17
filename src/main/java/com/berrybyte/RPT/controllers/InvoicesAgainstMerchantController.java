@@ -21,7 +21,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import java.nio.file.Path;
 import java.time.LocalDate;
 
-public class InvoicesAgainstMerchantController {
+public class InvoicesAgainstMerchantController extends ReportProfileMenuController {
 
     private static final String DEMO_RECIPIENT_EMAIL = "ipos_commercial@yahoo.com";
 
@@ -79,6 +79,7 @@ public class InvoicesAgainstMerchantController {
 
     @FXML
     public void initialize() {
+        initializeProfileMenu();
         invoiceIdColumn.setCellValueFactory(new PropertyValueFactory<>("invoiceId"));
         orderIdColumn.setCellValueFactory(new PropertyValueFactory<>("orderId"));
         merchantIdColumn.setCellValueFactory(new PropertyValueFactory<>("merchantId"));
@@ -86,6 +87,7 @@ public class InvoicesAgainstMerchantController {
         dueDateColumn.setCellValueFactory(new PropertyValueFactory<>("dueDate"));
         totalAmountColumn.setCellValueFactory(new PropertyValueFactory<>("totalAmount"));
         outstandingColumn.setCellValueFactory(new PropertyValueFactory<>("outstandingBalance"));
+        bindColumnWidths();
 
         updateFilterSummary();
     }
@@ -184,5 +186,15 @@ public class InvoicesAgainstMerchantController {
         String beforeText = beforeDate == null ? "Any" : beforeDate.toString();
 
         filterSummaryLabel.setText("Merchant: " + merchantText + " | After: " + afterText + " | Before: " + beforeText);
+    }
+
+    private void bindColumnWidths() {
+        invoiceIdColumn.prefWidthProperty().bind(invoiceTable.widthProperty().multiply(0.10625));
+        orderIdColumn.prefWidthProperty().bind(invoiceTable.widthProperty().multiply(0.09375));
+        merchantIdColumn.prefWidthProperty().bind(invoiceTable.widthProperty().multiply(0.23125));
+        invoiceDateColumn.prefWidthProperty().bind(invoiceTable.widthProperty().multiply(0.11875));
+        dueDateColumn.prefWidthProperty().bind(invoiceTable.widthProperty().multiply(0.13375));
+        totalAmountColumn.prefWidthProperty().bind(invoiceTable.widthProperty().multiply(0.1425));
+        outstandingColumn.prefWidthProperty().bind(invoiceTable.widthProperty().multiply(0.17375));
     }
 }

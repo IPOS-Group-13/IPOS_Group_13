@@ -1,5 +1,6 @@
 package com.berrybyte.RPT.repository;
 
+import com.berrybyte.RPT.ReportIntegrationTestSupport;
 import com.berrybyte.RPT.model.*;
 import org.junit.jupiter.api.Test;
 
@@ -27,11 +28,12 @@ class ReportRepositoryImplTest {
     @Test
     void findMerchantOrderSummary_returnsListSuccessfully() {
         ReportRepository repository = new ReportRepositoryImpl();
+        MerchantOption merchant = ReportIntegrationTestSupport.requireActiveMerchant(repository);
 
         List<MerchantOrderSummaryRow> rows = repository.findMerchantOrderSummary(
-                1,
-                LocalDate.of(2025, 1, 1),
-                LocalDate.of(2025, 12, 31)
+                merchant.getMerchantId(),
+                ReportIntegrationTestSupport.startDate(),
+                ReportIntegrationTestSupport.endDate()
         );
 
         assertNotNull(rows);
@@ -49,8 +51,8 @@ class ReportRepositoryImplTest {
 
         List<InvoiceListingRow> rows = repository.findInvoiceListing(
                 null,
-                LocalDate.of(2025, 1, 1),
-                LocalDate.of(2025, 12, 31)
+                ReportIntegrationTestSupport.startDate(),
+                ReportIntegrationTestSupport.endDate()
         );
 
         assertNotNull(rows);
@@ -67,8 +69,8 @@ class ReportRepositoryImplTest {
         ReportRepository repository = new ReportRepositoryImpl();
 
         List<StockTurnoverRow> rows = repository.findStockTurnover(
-                LocalDate.of(2025, 1, 1),
-                LocalDate.of(2025, 12, 31)
+                ReportIntegrationTestSupport.startDate(),
+                ReportIntegrationTestSupport.endDate()
         );
 
         assertNotNull(rows);
@@ -84,11 +86,12 @@ class ReportRepositoryImplTest {
     @Test
     void findMerchantActivityReport_returnsReportSuccessfully() {
         ReportRepository repository = new ReportRepositoryImpl();
+        MerchantOption merchant = ReportIntegrationTestSupport.requireActiveMerchant(repository);
 
         MerchantActivityReport report = repository.findMerchantActivityReport(
-                1,
-                LocalDate.of(2025, 1, 1),
-                LocalDate.of(2025, 12, 31)
+                merchant.getMerchantId(),
+                ReportIntegrationTestSupport.startDate(),
+                ReportIntegrationTestSupport.endDate()
         );
 
         assertNotNull(report);
@@ -96,6 +99,8 @@ class ReportRepositoryImplTest {
         assertNotNull(report.getCompanyName());
         assertNotNull(report.getIposAccountNumber());
         assertNotNull(report.getOrders());
+        assertEquals(merchant.getMerchantId(), report.getMerchantId());
+        assertEquals(merchant.getCompanyName(), report.getCompanyName());
     }
 
 }

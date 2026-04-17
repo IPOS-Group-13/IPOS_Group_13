@@ -19,7 +19,7 @@ import javafx.scene.control.TextArea;
 import java.nio.file.Path;
 import java.time.LocalDate;
 
-public class MerchantActivityReportController {
+public class MerchantActivityReportController extends ReportProfileMenuController {
 
     private static final String DEMO_RECIPIENT_EMAIL = "ipos_commercial@yahoo.com";
 
@@ -59,6 +59,7 @@ public class MerchantActivityReportController {
 
     @FXML
     public void initialize() {
+        initializeProfileMenu();
         updateFilterSummary();
     }
 

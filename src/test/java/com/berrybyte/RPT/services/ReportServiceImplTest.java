@@ -1,11 +1,11 @@
 package com.berrybyte.RPT.services;
 
+import com.berrybyte.RPT.ReportIntegrationTestSupport;
 import com.berrybyte.RPT.model.*;
+import com.berrybyte.RPT.model.MerchantOption;
 import com.berrybyte.RPT.repository.ReportRepository;
 import com.berrybyte.RPT.repository.ReportRepositoryImpl;
 import org.junit.jupiter.api.Test;
-
-import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -28,17 +28,19 @@ class ReportServiceImplTest {
     void generateMerchantOrderSummary_returnsReportSuccessfully() {
         ReportRepository repository = new ReportRepositoryImpl();
         ReportService service = new ReportServiceImpl(repository);
+        MerchantOption merchant = ReportIntegrationTestSupport.requireActiveMerchant(repository);
 
         MerchantOrderSummaryReport report = service.generateMerchantOrderSummary(
-                1,
-                LocalDate.of(2025, 1, 1),
-                LocalDate.of(2025, 12, 31)
+                merchant.getMerchantId(),
+                ReportIntegrationTestSupport.startDate(),
+                ReportIntegrationTestSupport.endDate()
         );
 
         assertNotNull(report);
         assertNotNull(report.getTitle());
         assertNotNull(report.getGeneratedAt());
         assertNotNull(report.getRows());
+        assertEquals(merchant.getMerchantId(), report.getMerchantId());
     }
 
     @Test
@@ -48,8 +50,8 @@ class ReportServiceImplTest {
 
         InvoiceListingReport report = service.generateInvoiceListing(
                 null,
-                LocalDate.of(2025, 1, 1),
-                LocalDate.of(2025, 12, 31)
+                ReportIntegrationTestSupport.startDate(),
+                ReportIntegrationTestSupport.endDate()
         );
 
         assertNotNull(report);
@@ -64,8 +66,8 @@ class ReportServiceImplTest {
         ReportService service = new ReportServiceImpl(repository);
 
         StockTurnoverReport report = service.generateStockTurnover(
-                LocalDate.of(2025, 1, 1),
-                LocalDate.of(2025, 12, 31)
+                ReportIntegrationTestSupport.startDate(),
+                ReportIntegrationTestSupport.endDate()
         );
 
         assertNotNull(report);
@@ -78,17 +80,20 @@ class ReportServiceImplTest {
     void generateMerchantActivityReport_returnsReportSuccessfully() {
         ReportRepository repository = new ReportRepositoryImpl();
         ReportService service = new ReportServiceImpl(repository);
+        MerchantOption merchant = ReportIntegrationTestSupport.requireActiveMerchant(repository);
 
         MerchantActivityReport report = service.generateMerchantActivityReport(
-                1,
-                LocalDate.of(2025, 1, 1),
-                LocalDate.of(2025, 12, 31)
+                merchant.getMerchantId(),
+                ReportIntegrationTestSupport.startDate(),
+                ReportIntegrationTestSupport.endDate()
         );
 
         assertNotNull(report);
         assertNotNull(report.getTitle());
         assertNotNull(report.getGeneratedAt());
         assertNotNull(report.getOrders());
+        assertEquals(merchant.getMerchantId(), report.getMerchantId());
+        assertEquals(merchant.getCompanyName(), report.getCompanyName());
     }
 
 }
