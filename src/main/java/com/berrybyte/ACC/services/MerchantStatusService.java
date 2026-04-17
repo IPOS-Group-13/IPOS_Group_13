@@ -35,7 +35,6 @@ public class MerchantStatusService {
                         refreshMerchantStatus(conn, rs.getInt("MerchantId"), today);
                     }
                 }
-
                 conn.commit();
             } catch (Exception e) {
                 conn.rollback();

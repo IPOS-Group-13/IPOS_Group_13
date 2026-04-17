@@ -79,8 +79,7 @@ public class UpdateDispatchPopupController {
                     courierRef,
                     dispatchedDateTime,
                     expectedDeliveryDateTime,
-                    "DISPATCHED"
-            );
+                    "DISPATCHED");
 
             if (!updated) {
                 messageLabel.setText("Order update failed.");

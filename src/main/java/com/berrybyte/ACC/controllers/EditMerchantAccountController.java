@@ -129,18 +129,8 @@ public class EditMerchantAccountController {
                 return;
             }
 
-            merchantAccountService.updateMerchantAccountDetails(
-                    userId,
-                    fullName,
-                    companyName,
-                    username,
-                    password,
-                    email,
-                    phoneNumber,
-                    address,
-                    accountStatus,
-                    creditLimit
-            );
+            merchantAccountService.updateMerchantAccountDetails(userId, fullName, companyName, username, password, email,
+                    phoneNumber, address, accountStatus, creditLimit);
 
             RoleBasedNavigator.switchToMerchantMenu(event);
 

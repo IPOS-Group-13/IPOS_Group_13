@@ -52,8 +52,8 @@ public class MerchantAccountService {
                     PreparedStatement userPs = conn.prepareStatement(insertUserSql, Statement.RETURN_GENERATED_KEYS);
                     PreparedStatement merchantPs = conn.prepareStatement(insertMerchantSql, Statement.RETURN_GENERATED_KEYS);
                     PreparedStatement planPs = conn.prepareStatement(insertDiscountPlanSql, Statement.RETURN_GENERATED_KEYS);
-                    PreparedStatement tierPs = conn.prepareStatement(insertTierSql)
-            ) {
+                    PreparedStatement tierPs = conn.prepareStatement(insertTierSql))
+            {
                 userPs.setString(1, fullName.trim());
                 userPs.setString(2, username);
                 userPs.setString(3, password);

@@ -73,9 +73,7 @@ public class EditFixedDiscountController {
         try {
             messageLabel.setText("");
 
-            String percentText = fixedDiscountPercentField.getText() == null
-                    ? ""
-                    : fixedDiscountPercentField.getText().trim();
+            String percentText = fixedDiscountPercentField.getText() == null ? "" : fixedDiscountPercentField.getText().trim();
 
             if (percentText.isEmpty()) {
                 messageLabel.setText("Enter discount percentage.");

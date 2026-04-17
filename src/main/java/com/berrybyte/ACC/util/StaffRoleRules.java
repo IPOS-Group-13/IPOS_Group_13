@@ -9,8 +9,8 @@ public final class StaffRoleRules {
             "ADMINISTRATOR",
             "MANAGER",
             "DIRECTOR OF OPERATIONS",
-            "MERCHANT"
-    );
+            "MERCHANT");
+
     private StaffRoleRules() {
     }
 
@@ -24,8 +24,6 @@ public final class StaffRoleRules {
     }
 
     public static String normalizeRole(String role) {
-        return role == null
-                ? ""
-                : role.trim().replaceAll("\\s+", " ").toUpperCase();
+        return role == null ? "" : role.trim().replaceAll("\\s+", " ").toUpperCase();
     }
 }

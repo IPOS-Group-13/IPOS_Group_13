@@ -130,11 +130,9 @@ public class FlexibleDiscountController {
             TextField percentField,
             String tierName
     ) {
-
         String minText = safeText(minField);
         String maxText = safeText(maxField);
         String percentText = safeText(percentField);
-
 
         if (minText.isEmpty() && maxText.isEmpty() && percentText.isEmpty()) {
             return;
@@ -142,8 +140,7 @@ public class FlexibleDiscountController {
 
         if (minText.isEmpty() || maxText.isEmpty() || percentText.isEmpty()) {
             throw new IllegalArgumentException(
-                    tierName + ": All fields (Min, Max, Percentage) are required."
-            );
+                    tierName + ": All fields (Min, Max, Percentage) are required.");
         }
         double minValue;
         double maxValue;
@@ -186,14 +183,11 @@ public class FlexibleDiscountController {
                     tierName + ": Discount Percentage must be between 0 and 100."
             );
         }
-
         tiers.add(new DiscountTier(minValue, maxValue, percentValue));
     }
 
     private String safeText(TextField field) {
-        return (field == null || field.getText() == null)
-                ? ""
-                : field.getText().trim();
+        return (field == null || field.getText() == null) ? "" : field.getText().trim();
     }
 
     private boolean isBlank(String value) {

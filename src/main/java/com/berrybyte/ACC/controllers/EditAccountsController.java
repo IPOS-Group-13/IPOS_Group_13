@@ -161,12 +161,10 @@ public class EditAccountsController {
                             rs.getInt("UserId"),
                             rs.getString("Name"),
                             rs.getString("Username"),
-                            rs.getString("Role")
-                    ));
+                            rs.getString("Role")));
                 }
             }
         }
-
         return users;
     }
 }

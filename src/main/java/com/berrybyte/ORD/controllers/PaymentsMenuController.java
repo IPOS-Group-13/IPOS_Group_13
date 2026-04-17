@@ -190,8 +190,7 @@ public class PaymentsMenuController {
     private void loadPayments(String searchText) {
         try {
             paymentsTable.setItems(FXCollections.observableArrayList(
-                    filterPayments(paymentRequestService.getPaymentRequests(), searchText)
-            ));
+                    filterPayments(paymentRequestService.getPaymentRequests(), searchText)));
             setMessage("");
         } catch (Exception e) {
             e.printStackTrace();
@@ -213,8 +212,7 @@ public class PaymentsMenuController {
                         || contains(row.getMerchantEmail(), keyword)
                         || contains(row.getAmount(), keyword)
                         || contains(row.getPaymentType(), keyword)
-                        || contains(row.getStatus(), keyword))
-                .toList();
+                        || contains(row.getStatus(), keyword)).toList();
     }
 
     private boolean contains(String value, String keyword) {

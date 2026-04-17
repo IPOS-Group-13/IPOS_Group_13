@@ -31,12 +31,10 @@ public class DeleteAccountService {
                             rs.getInt("UserId"),
                             rs.getString("Name"),
                             rs.getString("Username"),
-                            rs.getString("Role")
-                    );
+                            rs.getString("Role"));
                 }
             }
         }
-
         throw new Exception("Selected user could not be found.");
     }
 
@@ -65,12 +63,10 @@ public class DeleteAccountService {
                             rs.getInt("UserId"),
                             rs.getString("Name"),
                             rs.getString("Username"),
-                            rs.getString("Role")
-                    ));
+                            rs.getString("Role")));
                 }
             }
         }
-
         return users;
     }
 

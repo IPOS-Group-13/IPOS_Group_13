@@ -96,15 +96,11 @@ public class EditFlexibleDiscountController {
                     List<DiscountTier> tiers = new ArrayList<>();
 
                     while (rs.next()) {
-                        Double maxValue = rs.getObject("MaxOrderValue") == null
-                                ? null
-                                : rs.getDouble("MaxOrderValue");
-
+                        Double maxValue = rs.getObject("MaxOrderValue") == null ? null : rs.getDouble("MaxOrderValue");
                         tiers.add(new DiscountTier(
                                 rs.getDouble("MinOrderValue"),
                                 maxValue,
-                                rs.getDouble("DiscountPercent")
-                        ));
+                                rs.getDouble("DiscountPercent")));
                     }
                     populateTierFields(tiers);
                 }
@@ -218,9 +214,7 @@ public class EditFlexibleDiscountController {
             return;
         }
         if (minText.isEmpty() || maxText.isEmpty() || percentText.isEmpty()) {
-            throw new IllegalArgumentException(
-                    tierName + ": All fields (Min, Max, Percentage) are required."
-            );
+            throw new IllegalArgumentException(tierName + ": All fields (Min, Max, Percentage) are required.");
         }
 
         double minValue;
@@ -263,8 +257,6 @@ public class EditFlexibleDiscountController {
     }
 
     private String safeText(TextField field) {
-        return (field == null || field.getText() == null)
-                ? ""
-                : field.getText().trim();
+        return (field == null || field.getText() == null) ? "" : field.getText().trim();
     }
 }

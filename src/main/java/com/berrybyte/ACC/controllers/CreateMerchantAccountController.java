@@ -103,7 +103,6 @@ public class CreateMerchantAccountController {
                     accountStatusField.getText().trim().toUpperCase(),
                     creditLimitField.getText().trim()
             );
-
             SceneSwitcher.switchScene(event, "/account/discountPlanSelection.fxml", "Select Discount Plan");
 
         } catch (Exception e) {
