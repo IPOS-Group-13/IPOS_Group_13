@@ -1,4 +1,4 @@
-package com.berrybyte.catalogue;
+﻿package com.berrybyte.catalogue;
 
 import com.berrybyte.common.RoleBasedNavigator;
 import com.berrybyte.common.SceneSwitcher;
@@ -16,6 +16,9 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
+/**
+ * Represents edit product details controller.
+ */
 public class EditProductDetailsController {
 
     @FXML
@@ -56,6 +59,10 @@ public class EditProductDetailsController {
 
     private final CatalogueService catalogueService = new CatalogueService();
 
+/**
+ * Initializes controller state and bindings.
+ *
+ */
     @FXML
     public void initialize() {
         if (profileMenuPane != null) {
@@ -75,11 +82,20 @@ public class EditProductDetailsController {
         loadItems("");
     }
 
+/**
+ * Handles search.
+ *
+ * @param event event
+ */
     @FXML
     private void handleSearch(ActionEvent event) {
         loadItems(searchField.getText());
     }
 
+/**
+ * Handles profile click.
+ *
+ */
     @FXML
     private void handleProfileClick() {
         if (profileMenuPane == null) {
@@ -94,6 +110,11 @@ public class EditProductDetailsController {
         }
     }
 
+/**
+ * Handles logout menu click.
+ *
+ * @param event event
+ */
     @FXML
     private void handleLogoutMenuClick(ActionEvent event) {
         if (profileMenuPane != null) {
@@ -109,6 +130,11 @@ public class EditProductDetailsController {
         }
     }
 
+/**
+ * Handles back button.
+ *
+ * @param event event
+ */
     @FXML
     private void handleBackButton(ActionEvent event) {
         try {
@@ -119,6 +145,11 @@ public class EditProductDetailsController {
         }
     }
 
+/**
+ * Handles edit button.
+ *
+ * @param event event
+ */
     @FXML
     private void handleEditButton(ActionEvent event) {
         try {
@@ -145,6 +176,11 @@ public class EditProductDetailsController {
             messageLabel.setText("Unable to open edit form.");
         }
     }
+/**
+ * Loads items.
+ *
+ * @param searchText search text
+ */
 
     private void loadItems(String searchText) {
         try {

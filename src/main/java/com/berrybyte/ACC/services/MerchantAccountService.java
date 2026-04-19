@@ -1,4 +1,4 @@
-package com.berrybyte.ACC.services;
+﻿package com.berrybyte.ACC.services;
 
 import com.berrybyte.ACC.model.DiscountTier;
 import com.berrybyte.ACC.util.PhoneNumberRules;
@@ -7,8 +7,27 @@ import com.berrybyte.common.DatabaseConnection;
 import java.sql.*;
 import java.util.List;
 
+/**
+ * Represents merchant account service.
+ */
 public class MerchantAccountService {
-
+/**
+ * Executes the create merchant account workflow.
+ * This method coordinates the main operation for this action.
+ *
+ * @param fullName full name
+ * @param companyName company name
+ * @param username username
+ * @param password password
+ * @param email email
+ * @param phoneNumber phone number
+ * @param address address
+ * @param accountStatus account status
+ * @param creditLimit credit limit
+ * @param discountPlanType discount plan type
+ * @param discountTiers discount tiers
+ * @throws Exception when the operation fails
+ */
     public void createMerchantAccount(String fullName, String companyName, String username, String password,
                                       String email, String phoneNumber, String address, String accountStatus,
                                       double creditLimit, String discountPlanType, List<DiscountTier> discountTiers) throws Exception {
@@ -126,6 +145,22 @@ public class MerchantAccountService {
         }
     }
 
+/**
+ * Executes the update merchant account details workflow.
+ * This method coordinates the main operation for this action.
+ *
+ * @param userId user id
+ * @param fullName full name
+ * @param companyName company name
+ * @param username username
+ * @param password password
+ * @param email email
+ * @param phoneNumber phone number
+ * @param address address
+ * @param accountStatus account status
+ * @param creditLimit credit limit
+ * @throws Exception when the operation fails
+ */
     public void updateMerchantAccountDetails(int userId, String fullName, String companyName, String username,
                                              String password, String email, String phoneNumber, String address,
                                              String accountStatus, double creditLimit) throws Exception {
@@ -185,6 +220,14 @@ public class MerchantAccountService {
         }
     }
 
+/**
+ * Executes the generate next merchant account number workflow.
+ * This method coordinates the main operation for this action.
+ *
+ * @param conn conn
+ * @return result value
+ * @throws Exception when the operation fails
+ */
     private String generateNextMerchantAccountNumber(Connection conn) throws Exception {
         String sql = """
                 SELECT COALESCE(MAX(CAST(SUBSTRING(IPOSAccountNumber, 4) AS UNSIGNED)), 0) + 1 AS nextNumber
@@ -203,6 +246,22 @@ public class MerchantAccountService {
         return "ACC0001";
     }
 
+/**
+ * Executes the validate merchant creation details workflow.
+ * This method coordinates the main operation for this action.
+ *
+ * @param fullName full name
+ * @param companyName company name
+ * @param username username
+ * @param password password
+ * @param email email
+ * @param phoneNumber phone number
+ * @param address address
+ * @param accountStatus account status
+ * @param creditLimit credit limit
+ * @param discountPlanType discount plan type
+ * @param discountTiers discount tiers
+ */
     private void validateMerchantCreationDetails(String fullName, String companyName, String username, String password,
                                                  String email, String phoneNumber, String address, String accountStatus,
                                                  double creditLimit, String discountPlanType, List<DiscountTier> discountTiers) {
@@ -218,6 +277,20 @@ public class MerchantAccountService {
         }
     }
 
+/**
+ * Executes the validate merchant update details workflow.
+ * This method coordinates the main operation for this action.
+ *
+ * @param fullName full name
+ * @param companyName company name
+ * @param username username
+ * @param password password
+ * @param email email
+ * @param phoneNumber phone number
+ * @param address address
+ * @param accountStatus account status
+ * @param creditLimit credit limit
+ */
     private void validateMerchantUpdateDetails(String fullName, String companyName, String username, String password,
                                                String email, String phoneNumber, String address, String accountStatus,
                                                double creditLimit) {
@@ -257,6 +330,14 @@ public class MerchantAccountService {
         }
     }
 
+/**
+ * Executes the update merchant fixed discount plan workflow.
+ * This method coordinates the main operation for this action.
+ *
+ * @param merchantId merchant id
+ * @param discountPercent discount percent
+ * @throws Exception when the operation fails
+ */
     public void updateMerchantFixedDiscountPlan(int merchantId, double discountPercent) throws Exception {
         if (merchantId <= 0) {
             throw new IllegalArgumentException("Invalid merchant id.");
@@ -323,6 +404,14 @@ public class MerchantAccountService {
         }
     }
 
+/**
+ * Executes the update merchant flexible discount plan workflow.
+ * This method coordinates the main operation for this action.
+ *
+ * @param merchantId merchant id
+ * @param tiers tiers
+ * @throws Exception when the operation fails
+ */
     public void updateMerchantFlexibleDiscountPlan(int merchantId, List<DiscountTier> tiers) throws Exception {
         if (merchantId <= 0) {
             throw new IllegalArgumentException("Invalid merchant id.");

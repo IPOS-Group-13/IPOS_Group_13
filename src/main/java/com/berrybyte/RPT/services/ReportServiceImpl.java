@@ -1,4 +1,4 @@
-package com.berrybyte.RPT.services;
+﻿package com.berrybyte.RPT.services;
 
 import com.berrybyte.RPT.model.*;
 import com.berrybyte.RPT.repository.ReportRepository;
@@ -8,9 +8,17 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
+/**
+ * Represents report service impl.
+ */
 public class ReportServiceImpl implements ReportService {
 
     private final ReportRepository reportRepository;
+/**
+ * Creates a new ReportServiceImpl instance.
+ *
+ * @param reportRepository report repository
+ */
 
     public ReportServiceImpl(ReportRepository reportRepository) {
         if (reportRepository == null) {
@@ -19,6 +27,12 @@ public class ReportServiceImpl implements ReportService {
         this.reportRepository = reportRepository;
     }
 
+/**
+ * Executes the generate low stock report workflow.
+ * This method coordinates the main operation for this action.
+ *
+ * @return result value
+ */
     @Override
     public LowStockReport generateLowStockReport() {
         List<LowStockItem> items = reportRepository.findLowStockItems();
@@ -30,6 +44,15 @@ public class ReportServiceImpl implements ReportService {
         );
     }
 
+/**
+ * Executes the generate merchant order summary workflow.
+ * This method coordinates the main operation for this action.
+ *
+ * @param merchantId merchant id
+ * @param startDate start date
+ * @param endDate end date
+ * @return result value
+ */
     @Override
     public MerchantOrderSummaryReport generateMerchantOrderSummary(int merchantId,
                                                                    LocalDate startDate,
@@ -57,6 +80,15 @@ public class ReportServiceImpl implements ReportService {
         );
     }
 
+/**
+ * Executes the generate invoice listing workflow.
+ * This method coordinates the main operation for this action.
+ *
+ * @param merchantId merchant id
+ * @param startDate start date
+ * @param endDate end date
+ * @return result value
+ */
     @Override
     public InvoiceListingReport generateInvoiceListing(Integer merchantId,
                                                        LocalDate startDate,
@@ -92,6 +124,14 @@ public class ReportServiceImpl implements ReportService {
         );
     }
 
+/**
+ * Executes the generate stock turnover workflow.
+ * This method coordinates the main operation for this action.
+ *
+ * @param startDate start date
+ * @param endDate end date
+ * @return result value
+ */
     @Override
     public StockTurnoverReport generateStockTurnover(LocalDate startDate,
                                                      LocalDate endDate) {
@@ -119,6 +159,15 @@ public class ReportServiceImpl implements ReportService {
         );
     }
 
+/**
+ * Executes the generate merchant activity report workflow.
+ * This method coordinates the main operation for this action.
+ *
+ * @param merchantId merchant id
+ * @param startDate start date
+ * @param endDate end date
+ * @return result value
+ */
     @Override
     public MerchantActivityReport generateMerchantActivityReport(int merchantId,
                                                                  LocalDate startDate,
@@ -151,6 +200,14 @@ public class ReportServiceImpl implements ReportService {
         );
     }
 
+/**
+ * Executes the generate info pharma turnover report workflow.
+ * This method coordinates the main operation for this action.
+ *
+ * @param startDate start date
+ * @param endDate end date
+ * @return result value
+ */
     @Override
     public InfoPharmaTurnoverReport generateInfoPharmaTurnoverReport(LocalDate startDate,
                                                                      LocalDate endDate) {
@@ -200,12 +257,25 @@ public class ReportServiceImpl implements ReportService {
                 partialInvoiceCount
         );
     }
+/**
+ * Executes the validate merchant id workflow.
+ * This method coordinates the main operation for this action.
+ *
+ * @param merchantId merchant id
+ */
 
     private void validateMerchantId(int merchantId) {
         if (merchantId <= 0) {
             throw new IllegalArgumentException("Merchant ID must be greater than zero.");
         }
     }
+/**
+ * Executes the validate date range workflow.
+ * This method coordinates the main operation for this action.
+ *
+ * @param startDate start date
+ * @param endDate end date
+ */
 
     private void validateDateRange(LocalDate startDate, LocalDate endDate) {
         if (startDate == null || endDate == null) {
@@ -216,6 +286,14 @@ public class ReportServiceImpl implements ReportService {
             throw new IllegalArgumentException("Start date must not be after end date.");
         }
     }
+/**
+ * Executes the generate overdue balance report workflow.
+ * This method coordinates the main operation for this action.
+ *
+ * @param merchantId merchant id
+ * @param merchantName merchant name
+ * @return result value
+ */
     @Override
     public OverdueBalanceReport generateOverdueBalanceReport(Integer merchantId, String merchantName) {
         if (merchantId != null) {

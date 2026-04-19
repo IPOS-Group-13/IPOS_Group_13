@@ -1,4 +1,4 @@
-package com.berrybyte.ACC.controllers;
+﻿package com.berrybyte.ACC.controllers;
 
 import com.berrybyte.ACC.model.UserAccountRow;
 import com.berrybyte.common.DatabaseConnection;
@@ -25,6 +25,9 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Represents edit accounts controller.
+ */
 public class EditAccountsController {
 
     @FXML
@@ -47,6 +50,10 @@ public class EditAccountsController {
 
     private UserAccountRow selectedUser;
 
+/**
+ * Initializes controller state and bindings.
+ *
+ */
     @FXML
     public void initialize() {
         nameColoumn.setCellValueFactory(new PropertyValueFactory<>("name"));
@@ -60,11 +67,21 @@ public class EditAccountsController {
         loadUsers("");
     }
 
+/**
+ * Handles search.
+ *
+ * @param event event
+ */
     @FXML
     private void handleSearch(ActionEvent event) {
         loadUsers(searchField.getText());
     }
 
+/**
+ * Handles edit account.
+ *
+ * @param event event
+ */
     @FXML
     private void handleEditAccount(ActionEvent event) {
         if (selectedUser == null) {
@@ -115,6 +132,11 @@ public class EditAccountsController {
         }
     }
 
+/**
+ * Handles back button.
+ *
+ * @param event event
+ */
     @FXML
     private void handleBackButton(MouseEvent event) {
         try {
@@ -125,6 +147,11 @@ public class EditAccountsController {
         }
     }
 
+/**
+ * Loads users.
+ *
+ * @param searchText search text
+ */
     private void loadUsers(String searchText) {
         try {
             usersTable.setItems(FXCollections.observableArrayList(searchUsers(searchText)));
@@ -135,6 +162,14 @@ public class EditAccountsController {
         }
     }
 
+/**
+ * Executes the search users workflow.
+ * This method coordinates the main operation for this action.
+ *
+ * @param searchText search text
+ * @return result value
+ * @throws Exception when the operation fails
+ */
     private List<UserAccountRow> searchUsers(String searchText) throws Exception {
         List<UserAccountRow> users = new ArrayList<>();
 

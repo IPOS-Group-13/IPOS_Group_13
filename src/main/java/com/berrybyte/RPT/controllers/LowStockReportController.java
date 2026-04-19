@@ -1,4 +1,4 @@
-package com.berrybyte.RPT.controllers;
+﻿package com.berrybyte.RPT.controllers;
 
 import com.berrybyte.RPT.export.LowStockPdfService;
 import com.berrybyte.RPT.model.LowStockItem;
@@ -18,6 +18,9 @@ import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.nio.file.Path;
 
+/**
+ * Represents low stock report controller.
+ */
 public class LowStockReportController extends ReportProfileMenuController {
 
     private final ReportService reportService = new ReportServiceImpl(new ReportRepositoryImpl());
@@ -53,6 +56,10 @@ public class LowStockReportController extends ReportProfileMenuController {
     @FXML
     private Button backButton;
 
+/**
+ * Initializes controller state and bindings.
+ *
+ */
     @FXML
     public void initialize() {
         initializeProfileMenu();
@@ -65,11 +72,19 @@ public class LowStockReportController extends ReportProfileMenuController {
         loadReport();
     }
 
+/**
+ * Handles refresh.
+ *
+ */
     @FXML
     private void handleRefresh() {
         loadReport();
     }
 
+/**
+ * Handles export pdf.
+ *
+ */
     @FXML
     private void handleExportPdf() {
         try {
@@ -91,6 +106,11 @@ public class LowStockReportController extends ReportProfileMenuController {
         }
     }
 
+/**
+ * Handles back.
+ *
+ * @param event event
+ */
     @FXML
     private void handleBack(ActionEvent event) {
         try {
@@ -100,6 +120,10 @@ public class LowStockReportController extends ReportProfileMenuController {
             messageLabel.setText("Unable to go back.");
         }
     }
+/**
+ * Loads report.
+ *
+ */
 
     private void loadReport() {
         try {
@@ -112,6 +136,10 @@ public class LowStockReportController extends ReportProfileMenuController {
             messageLabel.setText("Unable to load low stock report.");
         }
     }
+/**
+ * Performs bind column widths.
+ *
+ */
 
     private void bindColumnWidths() {
         itemIdColumn.prefWidthProperty().bind(lowStockTable.widthProperty().multiply(0.16));

@@ -1,4 +1,4 @@
-package com.berrybyte.catalogue;
+﻿package com.berrybyte.catalogue;
 
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
@@ -10,6 +10,9 @@ import javafx.stage.Stage;
 
 import java.util.List;
 
+/**
+ * Represents low stock notification controller.
+ */
 public class LowStockNotificationController {
 
     @FXML private TableView<LowStockItemRow> lowStockTable;
@@ -18,6 +21,10 @@ public class LowStockNotificationController {
     @FXML private TableColumn<LowStockItemRow, Integer> availabilityColumn;
     @FXML private TableColumn<LowStockItemRow, Integer> stockLimitColumn;
 
+/**
+ * Initializes controller state and bindings.
+ *
+ */
     @FXML
     public void initialize() {
         itemIdColumn.setCellValueFactory(new PropertyValueFactory<>("itemId"));
@@ -25,11 +32,21 @@ public class LowStockNotificationController {
         availabilityColumn.setCellValueFactory(new PropertyValueFactory<>("availabilityPacks"));
         stockLimitColumn.setCellValueFactory(new PropertyValueFactory<>("stockLimitPacks"));
     }
+/**
+ * Sets low stock items.
+ *
+ * @param items items
+ */
 
     public void setLowStockItems(List<LowStockItemRow> items) {
         lowStockTable.setItems(FXCollections.observableArrayList(items));
     }
 
+/**
+ * Handles ok.
+ *
+ * @param event event
+ */
     @FXML
     private void handleOk(ActionEvent event) {
         Stage stage = (Stage) lowStockTable.getScene().getWindow();

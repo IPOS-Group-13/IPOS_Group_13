@@ -1,4 +1,4 @@
-package com.berrybyte.ACC.controllers;
+﻿package com.berrybyte.ACC.controllers;
 
 import com.berrybyte.ACC.util.PhoneNumberRules;
 import com.berrybyte.ACC.util.StaffRoleRules;
@@ -20,6 +20,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
+/**
+ * Represents create staff account controller.
+ */
 public class CreateStaffAccountController {
 
     @FXML
@@ -43,6 +46,12 @@ public class CreateStaffAccountController {
     @FXML
     private Label messageLabel;
 
+/**
+ * Executes the create staff account workflow.
+ * This method coordinates the main operation for this action.
+ *
+ * @param event event
+ */
     @FXML
     public void createStaffAccount(ActionEvent event) {
         try {
@@ -52,6 +61,13 @@ public class CreateStaffAccountController {
             messageLabel.setText(e.getMessage());
         }
     }
+
+/**
+ * Executes the validate staff details workflow.
+ * This method coordinates the main operation for this action.
+ *
+ * @throws Exception when the operation fails
+ */
 
     private void validateStaffDetails() throws Exception {
         String name = nameTextField.getText() == null ? "" : nameTextField.getText().trim();
@@ -94,6 +110,12 @@ public class CreateStaffAccountController {
         }
     }
 
+/**
+ * Executes the create staff workflow.
+ * This method coordinates the main operation for this action.
+ *
+ * @param event event
+ */
     private void createStaff(ActionEvent event) {
         String sql = """
                 INSERT INTO Users
@@ -126,6 +148,11 @@ public class CreateStaffAccountController {
         }
     }
 
+/**
+ * Handles back button.
+ *
+ * @param event event
+ */
     @FXML
     private void handleBackButton(MouseEvent event) {
         try {
@@ -140,6 +167,10 @@ public class CreateStaffAccountController {
         }
     }
 
+/**
+ * Performs clear fields.
+ *
+ */
     private void clearFields() {
         nameTextField.clear();
         usernameTextField.clear();

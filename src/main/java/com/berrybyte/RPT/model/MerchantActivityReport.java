@@ -1,10 +1,13 @@
-package com.berrybyte.RPT.model;
+﻿package com.berrybyte.RPT.model;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
+/**
+ * Represents merchant activity report.
+ */
 public class MerchantActivityReport {
     private final String title;
     private final int merchantId;
@@ -17,6 +20,22 @@ public class MerchantActivityReport {
     private final List<MerchantActivityOrderSection> orders;
     private final int totalOrders;
     private final BigDecimal totalOrderValue;
+/**
+ * Creates a new MerchantActivityReport instance.
+ * This method coordinates the main operation for this action.
+ *
+ * @param title title
+ * @param merchantId merchant id
+ * @param companyName company name
+ * @param iposAccountNumber ipos account number
+ * @param address address
+ * @param startDate start date
+ * @param endDate end date
+ * @param generatedAt generated at
+ * @param orders orders
+ * @param totalOrders total orders
+ * @param totalOrderValue total order value
+ */
 
     public MerchantActivityReport(String title,
                                   int merchantId,
@@ -41,51 +60,111 @@ public class MerchantActivityReport {
         this.totalOrders = totalOrders;
         this.totalOrderValue = totalOrderValue;
     }
+/**
+ * Returns title.
+ *
+ * @return result value
+ */
 
     public String getTitle() {
         return title;
     }
+/**
+ * Returns merchant id.
+ *
+ * @return result value
+ */
 
     public int getMerchantId() {
         return merchantId;
     }
+/**
+ * Returns company name.
+ *
+ * @return result value
+ */
 
     public String getCompanyName() {
         return companyName;
     }
+/**
+ * Returns ipos account number.
+ *
+ * @return result value
+ */
 
     public String getIposAccountNumber() {
         return iposAccountNumber;
     }
+/**
+ * Returns address.
+ *
+ * @return result value
+ */
 
     public String getAddress() {
         return address;
     }
+/**
+ * Returns start date.
+ *
+ * @return result value
+ */
 
     public LocalDate getStartDate() {
         return startDate;
     }
+/**
+ * Returns end date.
+ *
+ * @return result value
+ */
 
     public LocalDate getEndDate() {
         return endDate;
     }
+/**
+ * Returns generated at.
+ *
+ * @return result value
+ */
 
     public LocalDateTime getGeneratedAt() {
         return generatedAt;
     }
+/**
+ * Returns orders.
+ *
+ * @return result value
+ */
 
     public List<MerchantActivityOrderSection> getOrders() {
         return orders;
     }
+/**
+ * Returns total orders.
+ *
+ * @return result value
+ */
 
     public int getTotalOrders() {
         return totalOrders;
     }
+/**
+ * Returns total order value.
+ *
+ * @return result value
+ */
 
     public BigDecimal getTotalOrderValue() {
         return totalOrderValue;
     }
 
+/**
+ * Performs to string.
+ *
+ * @return result value
+ */
     @Override
     public String toString() {
         return "MerchantActivityReport{" +

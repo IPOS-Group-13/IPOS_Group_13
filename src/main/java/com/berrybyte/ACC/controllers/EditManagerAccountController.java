@@ -1,4 +1,4 @@
-package com.berrybyte.ACC.controllers;
+﻿package com.berrybyte.ACC.controllers;
 
 import com.berrybyte.common.DatabaseConnection;
 import com.berrybyte.common.RoleBasedNavigator;
@@ -21,6 +21,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
+/**
+ * Represents edit manager account controller.
+ */
 public class EditManagerAccountController {
 
     @FXML
@@ -47,11 +50,20 @@ public class EditManagerAccountController {
     private int userId;
     private String pendingRole = "MANAGER";
 
+/**
+ * Sets user id.
+ *
+ * @param userId user id
+ */
     public void setUserId(int userId) {
         this.userId = userId;
         loadManagerDetails();
     }
 
+/**
+ * Loads manager details.
+ *
+ */
     private void loadManagerDetails() {
         String sql = """
                 SELECT Name, Username, Password, Email, PhoneNumber
@@ -94,6 +106,12 @@ public class EditManagerAccountController {
         }
     }
 
+/**
+ * Executes the update manager account workflow.
+ * This method coordinates the main operation for this action.
+ *
+ * @param event event
+ */
     @FXML
     public void updateManagerAccount(ActionEvent event) {
         try {
@@ -104,6 +122,11 @@ public class EditManagerAccountController {
         }
     }
 
+/**
+ * Handles promote button.
+ *
+ * @param event event
+ */
     @FXML
     private void handlePromoteButton(ActionEvent event) {
         if ("ADMIN".equals(pendingRole)) {
@@ -114,6 +137,10 @@ public class EditManagerAccountController {
         openPromotePopup();
     }
 
+/**
+ * Executes the open promote popup workflow.
+ *
+ */
     private void openPromotePopup() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/account/confirmPromoteManager.fxml"));
@@ -138,6 +165,10 @@ public class EditManagerAccountController {
         }
     }
 
+/**
+ * Performs confirm promotion.
+ *
+ */
     public void confirmPromotion() {
         pendingRole = "ADMIN";
 
@@ -149,6 +180,12 @@ public class EditManagerAccountController {
         messageLabel.setText("Promotion selected. Click Save to apply the role change.");
     }
 
+/**
+ * Executes the validate manager details workflow.
+ * This method coordinates the main operation for this action.
+ *
+ * @throws Exception when the operation fails
+ */
     private void validateManagerDetails() throws Exception {
         String name = nameTextField.getText() == null ? "" : nameTextField.getText().trim();
         String username = usernameTextField.getText() == null ? "" : usernameTextField.getText().trim();
@@ -179,6 +216,12 @@ public class EditManagerAccountController {
         }
     }
 
+/**
+ * Executes the update manager workflow.
+ * This method coordinates the main operation for this action.
+ *
+ * @param event event
+ */
     private void updateManager(ActionEvent event) {
         String sql = """
                 UPDATE Users
@@ -214,6 +257,11 @@ public class EditManagerAccountController {
         }
     }
 
+/**
+ * Handles back button.
+ *
+ * @param event event
+ */
     @FXML
     private void handleBackButton(MouseEvent event) {
         try {

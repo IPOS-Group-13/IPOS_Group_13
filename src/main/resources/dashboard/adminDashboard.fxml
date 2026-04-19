@@ -98,7 +98,7 @@
          </children>
       </AnchorPane>
 
-      <AnchorPane fx:id="lowStockPane" style="-fx-background-color: white; -fx-background-radius: 15;" visible="false" AnchorPane.bottomAnchor="55.0" AnchorPane.leftAnchor="190.0" AnchorPane.rightAnchor="45.0" AnchorPane.topAnchor="145.0">
+      <AnchorPane fx:id="lowStockPane" managed="false" style="-fx-background-color: white; -fx-background-radius: 15;" visible="false" AnchorPane.bottomAnchor="55.0" AnchorPane.leftAnchor="190.0" AnchorPane.rightAnchor="387.0" AnchorPane.topAnchor="145.0">
          <children>
             <AnchorPane prefHeight="55.0" style="-fx-background-color: #e1c3c3; -fx-background-radius: 15 15 0 0;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
@@ -110,18 +110,18 @@
                </children>
             </AnchorPane>
 
-            <Label prefWidth="640.0" text="The following items are at or below their stock limit:" textFill="#49454f" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="68.0">
+            <Label text="The following items are at or below their stock limit:" textFill="#49454f" wrapText="true" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="68.0">
                <font>
                   <Font size="13.0" />
                </font>
             </Label>
 
-            <TableView fx:id="lowStockTable" AnchorPane.bottomAnchor="62.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="93.0">
+            <TableView fx:id="lowStockTable" AnchorPane.bottomAnchor="62.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="110.0">
                <columns>
-                  <TableColumn fx:id="itemIdColumn" prefWidth="85.0" text="Item ID" />
-                  <TableColumn fx:id="descriptionColumn" prefWidth="255.0" text="Description" />
-                  <TableColumn fx:id="availabilityColumn" prefWidth="150.0" text="Availability (Packs)" />
-                  <TableColumn fx:id="stockLimitColumn" prefWidth="150.0" text="Stock Limit (Packs)" />
+                  <TableColumn fx:id="itemIdColumn" prefWidth="72.0" text="Item ID" />
+                  <TableColumn fx:id="descriptionColumn" prefWidth="102.0" text="Description" />
+                  <TableColumn fx:id="availabilityColumn" prefWidth="65.0" text="Available" />
+                  <TableColumn fx:id="stockLimitColumn" prefWidth="62.0" text="Limit" />
                </columns>
             </TableView>
 
@@ -134,6 +134,38 @@
                   </Button>
                </children>
             </HBox>
+         </children>
+      </AnchorPane>
+
+      <AnchorPane fx:id="overdueAccountsPane" managed="false" style="-fx-background-color: white; -fx-background-radius: 15;" visible="false" AnchorPane.bottomAnchor="55.0" AnchorPane.leftAnchor="532.0" AnchorPane.rightAnchor="45.0" AnchorPane.topAnchor="145.0">
+         <children>
+            <AnchorPane prefHeight="55.0" style="-fx-background-color: #f1d3c2; -fx-background-radius: 15 15 0 0;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <children>
+                  <Label layoutX="20.0" layoutY="13.0" text="Overdue Accounts Alert" textFill="#49454f">
+                     <font>
+                        <Font name="Verdana Bold" size="18.0" />
+                     </font>
+                  </Label>
+               </children>
+            </AnchorPane>
+
+            <Label text="Accounts with overdue balances are highlighted and reminders are queued automatically." textFill="#49454f" wrapText="true" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="68.0">
+               <font>
+                  <Font size="13.0" />
+               </font>
+            </Label>
+
+            <TableView fx:id="overdueAccountsTable" AnchorPane.bottomAnchor="18.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="120.0">
+               <columns>
+                  <TableColumn fx:id="overdueMerchantIdColumn" prefWidth="54.0" text="ID" />
+                  <TableColumn fx:id="overdueCompanyColumn" prefWidth="84.0" text="Company" />
+                  <TableColumn fx:id="overdueAccountNumberColumn" prefWidth="68.0" text="Account" />
+                  <TableColumn fx:id="overdueDueDateColumn" prefWidth="56.0" text="Due Date" />
+                  <TableColumn fx:id="overdueDaysColumn" prefWidth="44.0" text="Days" />
+                  <TableColumn fx:id="overdueAmountColumn" prefWidth="58.0" text="Amount" />
+                  <TableColumn fx:id="overdueStatusColumn" prefWidth="62.0" text="Status" />
+               </columns>
+            </TableView>
          </children>
       </AnchorPane>
       <Label layoutX="224.0" layoutY="85.0" prefHeight="24.0" prefWidth="141.0" text="Admin Account">

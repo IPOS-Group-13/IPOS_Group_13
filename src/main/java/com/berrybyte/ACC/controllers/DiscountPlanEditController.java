@@ -1,4 +1,4 @@
-package com.berrybyte.ACC.controllers;
+﻿package com.berrybyte.ACC.controllers;
 
 import com.berrybyte.common.SceneSwitcher;
 import javafx.event.ActionEvent;
@@ -13,6 +13,9 @@ import javafx.scene.input.MouseEvent;
 import com.berrybyte.common.RoleBasedNavigator;
 import javafx.stage.Stage;
 
+/**
+ * Represents discount plan edit controller.
+ */
 public class DiscountPlanEditController {
 
     @FXML
@@ -28,16 +31,30 @@ public class DiscountPlanEditController {
 
     private int merchantId;
 
+/**
+ * Initializes controller state and bindings.
+ *
+ */
     @FXML
     public void initialize() {
         fixedDiscountRadioButton.setToggleGroup(discountToggleGroup);
         flexibleDiscountRadioButton.setToggleGroup(discountToggleGroup);
     }
 
+/**
+ * Sets merchant id.
+ *
+ * @param merchantId merchant id
+ */
     public void setMerchantId(int merchantId) {
         this.merchantId = merchantId;
     }
 
+/**
+ * Handles next.
+ *
+ * @param event event
+ */
     @FXML
     private void handleNext(ActionEvent event) {
         try {
@@ -73,6 +90,11 @@ public class DiscountPlanEditController {
         }
     }
 
+/**
+ * Handles back button.
+ *
+ * @param event event
+ */
     @FXML
     private void handleBackButton(MouseEvent event) {
         try {
@@ -82,6 +104,17 @@ public class DiscountPlanEditController {
             messageLabel.setText("Unable to go back.");
         }
     }
+
+/**
+ * Executes the open scene with merchant id workflow.
+ * This method coordinates the main operation for this action.
+ *
+ * @param event event
+ * @param fxmlPath fxml path
+ * @param title title
+ * @param merchantId merchant id
+ * @throws Exception when the operation fails
+ */
 
     private void openSceneWithMerchantId(ActionEvent event, String fxmlPath, String title, int merchantId) throws Exception {
         FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));

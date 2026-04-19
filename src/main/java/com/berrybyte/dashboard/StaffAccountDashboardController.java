@@ -1,4 +1,4 @@
-package com.berrybyte.dashboard;
+﻿package com.berrybyte.dashboard;
 
 import com.berrybyte.common.RoleBasedNavigator;
 import com.berrybyte.common.SceneSwitcher;
@@ -6,17 +6,28 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.layout.AnchorPane;
 
+/**
+ * Represents staff account dashboard controller.
+ */
 public class StaffAccountDashboardController {
 
     @FXML
     private AnchorPane profileMenuPane;
 
+/**
+ * Initializes controller state and bindings.
+ *
+ */
     @FXML
     public void initialize() {
         profileMenuPane.setVisible(false);
         profileMenuPane.setManaged(false);
     }
 
+/**
+ * Handles profile click.
+ *
+ */
     @FXML
     private void handleProfileClick() {
         boolean isVisible = profileMenuPane.isVisible();
@@ -27,6 +38,11 @@ public class StaffAccountDashboardController {
         }
     }
 
+/**
+ * Handles orders click.
+ *
+ * @param event event
+ */
     @FXML
     private void handleOrdersClick(ActionEvent event) {
         try {
@@ -36,6 +52,11 @@ public class StaffAccountDashboardController {
         }
     }
 
+/**
+ * Handles catalogue click.
+ *
+ * @param event event
+ */
     @FXML
     private void handleCatalogueClick(ActionEvent event) {
         try {
@@ -44,6 +65,11 @@ public class StaffAccountDashboardController {
             e.printStackTrace();
         }
     }
+/**
+ * Handles payments click.
+ *
+ * @param event event
+ */
 
     public void handlePaymentsClick(ActionEvent event) {
         try {
@@ -53,6 +79,11 @@ public class StaffAccountDashboardController {
         }
     }
 
+/**
+ * Handles logout menu click.
+ *
+ * @param event event
+ */
     @FXML
     private void handleLogoutMenuClick(ActionEvent event) {
         profileMenuPane.setVisible(false);

@@ -1,4 +1,4 @@
-package com.berrybyte.RPT.export;
+﻿package com.berrybyte.RPT.export;
 
 import com.berrybyte.RPT.model.OverdueBalanceReport;
 import com.berrybyte.RPT.model.OverdueBalanceRow;
@@ -20,7 +20,18 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+/**
+ * Represents overdue balance pdf service.
+ */
 public class OverdueBalancePdfService {
+/**
+ * Executes the generate overdue balance pdf workflow.
+ * This method coordinates the main operation for this action.
+ *
+ * @param report report
+ * @return result value
+ * @throws Exception when the operation fails
+ */
 
     public Path generateOverdueBalancePdf(OverdueBalanceReport report) throws Exception {
         if (report == null) {
@@ -81,6 +92,13 @@ public class OverdueBalancePdfService {
 
         return pdfPath;
     }
+/**
+ * Executes the open overdue balance pdf workflow.
+ * This method coordinates the main operation for this action.
+ *
+ * @param pdfPath pdf path
+ * @throws Exception when the operation fails
+ */
 
     public void openOverdueBalancePdf(Path pdfPath) throws Exception {
         if (pdfPath == null || !Files.exists(pdfPath)) {
@@ -99,6 +117,12 @@ public class OverdueBalancePdfService {
 
         desktop.open(pdfPath.toFile());
     }
+/**
+ * Performs add header cell.
+ *
+ * @param table table
+ * @param text text
+ */
 
     private void addHeaderCell(Table table, String text) {
         table.addHeaderCell(new Cell()
@@ -106,6 +130,12 @@ public class OverdueBalancePdfService {
                 .setBorder(Border.NO_BORDER)
                 .setFontSize(10));
     }
+/**
+ * Performs add body cell.
+ *
+ * @param table table
+ * @param text text
+ */
 
     private void addBodyCell(Table table, String text) {
         table.addCell(new Cell()
@@ -113,10 +143,21 @@ public class OverdueBalancePdfService {
                 .setBorder(Border.NO_BORDER)
                 .setFontSize(9));
     }
+/**
+ * Performs format money.
+ *
+ * @param value value
+ * @return result value
+ */
 
     private String formatMoney(java.math.BigDecimal value) {
         return value == null ? "0.00" : String.format("%.2f", value);
     }
+/**
+ * Performs resolve report directory.
+ *
+ * @return result value
+ */
 
     private Path resolveReportDirectory() {
         Path userHome = Paths.get(System.getProperty("user.home"));

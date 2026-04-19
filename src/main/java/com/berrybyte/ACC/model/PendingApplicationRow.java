@@ -1,5 +1,8 @@
-package com.berrybyte.ACC.model;
+﻿package com.berrybyte.ACC.model;
 
+/**
+ * Represents pending application row.
+ */
 public class PendingApplicationRow {
     private final int id;
     private final String name;
@@ -10,6 +13,19 @@ public class PendingApplicationRow {
     private final String submissionDate;
     private final String address;
 
+/**
+ * Creates a new PendingApplicationRow instance.
+ * This method coordinates the main operation for this action.
+ *
+ * @param id id
+ * @param name name
+ * @param companyName company name
+ * @param companyRegistrationNumber company registration number
+ * @param phoneNumber phone number
+ * @param email email
+ * @param submissionDate submission date
+ * @param address address
+ */
     public PendingApplicationRow(int id,
                                   String name,
                                   String companyName,

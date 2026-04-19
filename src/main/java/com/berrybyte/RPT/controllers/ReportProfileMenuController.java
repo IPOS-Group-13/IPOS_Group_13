@@ -1,14 +1,21 @@
-package com.berrybyte.RPT.controllers;
+﻿package com.berrybyte.RPT.controllers;
 
 import com.berrybyte.common.SceneSwitcher;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.layout.AnchorPane;
 
+/**
+ * Represents report profile menu controller.
+ */
 public abstract class ReportProfileMenuController {
 
     @FXML
     protected AnchorPane profileMenuPane;
+/**
+ * Performs initialize profile menu.
+ *
+ */
 
     protected void initializeProfileMenu() {
         if (profileMenuPane != null) {
@@ -17,6 +24,10 @@ public abstract class ReportProfileMenuController {
         }
     }
 
+/**
+ * Handles profile click.
+ *
+ */
     @FXML
     protected void handleProfileClick() {
         if (profileMenuPane == null) {
@@ -31,6 +42,11 @@ public abstract class ReportProfileMenuController {
         }
     }
 
+/**
+ * Handles logout menu click.
+ *
+ * @param event event
+ */
     @FXML
     protected void handleLogoutMenuClick(ActionEvent event) {
         if (profileMenuPane != null) {

@@ -1,4 +1,4 @@
-package com.berrybyte.catalogue;
+﻿package com.berrybyte.catalogue;
 
 import com.berrybyte.common.SceneSwitcher;
 import javafx.event.ActionEvent;
@@ -11,6 +11,9 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
+/**
+ * Represents update product controller.
+ */
 public class UpdateProductController {
 
     @FXML private TextField descriptionField;
@@ -26,6 +29,11 @@ public class UpdateProductController {
     private int itemId;
 
     private final CatalogueService catalogueService = new CatalogueService();
+/**
+ * Sets product.
+ *
+ * @param item item
+ */
 
     public void setProduct(CatalogueItemRow item) {
         this.itemId = item.getItemId();
@@ -39,6 +47,11 @@ public class UpdateProductController {
         stockLimitField.setText(String.valueOf(item.getStockLimitPacks()));
     }
 
+/**
+ * Handles save.
+ *
+ * @param event event
+ */
     @FXML
     private void handleSave(ActionEvent event) {
         try {
@@ -74,6 +87,11 @@ public class UpdateProductController {
         }
     }
 
+/**
+ * Handles back button.
+ *
+ * @param event event
+ */
     @FXML
     private void handleBackButton(MouseEvent event) {
         try {

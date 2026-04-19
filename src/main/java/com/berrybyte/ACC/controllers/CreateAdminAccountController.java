@@ -1,4 +1,4 @@
-package com.berrybyte.ACC.controllers;
+﻿package com.berrybyte.ACC.controllers;
 
 import com.berrybyte.ACC.util.PhoneNumberRules;
 import com.berrybyte.common.DatabaseConnection;
@@ -18,6 +18,9 @@ import javafx.stage.Stage;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 
+/**
+ * Represents create admin account controller.
+ */
 public class CreateAdminAccountController {
 
     @FXML
@@ -38,6 +41,12 @@ public class CreateAdminAccountController {
     @FXML
     private Label messageLabel;
 
+/**
+ * Executes the create admin account workflow.
+ * This method coordinates the main operation for this action.
+ *
+ * @param event event
+ */
     @FXML
     public void createAdminAccount(ActionEvent event) {
         try {
@@ -47,6 +56,13 @@ public class CreateAdminAccountController {
             messageLabel.setText(e.getMessage());
         }
     }
+
+/**
+ * Executes the validate admin details workflow.
+ * This method coordinates the main operation for this action.
+ *
+ * @throws Exception when the operation fails
+ */
 
     private void validateAdminDetails() throws Exception {
         String name = nameTextField.getText() == null ? "" : nameTextField.getText().trim();
@@ -75,6 +91,13 @@ public class CreateAdminAccountController {
         }
         PhoneNumberRules.normalizeAndValidate(phone);
     }
+
+/**
+ * Executes the create admin workflow.
+ * This method coordinates the main operation for this action.
+ *
+ * @param event event
+ */
 
     private void createAdmin(ActionEvent event) {
         String sql = """
@@ -105,6 +128,11 @@ public class CreateAdminAccountController {
         }
     }
 
+/**
+ * Handles back button.
+ *
+ * @param event event
+ */
     @FXML
     private void handleBackButton(MouseEvent event) {
         try {
@@ -117,6 +145,11 @@ public class CreateAdminAccountController {
             e.printStackTrace();
         }
     }
+
+/**
+ * Performs clear fields.
+ *
+ */
 
     private void clearFields() {
         nameTextField.clear();

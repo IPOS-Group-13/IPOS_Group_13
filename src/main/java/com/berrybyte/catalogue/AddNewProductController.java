@@ -1,4 +1,4 @@
-package com.berrybyte.catalogue;
+﻿package com.berrybyte.catalogue;
 
 import com.berrybyte.common.SceneSwitcher;
 import javafx.event.ActionEvent;
@@ -15,6 +15,9 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
+/**
+ * Represents add new product controller.
+ */
 public class AddNewProductController {
     private static final String DESCRIPTION_REGEX = "^[A-Za-z0-9 ,.&()'/-]{2,100}$";
     private static final String PACKAGE_TYPE_REGEX = "^[A-Za-z0-9 .&()'/-]{2,50}$";
@@ -54,11 +57,20 @@ public class AddNewProductController {
 
     private final CatalogueService catalogueService = new CatalogueService();
 
+/**
+ * Initializes controller state and bindings.
+ *
+ */
     @FXML
     public void initialize() {
         messageLabel.setText("");
     }
 
+/**
+ * Handles next.
+ *
+ * @param event event
+ */
     @FXML
     private void handleNext(ActionEvent event) {
         String description = nameTextField.getText() == null ? "" : nameTextField.getText().trim();
@@ -122,6 +134,11 @@ public class AddNewProductController {
         }
     }
 
+/**
+ * Handles back button.
+ *
+ * @param event event
+ */
     @FXML
     private void handleBackButton(MouseEvent event) {
         try {

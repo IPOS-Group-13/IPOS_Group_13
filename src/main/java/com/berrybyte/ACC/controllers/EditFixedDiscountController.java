@@ -1,4 +1,4 @@
-package com.berrybyte.ACC.controllers;
+﻿package com.berrybyte.ACC.controllers;
 
 import com.berrybyte.ACC.services.MerchantAccountService;
 import com.berrybyte.common.DatabaseConnection;
@@ -18,6 +18,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
+/**
+ * Represents edit fixed discount controller.
+ */
 public class EditFixedDiscountController {
 
     @FXML
@@ -30,11 +33,21 @@ public class EditFixedDiscountController {
 
     private final MerchantAccountService merchantAccountService = new MerchantAccountService();
 
+/**
+ * Sets merchant id.
+ *
+ * @param merchantId merchant id
+ */
+
     public void setMerchantId(int merchantId) {
         this.merchantId = merchantId;
         loadCurrentFixedDiscount();
     }
 
+/**
+ * Loads current fixed discount.
+ *
+ */
     private void loadCurrentFixedDiscount() {
         String sql = """
                 SELECT dpt.DiscountPercent
@@ -68,6 +81,11 @@ public class EditFixedDiscountController {
         }
     }
 
+/**
+ * Handles save.
+ *
+ * @param event event
+ */
     @FXML
     private void handleSave(ActionEvent event) {
         try {
@@ -102,6 +120,11 @@ public class EditFixedDiscountController {
         }
     }
 
+/**
+ * Handles back button.
+ *
+ * @param event event
+ */
     @FXML
     private void handleBackButton(MouseEvent event) {
         try {

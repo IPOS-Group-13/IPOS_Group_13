@@ -1,4 +1,4 @@
-package com.berrybyte.ORD.controllers;
+﻿package com.berrybyte.ORD.controllers;
 
 import com.berrybyte.ORD.helpers.OrderSummaryRow;
 import com.berrybyte.ORD.services.SaOrderService;
@@ -23,6 +23,9 @@ import javafx.stage.StageStyle;
 
 import java.time.LocalDateTime;
 
+/**
+ * Represents order summary controller.
+ */
 public class OrderSummaryController {
 
     private final SaOrderService orderService = new SaOrderService();
@@ -69,6 +72,10 @@ public class OrderSummaryController {
     @FXML
     private TableColumn<OrderSummaryRow, String> deliveryDateColumn;
 
+/**
+ * Initializes controller state and bindings.
+ *
+ */
     @FXML
     public void initialize() {
         orderIdColumn.setCellValueFactory(new PropertyValueFactory<>("orderId"));
@@ -86,12 +93,23 @@ public class OrderSummaryController {
         refreshOrdersSummary();
     }
 
+/**
+ * Handles search.
+ *
+ * @param event event
+ */
     @FXML
     private void handleSearch(ActionEvent event) {
         String keyword = searchField == null ? "" : searchField.getText();
         loadOrdersSummary(keyword);
     }
 
+/**
+ * Executes the update dispatch details workflow.
+ * This method coordinates the main operation for this action.
+ *
+ * @param event event
+ */
     @FXML
     private void updateDispatchDetails(ActionEvent event) {
         OrderSummaryRow selectedOrder = ordersSummaryTable == null ? null : ordersSummaryTable.getSelectionModel().getSelectedItem();
@@ -123,6 +141,12 @@ public class OrderSummaryController {
         }
     }
 
+/**
+ * Executes the update delivery status workflow.
+ * This method coordinates the main operation for this action.
+ *
+ * @param event event
+ */
     @FXML
     private void updateDeliveryStatus(ActionEvent event) {
         OrderSummaryRow selectedOrder = ordersSummaryTable == null ? null : ordersSummaryTable.getSelectionModel().getSelectedItem();
@@ -160,6 +184,11 @@ public class OrderSummaryController {
         }
     }
 
+/**
+ * Performs view invoices button.
+ *
+ * @param event event
+ */
     @FXML
     private void viewInvoicesButton(ActionEvent event) {
         OrderSummaryRow selectedOrder = ordersSummaryTable == null ? null : ordersSummaryTable.getSelectionModel().getSelectedItem();
@@ -182,6 +211,11 @@ public class OrderSummaryController {
         }
     }
 
+/**
+ * Executes the record payment workflow.
+ *
+ * @param event event
+ */
     @FXML
     private void recordPayment(ActionEvent event) {
         OrderSummaryRow selectedOrder = ordersSummaryTable == null ? null : ordersSummaryTable.getSelectionModel().getSelectedItem();
@@ -216,6 +250,11 @@ public class OrderSummaryController {
         }
     }
 
+/**
+ * Handles back button.
+ *
+ * @param event event
+ */
     @FXML
     private void handleBackButton(MouseEvent event) {
         try {
@@ -225,10 +264,20 @@ public class OrderSummaryController {
             messageLabel.setText("Unable to go back.");
         }
     }
+/**
+ * Executes the refresh orders summary workflow.
+ * This method coordinates the main operation for this action.
+ *
+ */
 
     public void refreshOrdersSummary() {
         loadOrdersSummary(searchField == null ? "" : searchField.getText());
     }
+/**
+ * Loads orders summary.
+ *
+ * @param keyword keyword
+ */
 
     private void loadOrdersSummary(String keyword) {
         try {

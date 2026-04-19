@@ -1,13 +1,21 @@
-package com.berrybyte.common;
+﻿package com.berrybyte.common;
 
 import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.util.Properties;
 
+/**
+ * Represents database connection.
+ */
 public class DatabaseConnection {
 
     public Connection databaselink;
+/**
+ * Returns connection.
+ *
+ * @return result value
+ */
 
     public Connection getConnection() {
         try {

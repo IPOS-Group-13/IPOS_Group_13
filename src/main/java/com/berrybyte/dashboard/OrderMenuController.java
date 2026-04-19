@@ -1,4 +1,4 @@
-package com.berrybyte.dashboard;
+﻿package com.berrybyte.dashboard;
 
 import com.berrybyte.common.RoleBasedNavigator;
 import com.berrybyte.common.SceneSwitcher;
@@ -6,11 +6,18 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.layout.AnchorPane;
 
+/**
+ * Represents order menu controller.
+ */
 public class OrderMenuController {
 
     @FXML
     private AnchorPane profileMenuPane;
 
+/**
+ * Initializes controller state and bindings.
+ *
+ */
     @FXML
     public void initialize() {
         if (profileMenuPane != null) {
@@ -19,6 +26,10 @@ public class OrderMenuController {
         }
     }
 
+/**
+ * Handles profile click.
+ *
+ */
     @FXML
     private void handleProfileClick() {
         if (profileMenuPane == null) {
@@ -33,6 +44,11 @@ public class OrderMenuController {
         }
     }
 
+/**
+ * Handles dashboard click.
+ *
+ * @param event event
+ */
     @FXML
     private void handleDashboardClick(ActionEvent event) {
         try {
@@ -42,6 +58,11 @@ public class OrderMenuController {
         }
     }
 
+/**
+ * Handles merchants click.
+ *
+ * @param event event
+ */
     @FXML
     private void handleMerchantsClick(ActionEvent event) {
         try {
@@ -51,6 +72,11 @@ public class OrderMenuController {
         }
     }
 
+/**
+ * Handles staff accounts click.
+ *
+ * @param event event
+ */
     @FXML
     private void handleStaffAccountsClick(ActionEvent event) {
         try {
@@ -60,6 +86,11 @@ public class OrderMenuController {
         }
     }
 
+/**
+ * Handles orders click.
+ *
+ * @param event event
+ */
     @FXML
     private void handleOrdersClick(ActionEvent event) {
         try {
@@ -69,6 +100,11 @@ public class OrderMenuController {
         }
     }
 
+/**
+ * Handles catalogue click.
+ *
+ * @param event event
+ */
     @FXML
     private void handleCatalogueClick (ActionEvent event) {
         try {
@@ -77,6 +113,11 @@ public class OrderMenuController {
             e.printStackTrace();
         }
     }
+/**
+ * Handles payments click.
+ *
+ * @param event event
+ */
 
     public void handlePaymentsClick(ActionEvent event) {
         try {
@@ -86,6 +127,11 @@ public class OrderMenuController {
         }
     }
 
+/**
+ * Handles reports click.
+ *
+ * @param event event
+ */
     @FXML
     public void handleReportsClick(ActionEvent event) {
         try {
@@ -95,6 +141,11 @@ public class OrderMenuController {
         }
     }
 
+/**
+ * Handles logout menu click.
+ *
+ * @param event event
+ */
     @FXML
     private void handleLogoutMenuClick(ActionEvent event) {
         if (profileMenuPane != null) {
@@ -109,6 +160,11 @@ public class OrderMenuController {
         }
     }
 
+/**
+ * Handles pending applications.
+ *
+ * @param event event
+ */
     @FXML
     public void handlePendingApplications(ActionEvent event) {
         try {
@@ -118,6 +174,11 @@ public class OrderMenuController {
         }
     }
 
+/**
+ * Executes the open incoming orders button workflow.
+ *
+ * @param event event
+ */
     @FXML
     private void openIncomingOrdersButton(ActionEvent event) {
         try {
@@ -127,6 +188,11 @@ public class OrderMenuController {
         }
     }
 
+/**
+ * Performs view summary button.
+ *
+ * @param event event
+ */
     @FXML
     private void viewSummaryButton(ActionEvent event) {
         try{

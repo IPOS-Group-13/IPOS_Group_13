@@ -1,4 +1,4 @@
-package com.berrybyte.RPT.export;
+﻿package com.berrybyte.RPT.export;
 
 import com.berrybyte.RPT.model.MerchantOrderSummaryReport;
 import com.berrybyte.RPT.model.MerchantOrderSummaryRow;
@@ -22,7 +22,18 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+/**
+ * Represents merchant order summary pdf service.
+ */
 public class MerchantOrderSummaryPdfService {
+/**
+ * Executes the generate merchant order summary pdf workflow.
+ * This method coordinates the main operation for this action.
+ *
+ * @param report report
+ * @return result value
+ * @throws Exception when the operation fails
+ */
 
     public Path generateMerchantOrderSummaryPdf(MerchantOrderSummaryReport report) throws Exception {
         if (report == null) {
@@ -44,6 +55,13 @@ public class MerchantOrderSummaryPdfService {
             return fallbackPath;
         }
     }
+/**
+ * Executes the open merchant order summary pdf workflow.
+ * This method coordinates the main operation for this action.
+ *
+ * @param pdfPath pdf path
+ * @throws Exception when the operation fails
+ */
 
     public void openMerchantOrderSummaryPdf(Path pdfPath) throws Exception {
         if (pdfPath == null || !Files.exists(pdfPath)) {
@@ -59,6 +77,14 @@ public class MerchantOrderSummaryPdfService {
 
         desktop.open(pdfPath.toFile());
     }
+/**
+ * Performs write pdf.
+ * This method coordinates the main operation for this action.
+ *
+ * @param pdfPath pdf path
+ * @param report report
+ * @throws Exception when the operation fails
+ */
 
     private void writePdf(Path pdfPath, MerchantOrderSummaryReport report) throws Exception {
         try (Document document = new Document(new PdfDocument(new PdfWriter(pdfPath.toString())))) {
@@ -74,6 +100,12 @@ public class MerchantOrderSummaryPdfService {
                     .setMarginTop(20));
         }
     }
+/**
+ * Performs add header.
+ *
+ * @param document document
+ * @param report report
+ */
 
     private void addHeader(Document document, MerchantOrderSummaryReport report) {
         document.add(new Paragraph(report.getTitle()).setFontSize(24));
@@ -84,6 +116,12 @@ public class MerchantOrderSummaryPdfService {
         document.add(new LineSeparator(new SolidLine()));
         document.add(new Paragraph("\n"));
     }
+/**
+ * Performs add items section.
+ *
+ * @param document document
+ * @param report report
+ */
 
     private void addItemsSection(Document document, MerchantOrderSummaryReport report) {
         document.add(new Paragraph("Orders").setFontSize(14).setMarginBottom(10));
@@ -112,6 +150,12 @@ public class MerchantOrderSummaryPdfService {
         document.add(table);
         document.add(new Paragraph("\n"));
     }
+/**
+ * Performs add summary section.
+ *
+ * @param document document
+ * @param report report
+ */
 
     private void addSummarySection(Document document, MerchantOrderSummaryReport report) {
         Table summaryTable = new Table(UnitValue.createPercentArray(new float[]{2f, 1f}))
@@ -123,6 +167,12 @@ public class MerchantOrderSummaryPdfService {
 
         document.add(summaryTable);
     }
+/**
+ * Performs add header cell.
+ *
+ * @param table table
+ * @param text text
+ */
 
     private void addHeaderCell(Table table, String text) {
         table.addHeaderCell(new Cell()
@@ -131,12 +181,26 @@ public class MerchantOrderSummaryPdfService {
                 .setBorder(Border.NO_BORDER)
                 .setPadding(8));
     }
+/**
+ * Performs body cell.
+ *
+ * @param text text
+ * @return result value
+ */
 
     private Cell bodyCell(String text) {
         return new Cell()
                 .add(new Paragraph(text).setFontSize(10))
                 .setPadding(8);
     }
+/**
+ * Performs add summary row.
+ * This method coordinates the main operation for this action.
+ *
+ * @param table table
+ * @param label label
+ * @param value value
+ */
 
     private void addSummaryRow(Table table, String label, String value) {
         table.addCell(new Cell()
@@ -147,14 +211,31 @@ public class MerchantOrderSummaryPdfService {
                 .setTextAlignment(TextAlignment.RIGHT)
                 .setPadding(8));
     }
+/**
+ * Performs format currency.
+ *
+ * @param value value
+ * @return result value
+ */
 
     private String formatCurrency(double value) {
         return String.format("GBP %.2f", value);
     }
+/**
+ * Performs non blank.
+ *
+ * @param value value
+ * @return result value
+ */
 
     private String nonBlank(String value) {
         return value == null || value.isBlank() ? "N/A" : value;
     }
+/**
+ * Performs resolve report directory.
+ *
+ * @return result value
+ */
 
     private Path resolveReportDirectory() {
         Path userHome = Paths.get(System.getProperty("user.home"));

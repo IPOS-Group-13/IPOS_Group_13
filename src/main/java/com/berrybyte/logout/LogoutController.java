@@ -1,4 +1,4 @@
-package com.berrybyte.logout;
+﻿package com.berrybyte.logout;
 
 import com.berrybyte.common.LoginSession;
 import com.berrybyte.common.RoleBasedNavigator;
@@ -9,8 +9,16 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+/**
+ * Represents logout controller.
+ */
 public class LogoutController {
 
+/**
+ * Handles yes logout.
+ *
+ * @param event event
+ */
     @FXML
     private void handleYesLogout(ActionEvent event) {
         try {
@@ -35,6 +43,11 @@ public class LogoutController {
         }
     }
 
+/**
+ * Handles no stay.
+ *
+ * @param event event
+ */
     @FXML
     private void handleNoStay(ActionEvent event) {
         try {

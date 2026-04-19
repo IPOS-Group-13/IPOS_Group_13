@@ -1,4 +1,4 @@
-package com.berrybyte.dashboard;
+﻿package com.berrybyte.dashboard;
 
 import com.berrybyte.ACC.controllers.ConfirmDeleteAccountController;
 import com.berrybyte.ACC.controllers.ConfirmDeleteDiscountPlanController;
@@ -32,6 +32,9 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Represents merchant menu controller.
+ */
 public class MerchantMenuController {
 
     @FXML
@@ -89,6 +92,10 @@ public class MerchantMenuController {
     private final DeleteAccountService deleteAccountService = new DeleteAccountService();
     private final MerchantStatusService merchantStatusService = new MerchantStatusService();
 
+/**
+ * Initializes controller state and bindings.
+ *
+ */
     @FXML
     public void initialize() {
         nameColoumn.setCellValueFactory(new PropertyValueFactory<>("merchantName"));
@@ -122,11 +129,21 @@ public class MerchantMenuController {
         loadMerchants("");
     }
 
+/**
+ * Handles search.
+ *
+ * @param event event
+ */
     @FXML
     protected void handleSearch(ActionEvent event) {
         loadMerchants(searchField.getText());
     }
 
+/**
+ * Handles edit merchant details.
+ *
+ * @param event event
+ */
     @FXML
     protected void handleEditMerchantDetails(ActionEvent event) {
         if (!ensureMerchantSelected()) {
@@ -142,6 +159,11 @@ public class MerchantMenuController {
         );
     }
 
+/**
+ * Handles staff accounts click.
+ *
+ * @param event event
+ */
     @FXML
     protected void handleStaffAccountsClick(ActionEvent event) {
         try {
@@ -151,6 +173,11 @@ public class MerchantMenuController {
         }
     }
 
+/**
+ * Handles dashboard click.
+ *
+ * @param event event
+ */
     @FXML
     protected void handleDashboardClick(ActionEvent event) {
         try {
@@ -160,6 +187,11 @@ public class MerchantMenuController {
         }
     }
 
+/**
+ * Handles catalogue click.
+ *
+ * @param event event
+ */
     @FXML
     protected void handleCatalogueClick(ActionEvent event) {
         try {
@@ -169,6 +201,11 @@ public class MerchantMenuController {
         }
     }
 
+/**
+ * Handles merchants click.
+ *
+ * @param event event
+ */
     @FXML
     protected void handleMerchantsClick(ActionEvent event) {
         try {
@@ -178,6 +215,11 @@ public class MerchantMenuController {
         }
     }
 
+/**
+ * Handles orders click.
+ *
+ * @param event event
+ */
     @FXML
     protected void handleOrdersClick(ActionEvent event) {
         try {
@@ -187,6 +229,11 @@ public class MerchantMenuController {
         }
     }
 
+/**
+ * Handles payments click.
+ *
+ * @param event event
+ */
     @FXML
     public void handlePaymentsClick(ActionEvent event) {
         try {
@@ -196,6 +243,11 @@ public class MerchantMenuController {
         }
     }
 
+/**
+ * Handles reports click.
+ *
+ * @param event event
+ */
     @FXML
     public void handleReportsClick(ActionEvent event) {
         try {
@@ -205,6 +257,11 @@ public class MerchantMenuController {
         }
     }
 
+/**
+ * Handles update discount plan.
+ *
+ * @param event event
+ */
     @FXML
     protected void handleUpdateDiscountPlan(ActionEvent event) {
         if (!ensureMerchantSelected()) {
@@ -229,6 +286,11 @@ public class MerchantMenuController {
         }
     }
 
+/**
+ * Handles delete discount plan.
+ *
+ * @param event event
+ */
     @FXML
     protected void handleDeleteDiscountPlan(ActionEvent event) {
         if (!ensureMerchantSelected()) {
@@ -271,6 +333,11 @@ public class MerchantMenuController {
         }
     }
 
+/**
+ * Handles delete account.
+ *
+ * @param event event
+ */
     @FXML
     protected void handleDeleteAccount(ActionEvent event) {
         if (!canDeleteMerchantAccounts()) {
@@ -303,6 +370,11 @@ public class MerchantMenuController {
         }
     }
 
+/**
+ * Handles restore state.
+ *
+ * @param event event
+ */
     @FXML
     protected void handleRestoreState(ActionEvent event) {
         if (!canRestoreMerchantState()) {
@@ -333,6 +405,10 @@ public class MerchantMenuController {
     }
 
 
+/**
+ * Handles profile click.
+ *
+ */
     @FXML
     protected void handleProfileClick() {
         boolean isVisible = profileMenuPane.isVisible();
@@ -343,6 +419,11 @@ public class MerchantMenuController {
         }
     }
 
+/**
+ * Handles pending applications.
+ *
+ * @param event event
+ */
     @FXML
     public void handlePendingApplications(ActionEvent event) {
         try {
@@ -352,6 +433,11 @@ public class MerchantMenuController {
         }
     }
 
+/**
+ * Handles logout menu click.
+ *
+ * @param event event
+ */
     @FXML
     protected void handleLogoutMenuClick(ActionEvent event) {
         profileMenuPane.setVisible(false);
@@ -363,6 +449,11 @@ public class MerchantMenuController {
             e.printStackTrace();
         }
     }
+/**
+ * Loads merchants.
+ *
+ * @param searchText search text
+ */
 
     private void loadMerchants(String searchText) {
         try {
@@ -376,16 +467,30 @@ public class MerchantMenuController {
             messageLabel.setText("Unable to load merchants.");
         }
     }
+/**
+ * Executes the refresh merchants workflow.
+ * This method coordinates the main operation for this action.
+ *
+ */
 
     public void refreshMerchants() {
         loadMerchants(searchField.getText());
         messageLabel.setText("Discount plan deleted successfully.");
     }
+/**
+ * Executes the refresh after account delete workflow.
+ * This method coordinates the main operation for this action.
+ *
+ */
 
     public void refreshAfterAccountDelete() {
         loadMerchants(searchField.getText());
         messageLabel.setText("Merchant account deleted successfully.");
     }
+/**
+ * Performs hide overlay.
+ *
+ */
 
     public void hideOverlay() {
         if (overlayPane != null) {
@@ -393,6 +498,14 @@ public class MerchantMenuController {
             overlayPane.getChildren().clear();
         }
     }
+/**
+ * Executes the search merchants workflow.
+ * This method coordinates the main operation for this action.
+ *
+ * @param searchText search text
+ * @return result value
+ * @throws Exception when the operation fails
+ */
 
     private List<MerchantMenuRow> searchMerchants(String searchText) throws Exception {
         List<MerchantMenuRow> merchants = new ArrayList<>();
@@ -450,6 +563,11 @@ public class MerchantMenuController {
 
         return merchants;
     }
+/**
+ * Performs ensure merchant selected.
+ *
+ * @return result value
+ */
 
     private boolean ensureMerchantSelected() {
         if (selectedMerchant == null) {
@@ -458,11 +576,21 @@ public class MerchantMenuController {
         }
         return true;
     }
+/**
+ * Executes the update button state workflow.
+ * This method coordinates the main operation for this action.
+ *
+ */
 
     private void updateButtonState() {
         boolean disabled = (selectedMerchant == null);
         setActionButtonsDisabled(disabled);
     }
+/**
+ * Sets action buttons disabled.
+ *
+ * @param disabled disabled
+ */
 
     private void setActionButtonsDisabled(boolean disabled) {
         if (editMerchantDetailsButton != null) {
@@ -486,19 +614,39 @@ public class MerchantMenuController {
                     || !"IN_DEFAULT".equalsIgnoreCase(selectedMerchant.getAccountStatus()));
         }
     }
+/**
+ * Performs can delete merchant accounts.
+ *
+ * @return result value
+ */
 
     protected boolean canDeleteMerchantAccounts() {
         return "ADMIN".equalsIgnoreCase(LoginSession.getCurrentRole());
     }
+/**
+ * Performs can restore merchant state.
+ *
+ * @return result value
+ */
 
     protected boolean canRestoreMerchantState() {
         String role = LoginSession.getCurrentRole();
         return "ADMIN".equalsIgnoreCase(role) || "MANAGER".equalsIgnoreCase(role);
     }
+/**
+ * Performs has active discount plan.
+ *
+ * @param merchant merchant
+ * @return result value
+ */
 
     private boolean hasActiveDiscountPlan(MerchantMenuRow merchant) {
         return merchant != null && !"NONE".equalsIgnoreCase(merchant.getDiscountPlan());
     }
+/**
+ * Performs configure delete account button.
+ *
+ */
 
     private void configureDeleteAccountButton() {
         if (deleteAccount == null) {
@@ -510,6 +658,10 @@ public class MerchantMenuController {
         deleteAccount.setManaged(canDeleteMerchantAccounts);
         deleteAccount.setDisable(true);
     }
+/**
+ * Performs configure restore state button.
+ *
+ */
 
     private void configureRestoreStateButton() {
         if (restoreStateButton == null) {
@@ -521,6 +673,16 @@ public class MerchantMenuController {
         restoreStateButton.setManaged(canRestoreMerchantState);
         restoreStateButton.setDisable(true);
     }
+/**
+ * Executes the open scene for selected merchant workflow.
+ * This method coordinates the main operation for this action.
+ *
+ * @param event event
+ * @param fxmlPath fxml path
+ * @param title title
+ * @param setterName setter name
+ * @param value value
+ */
 
     private void openSceneForSelectedMerchant(ActionEvent event,
                                               String fxmlPath,

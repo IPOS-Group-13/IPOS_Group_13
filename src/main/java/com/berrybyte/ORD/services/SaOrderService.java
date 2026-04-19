@@ -1,4 +1,4 @@
-package com.berrybyte.ORD.services;
+﻿package com.berrybyte.ORD.services;
 
 import com.berrybyte.API.IOrderAPI;
 import com.berrybyte.ORD.helpers.*;
@@ -15,6 +15,9 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Represents sa order service.
+ */
 public class SaOrderService implements IOrderAPI {
 
     private final ExternalCommsQueueService externalCommsQueueService = new ExternalCommsQueueService();
@@ -22,6 +25,12 @@ public class SaOrderService implements IOrderAPI {
     private final InvoiceStorageService invoiceStorageService = new InvoiceStorageService();
     private final MerchantStatusService merchantStatusService = new MerchantStatusService();
 
+/**
+ * Returns orders for review.
+ *
+ * @return result value
+ * @throws Exception when the operation fails
+ */
     @Override
     public List<IncomingOrderRow> getOrdersForReview() throws Exception {
         String sql = """
@@ -55,6 +64,14 @@ public class SaOrderService implements IOrderAPI {
         return orders;
     }
 
+/**
+ * Executes the search orders for review workflow.
+ * This method coordinates the main operation for this action.
+ *
+ * @param keyword keyword
+ * @return result value
+ * @throws Exception when the operation fails
+ */
     @Override
     public List<IncomingOrderRow> searchOrdersForReview(String keyword) throws Exception {
         String sql = """
@@ -98,6 +115,14 @@ public class SaOrderService implements IOrderAPI {
         return orders;
     }
 
+/**
+ * Performs get order details.
+ * This method coordinates the main operation for this action.
+ *
+ * @param orderId order id
+ * @return result value
+ * @throws Exception when the operation fails
+ */
     @Override
     public OrderDetails getOrderDetails(int orderId) throws Exception {
         String sql = """
@@ -139,6 +164,14 @@ public class SaOrderService implements IOrderAPI {
         return null;
     }
 
+/**
+ * Performs get order items.
+ * This method coordinates the main operation for this action.
+ *
+ * @param orderId order id
+ * @return result value
+ * @throws Exception when the operation fails
+ */
     @Override
     public List<OrderLine> getOrderItems(int orderId) throws Exception {
         String sql = """
@@ -178,6 +211,15 @@ public class SaOrderService implements IOrderAPI {
         return items;
     }
 
+/**
+ * Executes the accept order workflow.
+ * This method coordinates the main operation for this action.
+ *
+ * @param orderId order id
+ * @param staffUserId staff user id
+ * @return result value
+ * @throws Exception when the operation fails
+ */
     @Override
     public AcceptOrderStatus acceptOrder(int orderId, int staffUserId) throws Exception {
         Connection conn = null;
@@ -372,6 +414,14 @@ public class SaOrderService implements IOrderAPI {
         }
     }
 
+/**
+ * Performs get invoice by order id.
+ * This method coordinates the main operation for this action.
+ *
+ * @param orderId order id
+ * @return result value
+ * @throws Exception when the operation fails
+ */
     @Override
     public InvoiceDetails getInvoiceByOrderId(int orderId) throws Exception {
         String invoiceSql = """
@@ -454,6 +504,14 @@ public class SaOrderService implements IOrderAPI {
             }
         }
     }
+/**
+ * Executes the generate invoice pdf for order workflow.
+ * This method coordinates the main operation for this action.
+ *
+ * @param orderId order id
+ * @return result value
+ * @throws Exception when the operation fails
+ */
 
     public Path generateInvoicePdfForOrder(int orderId) throws Exception {
         InvoiceDetails invoiceDetails = getInvoiceByOrderId(orderId);
@@ -462,12 +520,29 @@ public class SaOrderService implements IOrderAPI {
         }
         return invoicePdfService.generateInvoicePdf(invoiceDetails);
     }
+/**
+ * Executes the open invoice pdf for order workflow.
+ * This method coordinates the main operation for this action.
+ *
+ * @param orderId order id
+ * @return result value
+ * @throws Exception when the operation fails
+ */
 
     public Path openInvoicePdfForOrder(int orderId) throws Exception {
         Path pdfPath = generateInvoicePdfForOrder(orderId);
         invoicePdfService.openInvoicePdf(pdfPath);
         return pdfPath;
     }
+/**
+ * Performs queue order accepted email for order.
+ * This method coordinates the main operation for this action.
+ *
+ * @param orderId order id
+ * @param pdfPath pdf path
+ * @return result value
+ * @throws Exception when the operation fails
+ */
 
     public String queueOrderAcceptedEmailForOrder(int orderId, Path pdfPath) throws Exception {
         InvoiceDetails invoiceDetails = getInvoiceByOrderId(orderId);
@@ -478,6 +553,16 @@ public class SaOrderService implements IOrderAPI {
         return externalCommsQueueService.queueOrderAcceptedEmail(invoiceDetails, invoiceUrl);
     }
 
+/**
+ * Executes the record payment workflow.
+ * This method coordinates the main operation for this action.
+ *
+ * @param orderId order id
+ * @param paymentAmount payment amount
+ * @param paymentMethod payment method
+ * @param recordedByUserId recorded by user id
+ * @throws Exception when the operation fails
+ */
     @Override
     public void recordPayment(int orderId, BigDecimal paymentAmount, String paymentMethod, int recordedByUserId) throws Exception {
         if (orderId <= 0) {
@@ -647,6 +732,14 @@ public class SaOrderService implements IOrderAPI {
         }
     }
 
+/**
+ * Performs get merchant order summary.
+ * This method coordinates the main operation for this action.
+ *
+ * @param merchantId merchant id
+ * @return result value
+ * @throws Exception when the operation fails
+ */
     @Override
     public List<MerchantOrderSummary> getMerchantOrderSummary(int merchantId) throws Exception {
         String sql = """
@@ -679,6 +772,16 @@ public class SaOrderService implements IOrderAPI {
         return rows;
     }
 
+/**
+ * Performs get merchant order summary.
+ * This method coordinates the main operation for this action.
+ *
+ * @param merchantId merchant id
+ * @param startDate start date
+ * @param endDate end date
+ * @return result value
+ * @throws Exception when the operation fails
+ */
     @Override
     public List<MerchantOrderSummary> getMerchantOrderSummary(int merchantId, LocalDate startDate, LocalDate endDate) throws Exception {
         String sql = """
@@ -714,6 +817,12 @@ public class SaOrderService implements IOrderAPI {
         return rows;
     }
 
+/**
+ * Returns orders summary.
+ *
+ * @return result value
+ * @throws Exception when the operation fails
+ */
     @Override
     public List<OrderSummaryRow> getOrdersSummary() throws Exception {
         String sql = """
@@ -746,6 +855,14 @@ public class SaOrderService implements IOrderAPI {
         return rows;
     }
 
+/**
+ * Executes the search orders summary workflow.
+ * This method coordinates the main operation for this action.
+ *
+ * @param keyword keyword
+ * @return result value
+ * @throws Exception when the operation fails
+ */
     @Override
     public List<OrderSummaryRow> searchOrdersSummary(String keyword) throws Exception {
         String sql = """
@@ -789,6 +906,19 @@ public class SaOrderService implements IOrderAPI {
         return rows;
     }
 
+/**
+ * Executes the update dispatch details workflow.
+ * This method coordinates the main operation for this action.
+ *
+ * @param orderId order id
+ * @param courierName courier name
+ * @param courierRef courier ref
+ * @param dispatchedDateTime dispatched date time
+ * @param expectedDeliveryDateTime expected delivery date time
+ * @param status status
+ * @return result value
+ * @throws Exception when the operation fails
+ */
     @Override
     public boolean updateDispatchDetails(int orderId,
                                          String courierName,
@@ -820,6 +950,15 @@ public class SaOrderService implements IOrderAPI {
         }
     }
 
+/**
+ * Performs mark order as delivered.
+ * This method coordinates the main operation for this action.
+ *
+ * @param orderId order id
+ * @param deliveredDateTime delivered date time
+ * @return result value
+ * @throws Exception when the operation fails
+ */
     @Override
     public boolean markOrderAsDelivered(int orderId, LocalDateTime deliveredDateTime) throws Exception {
         String sql = """
@@ -840,6 +979,14 @@ public class SaOrderService implements IOrderAPI {
         }
     }
 
+/**
+ * Executes the track order workflow.
+ * This method coordinates the main operation for this action.
+ *
+ * @param orderId order id
+ * @return result value
+ * @throws Exception when the operation fails
+ */
     @Override
     public String trackOrder(int orderId) throws Exception {
         String sql = "SELECT Status FROM Orders WHERE OrderId = ?";
@@ -857,6 +1004,14 @@ public class SaOrderService implements IOrderAPI {
         }
         return null;
     }
+/**
+ * Performs map order summary row.
+ * This method coordinates the main operation for this action.
+ *
+ * @param rs rs
+ * @return result value
+ * @throws SQLException when the operation fails
+ */
 
     private OrderSummaryRow mapOrderSummaryRow(ResultSet rs) throws SQLException {
         return new OrderSummaryRow(
@@ -871,6 +1026,16 @@ public class SaOrderService implements IOrderAPI {
                 rs.getString("ExpectedDelivery"),
                 rs.getString("DeliveryDate"));
     }
+/**
+ * Executes the calculate discounted total workflow.
+ * This method coordinates the main operation for this action.
+ *
+ * @param conn conn
+ * @param merchantId merchant id
+ * @param grossAmount gross amount
+ * @return result value
+ * @throws SQLException when the operation fails
+ */
 
     private double calculateDiscountedTotal(Connection conn, int merchantId, double grossAmount) throws SQLException {
         DiscountTierMatch discountTier = findApplicableDiscountTier(conn, merchantId, grossAmount);
@@ -886,6 +1051,16 @@ public class SaOrderService implements IOrderAPI {
                 .setScale(2, RoundingMode.HALF_UP)
                 .doubleValue();
     }
+/**
+ * Executes the find applicable discount tier workflow.
+ * This method coordinates the main operation for this action.
+ *
+ * @param conn conn
+ * @param merchantId merchant id
+ * @param orderAmount order amount
+ * @return result value
+ * @throws SQLException when the operation fails
+ */
 
     private DiscountTierMatch findApplicableDiscountTier(Connection conn, int merchantId, double orderAmount) throws SQLException {
         String activePlanSql = """
@@ -944,19 +1119,37 @@ public class SaOrderService implements IOrderAPI {
         }
         return null;
     }
+/**
+ * Performs round currency.
+ *
+ * @param value value
+ * @return result value
+ */
 
     private double roundCurrency(double value) {
         return BigDecimal.valueOf(value)
                 .setScale(2, RoundingMode.HALF_UP)
                 .doubleValue();
     }
+/**
+ * Performs normalize currency.
+ *
+ * @param value value
+ * @return result value
+ */
 
     private BigDecimal normalizeCurrency(BigDecimal value) {
         return (value == null ? BigDecimal.ZERO : value).setScale(2, RoundingMode.HALF_UP);
     }
 
+/**
+ * Represents immutable data for discount tier match.
+ */
     private record DiscountTierMatch(double minOrderValue, Double maxOrderValue, double discountPercent) { }
 
+    /**
+     * Represents immutable data for stock reduction.
+     */
     private record StockReduction(int itemId, int quantity) { }
 }
 

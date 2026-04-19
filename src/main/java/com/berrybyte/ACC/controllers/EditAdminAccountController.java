@@ -1,4 +1,4 @@
-package com.berrybyte.ACC.controllers;
+﻿package com.berrybyte.ACC.controllers;
 
 import com.berrybyte.common.DatabaseConnection;
 import com.berrybyte.common.RoleBasedNavigator;
@@ -21,6 +21,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
+/**
+ * Represents edit admin account controller.
+ */
 public class EditAdminAccountController {
 
     @FXML
@@ -46,12 +49,21 @@ public class EditAdminAccountController {
 
     private int userId;
     private String pendingRole = "ADMIN";
+/**
+ * Sets user id.
+ *
+ * @param userId user id
+ */
 
     public void setUserId(int userId) {
         this.userId = userId;
         loadAdminDetails();
     }
 
+/**
+ * Loads admin details.
+ *
+ */
     private void loadAdminDetails() {
         String sql = """
                 SELECT Name, Username, Password, Email, PhoneNumber
@@ -91,6 +103,12 @@ public class EditAdminAccountController {
         }
     }
 
+/**
+ * Executes the update admin account workflow.
+ * This method coordinates the main operation for this action.
+ *
+ * @param event event
+ */
     @FXML
     public void updateAdminAccount(ActionEvent event) {
         try {
@@ -105,6 +123,11 @@ public class EditAdminAccountController {
         }
     }
 
+/**
+ * Handles demote button.
+ *
+ * @param event event
+ */
     @FXML
     private void handleDemoteButton(ActionEvent event) {
         if ("MANAGER".equals(pendingRole)) {
@@ -118,6 +141,11 @@ public class EditAdminAccountController {
         openDemotePopup();
     }
 
+/**
+ * Performs can demote admin.
+ *
+ * @return result value
+ */
     private boolean canDemoteAdmin() {
         String sql = "SELECT COUNT(*) AS adminCount FROM Users WHERE Role = ?";
 
@@ -141,6 +169,10 @@ public class EditAdminAccountController {
         return false;
     }
 
+/**
+ * Executes the open demote popup workflow.
+ *
+ */
     private void openDemotePopup() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/account/confirmDemoteAdmin.fxml"));
@@ -165,6 +197,10 @@ public class EditAdminAccountController {
         }
     }
 
+/**
+ * Performs confirm demotion.
+ *
+ */
     public void confirmDemotion() {
         pendingRole = "MANAGER";
         if (demoteButton != null) {
@@ -173,6 +209,12 @@ public class EditAdminAccountController {
         messageLabel.setText("Demotion selected. Click Save to apply the role change.");
     }
 
+/**
+ * Executes the validate admin details workflow.
+ * This method coordinates the main operation for this action.
+ *
+ * @throws Exception when the operation fails
+ */
     private void validateAdminDetails() throws Exception {
         String name = nameTextField.getText() == null ? "" : nameTextField.getText().trim();
         String username = usernameTextField.getText() == null ? "" : usernameTextField.getText().trim();
@@ -203,6 +245,12 @@ public class EditAdminAccountController {
         }
     }
 
+/**
+ * Executes the update admin workflow.
+ * This method coordinates the main operation for this action.
+ *
+ * @param event event
+ */
     private void updateAdmin(ActionEvent event) {
         String sql = """
                 UPDATE Users
@@ -237,6 +285,11 @@ public class EditAdminAccountController {
         }
     }
 
+/**
+ * Handles back button.
+ *
+ * @param event event
+ */
     @FXML
     private void handleBackButton(MouseEvent event) {
         try {

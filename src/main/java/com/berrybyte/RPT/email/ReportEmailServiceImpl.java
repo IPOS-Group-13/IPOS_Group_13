@@ -1,83 +1,132 @@
-package com.berrybyte.RPT.email;
+﻿package com.berrybyte.RPT.email;
 
-import jakarta.mail.*;
-import jakarta.mail.internet.InternetAddress;
-import jakarta.mail.internet.MimeBodyPart;
-import jakarta.mail.internet.MimeMessage;
-import jakarta.mail.internet.MimeMultipart;
+import com.berrybyte.common.DatabaseConnection;
 
-import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Properties;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.util.Locale;
 
+/**
+ * Represents report email service impl.
+ */
 public class ReportEmailServiceImpl implements ReportEmailService {
 
-    private final Properties mailProperties = new Properties();
-    private boolean mailPropertiesLoaded;
+    private static final String DEFAULT_RECIPIENT_EMAIL = "ipos_commercial@yahoo.com";
+    private static final String PURPOSE_ORDER_ACCEPTED = "ORDER_ACCEPTED";
+    private static final String SOURCE_SYSTEM = "SA";
 
+/**
+ * Executes the send report email workflow.
+ * This method coordinates the main operation for this action.
+ *
+ * @param recipientEmail recipient email
+ * @param subject subject
+ * @param body body
+ * @param attachmentPath attachment path
+ * @throws Exception when the operation fails
+ */
     @Override
     public void sendReportEmail(String recipientEmail,
                                 String subject,
                                 String body,
                                 Path attachmentPath) throws Exception {
-        ensureMailPropertiesLoaded();
-
-        if (recipientEmail == null || recipientEmail.isBlank()) {
-            throw new IllegalArgumentException("Recipient email is required.");
-        }
-
         if (attachmentPath == null || !Files.exists(attachmentPath)) {
             throw new IllegalArgumentException("Attachment file does not exist.");
         }
 
-        final String username = mailProperties.getProperty("mail.username");
-        final String password = mailProperties.getProperty("mail.password");
+        String resolvedRecipient = resolveRecipientEmail(recipientEmail);
+        String safeSubject = safeSubject(subject);
+        String queuedBody = buildQueuedBody(body, attachmentPath);
+        String referenceKey = buildReferenceKey(safeSubject, attachmentPath);
 
-        Session session = Session.getInstance(mailProperties, new Authenticator() {
-            @Override
-            protected PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication(username, password);
-            }
-        });
+        String sql = """
+                INSERT INTO ipos_pu.external_comms_queue
+                (recipient_email, subject, body, purpose, source_system, reference_key)
+                VALUES (?, ?, ?, ?, ?, ?)
+                """;
 
-        Message message = new MimeMessage(session);
-        message.setFrom(new InternetAddress(username));
-        message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(recipientEmail));
-        message.setSubject(subject);
-
-        MimeBodyPart textPart = new MimeBodyPart();
-        textPart.setText(body);
-
-        MimeBodyPart attachmentPart = new MimeBodyPart();
-        attachmentPart.attachFile(attachmentPath.toFile());
-
-        Multipart multipart = new MimeMultipart();
-        multipart.addBodyPart(textPart);
-        multipart.addBodyPart(attachmentPart);
-
-        message.setContent(multipart);
-
-        Transport.send(message);
+        try (Connection connection = new DatabaseConnection().getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setString(1, resolvedRecipient);
+            statement.setString(2, safeSubject);
+            statement.setString(3, queuedBody);
+            statement.setString(4, PURPOSE_ORDER_ACCEPTED);
+            statement.setString(5, SOURCE_SYSTEM);
+            statement.setString(6, referenceKey);
+            statement.executeUpdate();
+        }
     }
+/**
+ * Performs resolve recipient email.
+ *
+ * @param ignoredRecipientEmail ignored recipient email
+ * @return result value
+ */
 
-    private void ensureMailPropertiesLoaded() {
-        if (mailPropertiesLoaded) {
-            return;
+    private String resolveRecipientEmail(String ignoredRecipientEmail) {
+        if (DEFAULT_RECIPIENT_EMAIL == null || DEFAULT_RECIPIENT_EMAIL.isBlank()) {
+            throw new IllegalArgumentException("Merchant email is not available for this report.");
+        }
+        return DEFAULT_RECIPIENT_EMAIL.trim();
+    }
+/**
+ * Performs safe subject.
+ *
+ * @param subject subject
+ * @return result value
+ */
+
+    private String safeSubject(String subject) {
+        if (subject == null || subject.isBlank()) {
+            return "IPOS-SA Report";
+        }
+        return subject.trim();
+    }
+/**
+ * Performs build queued body.
+ *
+ * @param body body
+ * @param attachmentPath attachment path
+ * @return result value
+ */
+
+    private String buildQueuedBody(String body, Path attachmentPath) {
+        String safeBody = (body == null || body.isBlank())
+                ? "A report has been generated by IPOS-SA."
+                : body.trim();
+
+        return safeBody
+                + System.lineSeparator()
+                + System.lineSeparator()
+                + "Report file location:"
+                + System.lineSeparator()
+                + attachmentPath.toAbsolutePath();
+    }
+/**
+ * Performs build reference key.
+ *
+ * @param subject subject
+ * @param attachmentPath attachment path
+ * @return result value
+ */
+
+    private String buildReferenceKey(String subject, Path attachmentPath) {
+        String normalizedSubject = subject.toUpperCase(Locale.ROOT)
+                .replaceAll("[^A-Z0-9]+", "_")
+                .replaceAll("^_+|_+$", "");
+        String filePart = attachmentPath.getFileName().toString().toUpperCase(Locale.ROOT)
+                .replaceAll("[^A-Z0-9]+", "_")
+                .replaceAll("^_+|_+$", "");
+
+        if (normalizedSubject.isBlank()) {
+            normalizedSubject = "REPORT";
+        }
+        if (filePart.isBlank()) {
+            filePart = "FILE";
         }
 
-        loadMailProperties();
-        mailPropertiesLoaded = true;
-    }
-
-    private void loadMailProperties() {
-        try (InputStream inputStream = getClass().getClassLoader().getResourceAsStream("mail.properties.local")) {
-            if (inputStream == null) {
-                throw new RuntimeException("mail.properties.local file not found in resources folder.");
-            }
-            mailProperties.load(inputStream);
-        } catch (Exception e) {
-            throw new RuntimeException("Failed to load mail properties.", e);
-        }
+        return "SA_" + normalizedSubject + "_" + filePart + "_" + System.currentTimeMillis();
     }
 }
