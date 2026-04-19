@@ -1,4 +1,4 @@
-package com.berrybyte.login;
+﻿package com.berrybyte.login;
 
 import com.berrybyte.ACC.services.MerchantStatusService;
 import com.berrybyte.common.DatabaseConnection;
@@ -16,6 +16,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.time.LocalDate;
 
+/**
+ * Represents login controller.
+ */
 public class LoginController {
 
     private final MerchantStatusService merchantStatusService = new MerchantStatusService();
@@ -32,6 +35,11 @@ public class LoginController {
     @FXML
     private PasswordField passwordField;
 
+/**
+ * Performs login button on action.
+ *
+ * @param event event
+ */
     @FXML
     public void loginButtonOnAction(ActionEvent event) {
         loginMessageLabel.setText("");
@@ -43,10 +51,21 @@ public class LoginController {
         validateLogin(event);
     }
 
+/**
+ * Performs forgot password action.
+ *
+ * @param event event
+ */
     @FXML
     public void forgotPasswordAction(ActionEvent event) {
         forgotPassword.setDisable(true);
     }
+/**
+ * Executes the validate login workflow.
+ * This method coordinates the main operation for this action.
+ *
+ * @param event event
+ */
 
     public void validateLogin(ActionEvent event) {
         String sql = "SELECT UserId, Role FROM Users WHERE Username = ? AND Password = ?";

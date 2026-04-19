@@ -1,4 +1,4 @@
-package com.berrybyte.ORD.controllers;
+﻿package com.berrybyte.ORD.controllers;
 
 import com.berrybyte.ORD.helpers.PaymentRequestRow;
 import com.berrybyte.ORD.services.PaymentRequestService;
@@ -17,6 +17,9 @@ import javafx.scene.layout.AnchorPane;
 import java.util.List;
 import java.util.Locale;
 
+/**
+ * Represents payments menu controller.
+ */
 public class PaymentsMenuController {
 
     private final PaymentRequestService paymentRequestService = new PaymentRequestService();
@@ -48,6 +51,10 @@ public class PaymentsMenuController {
     @FXML
     private TableColumn<PaymentRequestRow, String> statusColumn;
 
+/**
+ * Initializes controller state and bindings.
+ *
+ */
     @FXML
     public void initialize() {
         if (profileMenuPane != null) {
@@ -74,6 +81,10 @@ public class PaymentsMenuController {
         loadPayments("");
     }
 
+/**
+ * Handles profile click.
+ *
+ */
     @FXML
     private void handleProfileClick() {
         if (profileMenuPane == null) {
@@ -88,6 +99,11 @@ public class PaymentsMenuController {
         }
     }
 
+/**
+ * Handles dashboard click.
+ *
+ * @param event event
+ */
     @FXML
     private void handleDashboardClick(ActionEvent event) {
         try {
@@ -98,6 +114,11 @@ public class PaymentsMenuController {
         }
     }
 
+/**
+ * Handles catalogue click.
+ *
+ * @param event event
+ */
     @FXML
     private void handleCatalogueClick(ActionEvent event) {
         try {
@@ -108,6 +129,11 @@ public class PaymentsMenuController {
         }
     }
 
+/**
+ * Handles pending applications.
+ *
+ * @param event event
+ */
     @FXML
     public void handlePendingApplications(ActionEvent event) {
         try {
@@ -117,6 +143,11 @@ public class PaymentsMenuController {
         }
     }
 
+/**
+ * Handles merchants click.
+ *
+ * @param event event
+ */
     @FXML
     private void handleMerchantsClick(ActionEvent event) {
         try {
@@ -127,6 +158,11 @@ public class PaymentsMenuController {
         }
     }
 
+/**
+ * Handles orders click.
+ *
+ * @param event event
+ */
     @FXML
     private void handleOrdersClick(ActionEvent event) {
         try {
@@ -137,6 +173,11 @@ public class PaymentsMenuController {
         }
     }
 
+/**
+ * Handles payments click.
+ *
+ * @param event event
+ */
     @FXML
     private void handlePaymentsClick(ActionEvent event) {
         try {
@@ -147,6 +188,11 @@ public class PaymentsMenuController {
         }
     }
 
+/**
+ * Handles reports click.
+ *
+ * @param event event
+ */
     @FXML
     private void handleReportsClick(ActionEvent event) {
         try {
@@ -157,11 +203,21 @@ public class PaymentsMenuController {
         }
     }
 
+/**
+ * Handles search.
+ *
+ * @param event event
+ */
     @FXML
     private void handleSearch(ActionEvent event) {
         loadPayments(searchField == null ? "" : searchField.getText());
     }
 
+/**
+ * Handles staff accounts click.
+ *
+ * @param event event
+ */
     @FXML
     private void handleStaffAccountsClick(ActionEvent event) {
         try {
@@ -172,6 +228,11 @@ public class PaymentsMenuController {
         }
     }
 
+/**
+ * Handles logout menu click.
+ *
+ * @param event event
+ */
     @FXML
     private void handleLogoutMenuClick(ActionEvent event) {
         if (profileMenuPane != null) {
@@ -186,6 +247,11 @@ public class PaymentsMenuController {
             setMessage("Unable to log out.");
         }
     }
+/**
+ * Loads payments.
+ *
+ * @param searchText search text
+ */
 
     private void loadPayments(String searchText) {
         try {
@@ -200,6 +266,13 @@ public class PaymentsMenuController {
             setMessage("Unable to load payment requests.");
         }
     }
+/**
+ * Performs filter payments.
+ *
+ * @param rows rows
+ * @param searchText search text
+ * @return result value
+ */
 
     private List<PaymentRequestRow> filterPayments(List<PaymentRequestRow> rows, String searchText) {
         String keyword = searchText == null ? "" : searchText.trim().toLowerCase(Locale.ROOT);
@@ -214,10 +287,22 @@ public class PaymentsMenuController {
                         || contains(row.getPaymentType(), keyword)
                         || contains(row.getStatus(), keyword)).toList();
     }
+/**
+ * Performs contains.
+ *
+ * @param value value
+ * @param keyword keyword
+ * @return result value
+ */
 
     private boolean contains(String value, String keyword) {
         return value != null && value.toLowerCase(Locale.ROOT).contains(keyword);
     }
+/**
+ * Sets message.
+ *
+ * @param message message
+ */
 
     private void setMessage(String message) {
         if (messageLabel != null) {

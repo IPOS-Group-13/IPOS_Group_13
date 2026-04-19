@@ -1,4 +1,4 @@
-package com.berrybyte.ORD.services;
+﻿package com.berrybyte.ORD.services;
 
 import com.berrybyte.ORD.helpers.InvoiceDetails;
 import com.berrybyte.ORD.helpers.InvoiceLine;
@@ -23,7 +23,18 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+/**
+ * Represents invoice pdf service.
+ */
 public class InvoicePdfService {
+/**
+ * Executes the generate invoice pdf workflow.
+ * This method coordinates the main operation for this action.
+ *
+ * @param invoice invoice
+ * @return result value
+ * @throws Exception when the operation fails
+ */
 
     public Path generateInvoicePdf(InvoiceDetails invoice) throws Exception {
         if (invoice == null) {
@@ -45,6 +56,13 @@ public class InvoicePdfService {
             return fallbackPath;
         }
     }
+/**
+ * Executes the open invoice pdf workflow.
+ * This method coordinates the main operation for this action.
+ *
+ * @param pdfPath pdf path
+ * @throws Exception when the operation fails
+ */
 
     public void openInvoicePdf(Path pdfPath) throws Exception {
         if (pdfPath == null || !Files.exists(pdfPath)) {
@@ -60,6 +78,14 @@ public class InvoicePdfService {
 
         desktop.open(pdfPath.toFile());
     }
+/**
+ * Performs write pdf.
+ * This method coordinates the main operation for this action.
+ *
+ * @param pdfPath pdf path
+ * @param invoice invoice
+ * @throws Exception when the operation fails
+ */
 
     private void writePdf(Path pdfPath, InvoiceDetails invoice) throws Exception {
         try (Document document = new Document(new PdfDocument(new PdfWriter(pdfPath.toString())))) {
@@ -76,6 +102,12 @@ public class InvoicePdfService {
                     .setMarginTop(20));
         }
     }
+/**
+ * Performs add header.
+ *
+ * @param document document
+ * @param invoice invoice
+ */
 
     private void addHeader(Document document, InvoiceDetails invoice) {
         Table headerTable = new Table(UnitValue.createPercentArray(new float[]{3f, 2f})).useAllAvailableWidth();
@@ -99,6 +131,12 @@ public class InvoicePdfService {
         document.add(new LineSeparator(new SolidLine()));
         document.add(new Paragraph("\n"));
     }
+/**
+ * Performs add merchant section.
+ *
+ * @param document document
+ * @param invoice invoice
+ */
 
     private void addMerchantSection(Document document, InvoiceDetails invoice) {
         Table infoTable = new Table(UnitValue.createPercentArray(new float[]{1f, 1f}))
@@ -126,6 +164,12 @@ public class InvoicePdfService {
         document.add(infoTable);
         document.add(new Paragraph("\n"));
     }
+/**
+ * Performs add items section.
+ *
+ * @param document document
+ * @param invoice invoice
+ */
 
     private void addItemsSection(Document document, InvoiceDetails invoice) {
         document.add(new Paragraph("Invoice Items").setFontSize(14).setMarginBottom(10));
@@ -153,6 +197,12 @@ public class InvoicePdfService {
         document.add(itemsTable);
         document.add(new Paragraph("\n"));
     }
+/**
+ * Performs add summary section.
+ *
+ * @param document document
+ * @param invoice invoice
+ */
 
     private void addSummarySection(Document document, InvoiceDetails invoice) {
         Table summaryTable = new Table(UnitValue.createPercentArray(new float[]{2f, 1f})).setWidth(UnitValue.createPercentValue(45)).setHorizontalAlignment(HorizontalAlignment.RIGHT);
@@ -175,6 +225,12 @@ public class InvoicePdfService {
 
         document.add(summaryTable);
     }
+/**
+ * Performs add header cell.
+ *
+ * @param table table
+ * @param text text
+ */
 
     private void addHeaderCell(Table table, String text) {
         table.addHeaderCell(new Cell()
@@ -183,12 +239,26 @@ public class InvoicePdfService {
                 .setBorder(Border.NO_BORDER)
                 .setPadding(8));
     }
+/**
+ * Performs body cell.
+ *
+ * @param text text
+ * @return result value
+ */
 
     private Cell bodyCell(String text) {
         return new Cell()
                 .add(new Paragraph(text).setFontSize(10))
                 .setPadding(8);
     }
+/**
+ * Performs add summary row.
+ * This method coordinates the main operation for this action.
+ *
+ * @param table table
+ * @param label label
+ * @param value value
+ */
 
     private void addSummaryRow(Table table, String label, String value) {
         table.addCell(new Cell()
@@ -199,24 +269,54 @@ public class InvoicePdfService {
                 .setTextAlignment(TextAlignment.RIGHT)
                 .setPadding(8));
     }
+/**
+ * Performs borderless cell.
+ *
+ * @param paragraph paragraph
+ * @return result value
+ */
 
     private Cell borderlessCell(Paragraph paragraph) {
         return new Cell()
                 .add(paragraph)
                 .setBorder(Border.NO_BORDER);
     }
+/**
+ * Performs label value.
+ *
+ * @param label label
+ * @param value value
+ * @return result value
+ */
 
     private Text labelValue(String label, String value) {
         return new Text(label + ": " + value);
     }
+/**
+ * Performs format currency.
+ *
+ * @param value value
+ * @return result value
+ */
 
     private String formatCurrency(double value) {
         return String.format("GBP %.2f", value);
     }
+/**
+ * Performs non blank.
+ *
+ * @param value value
+ * @return result value
+ */
 
     private String nonBlank(String value) {
         return value == null || value.isBlank() ? "N/A" : value;
     }
+/**
+ * Performs resolve invoice directory.
+ *
+ * @return result value
+ */
 
     private Path resolveInvoiceDirectory() {
         Path userHome = Paths.get(System.getProperty("user.home"));

@@ -1,4 +1,4 @@
-package com.berrybyte.RPT.controllers;
+﻿package com.berrybyte.RPT.controllers;
 
 import com.berrybyte.RPT.export.OverdueBalancePdfService;
 import com.berrybyte.RPT.model.OverdueBalanceReport;
@@ -19,6 +19,9 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
+/**
+ * Represents overdue balance report controller.
+ */
 public class OverdueBalanceReportController extends ReportProfileMenuController {
 
     private final ReportService reportService = new ReportServiceImpl(new ReportRepositoryImpl());
@@ -67,6 +70,10 @@ public class OverdueBalanceReportController extends ReportProfileMenuController 
     @FXML
     private Button backButton;
 
+/**
+ * Initializes controller state and bindings.
+ *
+ */
     @FXML
     public void initialize() {
         initializeProfileMenu();
@@ -81,6 +88,12 @@ public class OverdueBalanceReportController extends ReportProfileMenuController 
 
         updateFilterSummary();
     }
+/**
+ * Performs set filters.
+ *
+ * @param merchantId merchant id
+ * @param merchantName merchant name
+ */
 
     public void setFilters(Integer merchantId, String merchantName) {
         this.merchantId = merchantId;
@@ -89,11 +102,19 @@ public class OverdueBalanceReportController extends ReportProfileMenuController 
         loadReport();
     }
 
+/**
+ * Handles refresh.
+ *
+ */
     @FXML
     private void handleRefresh() {
         loadReport();
     }
 
+/**
+ * Handles export pdf.
+ *
+ */
     @FXML
     private void handleExportPdf() {
         try {
@@ -117,6 +138,11 @@ public class OverdueBalanceReportController extends ReportProfileMenuController 
         }
     }
 
+/**
+ * Handles back.
+ *
+ * @param event event
+ */
     @FXML
     private void handleBack(ActionEvent event) {
         try {
@@ -126,6 +152,10 @@ public class OverdueBalanceReportController extends ReportProfileMenuController 
             messageLabel.setText("Unable to go back.");
         }
     }
+/**
+ * Loads report.
+ *
+ */
 
     private void loadReport() {
         try {
@@ -138,11 +168,20 @@ public class OverdueBalanceReportController extends ReportProfileMenuController 
             messageLabel.setText("Unable to load overdue balance report.");
         }
     }
+/**
+ * Executes the update filter summary workflow.
+ * This method coordinates the main operation for this action.
+ *
+ */
 
     private void updateFilterSummary() {
         String merchantText = (merchantName == null || merchantName.isBlank()) ? "All overdue accounts" : merchantName;
         filterSummaryLabel.setText("Scope: " + merchantText);
     }
+/**
+ * Performs bind column widths.
+ *
+ */
 
     private void bindColumnWidths() {
         merchantIdColumn.prefWidthProperty().bind(overdueTable.widthProperty().multiply(0.11));

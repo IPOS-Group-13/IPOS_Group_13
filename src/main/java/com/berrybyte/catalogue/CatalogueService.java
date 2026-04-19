@@ -1,4 +1,4 @@
-package com.berrybyte.catalogue;
+﻿package com.berrybyte.catalogue;
 
 import com.berrybyte.API.ICatalogueAPI;
 import com.berrybyte.common.DatabaseConnection;
@@ -10,12 +10,28 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Represents catalogue service.
+ */
 public class CatalogueService implements ICatalogueAPI {
 
     private static final String CATALOGUE_ITEM_ID_LOCK = "ipos_sa_catalogue_item_id";
     private static final String DESCRIPTION_REGEX = "^[A-Za-z0-9 ,.&()'/-]{2,100}$";
     private static final String PACKAGE_TYPE_REGEX = "^[A-Za-z0-9 .&()'/-]{2,50}$";
     private static final String UNIT_REGEX = "^[A-Za-z]{1,20}$";
+/**
+ * Executes the create product workflow.
+ * This method coordinates the main operation for this action.
+ *
+ * @param description description
+ * @param packageType package type
+ * @param unit unit
+ * @param unitsInPack units in pack
+ * @param packageCost package cost
+ * @param availabilityPacks availability packs
+ * @param stockLimitPacks stock limit packs
+ * @throws Exception when the operation fails
+ */
 
     public void createProduct(String description,
                               String packageType,
@@ -92,6 +108,14 @@ public class CatalogueService implements ICatalogueAPI {
             }
         }
     }
+/**
+ * Executes the search catalogue items workflow.
+ * This method coordinates the main operation for this action.
+ *
+ * @param keyword keyword
+ * @return result value
+ * @throws Exception when the operation fails
+ */
 
     public List<CatalogueItemRow> searchCatalogueItems(String keyword) throws Exception {
         List<CatalogueItemRow> items = new ArrayList<>();
@@ -141,6 +165,20 @@ public class CatalogueService implements ICatalogueAPI {
 
         return items;
     }
+/**
+ * Executes the update product details workflow.
+ * This method coordinates the main operation for this action.
+ *
+ * @param itemId item id
+ * @param description description
+ * @param packageType package type
+ * @param unit unit
+ * @param unitsInPack units in pack
+ * @param packageCost package cost
+ * @param availabilityPacks availability packs
+ * @param stockLimitPacks stock limit packs
+ * @throws Exception when the operation fails
+ */
 
     public void updateProductDetails(int itemId,
                                      String description,
@@ -216,6 +254,14 @@ public class CatalogueService implements ICatalogueAPI {
 
 
 
+/**
+ * Performs get catalogue.
+ * This method coordinates the main operation for this action.
+ *
+ * @param keyword keyword
+ * @return result value
+ * @throws Exception when the operation fails
+ */
     @Override
     public List<String> getCatalogue(String keyword) throws Exception {
         List<String> rows = new ArrayList<>();
@@ -225,6 +271,14 @@ public class CatalogueService implements ICatalogueAPI {
         return rows;
     }
 
+/**
+ * Performs get product details.
+ * This method coordinates the main operation for this action.
+ *
+ * @param itemId item id
+ * @return result value
+ * @throws Exception when the operation fails
+ */
     @Override
     public String getProductDetails(int itemId) throws Exception {
         if (itemId <= 0) {
@@ -267,6 +321,14 @@ public class CatalogueService implements ICatalogueAPI {
         return null;
     }
 
+/**
+ * Performs check stock.
+ * This method coordinates the main operation for this action.
+ *
+ * @param itemId item id
+ * @return result value
+ * @throws Exception when the operation fails
+ */
     @Override
     public int checkStock(int itemId) throws Exception {
         if (itemId <= 0) {
@@ -294,6 +356,14 @@ public class CatalogueService implements ICatalogueAPI {
         return 0;
     }
 
+/**
+ * Performs add item.
+ * This method coordinates the main operation for this action.
+ *
+ * @param itemDetails item details
+ * @return result value
+ * @throws Exception when the operation fails
+ */
     @Override
     public boolean addItem(String itemDetails) throws Exception {
         if (itemDetails == null || itemDetails.isBlank()) {
@@ -318,6 +388,13 @@ public class CatalogueService implements ICatalogueAPI {
         return true;
     }
 
+/**
+ * Executes the generate low stock report workflow.
+ * This method coordinates the main operation for this action.
+ *
+ * @return result value
+ * @throws Exception when the operation fails
+ */
     @Override
     public List<String> generateLowStockReport() throws Exception {
         List<String> report = new ArrayList<>();
@@ -352,6 +429,18 @@ public class CatalogueService implements ICatalogueAPI {
 
         return report;
     }
+/**
+ * Executes the validate product details workflow.
+ * This method coordinates the main operation for this action.
+ *
+ * @param description description
+ * @param packageType package type
+ * @param unit unit
+ * @param unitsInPack units in pack
+ * @param packageCost package cost
+ * @param availabilityPacks availability packs
+ * @param stockLimitPacks stock limit packs
+ */
 
     private void validateProductDetails(String description,
                                         String packageType,
@@ -379,6 +468,12 @@ public class CatalogueService implements ICatalogueAPI {
             throw new IllegalArgumentException("Unit must contain letters only.");
         }
     }
+/**
+ * Returns low stock items.
+ *
+ * @return result value
+ * @throws Exception when the operation fails
+ */
 
     public List<LowStockItemRow> getLowStockItems() throws Exception {
         String sql = """
@@ -409,6 +504,13 @@ public class CatalogueService implements ICatalogueAPI {
 
         return items;
     }
+/**
+ * Performs ensure is deleted column.
+ * This method coordinates the main operation for this action.
+ *
+ * @param conn conn
+ * @throws Exception when the operation fails
+ */
 
     private void ensureIsDeletedColumn(Connection conn) throws Exception {
         String alterSql = "ALTER TABLE Catalogue ADD COLUMN IsDeleted TINYINT(1) NOT NULL DEFAULT 0";
@@ -422,6 +524,13 @@ public class CatalogueService implements ICatalogueAPI {
             }
         }
     }
+/**
+ * Performs acquire catalogue item id lock.
+ * This method coordinates the main operation for this action.
+ *
+ * @param conn conn
+ * @throws SQLException when the operation fails
+ */
 
     private void acquireCatalogueItemIdLock(Connection conn) throws SQLException {
         String lockSql = "SELECT GET_LOCK(?, 10) AS LockAcquired";
@@ -436,6 +545,13 @@ public class CatalogueService implements ICatalogueAPI {
             }
         }
     }
+/**
+ * Performs release catalogue item id lock.
+ * This method coordinates the main operation for this action.
+ *
+ * @param conn conn
+ * @throws SQLException when the operation fails
+ */
 
     private void releaseCatalogueItemIdLock(Connection conn) throws SQLException {
         String releaseSql = "SELECT RELEASE_LOCK(?)";

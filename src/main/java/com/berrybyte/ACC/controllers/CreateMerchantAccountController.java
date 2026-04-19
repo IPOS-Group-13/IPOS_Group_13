@@ -1,4 +1,4 @@
-package com.berrybyte.ACC.controllers;
+﻿package com.berrybyte.ACC.controllers;
 
 import com.berrybyte.ACC.session.MerchantDraftSession;
 import com.berrybyte.ACC.util.PhoneNumberRules;
@@ -14,6 +14,9 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
+/**
+ * Represents create merchant account controller.
+ */
 public class CreateMerchantAccountController {
 
     @FXML
@@ -46,6 +49,10 @@ public class CreateMerchantAccountController {
     @FXML
     private Label messageLabel;
 
+/**
+ * Initializes controller state and bindings.
+ *
+ */
     @FXML
     public void initialize() {
         if (MerchantDraftSession.hasDraft()) {
@@ -63,6 +70,11 @@ public class CreateMerchantAccountController {
         }
 
     }
+/**
+ * Handles back button.
+ *
+ * @param event event
+ */
     @FXML
     private void handleBackButton(MouseEvent event) {
         try {
@@ -87,6 +99,11 @@ public class CreateMerchantAccountController {
         }
     }
 
+/**
+ * Handles next.
+ *
+ * @param event event
+ */
     @FXML
     private void handleNext(ActionEvent event) {
         try {
@@ -109,6 +126,12 @@ public class CreateMerchantAccountController {
             messageLabel.setText(e.getMessage());
         }
     }
+/**
+ * Executes the validate merchant details workflow.
+ * This method coordinates the main operation for this action.
+ *
+ * @throws Exception when the operation fails
+ */
 
     private void validateMerchantDetails() throws Exception {
 

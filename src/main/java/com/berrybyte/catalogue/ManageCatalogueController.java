@@ -1,4 +1,4 @@
-package com.berrybyte.catalogue;
+﻿package com.berrybyte.catalogue;
 
 import com.berrybyte.common.RoleBasedNavigator;
 import com.berrybyte.common.SceneSwitcher;
@@ -6,6 +6,9 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.layout.AnchorPane;
 
+/**
+ * Represents manage catalogue controller.
+ */
 public class ManageCatalogueController {
 
     @FXML
@@ -14,6 +17,10 @@ public class ManageCatalogueController {
     @FXML
     private AnchorPane profileMenuPane;
 
+/**
+ * Initializes controller state and bindings.
+ *
+ */
     @FXML
     public void initialize() {
         if (catalogueMenuPane != null) {
@@ -26,6 +33,10 @@ public class ManageCatalogueController {
         }
     }
 
+/**
+ * Handles profile click.
+ *
+ */
     @FXML
     private void handleProfileClick() {
         if (profileMenuPane == null) {
@@ -40,6 +51,11 @@ public class ManageCatalogueController {
         }
     }
 
+/**
+ * Handles logout menu click.
+ *
+ * @param event event
+ */
     @FXML
     private void handleLogoutMenuClick(ActionEvent event) {
         if (profileMenuPane != null) {
@@ -55,6 +71,11 @@ public class ManageCatalogueController {
     }
 
 
+/**
+ * Handles merchants click.
+ *
+ * @param event event
+ */
     @FXML
     private void handleMerchantsClick(ActionEvent event) {
         try {
@@ -64,11 +85,21 @@ public class ManageCatalogueController {
         }
     }
 
+/**
+ * Sets quantity button.
+ *
+ * @param event event
+ */
     @FXML
     private void setQuantityButton(ActionEvent event) {
         System.out.println("Add Product clicked");
     }
 
+/**
+ * Performs add product button.
+ *
+ * @param event event
+ */
     @FXML
     private void addProductButton(ActionEvent event) {
         try {
@@ -79,6 +110,12 @@ public class ManageCatalogueController {
 
     }
 
+/**
+ * Executes the delete product button workflow.
+ * This method coordinates the main operation for this action.
+ *
+ * @param event event
+ */
     @FXML
     private void deleteProductButton(ActionEvent event) {
         try {
@@ -88,6 +125,11 @@ public class ManageCatalogueController {
         }
     }
 
+/**
+ * Handles back button.
+ *
+ * @param event event
+ */
     @FXML
     private void handleBackButton(ActionEvent event) {
         try {
@@ -98,6 +140,11 @@ public class ManageCatalogueController {
     }
 
 
+/**
+ * Performs modify quantity button.
+ *
+ * @param event event
+ */
     @FXML
     private void modifyQuantityButton(ActionEvent event) {
         try {
@@ -107,6 +154,11 @@ public class ManageCatalogueController {
         }
     }
 
+/**
+ * Handles catalogue click.
+ *
+ * @param event event
+ */
     @FXML
     private void handleCatalogueClick (ActionEvent event) {
         try {
@@ -116,6 +168,11 @@ public class ManageCatalogueController {
         }
     }
 
+/**
+ * Handles orders click.
+ *
+ * @param event event
+ */
     @FXML
     private void handleOrdersClick(ActionEvent event) {
         try {
@@ -125,6 +182,11 @@ public class ManageCatalogueController {
         }
     }
 
+/**
+ * Handles staff accounts click.
+ *
+ * @param event event
+ */
     @FXML
     private void handleStaffAccountsClick(ActionEvent event) {
         try {
@@ -133,6 +195,11 @@ public class ManageCatalogueController {
             e.printStackTrace();
         }
     }
+/**
+ * Handles payments click.
+ *
+ * @param event event
+ */
 
     public void handlePaymentsClick(ActionEvent event) {
         try {
@@ -142,6 +209,11 @@ public class ManageCatalogueController {
         }
     }
 
+/**
+ * Handles reports click.
+ *
+ * @param event event
+ */
     @FXML
     public void handleReportsClick(ActionEvent event) {
         try {
@@ -151,6 +223,11 @@ public class ManageCatalogueController {
         }
     }
 
+/**
+ * Handles pending applications.
+ *
+ * @param event event
+ */
     @FXML
     public void handlePendingApplications(ActionEvent event) {
         try {
@@ -160,6 +237,11 @@ public class ManageCatalogueController {
         }
     }
 
+/**
+ * Handles dashboard click.
+ *
+ * @param event event
+ */
     @FXML
     private void handleDashboardClick(ActionEvent event) {
         try {

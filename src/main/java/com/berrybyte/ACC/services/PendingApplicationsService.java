@@ -1,4 +1,4 @@
-package com.berrybyte.ACC.services;
+﻿package com.berrybyte.ACC.services;
 
 import com.berrybyte.ACC.model.PendingApplicationRow;
 import com.berrybyte.common.DatabaseConnection;
@@ -10,7 +10,18 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Represents pending applications service.
+ */
 public class PendingApplicationsService {
+/**
+ * Performs get pending applications.
+ * This method coordinates the main operation for this action.
+ *
+ * @param keyword keyword
+ * @return result value
+ * @throws Exception when the operation fails
+ */
 
     public List<PendingApplicationRow> getPendingApplications(String keyword) throws Exception {
         List<PendingApplicationRow> applications = new ArrayList<>();
@@ -59,6 +70,13 @@ public class PendingApplicationsService {
 
         return applications;
     }
+/**
+ * Performs reject application.
+ * This method coordinates the main operation for this action.
+ *
+ * @param id id
+ * @throws Exception when the operation fails
+ */
 
     public void rejectApplication(int id) throws Exception {
         if (id <= 0) {

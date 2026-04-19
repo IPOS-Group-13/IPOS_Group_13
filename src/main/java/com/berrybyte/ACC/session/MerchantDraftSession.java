@@ -1,5 +1,8 @@
 package com.berrybyte.ACC.session;
 
+/**
+ * Stores temporary merchant account details while multi-step setup is in progress.
+ */
 public class MerchantDraftSession {
 
     private static String previousPage;
@@ -14,7 +17,28 @@ public class MerchantDraftSession {
     private static String accountStatus;
     private static String creditLimit;
 
-    public static void saveDraft(String fullName, String companyName, String username, String password, String phoneNumber, String email, String address, String accountStatus, String creditLimit) {
+    /**
+     * Saves the current merchant draft values.
+     *
+     * @param fullName full name
+     * @param companyName company name
+     * @param username username
+     * @param password password
+     * @param phoneNumber phone number
+     * @param email email
+     * @param address address
+     * @param accountStatus account status
+     * @param creditLimit credit limit
+     */
+    public static void saveDraft(String fullName,
+                                 String companyName,
+                                 String username,
+                                 String password,
+                                 String phoneNumber,
+                                 String email,
+                                 String address,
+                                 String accountStatus,
+                                 String creditLimit) {
         MerchantDraftSession.fullName = fullName;
         MerchantDraftSession.companyName = companyName;
         MerchantDraftSession.username = username;
@@ -26,16 +50,92 @@ public class MerchantDraftSession {
         MerchantDraftSession.creditLimit = creditLimit;
     }
 
-    public static String getFullName() { return fullName; }
-    public static String getCompanyName() { return companyName; }
-    public static String getUsername() { return username; }
-    public static String getPassword() { return password; }
-    public static String getPhoneNumber() { return phoneNumber; }
-    public static String getEmail() { return email; }
-    public static String getAddress() { return address; }
-    public static String getAccountStatus() { return accountStatus; }
-    public static String getCreditLimit() { return creditLimit; }
+    /**
+     * Returns full name.
+     *
+     * @return full name
+     */
+    public static String getFullName() {
+        return fullName;
+    }
 
+    /**
+     * Returns company name.
+     *
+     * @return company name
+     */
+    public static String getCompanyName() {
+        return companyName;
+    }
+
+    /**
+     * Returns username.
+     *
+     * @return username
+     */
+    public static String getUsername() {
+        return username;
+    }
+
+    /**
+     * Returns password.
+     *
+     * @return password
+     */
+    public static String getPassword() {
+        return password;
+    }
+
+    /**
+     * Returns phone number.
+     *
+     * @return phone number
+     */
+    public static String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    /**
+     * Returns email.
+     *
+     * @return email
+     */
+    public static String getEmail() {
+        return email;
+    }
+
+    /**
+     * Returns address.
+     *
+     * @return address
+     */
+    public static String getAddress() {
+        return address;
+    }
+
+    /**
+     * Returns account status.
+     *
+     * @return account status
+     */
+    public static String getAccountStatus() {
+        return accountStatus;
+    }
+
+    /**
+     * Returns credit limit.
+     *
+     * @return credit limit
+     */
+    public static String getCreditLimit() {
+        return creditLimit;
+    }
+
+    /**
+     * Returns whether a complete draft currently exists.
+     *
+     * @return {@code true} when all draft fields are populated
+     */
     public static boolean hasDraft() {
         return fullName != null
                 && companyName != null
@@ -48,9 +148,27 @@ public class MerchantDraftSession {
                 && creditLimit != null;
     }
 
-    public static void setPreviousPage(String page) { previousPage = page; }
-    public static String getPreviousPage() { return previousPage; }
+    /**
+     * Stores previous page key used for back navigation.
+     *
+     * @param page previous page key
+     */
+    public static void setPreviousPage(String page) {
+        previousPage = page;
+    }
 
+    /**
+     * Returns previous page key.
+     *
+     * @return previous page key
+     */
+    public static String getPreviousPage() {
+        return previousPage;
+    }
+
+    /**
+     * Clears all saved draft state.
+     */
     public static void clear() {
         previousPage = null;
         fullName = null;

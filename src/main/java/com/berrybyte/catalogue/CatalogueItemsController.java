@@ -1,4 +1,4 @@
-package com.berrybyte.catalogue;
+﻿package com.berrybyte.catalogue;
 
 import com.berrybyte.common.RoleBasedNavigator;
 import com.berrybyte.common.SceneSwitcher;
@@ -12,6 +12,9 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 
+/**
+ * Represents catalogue items controller.
+ */
 public class CatalogueItemsController {
     @FXML
     private TextField searchField;
@@ -51,6 +54,10 @@ public class CatalogueItemsController {
 
     private final CatalogueService catalogueService = new CatalogueService();
 
+/**
+ * Initializes controller state and bindings.
+ *
+ */
     @FXML
     public void initialize() {
         if (profileMenuPane != null) {
@@ -70,6 +77,11 @@ public class CatalogueItemsController {
         loadItems("");
     }
 
+/**
+ * Handles back button.
+ *
+ * @param event event
+ */
     @FXML
     private void handleBackButton(ActionEvent event) {
         try {
@@ -79,11 +91,20 @@ public class CatalogueItemsController {
         }
     }
 
+/**
+ * Handles search.
+ *
+ * @param event event
+ */
     @FXML
     private void handleSearch(ActionEvent event) {
         loadItems(searchField.getText());
     }
 
+/**
+ * Handles profile click.
+ *
+ */
     @FXML
     private void handleProfileClick() {
         if (profileMenuPane == null) {
@@ -98,6 +119,11 @@ public class CatalogueItemsController {
         }
     }
 
+/**
+ * Handles logout menu click.
+ *
+ * @param event event
+ */
     @FXML
     private void handleLogoutMenuClick(ActionEvent event) {
         if (profileMenuPane != null) {
@@ -111,6 +137,11 @@ public class CatalogueItemsController {
             e.printStackTrace();
         }
     }
+/**
+ * Loads items.
+ *
+ * @param searchText search text
+ */
 
     private void loadItems(String searchText) {
         try {

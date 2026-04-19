@@ -1,4 +1,4 @@
-package com.berrybyte.ORD.services;
+﻿package com.berrybyte.ORD.services;
 
 import com.berrybyte.ORD.helpers.InvoiceDetails;
 import software.amazon.awssdk.auth.credentials.AwsBasicCredentials;
@@ -24,9 +24,21 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ * Represents invoice storage service.
+ */
 public class InvoiceStorageService {
 
     private static final Duration PRESIGNED_URL_DURATION = Duration.ofDays(7);
+/**
+ * Performs upload invoice and create access url.
+ * This method coordinates the main operation for this action.
+ *
+ * @param invoiceDetails invoice details
+ * @param pdfPath pdf path
+ * @return result value
+ * @throws Exception when the operation fails
+ */
 
     public String uploadInvoiceAndCreateAccessUrl(InvoiceDetails invoiceDetails, Path pdfPath) throws Exception {
         if (invoiceDetails == null) {
@@ -65,12 +77,29 @@ public class InvoiceStorageService {
                 ? new IllegalStateException("Invoice upload failed before a presigned URL could be created.")
                 : lastFailure;
     }
+/**
+ * Performs upload object.
+ * This method coordinates the main operation for this action.
+ *
+ * @param config config
+ * @param putObjectRequest put object request
+ * @param pdfPath pdf path
+ */
 
     private void uploadObject(StorageConfig config, PutObjectRequest putObjectRequest, Path pdfPath) {
         try (S3Client s3Client = buildS3Client(config)) {
             s3Client.putObject(putObjectRequest, RequestBody.fromFile(pdfPath));
         }
     }
+/**
+ * Executes the create presigned url workflow.
+ * This method coordinates the main operation for this action.
+ *
+ * @param config config
+ * @param fileName file name
+ * @param objectKey object key
+ * @return result value
+ */
 
     private String createPresignedUrl(StorageConfig config, String fileName, String objectKey) {
         GetObjectRequest getObjectRequest = GetObjectRequest.builder()
@@ -89,6 +118,12 @@ public class InvoiceStorageService {
             return presigner.presignGetObject(presignRequest).url().toExternalForm();
         }
     }
+/**
+ * Performs build s3 client.
+ *
+ * @param config config
+ * @return result value
+ */
 
     private S3Client buildS3Client(StorageConfig config) {
         return S3Client.builder()
@@ -100,6 +135,12 @@ public class InvoiceStorageService {
                         .build())
                 .build();
     }
+/**
+ * Performs build presigner.
+ *
+ * @param config config
+ * @return result value
+ */
 
     private S3Presigner buildPresigner(StorageConfig config) {
         return S3Presigner.builder()
@@ -111,6 +152,12 @@ public class InvoiceStorageService {
                         .build())
                 .build();
     }
+/**
+ * Performs build object key.
+ *
+ * @param invoiceDetails invoice details
+ * @return result value
+ */
 
     private String buildObjectKey(InvoiceDetails invoiceDetails) {
         return "invoices/order-%d/invoice-%d-order-%d.pdf".formatted(
@@ -119,6 +166,12 @@ public class InvoiceStorageService {
                 invoiceDetails.getOrderId()
         );
     }
+/**
+ * Performs build metadata.
+ *
+ * @param invoiceDetails invoice details
+ * @return result value
+ */
 
     private Map<String, String> buildMetadata(InvoiceDetails invoiceDetails) {
         Map<String, String> metadata = new LinkedHashMap<>();
@@ -128,10 +181,22 @@ public class InvoiceStorageService {
         metadata.put("merchant-account", blankSafe(invoiceDetails.getIposAccountNumber()));
         return metadata;
     }
+/**
+ * Performs blank safe.
+ *
+ * @param value value
+ * @return result value
+ */
 
     private String blankSafe(String value) {
         return value == null || value.isBlank() ? "n-a" : value;
     }
+/**
+ * Performs is signature mismatch.
+ *
+ * @param exception exception
+ * @return result value
+ */
 
     private boolean isSignatureMismatch(Exception exception) {
         Throwable current = exception;
@@ -151,6 +216,9 @@ public class InvoiceStorageService {
         return false;
     }
 
+/**
+ * Represents immutable data for storage config.
+ */
     private record StorageConfig(
             URI endpointUri,
             Region region,
@@ -158,6 +226,11 @@ public class InvoiceStorageService {
             StaticCredentialsProvider credentialsProvider,
             boolean pathStyleAccessEnabled
     ) {
+/**
+ * Performs load.
+ *
+ * @return result value
+ */
         private static StorageConfig load() {
             String endpoint = requireValue("railway.bucket.endpoint",
                     "Endpoint URL",
@@ -189,6 +262,11 @@ public class InvoiceStorageService {
                     pathStyleAccessEnabled
             );
         }
+/**
+ * Performs expand candidates.
+ *
+ * @return result value
+ */
 
         private List<StorageConfig> expandCandidates() {
             List<StorageConfig> candidates = new ArrayList<>();
@@ -207,14 +285,34 @@ public class InvoiceStorageService {
             }
             return candidates;
         }
+/**
+ * Performs with endpoint.
+ *
+ * @param newEndpointUri new endpoint uri
+ * @return result value
+ */
 
         private StorageConfig withEndpoint(URI newEndpointUri) {
             return new StorageConfig(newEndpointUri, region, bucketName, credentialsProvider, pathStyleAccessEnabled);
         }
+/**
+ * Performs with path style.
+ *
+ * @param newPathStyleAccessEnabled new path style access enabled
+ * @return result value
+ */
 
         private StorageConfig withPathStyle(boolean newPathStyleAccessEnabled) {
             return new StorageConfig(endpointUri, region, bucketName, credentialsProvider, newPathStyleAccessEnabled);
         }
+/**
+ * Performs add candidate.
+ * This method coordinates the main operation for this action.
+ *
+ * @param candidates candidates
+ * @param seen seen
+ * @param config config
+ */
 
         private static void addCandidate(List<StorageConfig> candidates, Set<String> seen, StorageConfig config) {
             String fingerprint = config.endpointUri + "|" + config.pathStyleAccessEnabled;
@@ -222,6 +320,15 @@ public class InvoiceStorageService {
                 candidates.add(config);
             }
         }
+/**
+ * Performs require value.
+ * This method coordinates the main operation for this action.
+ *
+ * @param systemPropertyName system property name
+ * @param displayName display name
+ * @param environmentNames environment names
+ * @return result value
+ */
 
         private static String requireValue(String systemPropertyName, String displayName, String... environmentNames) {
             String systemPropertyValue = System.getProperty(systemPropertyName);
@@ -239,6 +346,15 @@ public class InvoiceStorageService {
                     "Missing bucket configuration for %s. Set one of: %s"
                             .formatted(displayName, String.join(", ", environmentNames)));
         }
+/**
+ * Performs resolve boolean.
+ * This method coordinates the main operation for this action.
+ *
+ * @param systemPropertyName system property name
+ * @param defaultValue default value
+ * @param environmentNames environment names
+ * @return result value
+ */
 
         private static boolean resolveBoolean(String systemPropertyName, boolean defaultValue, String... environmentNames) {
             String systemPropertyValue = System.getProperty(systemPropertyName);

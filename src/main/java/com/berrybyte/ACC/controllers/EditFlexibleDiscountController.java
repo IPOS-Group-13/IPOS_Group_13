@@ -1,4 +1,4 @@
-package com.berrybyte.ACC.controllers;
+﻿package com.berrybyte.ACC.controllers;
 
 import com.berrybyte.ACC.model.DiscountTier;
 import com.berrybyte.ACC.services.MerchantAccountService;
@@ -21,6 +21,9 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Represents edit flexible discount controller.
+ */
 public class EditFlexibleDiscountController {
 
     @FXML private TextField tier1MinField;
@@ -41,14 +44,27 @@ public class EditFlexibleDiscountController {
 
     private final MerchantAccountService merchantAccountService = new MerchantAccountService();
 
+/**
+ * Initializes controller state and bindings.
+ *
+ */
     @FXML
     public void initialize() {
     }
+/**
+ * Sets merchant id.
+ *
+ * @param merchantId merchant id
+ */
 
     public void setMerchantId(int merchantId) {
         this.merchantId = merchantId;
         loadCurrentFlexibleDiscount();
     }
+/**
+ * Loads current flexible discount.
+ *
+ */
 
     private void loadCurrentFlexibleDiscount() {
         if (merchantId <= 0) {
@@ -110,6 +126,11 @@ public class EditFlexibleDiscountController {
             messageLabel.setText("Unable to load current flexible discount.");
         }
     }
+/**
+ * Performs populate tier fields.
+ *
+ * @param tiers tiers
+ */
 
     private void populateTierFields(List<DiscountTier> tiers) {
         clearAllFields();
@@ -136,6 +157,10 @@ public class EditFlexibleDiscountController {
             tier3PercentField.setText(String.valueOf(tiers.get(2).getDiscountPercent()));
         }
     }
+/**
+ * Performs clear all fields.
+ *
+ */
 
     private void clearAllFields() {
         tier1MinField.clear();
@@ -151,6 +176,11 @@ public class EditFlexibleDiscountController {
         tier3PercentField.clear();
     }
 
+/**
+ * Handles save.
+ *
+ * @param event event
+ */
     @FXML
     private void handleSave(ActionEvent event) {
         try {
@@ -179,6 +209,11 @@ public class EditFlexibleDiscountController {
         }
     }
 
+/**
+ * Handles back button.
+ *
+ * @param event event
+ */
     @FXML
     private void handleBackButton(MouseEvent event) {
         try {
@@ -198,6 +233,16 @@ public class EditFlexibleDiscountController {
             messageLabel.setText("Unable to go back.");
         }
     }
+/**
+ * Executes the validate and add tier workflow.
+ * This method coordinates the main operation for this action.
+ *
+ * @param tiers tiers
+ * @param minField min field
+ * @param maxField max field
+ * @param percentField percent field
+ * @param tierName tier name
+ */
 
     private void validateAndAddTier(
             List<DiscountTier> tiers,
@@ -255,6 +300,12 @@ public class EditFlexibleDiscountController {
         }
         tiers.add(new DiscountTier(minValue, maxValue, percentValue));
     }
+/**
+ * Performs safe text.
+ *
+ * @param field field
+ * @return result value
+ */
 
     private String safeText(TextField field) {
         return (field == null || field.getText() == null) ? "" : field.getText().trim();

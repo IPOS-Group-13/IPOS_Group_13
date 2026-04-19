@@ -1,4 +1,4 @@
-package com.berrybyte.RPT.controllers;
+﻿package com.berrybyte.RPT.controllers;
 
 import com.berrybyte.RPT.model.MerchantOption;
 import com.berrybyte.RPT.repository.ReportRepository;
@@ -22,6 +22,9 @@ import javafx.stage.Stage;
 import java.time.LocalDate;
 import java.util.List;
 
+/**
+ * Represents reports menu controller.
+ */
 public class ReportsMenuController {
 
     private final ReportRepository reportRepository = new ReportRepositoryImpl();
@@ -41,6 +44,10 @@ public class ReportsMenuController {
     @FXML
     private TilePane reportsTilePane;
 
+/**
+ * Initializes controller state and bindings.
+ *
+ */
     @FXML
     public void initialize() {
         if (profileMenuPane != null) {
@@ -57,6 +64,11 @@ public class ReportsMenuController {
         }
     }
 
+/**
+ * Handles dashboard click.
+ *
+ * @param event event
+ */
     @FXML
     private void handleDashboardClick(ActionEvent event) {
         try {
@@ -66,6 +78,11 @@ public class ReportsMenuController {
         }
     }
 
+/**
+ * Handles catalouge click.
+ *
+ * @param event event
+ */
     @FXML
     private void handleCatalougeClick(ActionEvent event) {
         try {
@@ -75,6 +92,11 @@ public class ReportsMenuController {
         }
     }
 
+/**
+ * Handles merchants click.
+ *
+ * @param event event
+ */
     @FXML
     private void handleMerchantsClick(ActionEvent event) {
         try {
@@ -84,6 +106,11 @@ public class ReportsMenuController {
         }
     }
 
+/**
+ * Handles order click.
+ *
+ * @param event event
+ */
     @FXML
     private void handleOrderClick(ActionEvent event) {
         try {
@@ -93,6 +120,11 @@ public class ReportsMenuController {
         }
     }
 
+/**
+ * Handles payments click.
+ *
+ * @param event event
+ */
     @FXML
     private void handlePaymentsClick(ActionEvent event) {
         try {
@@ -102,6 +134,11 @@ public class ReportsMenuController {
         }
     }
 
+/**
+ * Handles staff accounts click.
+ *
+ * @param event event
+ */
     @FXML
     private void handleStaffAccountsClick(ActionEvent event) {
         try {
@@ -111,6 +148,11 @@ public class ReportsMenuController {
         }
     }
 
+/**
+ * Handles pending click.
+ *
+ * @param event event
+ */
     @FXML
     private void handlePendingClick(ActionEvent event) {
         try {
@@ -120,6 +162,11 @@ public class ReportsMenuController {
         }
     }
 
+/**
+ * Handles reports click.
+ *
+ * @param event event
+ */
     @FXML
     private void handleReportsClick(ActionEvent event) {
         try {
@@ -129,6 +176,11 @@ public class ReportsMenuController {
         }
     }
 
+/**
+ * Handles profile click.
+ *
+ * @param event event
+ */
     @FXML
     private void handleProfileClick(MouseEvent event) {
         boolean isVisible = profileMenuPane.isVisible();
@@ -139,6 +191,11 @@ public class ReportsMenuController {
         }
     }
 
+/**
+ * Handles logout menu click.
+ *
+ * @param event event
+ */
     @FXML
     private void handleLogoutMenuClick(ActionEvent event) {
         profileMenuPane.setVisible(false);
@@ -151,6 +208,11 @@ public class ReportsMenuController {
         }
     }
 
+/**
+ * Executes the open stock turnover report workflow.
+ *
+ * @param event event
+ */
     @FXML
     private void openStockTurnoverReport(MouseEvent event) {
         try {
@@ -169,6 +231,11 @@ public class ReportsMenuController {
         }
     }
 
+/**
+ * Executes the open merchant activity report workflow.
+ *
+ * @param event event
+ */
     @FXML
     private void openMerchantActivityReport(MouseEvent event) {
         try {
@@ -189,11 +256,21 @@ public class ReportsMenuController {
         }
     }
 
+/**
+ * Executes the open low stock report workflow.
+ *
+ * @param event event
+ */
     @FXML
     private void openLowStockReport(MouseEvent event) {
         openMousePage(event, "/RPT/lowStockReport.fxml", "Low Stock Report");
     }
 
+/**
+ * Executes the open info pharma turnover report workflow.
+ *
+ * @param event event
+ */
     @FXML
     private void openInfoPharmaTurnoverReport(MouseEvent event) {
         try {
@@ -212,6 +289,11 @@ public class ReportsMenuController {
         }
     }
 
+/**
+ * Executes the open merchant order report workflow.
+ *
+ * @param event event
+ */
     @FXML
     private void openMerchantOrderReport(MouseEvent event) {
         try {
@@ -232,6 +314,11 @@ public class ReportsMenuController {
         }
     }
 
+/**
+ * Executes the open invoices raised against merchant workflow.
+ *
+ * @param event event
+ */
     @FXML
     private void openInvoicesRaisedAgainstMerchant(MouseEvent event) {
         try {
@@ -252,6 +339,11 @@ public class ReportsMenuController {
         }
     }
 
+/**
+ * Executes the open invoices raised by info pharma workflow.
+ *
+ * @param event event
+ */
     @FXML
     private void openInvoicesRaisedByInfoPharma(MouseEvent event) {
         try {
@@ -270,6 +362,11 @@ public class ReportsMenuController {
         }
     }
 
+/**
+ * Executes the open overdue balance report workflow.
+ *
+ * @param event event
+ */
     @FXML
     private void openOverdueBalanceReport(MouseEvent event) {
         try {
@@ -287,6 +384,14 @@ public class ReportsMenuController {
             e.printStackTrace();
         }
     }
+/**
+ * Executes the open mouse page workflow.
+ * This method coordinates the main operation for this action.
+ *
+ * @param event event
+ * @param fxmlPath fxml path
+ * @param title title
+ */
 
     private void openMousePage(MouseEvent event, String fxmlPath, String title) {
         try {
@@ -296,25 +401,53 @@ public class ReportsMenuController {
             e.printStackTrace();
         }
     }
+/**
+ * Executes the open loaded root workflow.
+ * This method coordinates the main operation for this action.
+ *
+ * @param event event
+ * @param root root
+ * @param title title
+ */
 
     private void openLoadedRoot(MouseEvent event, Parent root, String title) {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         SceneSwitcher.setStageRoot(stage, root, title);
     }
+/**
+ * Performs safe date.
+ *
+ * @param picker picker
+ * @return result value
+ */
 
     private LocalDate safeDate(DatePicker picker) {
         return picker == null ? null : picker.getValue();
     }
+/**
+ * Performs selected merchant id.
+ *
+ * @return result value
+ */
 
     private Integer selectedMerchantId() {
         MerchantOption selected = merchantComboBox == null ? null : merchantComboBox.getValue();
         return selected == null ? null : selected.getMerchantId();
     }
+/**
+ * Performs selected merchant name.
+ *
+ * @return result value
+ */
 
     private String selectedMerchantName() {
         MerchantOption selected = merchantComboBox == null ? null : merchantComboBox.getValue();
         return selected == null ? "" : selected.getCompanyName();
     }
+/**
+ * Loads merchant options.
+ *
+ */
 
     private void loadMerchantOptions() {
         try {
@@ -328,6 +461,12 @@ public class ReportsMenuController {
             e.printStackTrace();
         }
     }
+/**
+ * Executes the update report tile width workflow.
+ * This method coordinates the main operation for this action.
+ *
+ * @param availableWidth available width
+ */
 
     private void updateReportTileWidth(double availableWidth) {
         if (availableWidth <= 0 || reportsTilePane == null) {

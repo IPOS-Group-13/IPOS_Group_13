@@ -1,4 +1,4 @@
-package com.berrybyte.ACC.controllers;
+﻿package com.berrybyte.ACC.controllers;
 
 import com.berrybyte.ACC.util.PhoneNumberRules;
 import com.berrybyte.common.DatabaseConnection;
@@ -18,6 +18,9 @@ import javafx.stage.Stage;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 
+/**
+ * Represents create manager account controller.
+ */
 public class CreateManagerAccountController {
 
     @FXML
@@ -38,6 +41,12 @@ public class CreateManagerAccountController {
     @FXML
     private Label messageLabel;
 
+/**
+ * Executes the create manager account workflow.
+ * This method coordinates the main operation for this action.
+ *
+ * @param event event
+ */
     @FXML
     public void createManagerAccount(ActionEvent event) {
         try {
@@ -47,6 +56,12 @@ public class CreateManagerAccountController {
             messageLabel.setText(e.getMessage());
         }
     }
+/**
+ * Executes the validate manager details workflow.
+ * This method coordinates the main operation for this action.
+ *
+ * @throws Exception when the operation fails
+ */
 
     private void validateManagerDetails() throws Exception {
         String name = nameTextField.getText() == null ? "" : nameTextField.getText().trim();
@@ -75,6 +90,12 @@ public class CreateManagerAccountController {
         }
         PhoneNumberRules.normalizeAndValidate(phone);
     }
+/**
+ * Executes the create manager workflow.
+ * This method coordinates the main operation for this action.
+ *
+ * @param event event
+ */
 
     private void createManager(ActionEvent event) {
         String sql = """
@@ -105,6 +126,11 @@ public class CreateManagerAccountController {
         }
     }
 
+/**
+ * Handles back button.
+ *
+ * @param event event
+ */
     @FXML
     private void handleBackButton(MouseEvent event) {
         try {
@@ -117,6 +143,10 @@ public class CreateManagerAccountController {
             e.printStackTrace();
         }
     }
+/**
+ * Performs clear fields.
+ *
+ */
 
     private void clearFields() {
         nameTextField.clear();

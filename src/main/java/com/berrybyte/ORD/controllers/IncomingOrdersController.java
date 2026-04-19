@@ -1,4 +1,4 @@
-package com.berrybyte.ORD.controllers;
+﻿package com.berrybyte.ORD.controllers;
 
 import com.berrybyte.ORD.helpers.IncomingOrderRow;
 import com.berrybyte.ORD.services.SaOrderService;
@@ -19,6 +19,9 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
+/**
+ * Represents incoming orders controller.
+ */
 public class IncomingOrdersController {
 
     private final SaOrderService orderService = new SaOrderService();
@@ -50,6 +53,10 @@ public class IncomingOrdersController {
     @FXML
     private TableColumn<IncomingOrderRow, String> Status;
 
+/**
+ * Initializes controller state and bindings.
+ *
+ */
     @FXML
     public void initialize() {
         OrderID.setCellValueFactory(new PropertyValueFactory<>("orderId"));
@@ -60,12 +67,22 @@ public class IncomingOrdersController {
         loadOrders("");
     }
 
+/**
+ * Handles search.
+ *
+ * @param event event
+ */
     @FXML
     private void handleSearch(ActionEvent event) {
         String query = searchField == null ? "" : searchField.getText();
         loadOrders(query);
     }
 
+/**
+ * Performs view details button.
+ *
+ * @param event event
+ */
     @FXML
     private void viewDetailsButton(ActionEvent event) {
         IncomingOrderRow selectedOrder = incomingOrdersTable == null ? null : incomingOrdersTable.getSelectionModel().getSelectedItem();
@@ -92,6 +109,11 @@ public class IncomingOrdersController {
         }
     }
 
+/**
+ * Handles back button.
+ *
+ * @param event event
+ */
     @FXML
     private void handleBackButton(MouseEvent event) {
         try {
@@ -100,6 +122,11 @@ public class IncomingOrdersController {
             e.printStackTrace();
         }
     }
+/**
+ * Loads orders.
+ *
+ * @param query query
+ */
 
     private void loadOrders(String query) {
         try {

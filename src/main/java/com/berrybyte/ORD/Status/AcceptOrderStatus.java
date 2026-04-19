@@ -1,5 +1,8 @@
-package com.berrybyte.ORD.Status;
+﻿package com.berrybyte.ORD.Status;
 
+/**
+ * Enumerates values for accept order status.
+ */
 public enum AcceptOrderStatus {
     SUCCESS,
     ORDER_NOT_FOUND,

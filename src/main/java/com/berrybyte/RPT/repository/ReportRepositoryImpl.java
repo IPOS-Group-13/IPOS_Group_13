@@ -1,4 +1,4 @@
-package com.berrybyte.RPT.repository;
+﻿package com.berrybyte.RPT.repository;
 
 import com.berrybyte.RPT.model.*;
 import com.berrybyte.common.DatabaseConnection;
@@ -11,8 +11,16 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Represents report repository impl.
+ */
 public class ReportRepositoryImpl implements ReportRepository {
 
+/**
+ * Executes the find low stock items workflow.
+ *
+ * @return result value
+ */
     @Override
     public List<LowStockItem> findLowStockItems() {
         List<LowStockItem> items = new ArrayList<>();
@@ -47,6 +55,15 @@ public class ReportRepositoryImpl implements ReportRepository {
         return items;
     }
 
+/**
+ * Executes the find merchant order summary workflow.
+ * This method coordinates the main operation for this action.
+ *
+ * @param merchantId merchant id
+ * @param startDate start date
+ * @param endDate end date
+ * @return result value
+ */
     @Override
     public List<MerchantOrderSummaryRow> findMerchantOrderSummary(int merchantId,
                                                                   java.time.LocalDate startDate,
@@ -100,6 +117,15 @@ public class ReportRepositoryImpl implements ReportRepository {
 
         return rows;
     }
+/**
+ * Executes the find invoice listing workflow.
+ * This method coordinates the main operation for this action.
+ *
+ * @param merchantId merchant id
+ * @param startDate start date
+ * @param endDate end date
+ * @return result value
+ */
     @Override
     public List<InvoiceListingRow> findInvoiceListing(Integer merchantId,
                                                       java.time.LocalDate startDate,
@@ -161,6 +187,13 @@ public class ReportRepositoryImpl implements ReportRepository {
         return rows;
     }
 
+/**
+ * Executes the find stock turnover workflow.
+ *
+ * @param startDate start date
+ * @param endDate end date
+ * @return result value
+ */
     @Override
     public List<StockTurnoverRow> findStockTurnover(java.time.LocalDate startDate,
                                                     java.time.LocalDate endDate) {
@@ -206,6 +239,15 @@ public class ReportRepositoryImpl implements ReportRepository {
         return rows;
     }
 
+/**
+ * Executes the find merchant activity report workflow.
+ * This method coordinates the main operation for this action.
+ *
+ * @param merchantId merchant id
+ * @param startDate start date
+ * @param endDate end date
+ * @return result value
+ */
     @Override
     public MerchantActivityReport findMerchantActivityReport(int merchantId,
                                                              java.time.LocalDate startDate,
@@ -323,6 +365,13 @@ public class ReportRepositoryImpl implements ReportRepository {
         }
     }
 
+/**
+ * Executes the find info pharma turnover workflow.
+ *
+ * @param startDate start date
+ * @param endDate end date
+ * @return result value
+ */
     @Override
     public List<InfoPharmaTurnoverRow> findInfoPharmaTurnover(java.time.LocalDate startDate,
                                                               java.time.LocalDate endDate) {
@@ -372,6 +421,11 @@ public class ReportRepositoryImpl implements ReportRepository {
         return rows;
     }
 
+/**
+ * Executes the find merchant options workflow.
+ *
+ * @return result value
+ */
     @Override
     public List<MerchantOption> findMerchantOptions() {
         List<MerchantOption> merchants = new ArrayList<>();
@@ -403,6 +457,12 @@ public class ReportRepositoryImpl implements ReportRepository {
         return merchants;
     }
 
+/**
+ * Executes the find overdue balance report workflow.
+ *
+ * @param merchantId merchant id
+ * @return result value
+ */
     @Override
     public List<OverdueBalanceRow> findOverdueBalanceReport(Integer merchantId) {
         List<OverdueBalanceRow> rows = new ArrayList<>();

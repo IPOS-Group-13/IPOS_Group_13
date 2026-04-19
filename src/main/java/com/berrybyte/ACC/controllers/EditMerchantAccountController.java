@@ -1,4 +1,4 @@
-package com.berrybyte.ACC.controllers;
+﻿package com.berrybyte.ACC.controllers;
 
 import com.berrybyte.ACC.services.MerchantAccountService;
 import com.berrybyte.common.DatabaseConnection;
@@ -15,6 +15,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
+/**
+ * Represents edit merchant account controller.
+ */
 public class EditMerchantAccountController {
 
     @FXML
@@ -50,11 +53,20 @@ public class EditMerchantAccountController {
     private int userId;
 
     private final MerchantAccountService merchantAccountService = new MerchantAccountService();
+/**
+ * Sets user id.
+ *
+ * @param userId user id
+ */
 
     public void setUserId(int userId) {
         this.userId = userId;
         loadMerchantDetails();
     }
+/**
+ * Loads merchant details.
+ *
+ */
 
     private void loadMerchantDetails() {
         String sql = """
@@ -103,6 +115,12 @@ public class EditMerchantAccountController {
         }
     }
 
+/**
+ * Executes the update merchant account workflow.
+ * This method coordinates the main operation for this action.
+ *
+ * @param event event
+ */
     @FXML
     public void updateMerchantAccount(ActionEvent event) {
         try {
@@ -142,6 +160,11 @@ public class EditMerchantAccountController {
         }
     }
 
+/**
+ * Handles back button.
+ *
+ * @param event event
+ */
     @FXML
     private void handleBackButton(MouseEvent event) {
         try {
@@ -151,12 +174,24 @@ public class EditMerchantAccountController {
             messageLabel.setText("Unable to go back.");
         }
     }
+/**
+ * Performs safe text.
+ *
+ * @param field field
+ * @return result value
+ */
 
     private String safeText(TextField field) {
         return (field == null || field.getText() == null)
                 ? ""
                 : field.getText().trim();
     }
+/**
+ * Performs safe text.
+ *
+ * @param field field
+ * @return result value
+ */
 
     private String safeText(PasswordField field) {
         return (field == null || field.getText() == null)

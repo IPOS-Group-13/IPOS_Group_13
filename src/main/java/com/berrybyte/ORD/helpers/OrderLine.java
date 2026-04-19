@@ -1,5 +1,8 @@
-package com.berrybyte.ORD.helpers;
+﻿package com.berrybyte.ORD.helpers;
 
+/**
+ * Represents order line.
+ */
 public class OrderLine {
 
     private final int itemId;
@@ -9,6 +12,18 @@ public class OrderLine {
     private final double packsCost;
     private final int quantity;
     private final double lineTotal;
+/**
+ * Creates a new OrderLine instance.
+ * This method coordinates the main operation for this action.
+ *
+ * @param itemId item id
+ * @param description description
+ * @param packageType package type
+ * @param unitsInPacks units in packs
+ * @param packsCost packs cost
+ * @param quantity quantity
+ * @param lineTotal line total
+ */
 
     public OrderLine(int itemId, String description, String packageType,
                      int unitsInPacks, double packsCost, int quantity, double lineTotal) {
@@ -20,30 +35,65 @@ public class OrderLine {
         this.quantity = quantity;
         this.lineTotal = lineTotal;
     }
+/**
+ * Returns item id.
+ *
+ * @return result value
+ */
 
     public int getItemId() {
         return itemId;
     }
+/**
+ * Returns description.
+ *
+ * @return result value
+ */
 
     public String getDescription() {
         return description;
     }
+/**
+ * Returns package type.
+ *
+ * @return result value
+ */
 
     public String getPackageType() {
         return packageType;
     }
+/**
+ * Returns units in packs.
+ *
+ * @return result value
+ */
 
     public int getUnitsInPacks() {
         return unitsInPacks;
     }
+/**
+ * Returns packs cost.
+ *
+ * @return result value
+ */
 
     public double getPacksCost() {
         return packsCost;
     }
+/**
+ * Returns quantity.
+ *
+ * @return result value
+ */
 
     public int getQuantity() {
         return quantity;
     }
+/**
+ * Returns line total.
+ *
+ * @return result value
+ */
 
     public double getLineTotal() {
         return lineTotal;

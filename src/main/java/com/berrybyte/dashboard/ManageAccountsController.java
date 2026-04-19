@@ -1,4 +1,4 @@
-package com.berrybyte.dashboard;
+﻿package com.berrybyte.dashboard;
 
 import com.berrybyte.common.RoleBasedNavigator;
 import com.berrybyte.common.SceneSwitcher;
@@ -6,17 +6,28 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.layout.AnchorPane;
 
+/**
+ * Represents manage accounts controller.
+ */
 public class ManageAccountsController {
 
     @FXML
     private AnchorPane profileMenuPane;
 
+/**
+ * Initializes controller state and bindings.
+ *
+ */
     @FXML
     public void initialize() {
         profileMenuPane.setVisible(false);
         profileMenuPane.setManaged(false);
     }
 
+/**
+ * Handles profile click.
+ *
+ */
     @FXML
     private void handleProfileClick() {
         boolean isVisible = profileMenuPane.isVisible();
@@ -27,6 +38,11 @@ public class ManageAccountsController {
         }
     }
 
+/**
+ * Handles logout menu click.
+ *
+ * @param event event
+ */
     @FXML
     private void handleLogoutMenuClick(ActionEvent event) {
         profileMenuPane.setVisible(false);
@@ -39,6 +55,11 @@ public class ManageAccountsController {
         }
     }
 
+/**
+ * Handles merchants click.
+ *
+ * @param event event
+ */
     @FXML
     private void handleMerchantsClick(ActionEvent event) {
         try {
@@ -48,6 +69,12 @@ public class ManageAccountsController {
         }
     }
 
+/**
+ * Executes the create new account button workflow.
+ * This method coordinates the main operation for this action.
+ *
+ * @param event event
+ */
     @FXML
     private void createNewAccountButton(ActionEvent event) {
         try {
@@ -57,6 +84,12 @@ public class ManageAccountsController {
         }
     }
 
+/**
+ * Executes the delete account button workflow.
+ * This method coordinates the main operation for this action.
+ *
+ * @param event event
+ */
     @FXML
     private void deleteAccountButton(ActionEvent event) {
         try {
@@ -66,6 +99,11 @@ public class ManageAccountsController {
         }
     }
 
+/**
+ * Performs edit accounts button.
+ *
+ * @param event event
+ */
     @FXML
     private void editAccountsButton(ActionEvent event) {
         try {
@@ -75,6 +113,11 @@ public class ManageAccountsController {
         }
     }
 
+/**
+ * Handles catalogue click.
+ *
+ * @param event event
+ */
     @FXML
     private void handleCatalogueClick(ActionEvent event) {
         try {
@@ -84,6 +127,11 @@ public class ManageAccountsController {
         }
     }
 
+/**
+ * Handles dashboard click.
+ *
+ * @param event event
+ */
     @FXML
     private void handleDashboardClick(ActionEvent event) {
         try {
@@ -93,6 +141,11 @@ public class ManageAccountsController {
         }
     }
 
+/**
+ * Handles orders click.
+ *
+ * @param event event
+ */
     @FXML
     private void handleOrdersClick(ActionEvent event) {
         try {
@@ -102,6 +155,11 @@ public class ManageAccountsController {
         }
     }
 
+/**
+ * Handles pending applications.
+ *
+ * @param event event
+ */
     @FXML
     public void handlePendingApplications(ActionEvent event) {
         try {
@@ -110,6 +168,11 @@ public class ManageAccountsController {
             e.printStackTrace();
         }
     }
+/**
+ * Handles payments click.
+ *
+ * @param event event
+ */
 
     public void handlePaymentsClick(ActionEvent event) {
         try {
@@ -119,6 +182,11 @@ public class ManageAccountsController {
         }
     }
 
+/**
+ * Handles reports click.
+ *
+ * @param event event
+ */
     @FXML
     public void handleReportsClick(ActionEvent event) {
         try {

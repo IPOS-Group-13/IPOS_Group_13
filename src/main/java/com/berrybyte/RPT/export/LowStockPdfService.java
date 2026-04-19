@@ -1,4 +1,4 @@
-package com.berrybyte.RPT.export;
+﻿package com.berrybyte.RPT.export;
 
 import com.berrybyte.RPT.model.LowStockItem;
 import com.berrybyte.RPT.model.LowStockReport;
@@ -22,7 +22,18 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+/**
+ * Represents low stock pdf service.
+ */
 public class LowStockPdfService {
+/**
+ * Executes the generate low stock pdf workflow.
+ * This method coordinates the main operation for this action.
+ *
+ * @param report report
+ * @return result value
+ * @throws Exception when the operation fails
+ */
 
     public Path generateLowStockPdf(LowStockReport report) throws Exception {
         if (report == null) {
@@ -44,6 +55,13 @@ public class LowStockPdfService {
             return fallbackPath;
         }
     }
+/**
+ * Executes the open low stock pdf workflow.
+ * This method coordinates the main operation for this action.
+ *
+ * @param pdfPath pdf path
+ * @throws Exception when the operation fails
+ */
 
     public void openLowStockPdf(Path pdfPath) throws Exception {
         if (pdfPath == null || !Files.exists(pdfPath)) {
@@ -59,6 +77,14 @@ public class LowStockPdfService {
 
         desktop.open(pdfPath.toFile());
     }
+/**
+ * Performs write pdf.
+ * This method coordinates the main operation for this action.
+ *
+ * @param pdfPath pdf path
+ * @param report report
+ * @throws Exception when the operation fails
+ */
 
     private void writePdf(Path pdfPath, LowStockReport report) throws Exception {
         try (Document document = new Document(new PdfDocument(new PdfWriter(pdfPath.toString())))) {
@@ -74,6 +100,12 @@ public class LowStockPdfService {
                     .setMarginTop(20));
         }
     }
+/**
+ * Performs add header.
+ *
+ * @param document document
+ * @param report report
+ */
 
     private void addHeader(Document document, LowStockReport report) {
         document.add(new Paragraph(report.getTitle()).setFontSize(24));
@@ -82,6 +114,12 @@ public class LowStockPdfService {
         document.add(new LineSeparator(new SolidLine()));
         document.add(new Paragraph("\n"));
     }
+/**
+ * Performs add items section.
+ *
+ * @param document document
+ * @param report report
+ */
 
     private void addItemsSection(Document document, LowStockReport report) {
         document.add(new Paragraph("Low Stock Items").setFontSize(14).setMarginBottom(10));
@@ -104,6 +142,12 @@ public class LowStockPdfService {
         document.add(table);
         document.add(new Paragraph("\n"));
     }
+/**
+ * Performs add summary section.
+ *
+ * @param document document
+ * @param report report
+ */
 
     private void addSummarySection(Document document, LowStockReport report) {
         Table summaryTable = new Table(UnitValue.createPercentArray(new float[]{2f, 1f}))
@@ -114,6 +158,12 @@ public class LowStockPdfService {
 
         document.add(summaryTable);
     }
+/**
+ * Performs add header cell.
+ *
+ * @param table table
+ * @param text text
+ */
 
     private void addHeaderCell(Table table, String text) {
         table.addHeaderCell(new Cell()
@@ -122,12 +172,26 @@ public class LowStockPdfService {
                 .setBorder(Border.NO_BORDER)
                 .setPadding(8));
     }
+/**
+ * Performs body cell.
+ *
+ * @param text text
+ * @return result value
+ */
 
     private Cell bodyCell(String text) {
         return new Cell()
                 .add(new Paragraph(text).setFontSize(10))
                 .setPadding(8);
     }
+/**
+ * Performs add summary row.
+ * This method coordinates the main operation for this action.
+ *
+ * @param table table
+ * @param label label
+ * @param value value
+ */
 
     private void addSummaryRow(Table table, String label, String value) {
         table.addCell(new Cell()
@@ -138,10 +202,21 @@ public class LowStockPdfService {
                 .setTextAlignment(TextAlignment.RIGHT)
                 .setPadding(8));
     }
+/**
+ * Performs non blank.
+ *
+ * @param value value
+ * @return result value
+ */
 
     private String nonBlank(String value) {
         return value == null || value.isBlank() ? "N/A" : value;
     }
+/**
+ * Performs resolve report directory.
+ *
+ * @return result value
+ */
 
     private Path resolveReportDirectory() {
         Path userHome = Paths.get(System.getProperty("user.home"));

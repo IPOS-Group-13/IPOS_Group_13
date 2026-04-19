@@ -1,4 +1,4 @@
-package com.berrybyte.ORD.controllers;
+﻿package com.berrybyte.ORD.controllers;
 
 import com.berrybyte.ORD.helpers.OrderDetails;
 import com.berrybyte.ORD.helpers.OrderLine;
@@ -27,6 +27,9 @@ import javafx.stage.Stage;
 import java.nio.file.Path;
 import java.util.List;
 
+/**
+ * Represents order details controller.
+ */
 public class OrderDetailsController {
 
     private final SaOrderService orderService = new SaOrderService();
@@ -63,6 +66,10 @@ public class OrderDetailsController {
     @FXML
     private Button acceptOrderButton;
 
+/**
+ * Initializes controller state and bindings.
+ *
+ */
     @FXML
     public void initialize() {
         productIdColumn.setCellValueFactory(new PropertyValueFactory<>("itemId"));
@@ -74,12 +81,22 @@ public class OrderDetailsController {
         orderListTable.setItems(FXCollections.observableArrayList());
         totalAmountLabel.setText("GBP 0.00");
     }
+/**
+ * Sets order id.
+ *
+ * @param orderId order id
+ */
 
     public void setOrderId(int orderId) {
         this.orderId = orderId;
         loadOrder();
     }
 
+/**
+ * Handles back button.
+ *
+ * @param event event
+ */
     @FXML
     private void handleBackButton(MouseEvent event) {
         try {
@@ -94,6 +111,10 @@ public class OrderDetailsController {
         }
     }
 
+/**
+ * Handles accept order.
+ *
+ */
     @FXML
     private void handleAcceptOrder() {
         Integer staffUserId = LoginSession.getCurrentUserId();
@@ -140,6 +161,10 @@ public class OrderDetailsController {
             showAlert(Alert.AlertType.ERROR, "Unable to accept the order.");
         }
     }
+/**
+ * Loads order.
+ *
+ */
 
     private void loadOrder() {
         if (orderId <= 0) {
@@ -163,6 +188,12 @@ public class OrderDetailsController {
             showAlert(Alert.AlertType.ERROR, "Unable to load order details.");
         }
     }
+/**
+ * Performs map accept status.
+ *
+ * @param status status
+ * @return result value
+ */
 
     private String mapAcceptStatus(AcceptOrderStatus status) {
         return switch (status) {
@@ -176,6 +207,12 @@ public class OrderDetailsController {
             case SUCCESS -> "Order accepted successfully.";
         };
     }
+/**
+ * Performs show alert.
+ *
+ * @param type type
+ * @param message message
+ */
 
     private void showAlert(Alert.AlertType type, String message) {
         Alert alert = new Alert(type);
@@ -183,6 +220,14 @@ public class OrderDetailsController {
         alert.setContentText(message);
         alert.showAndWait();
     }
+/**
+ * Performs show detailed alert.
+ * This method coordinates the main operation for this action.
+ *
+ * @param type type
+ * @param summary summary
+ * @param details details
+ */
 
     private void showDetailedAlert(Alert.AlertType type, String summary, String details) {
         Alert alert = new Alert(type);
@@ -207,6 +252,12 @@ public class OrderDetailsController {
         alert.getDialogPane().setExpanded(true);
         alert.showAndWait();
     }
+/**
+ * Performs extract root cause message.
+ *
+ * @param throwable throwable
+ * @return result value
+ */
 
     private String extractRootCauseMessage(Throwable throwable) {
         Throwable current = throwable;

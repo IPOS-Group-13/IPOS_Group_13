@@ -1,4 +1,4 @@
-package com.berrybyte.RPT.export;
+﻿package com.berrybyte.RPT.export;
 
 import com.berrybyte.RPT.model.InvoiceListingReport;
 import com.berrybyte.RPT.model.InvoiceListingRow;
@@ -22,7 +22,18 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+/**
+ * Represents invoice listing pdf service.
+ */
 public class InvoiceListingPdfService {
+/**
+ * Executes the generate invoice listing pdf workflow.
+ * This method coordinates the main operation for this action.
+ *
+ * @param report report
+ * @return result value
+ * @throws Exception when the operation fails
+ */
 
     public Path generateInvoiceListingPdf(InvoiceListingReport report) throws Exception {
         if (report == null) {
@@ -44,6 +55,13 @@ public class InvoiceListingPdfService {
             return fallbackPath;
         }
     }
+/**
+ * Executes the open invoice listing pdf workflow.
+ * This method coordinates the main operation for this action.
+ *
+ * @param pdfPath pdf path
+ * @throws Exception when the operation fails
+ */
 
     public void openInvoiceListingPdf(Path pdfPath) throws Exception {
         if (pdfPath == null || !Files.exists(pdfPath)) {
@@ -59,6 +77,14 @@ public class InvoiceListingPdfService {
 
         desktop.open(pdfPath.toFile());
     }
+/**
+ * Performs write pdf.
+ * This method coordinates the main operation for this action.
+ *
+ * @param pdfPath pdf path
+ * @param report report
+ * @throws Exception when the operation fails
+ */
 
     private void writePdf(Path pdfPath, InvoiceListingReport report) throws Exception {
         try (Document document = new Document(new PdfDocument(new PdfWriter(pdfPath.toString())))) {
@@ -74,6 +100,12 @@ public class InvoiceListingPdfService {
                     .setMarginTop(20));
         }
     }
+/**
+ * Performs add header.
+ *
+ * @param document document
+ * @param report report
+ */
 
     private void addHeader(Document document, InvoiceListingReport report) {
         document.add(new Paragraph(report.getTitle()).setFontSize(24));
@@ -84,6 +116,12 @@ public class InvoiceListingPdfService {
         document.add(new LineSeparator(new SolidLine()));
         document.add(new Paragraph("\n"));
     }
+/**
+ * Performs add items section.
+ *
+ * @param document document
+ * @param report report
+ */
 
     private void addItemsSection(Document document, InvoiceListingReport report) {
         document.add(new Paragraph("Invoices").setFontSize(14).setMarginBottom(10));
@@ -116,6 +154,12 @@ public class InvoiceListingPdfService {
         document.add(table);
         document.add(new Paragraph("\n"));
     }
+/**
+ * Performs add summary section.
+ *
+ * @param document document
+ * @param report report
+ */
 
     private void addSummarySection(Document document, InvoiceListingReport report) {
         Table summaryTable = new Table(UnitValue.createPercentArray(new float[]{2f, 1f}))
@@ -128,6 +172,12 @@ public class InvoiceListingPdfService {
 
         document.add(summaryTable);
     }
+/**
+ * Performs add header cell.
+ *
+ * @param table table
+ * @param text text
+ */
 
     private void addHeaderCell(Table table, String text) {
         table.addHeaderCell(new Cell()
@@ -136,12 +186,26 @@ public class InvoiceListingPdfService {
                 .setBorder(Border.NO_BORDER)
                 .setPadding(8));
     }
+/**
+ * Performs body cell.
+ *
+ * @param text text
+ * @return result value
+ */
 
     private Cell bodyCell(String text) {
         return new Cell()
                 .add(new Paragraph(text).setFontSize(10))
                 .setPadding(8);
     }
+/**
+ * Performs add summary row.
+ * This method coordinates the main operation for this action.
+ *
+ * @param table table
+ * @param label label
+ * @param value value
+ */
 
     private void addSummaryRow(Table table, String label, String value) {
         table.addCell(new Cell()
@@ -152,14 +216,31 @@ public class InvoiceListingPdfService {
                 .setTextAlignment(TextAlignment.RIGHT)
                 .setPadding(8));
     }
+/**
+ * Performs format currency.
+ *
+ * @param value value
+ * @return result value
+ */
 
     private String formatCurrency(double value) {
         return String.format("GBP %.2f", value);
     }
+/**
+ * Performs non blank.
+ *
+ * @param value value
+ * @return result value
+ */
 
     private String nonBlank(String value) {
         return value == null || value.isBlank() ? "N/A" : value;
     }
+/**
+ * Performs resolve report directory.
+ *
+ * @return result value
+ */
 
     private Path resolveReportDirectory() {
         Path userHome = Paths.get(System.getProperty("user.home"));

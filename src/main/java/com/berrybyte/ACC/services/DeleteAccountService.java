@@ -1,4 +1,4 @@
-package com.berrybyte.ACC.services;
+﻿package com.berrybyte.ACC.services;
 
 import com.berrybyte.ACC.model.UserAccountRow;
 import com.berrybyte.common.DatabaseConnection;
@@ -9,7 +9,18 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Represents delete account service.
+ */
 public class DeleteAccountService {
+/**
+ * Performs get user account.
+ * This method coordinates the main operation for this action.
+ *
+ * @param userId user id
+ * @return result value
+ * @throws Exception when the operation fails
+ */
 
     public UserAccountRow getUserAccount(int userId) throws Exception {
         String sql = """
@@ -37,6 +48,14 @@ public class DeleteAccountService {
         }
         throw new Exception("Selected user could not be found.");
     }
+/**
+ * Executes the search users workflow.
+ * This method coordinates the main operation for this action.
+ *
+ * @param searchText search text
+ * @return result value
+ * @throws Exception when the operation fails
+ */
 
     public List<UserAccountRow> searchUsers(String searchText) throws Exception {
         List<UserAccountRow> users = new ArrayList<>();
@@ -69,6 +88,13 @@ public class DeleteAccountService {
         }
         return users;
     }
+/**
+ * Executes the delete user account workflow.
+ * This method coordinates the main operation for this action.
+ *
+ * @param userId user id
+ * @throws Exception when the operation fails
+ */
 
     public void deleteUserAccount(int userId) throws Exception {
         DatabaseConnection connectNow = new DatabaseConnection();

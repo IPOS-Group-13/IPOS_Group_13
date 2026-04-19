@@ -1,4 +1,4 @@
-package com.berrybyte.ACC.controllers;
+﻿package com.berrybyte.ACC.controllers;
 
 import com.berrybyte.ACC.model.DiscountTier;
 import com.berrybyte.ACC.services.MerchantAccountService;
@@ -17,6 +17,9 @@ import javafx.stage.Stage;
 
 import java.util.List;
 
+/**
+ * Represents fixed discount controller.
+ */
 public class FixedDiscountController {
 
     @FXML
@@ -27,6 +30,11 @@ public class FixedDiscountController {
 
     private final MerchantAccountService merchantAccountService = new MerchantAccountService();
 
+/**
+ * Handles create account.
+ *
+ * @param event event
+ */
     @FXML
     private void handleCreateAccount(ActionEvent event) {
         try {
@@ -75,6 +83,11 @@ public class FixedDiscountController {
             messageLabel.setText("Unable to create merchant account.");
         }
     }
+/**
+ * Handles back button.
+ *
+ * @param event event
+ */
     @FXML
     private void handleBackButton(MouseEvent event) {
         try {

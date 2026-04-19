@@ -1,4 +1,4 @@
-package com.berrybyte.catalogue;
+﻿package com.berrybyte.catalogue;
 
 import com.berrybyte.common.SceneSwitcher;
 import javafx.collections.FXCollections;
@@ -15,6 +15,9 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
+/**
+ * Represents delete product controller.
+ */
 public class DeleteProductController {
 
     @FXML
@@ -53,6 +56,10 @@ public class DeleteProductController {
     private final DeleteProductService deleteProductService = new DeleteProductService();
     private CatalogueItemRow selectedProduct;
 
+/**
+ * Initializes controller state and bindings.
+ *
+ */
     @FXML
     public void initialize() {
         itemIdColumn.setCellValueFactory(new PropertyValueFactory<>("itemId"));
@@ -71,11 +78,21 @@ public class DeleteProductController {
         loadProducts("");
     }
 
+/**
+ * Handles search.
+ *
+ * @param event event
+ */
     @FXML
     private void handleSearch(ActionEvent event) {
         loadProducts(searchField.getText());
     }
 
+/**
+ * Handles delete product.
+ *
+ * @param event event
+ */
     @FXML
     private void handleDeleteProduct(ActionEvent event) {
         if (selectedProduct == null) {
@@ -92,6 +109,11 @@ public class DeleteProductController {
         }
     }
 
+/**
+ * Handles back button.
+ *
+ * @param event event
+ */
     @FXML
     private void handleBackButton(MouseEvent event) {
         try {
@@ -105,6 +127,11 @@ public class DeleteProductController {
             messageLabel.setText("Unable to go back.");
         }
     }
+/**
+ * Executes the refresh products workflow.
+ * This method coordinates the main operation for this action.
+ *
+ */
 
     public void refreshProducts() {
         loadProducts(searchField.getText());
@@ -112,6 +139,11 @@ public class DeleteProductController {
         selectedProduct = null;
         messageLabel.setText("Product deleted successfully.");
     }
+/**
+ * Loads products.
+ *
+ * @param searchText search text
+ */
 
     private void loadProducts(String searchText) {
         try {

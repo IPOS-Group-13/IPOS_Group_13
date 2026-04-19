@@ -1,5 +1,8 @@
-package com.berrybyte.dashboard;
+﻿package com.berrybyte.dashboard;
 
+/**
+ * Represents merchant menu row.
+ */
 public class MerchantMenuRow {
 
     private final int merchantId;
@@ -11,6 +14,20 @@ public class MerchantMenuRow {
     private final String discountPlan;
     private final String outstandingBalance;
     private final String accountStatus;
+/**
+ * Creates a new MerchantMenuRow instance.
+ * This method coordinates the main operation for this action.
+ *
+ * @param merchantId merchant id
+ * @param userId user id
+ * @param merchantName merchant name
+ * @param companyName company name
+ * @param iposAccountNumber ipos account number
+ * @param creditLimit credit limit
+ * @param discountPlan discount plan
+ * @param outstandingBalance outstanding balance
+ * @param accountStatus account status
+ */
 
     public MerchantMenuRow(int merchantId,
                            int userId,

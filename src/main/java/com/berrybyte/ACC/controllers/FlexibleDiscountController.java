@@ -1,4 +1,4 @@
-package com.berrybyte.ACC.controllers;
+﻿package com.berrybyte.ACC.controllers;
 
 import com.berrybyte.ACC.model.DiscountTier;
 import com.berrybyte.ACC.services.MerchantAccountService;
@@ -18,6 +18,9 @@ import javafx.stage.Stage;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Represents flexible discount controller.
+ */
 public class FlexibleDiscountController {
 
     @FXML private TextField tier1MinField;
@@ -36,6 +39,11 @@ public class FlexibleDiscountController {
 
     private final MerchantAccountService merchantAccountService = new MerchantAccountService();
 
+/**
+ * Handles create account.
+ *
+ * @param event event
+ */
     @FXML
     private void handleCreateAccount(ActionEvent event) {
         try {
@@ -79,6 +87,11 @@ public class FlexibleDiscountController {
             messageLabel.setText("Unable to create merchant account.");
         }
     }
+/**
+ * Handles back button.
+ *
+ * @param event event
+ */
     @FXML
     private void handleBackButton(MouseEvent event) {
         try {
@@ -91,6 +104,11 @@ public class FlexibleDiscountController {
             e.printStackTrace();
         }
     }
+/**
+ * Executes the validate draft session workflow.
+ * This method coordinates the main operation for this action.
+ *
+ */
 
     private void validateDraftSession() {
 
@@ -122,6 +140,16 @@ public class FlexibleDiscountController {
             throw new IllegalArgumentException("Credit limit must be a valid number.");
         }
     }
+/**
+ * Executes the validate and add tier workflow.
+ * This method coordinates the main operation for this action.
+ *
+ * @param tiers tiers
+ * @param minField min field
+ * @param maxField max field
+ * @param percentField percent field
+ * @param tierName tier name
+ */
 
     private void validateAndAddTier(
             List<DiscountTier> tiers,
@@ -185,10 +213,22 @@ public class FlexibleDiscountController {
         }
         tiers.add(new DiscountTier(minValue, maxValue, percentValue));
     }
+/**
+ * Performs safe text.
+ *
+ * @param field field
+ * @return result value
+ */
 
     private String safeText(TextField field) {
         return (field == null || field.getText() == null) ? "" : field.getText().trim();
     }
+/**
+ * Performs is blank.
+ *
+ * @param value value
+ * @return result value
+ */
 
     private boolean isBlank(String value) {
         return value == null || value.trim().isEmpty();

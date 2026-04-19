@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
@@ -61,7 +63,15 @@
                     </font>
                 </Label>
 
-                <TableView fx:id="invoiceTable" style="-fx-background-radius: 16; -fx-border-radius: 16;" AnchorPane.bottomAnchor="88.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="100.0">
+                <HBox alignment="CENTER_LEFT" spacing="16.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="82.0">
+                    <children>
+                        <ComboBox fx:id="merchantComboBox" editable="true" prefHeight="32.0" prefWidth="280.0" promptText="Search/select merchant" style="-fx-font-size: 12px; -fx-background-color: white; -fx-background-radius: 14;" />
+                        <DatePicker fx:id="afterDatePicker" prefHeight="32.0" prefWidth="140.0" promptText="After" style="-fx-background-color: white; -fx-background-radius: 10; -fx-border-radius: 10; -fx-border-color: transparent;" />
+                        <DatePicker fx:id="beforeDatePicker" prefHeight="32.0" prefWidth="140.0" promptText="Before" style="-fx-background-color: white; -fx-background-radius: 10; -fx-border-radius: 10; -fx-border-color: transparent;" />
+                    </children>
+                </HBox>
+
+                <TableView fx:id="invoiceTable" style="-fx-background-radius: 16; -fx-border-radius: 16;" AnchorPane.bottomAnchor="88.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="124.0">
                     <columns>
                         <TableColumn fx:id="invoiceIdColumn" prefWidth="85.0" text="Invoice ID" />
                         <TableColumn fx:id="orderIdColumn" prefWidth="75.0" text="Order ID" />

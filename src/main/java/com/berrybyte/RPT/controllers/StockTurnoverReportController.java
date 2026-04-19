@@ -1,4 +1,4 @@
-package com.berrybyte.RPT.controllers;
+﻿package com.berrybyte.RPT.controllers;
 
 import com.berrybyte.RPT.model.StockTurnoverReport;
 import com.berrybyte.RPT.model.StockTurnoverRow;
@@ -20,6 +20,9 @@ import java.nio.file.Path;
 
 import java.time.LocalDate;
 
+/**
+ * Represents stock turnover report controller.
+ */
 public class StockTurnoverReportController extends ReportProfileMenuController {
 
     private final ReportService reportService = new ReportServiceImpl(new ReportRepositoryImpl());
@@ -60,6 +63,10 @@ public class StockTurnoverReportController extends ReportProfileMenuController {
     @FXML
     private Button backButton;
 
+/**
+ * Initializes controller state and bindings.
+ *
+ */
     @FXML
     public void initialize() {
         initializeProfileMenu();
@@ -71,6 +78,12 @@ public class StockTurnoverReportController extends ReportProfileMenuController {
 
         updateFilterSummary();
     }
+/**
+ * Performs set filters.
+ *
+ * @param afterDate after date
+ * @param beforeDate before date
+ */
 
     public void setFilters(LocalDate afterDate, LocalDate beforeDate) {
         this.afterDate = afterDate;
@@ -79,11 +92,19 @@ public class StockTurnoverReportController extends ReportProfileMenuController {
         loadReport();
     }
 
+/**
+ * Handles refresh.
+ *
+ */
     @FXML
     private void handleRefresh() {
         loadReport();
     }
 
+/**
+ * Handles export pdf.
+ *
+ */
     @FXML
     private void handleExportPdf() {
         try {
@@ -105,6 +126,11 @@ public class StockTurnoverReportController extends ReportProfileMenuController {
         }
     }
 
+/**
+ * Handles back.
+ *
+ * @param event event
+ */
     @FXML
     private void handleBack(ActionEvent event) {
         try {
@@ -114,6 +140,10 @@ public class StockTurnoverReportController extends ReportProfileMenuController {
             messageLabel.setText("Unable to go back.");
         }
     }
+/**
+ * Loads report.
+ *
+ */
 
     private void loadReport() {
         try {
@@ -129,6 +159,11 @@ public class StockTurnoverReportController extends ReportProfileMenuController {
             messageLabel.setText("Unable to load stock turnover report.");
         }
     }
+/**
+ * Executes the update filter summary workflow.
+ * This method coordinates the main operation for this action.
+ *
+ */
 
     private void updateFilterSummary() {
         String afterText = afterDate == null ? "Any" : afterDate.toString();
@@ -136,6 +171,10 @@ public class StockTurnoverReportController extends ReportProfileMenuController {
 
         filterSummaryLabel.setText("After: " + afterText + " | Before: " + beforeText);
     }
+/**
+ * Performs bind column widths.
+ *
+ */
 
     private void bindColumnWidths() {
         itemIdColumn.prefWidthProperty().bind(stockTurnoverTable.widthProperty().multiply(0.12));

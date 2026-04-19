@@ -1,4 +1,4 @@
-package com.berrybyte.ACC.controllers;
+﻿package com.berrybyte.ACC.controllers;
 
 import com.berrybyte.ACC.util.StaffRoleRules;
 import com.berrybyte.common.DatabaseConnection;
@@ -22,6 +22,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
+/**
+ * Represents edit staff account controller.
+ */
 public class EditStaffAccountController {
 
     @FXML
@@ -50,11 +53,20 @@ public class EditStaffAccountController {
 
     private int userId;
     private String pendingRole;
+/**
+ * Sets user id.
+ *
+ * @param userId user id
+ */
 
     public void setUserId(int userId) {
         this.userId = userId;
         loadStaffDetails();
     }
+/**
+ * Loads staff details.
+ *
+ */
 
     private void loadStaffDetails() {
         String sql = """
@@ -98,6 +110,12 @@ public class EditStaffAccountController {
         }
     }
 
+/**
+ * Executes the update staff account workflow.
+ * This method coordinates the main operation for this action.
+ *
+ * @param event event
+ */
     @FXML
     public void updateStaffAccount(ActionEvent event) {
         try {
@@ -111,6 +129,11 @@ public class EditStaffAccountController {
         }
     }
 
+/**
+ * Handles promote button.
+ *
+ * @param event event
+ */
     @FXML
     private void handlePromoteButton(ActionEvent event) {
         if ("MANAGER".equals(pendingRole)) {
@@ -120,6 +143,10 @@ public class EditStaffAccountController {
 
         openPromotePopup();
     }
+/**
+ * Executes the open promote popup workflow.
+ *
+ */
 
     private void openPromotePopup() {
         try {
@@ -144,6 +171,10 @@ public class EditStaffAccountController {
             messageLabel.setText("Unable to open promotion confirmation popup.");
         }
     }
+/**
+ * Performs confirm promotion.
+ *
+ */
 
     public void confirmPromotion() {
         pendingRole = "MANAGER";
@@ -155,6 +186,12 @@ public class EditStaffAccountController {
 
         messageLabel.setText("Promotion selected. Click Save to apply the role change.");
     }
+/**
+ * Executes the validate staff details workflow.
+ * This method coordinates the main operation for this action.
+ *
+ * @throws Exception when the operation fails
+ */
 
     private void validateStaffDetails() throws Exception {
         String name = nameTextField.getText() == null ? "" : nameTextField.getText().trim();
@@ -193,6 +230,12 @@ public class EditStaffAccountController {
             throw new Exception("Enter a valid phone number with country code (e.g. +44 7123456789).");
         }
     }
+/**
+ * Executes the update staff workflow.
+ * This method coordinates the main operation for this action.
+ *
+ * @param event event
+ */
 
     private void updateStaff(ActionEvent event) {
         String sql = """
@@ -228,6 +271,11 @@ public class EditStaffAccountController {
         }
     }
 
+/**
+ * Handles back button.
+ *
+ * @param event event
+ */
     @FXML
     private void handleBackButton(MouseEvent event) {
         try {

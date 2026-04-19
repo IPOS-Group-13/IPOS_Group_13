@@ -1,4 +1,4 @@
-package com.berrybyte.catalogue;
+﻿package com.berrybyte.catalogue;
 
 import com.berrybyte.common.DatabaseConnection;
 
@@ -9,7 +9,18 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Represents delete product service.
+ */
 public class DeleteProductService {
+/**
+ * Performs get product.
+ * This method coordinates the main operation for this action.
+ *
+ * @param itemId item id
+ * @return result value
+ * @throws Exception when the operation fails
+ */
 
     public CatalogueItemRow getProduct(int itemId) throws Exception {
         String sql = """
@@ -46,6 +57,14 @@ public class DeleteProductService {
 
         throw new Exception("Selected product could not be found.");
     }
+/**
+ * Executes the search products workflow.
+ * This method coordinates the main operation for this action.
+ *
+ * @param searchText search text
+ * @return result value
+ * @throws Exception when the operation fails
+ */
 
     public List<CatalogueItemRow> searchProducts(String searchText) throws Exception {
         List<CatalogueItemRow> products = new ArrayList<>();
@@ -94,6 +113,13 @@ public class DeleteProductService {
 
         return products;
     }
+/**
+ * Executes the delete product workflow.
+ * This method coordinates the main operation for this action.
+ *
+ * @param itemId item id
+ * @throws Exception when the operation fails
+ */
 
     public void deleteProduct(int itemId) throws Exception {
         DatabaseConnection connectNow = new DatabaseConnection();
@@ -129,6 +155,13 @@ public class DeleteProductService {
             }
         }
     }
+/**
+ * Performs ensure is deleted column.
+ * This method coordinates the main operation for this action.
+ *
+ * @param conn conn
+ * @throws Exception when the operation fails
+ */
 
     private void ensureIsDeletedColumn(Connection conn) throws Exception {
         String alterSql = "ALTER TABLE Catalogue ADD COLUMN IsDeleted TINYINT(1) NOT NULL DEFAULT 0";

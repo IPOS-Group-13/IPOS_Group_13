@@ -1,4 +1,4 @@
-package com.berrybyte.ORD.services;
+﻿package com.berrybyte.ORD.services;
 
 import com.berrybyte.ORD.helpers.InvoiceDetails;
 import com.berrybyte.common.DatabaseConnection;
@@ -6,10 +6,22 @@ import com.berrybyte.common.DatabaseConnection;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 
+/**
+ * Represents external comms queue service.
+ */
 public class ExternalCommsQueueService {
 
     private static final String PURPOSE_ORDER_ACCEPTED = "ORDER_ACCEPTED";
     private static final String SOURCE_SYSTEM = "SA";
+/**
+ * Performs queue order accepted email.
+ * This method coordinates the main operation for this action.
+ *
+ * @param invoiceDetails invoice details
+ * @param invoiceUrl invoice url
+ * @return result value
+ * @throws Exception when the operation fails
+ */
 
     public String queueOrderAcceptedEmail(InvoiceDetails invoiceDetails, String invoiceUrl) throws Exception {
         if (invoiceDetails == null) {
@@ -43,6 +55,11 @@ public class ExternalCommsQueueService {
         }
         return recipientEmail;
     }
+/**
+ * Performs resolve recipient email.
+ *
+ * @return result value
+ */
 
     private String resolveRecipientEmail() {
         String merchantEmail =  "ipos_commercial@yahoo.com";
@@ -51,10 +68,23 @@ public class ExternalCommsQueueService {
         }
         return merchantEmail.trim();
     }
+/**
+ * Performs build subject.
+ *
+ * @param invoiceDetails invoice details
+ * @return result value
+ */
 
     private String buildSubject(InvoiceDetails invoiceDetails) {
         return "Order Accepted - Invoice Ready for Order #" + invoiceDetails.getOrderId();
     }
+/**
+ * Performs build body.
+ *
+ * @param invoiceDetails invoice details
+ * @param invoiceUrl invoice url
+ * @return result value
+ */
 
     private String buildBody(InvoiceDetails invoiceDetails, String invoiceUrl) {
         return """
@@ -87,10 +117,22 @@ public class ExternalCommsQueueService {
                         safeValue(invoiceDetails.getPaymentStatus()),
                         invoiceUrl);
     }
+/**
+ * Performs build reference key.
+ *
+ * @param invoiceDetails invoice details
+ * @return result value
+ */
 
     private String buildReferenceKey(InvoiceDetails invoiceDetails) {
         return "SA_ORDER_" + invoiceDetails.getOrderId() + "_INVOICE_" + invoiceDetails.getInvoiceId() + "_ACCEPTED";
     }
+/**
+ * Performs safe value.
+ *
+ * @param value value
+ * @return result value
+ */
 
     private String safeValue(String value) {
         return value == null || value.isBlank() ? "N/A" : value;

@@ -1,4 +1,4 @@
-package com.berrybyte.ACC.controllers;
+﻿package com.berrybyte.ACC.controllers;
 
 import com.berrybyte.ACC.model.PendingApplicationRow;
 import com.berrybyte.ACC.services.PendingApplicationsService;
@@ -15,6 +15,9 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 
+/**
+ * Represents pending applications controller.
+ */
 public class PendingApplicationsController {
 
     @FXML
@@ -49,6 +52,10 @@ public class PendingApplicationsController {
 
     private final PendingApplicationsService service = new PendingApplicationsService();
 
+/**
+ * Initializes controller state and bindings.
+ *
+ */
     @FXML
     public void initialize() {
         if (profileMenuPane != null) {
@@ -66,11 +73,21 @@ public class PendingApplicationsController {
         loadApplications("");
     }
 
+/**
+ * Handles search.
+ *
+ * @param event event
+ */
     @FXML
     private void handleSearch(ActionEvent event) {
         loadApplications(searchField.getText());
     }
 
+/**
+ * Handles reject application.
+ *
+ * @param event event
+ */
     @FXML
     private void handleRejectApplication(ActionEvent event) {
         PendingApplicationRow selected = merchantsTable.getSelectionModel().getSelectedItem();
@@ -87,6 +104,11 @@ public class PendingApplicationsController {
         }
     }
 
+/**
+ * Handles accept application.
+ *
+ * @param event event
+ */
     @FXML
     private void handleAcceptApplication(ActionEvent event) {
         PendingApplicationRow selected = merchantsTable.getSelectionModel().getSelectedItem();
@@ -116,6 +138,10 @@ public class PendingApplicationsController {
         }
     }
 
+/**
+ * Handles profile click.
+ *
+ */
     @FXML
     private void handleProfileClick() {
         if (profileMenuPane == null) {
@@ -130,6 +156,11 @@ public class PendingApplicationsController {
         }
     }
 
+/**
+ * Handles logout menu click.
+ *
+ * @param event event
+ */
     @FXML
     private void handleLogoutMenuClick(ActionEvent event) {
         if (profileMenuPane != null) {
@@ -145,6 +176,11 @@ public class PendingApplicationsController {
         }
     }
 
+/**
+ * Handles dashboard click.
+ *
+ * @param event event
+ */
     @FXML
     private void handleDashboardClick(ActionEvent event) {
         try {
@@ -154,6 +190,11 @@ public class PendingApplicationsController {
         }
     }
 
+/**
+ * Handles catalogue click.
+ *
+ * @param event event
+ */
     @FXML
     private void handleCatalogueClick(ActionEvent event) {
         try {
@@ -163,6 +204,11 @@ public class PendingApplicationsController {
         }
     }
 
+/**
+ * Handles merchants click.
+ *
+ * @param event event
+ */
     @FXML
     private void handleMerchantsClick(ActionEvent event) {
         try {
@@ -172,6 +218,11 @@ public class PendingApplicationsController {
         }
     }
 
+/**
+ * Handles orders click.
+ *
+ * @param event event
+ */
     @FXML
     private void handleOrdersClick(ActionEvent event) {
         try {
@@ -181,6 +232,11 @@ public class PendingApplicationsController {
         }
     }
 
+/**
+ * Handles staff accounts click.
+ *
+ * @param event event
+ */
     @FXML
     private void handleStaffAccountsClick(ActionEvent event) {
         try {
@@ -190,6 +246,11 @@ public class PendingApplicationsController {
         }
     }
 
+/**
+ * Handles payments click.
+ *
+ * @param event event
+ */
     @FXML
     private void handlePaymentsClick(ActionEvent event) {
         try {
@@ -199,6 +260,11 @@ public class PendingApplicationsController {
         }
     }
 
+/**
+ * Handles reports click.
+ *
+ * @param event event
+ */
     @FXML
     private void handleReportsClick(ActionEvent event) {
         try {
@@ -207,6 +273,11 @@ public class PendingApplicationsController {
             e.printStackTrace();
         }
     }
+/**
+ * Loads applications.
+ *
+ * @param searchText search text
+ */
 
     private void loadApplications(String searchText) {
         try {

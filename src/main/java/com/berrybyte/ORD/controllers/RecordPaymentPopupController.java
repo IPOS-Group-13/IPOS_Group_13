@@ -1,4 +1,4 @@
-package com.berrybyte.ORD.controllers;
+﻿package com.berrybyte.ORD.controllers;
 
 import com.berrybyte.ORD.services.SaOrderService;
 import com.berrybyte.common.LoginSession;
@@ -15,6 +15,9 @@ import javafx.stage.Stage;
 import java.math.BigDecimal;
 import java.util.function.UnaryOperator;
 
+/**
+ * Represents record payment popup controller.
+ */
 public class RecordPaymentPopupController {
 
     private final SaOrderService orderService = new SaOrderService();
@@ -30,6 +33,10 @@ public class RecordPaymentPopupController {
     @FXML
     private ComboBox<String> paymentMethodComboBox;
 
+/**
+ * Initializes controller state and bindings.
+ *
+ */
     @FXML
     public void initialize() {
         if (orderIdField != null) {
@@ -53,17 +60,32 @@ public class RecordPaymentPopupController {
             amountPaidField.setTextFormatter(new TextFormatter<>(numericFilter));
         }
     }
+/**
+ * Sets order id.
+ *
+ * @param orderId order id
+ */
 
     public void setOrderId(int orderId) {
         if (orderIdField != null) {
             orderIdField.setText(String.valueOf(orderId));
         }
     }
+/**
+ * Sets on payment recorded.
+ *
+ * @param onPaymentRecorded on payment recorded
+ */
 
     public void setOnPaymentRecorded(Runnable onPaymentRecorded) {
         this.onPaymentRecorded = onPaymentRecorded;
     }
 
+/**
+ * Handles confirm payment.
+ *
+ * @param event event
+ */
     @FXML
     private void handleConfirmPayment(ActionEvent event) {
         try {
@@ -91,10 +113,20 @@ public class RecordPaymentPopupController {
         }
     }
 
+/**
+ * Handles close.
+ *
+ * @param event event
+ */
     @FXML
     private void handleClose(ActionEvent event) {
         closePopup(event);
     }
+/**
+ * Performs parse order id.
+ *
+ * @return result value
+ */
 
     private int parseOrderId() {
         String orderIdText = orderIdField == null || orderIdField.getText() == null ? "" : orderIdField.getText().trim();
@@ -108,6 +140,11 @@ public class RecordPaymentPopupController {
             throw new IllegalArgumentException("Invalid order ID.");
         }
     }
+/**
+ * Performs parse amount paid.
+ *
+ * @return result value
+ */
 
     private BigDecimal parseAmountPaid() {
         String amountText = amountPaidField == null || amountPaidField.getText() == null ? "" : amountPaidField.getText().trim();
@@ -122,6 +159,12 @@ public class RecordPaymentPopupController {
             throw new IllegalArgumentException("Amount paid must be numeric.");
         }
     }
+/**
+ * Performs show alert.
+ *
+ * @param type type
+ * @param message message
+ */
 
     private void showAlert(Alert.AlertType type, String message) {
         Alert alert = new Alert(type);
@@ -129,6 +172,11 @@ public class RecordPaymentPopupController {
         alert.setContentText(message);
         alert.showAndWait();
     }
+/**
+ * Performs close popup.
+ *
+ * @param event event
+ */
 
     private void closePopup(ActionEvent event) {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();

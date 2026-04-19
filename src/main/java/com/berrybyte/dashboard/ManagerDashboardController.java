@@ -1,4 +1,4 @@
-package com.berrybyte.dashboard;
+﻿package com.berrybyte.dashboard;
 
 import com.berrybyte.common.RoleBasedNavigator;
 import com.berrybyte.common.SceneSwitcher;
@@ -6,17 +6,28 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.layout.AnchorPane;
 
+/**
+ * Represents manager dashboard controller.
+ */
 public class ManagerDashboardController {
 
     @FXML
     private AnchorPane profileMenuPane;
 
+/**
+ * Initializes controller state and bindings.
+ *
+ */
     @FXML
     public void initialize() {
         profileMenuPane.setVisible(false);
         profileMenuPane.setManaged(false);
     }
 
+/**
+ * Handles profile click.
+ *
+ */
     @FXML
     private void handleProfileClick() {
         boolean isVisible = profileMenuPane.isVisible();
@@ -27,6 +38,11 @@ public class ManagerDashboardController {
         }
     }
 
+/**
+ * Handles merchants click.
+ *
+ * @param event event
+ */
     @FXML
     private void handleMerchantsClick(ActionEvent event) {
         try {
@@ -36,6 +52,11 @@ public class ManagerDashboardController {
         }
     }
 
+/**
+ * Handles catalogue click.
+ *
+ * @param event event
+ */
     @FXML
     private void handleCatalogueClick(ActionEvent event) {
         try {
@@ -47,6 +68,11 @@ public class ManagerDashboardController {
 
 
 
+/**
+ * Handles orders click.
+ *
+ * @param event event
+ */
     @FXML
     private void handleOrdersClick(ActionEvent event) {
         try {
@@ -56,6 +82,11 @@ public class ManagerDashboardController {
         }
     }
 
+/**
+ * Handles payments click.
+ *
+ * @param event event
+ */
     @FXML
     private void handlePaymentsClick(ActionEvent event) {
         try {
@@ -65,6 +96,11 @@ public class ManagerDashboardController {
         }
     }
 
+/**
+ * Handles reports click.
+ *
+ * @param event event
+ */
     @FXML
     private void handleReportsClick(ActionEvent event) {
         try {
@@ -74,6 +110,11 @@ public class ManagerDashboardController {
         }
     }
 
+/**
+ * Handles logout menu click.
+ *
+ * @param event event
+ */
     @FXML
     private void handleLogoutMenuClick(ActionEvent event) {
         profileMenuPane.setVisible(false);

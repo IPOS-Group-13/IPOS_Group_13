@@ -1,4 +1,4 @@
-package com.berrybyte.RPT.controllers;
+﻿package com.berrybyte.RPT.controllers;
 
 import com.berrybyte.RPT.model.InvoiceListingReport;
 import com.berrybyte.RPT.model.InvoiceListingRow;
@@ -21,6 +21,9 @@ import java.nio.file.Path;
 
 import java.time.LocalDate;
 
+/**
+ * Represents invoices by info pharma controller.
+ */
 public class InvoicesByInfoPharmaController extends ReportProfileMenuController {
 
     private final ReportService reportService = new ReportServiceImpl(new ReportRepositoryImpl());
@@ -73,6 +76,10 @@ public class InvoicesByInfoPharmaController extends ReportProfileMenuController 
     @FXML
     private Button backButton;
 
+/**
+ * Initializes controller state and bindings.
+ *
+ */
     @FXML
     public void initialize() {
         initializeProfileMenu();
@@ -88,6 +95,12 @@ public class InvoicesByInfoPharmaController extends ReportProfileMenuController 
 
         updateFilterSummary();
     }
+/**
+ * Performs set filters.
+ *
+ * @param afterDate after date
+ * @param beforeDate before date
+ */
 
     public void setFilters(LocalDate afterDate, LocalDate beforeDate) {
         this.afterDate = afterDate;
@@ -96,11 +109,19 @@ public class InvoicesByInfoPharmaController extends ReportProfileMenuController 
         loadReport();
     }
 
+/**
+ * Handles refresh.
+ *
+ */
     @FXML
     private void handleRefresh() {
         loadReport();
     }
 
+/**
+ * Handles export pdf.
+ *
+ */
     @FXML
     private void handleExportPdf() {
         try {
@@ -122,6 +143,11 @@ public class InvoicesByInfoPharmaController extends ReportProfileMenuController 
         }
     }
 
+/**
+ * Handles back.
+ *
+ * @param event event
+ */
     @FXML
     private void handleBack(ActionEvent event) {
         try {
@@ -131,6 +157,10 @@ public class InvoicesByInfoPharmaController extends ReportProfileMenuController 
             messageLabel.setText("Unable to go back.");
         }
     }
+/**
+ * Loads report.
+ *
+ */
 
     private void loadReport() {
         try {
@@ -146,6 +176,11 @@ public class InvoicesByInfoPharmaController extends ReportProfileMenuController 
             messageLabel.setText("Unable to load invoice report.");
         }
     }
+/**
+ * Executes the update filter summary workflow.
+ * This method coordinates the main operation for this action.
+ *
+ */
 
     private void updateFilterSummary() {
         String afterText = afterDate == null ? "Any" : afterDate.toString();
@@ -153,6 +188,10 @@ public class InvoicesByInfoPharmaController extends ReportProfileMenuController 
 
         filterSummaryLabel.setText("After: " + afterText + " | Before: " + beforeText);
     }
+/**
+ * Performs bind column widths.
+ *
+ */
 
     private void bindColumnWidths() {
         invoiceIdColumn.prefWidthProperty().bind(invoiceTable.widthProperty().multiply(0.10));

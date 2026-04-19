@@ -1,4 +1,4 @@
-package com.berrybyte.ACC.services;
+﻿package com.berrybyte.ACC.services;
 
 import com.berrybyte.common.DatabaseConnection;
 
@@ -10,7 +10,17 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.time.LocalDate;
 
+/**
+ * Represents merchant status service.
+ */
 public class MerchantStatusService {
+/**
+ * Executes the refresh all merchant statuses workflow.
+ * This method coordinates the main operation for this action.
+ *
+ * @param today today
+ * @throws Exception when the operation fails
+ */
 
     public void refreshAllMerchantStatuses(LocalDate today) throws Exception {
         if (today == null) {
@@ -44,12 +54,29 @@ public class MerchantStatusService {
             }
         }
     }
+/**
+ * Executes the refresh merchant status workflow.
+ * This method coordinates the main operation for this action.
+ *
+ * @param merchantId merchant id
+ * @param today today
+ * @throws Exception when the operation fails
+ */
 
     public void refreshMerchantStatus(int merchantId, LocalDate today) throws Exception {
         try (Connection conn = new DatabaseConnection().getConnection()) {
             refreshMerchantStatus(conn, merchantId, today);
         }
     }
+/**
+ * Executes the refresh merchant status workflow.
+ * This method coordinates the main operation for this action.
+ *
+ * @param conn conn
+ * @param merchantId merchant id
+ * @param today today
+ * @throws Exception when the operation fails
+ */
 
     public void refreshMerchantStatus(Connection conn, int merchantId, LocalDate today) throws Exception {
         if (conn == null) {
@@ -70,6 +97,14 @@ public class MerchantStatusService {
             updateMerchantStatus(conn, merchantId, nextStatus);
         }
     }
+/**
+ * Performs restore default state.
+ * This method coordinates the main operation for this action.
+ *
+ * @param merchantId merchant id
+ * @return result value
+ * @throws Exception when the operation fails
+ */
 
     public boolean restoreDefaultState(int merchantId) throws Exception {
         if (merchantId <= 0) {
@@ -92,6 +127,15 @@ public class MerchantStatusService {
             }
         }
     }
+/**
+ * Performs restore default state.
+ * This method coordinates the main operation for this action.
+ *
+ * @param conn conn
+ * @param merchantId merchant id
+ * @return result value
+ * @throws Exception when the operation fails
+ */
 
     public boolean restoreDefaultState(Connection conn, int merchantId) throws Exception {
         if (conn == null) {
@@ -126,6 +170,15 @@ public class MerchantStatusService {
         updateMerchantStatus(conn, merchantId, "NORMAL");
         return true;
     }
+/**
+ * Performs get current status.
+ * This method coordinates the main operation for this action.
+ *
+ * @param conn conn
+ * @param merchantId merchant id
+ * @return result value
+ * @throws Exception when the operation fails
+ */
 
     private String getCurrentStatus(Connection conn, int merchantId) throws Exception {
         String sql = """
@@ -149,6 +202,16 @@ public class MerchantStatusService {
 
         throw new IllegalArgumentException("Merchant account not found.");
     }
+/**
+ * Performs assess outstanding debt.
+ * This method coordinates the main operation for this action.
+ *
+ * @param conn conn
+ * @param merchantId merchant id
+ * @param today today
+ * @return result value
+ * @throws Exception when the operation fails
+ */
 
     private MerchantStatusAssessment assessOutstandingDebt(Connection conn, int merchantId, LocalDate today) throws Exception {
         String sql = """
@@ -180,6 +243,13 @@ public class MerchantStatusService {
 
         return new MerchantStatusAssessment(BigDecimal.ZERO.setScale(2, RoundingMode.HALF_UP), false, false);
     }
+/**
+ * Performs determine next status.
+ *
+ * @param currentStatus current status
+ * @param assessment assessment
+ * @return result value
+ */
 
     private String determineNextStatus(String currentStatus, MerchantStatusAssessment assessment) {
         boolean isCurrentlyInDefault = "IN_DEFAULT".equalsIgnoreCase(currentStatus);
@@ -196,6 +266,15 @@ public class MerchantStatusService {
         }
         return "NORMAL";
     }
+/**
+ * Executes the update merchant status workflow.
+ * This method coordinates the main operation for this action.
+ *
+ * @param conn conn
+ * @param merchantId merchant id
+ * @param accountStatus account status
+ * @throws Exception when the operation fails
+ */
 
     private void updateMerchantStatus(Connection conn, int merchantId, String accountStatus) throws Exception {
         String sql = """
@@ -210,11 +289,20 @@ public class MerchantStatusService {
             ps.executeUpdate();
         }
     }
+/**
+ * Performs normalize currency.
+ *
+ * @param value value
+ * @return result value
+ */
 
     private BigDecimal normalizeCurrency(BigDecimal value) {
         return (value == null ? BigDecimal.ZERO : value).setScale(2, RoundingMode.HALF_UP);
     }
 
+/**
+ * Represents immutable data for merchant status assessment.
+ */
     private record MerchantStatusAssessment(BigDecimal outstandingDebt,
                                             boolean hasDefaultDebt,
                                             boolean hasSuspensionDebt) { }

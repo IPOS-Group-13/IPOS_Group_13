@@ -1,4 +1,4 @@
-package com.berrybyte.ACC.controllers;
+﻿package com.berrybyte.ACC.controllers;
 
 import com.berrybyte.common.SceneSwitcher;
 import javafx.event.ActionEvent;
@@ -11,6 +11,9 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
+/**
+ * Represents discount plan selection controller.
+ */
 public class DiscountPlanSelectionController {
 
     @FXML
@@ -22,6 +25,11 @@ public class DiscountPlanSelectionController {
     @FXML
     private Label messageLabel;
 
+/**
+ * Handles next.
+ *
+ * @param event event
+ */
     @FXML
     private void handleNext(ActionEvent event) {
         try {
@@ -37,6 +45,11 @@ public class DiscountPlanSelectionController {
             messageLabel.setText("Unable to open discount details");
         }
     }
+/**
+ * Handles back button.
+ *
+ * @param event event
+ */
     @FXML
     private void handleBackButton(MouseEvent event) {
         try {

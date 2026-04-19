@@ -1,4 +1,4 @@
-package com.berrybyte.catalogue;
+﻿package com.berrybyte.catalogue;
 
 import com.berrybyte.common.RoleBasedNavigator;
 import com.berrybyte.common.SceneSwitcher;
@@ -6,6 +6,9 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.layout.AnchorPane;
 
+/**
+ * Represents catalogue controller.
+ */
 public class CatalogueController {
 
     @FXML
@@ -14,6 +17,10 @@ public class CatalogueController {
     @FXML
     private AnchorPane profileMenuPane;
 
+/**
+ * Initializes controller state and bindings.
+ *
+ */
     @FXML
     public void initialize() {
         if (catalogueMenuPane != null) {
@@ -26,6 +33,10 @@ public class CatalogueController {
         }
     }
 
+/**
+ * Handles profile click.
+ *
+ */
     @FXML
     private void handleProfileClick() {
         if (profileMenuPane == null) {
@@ -40,6 +51,11 @@ public class CatalogueController {
         }
     }
 
+/**
+ * Handles logout menu click.
+ *
+ * @param event event
+ */
     @FXML
     private void handleLogoutMenuClick(ActionEvent event) {
         if (profileMenuPane != null) {
@@ -55,6 +71,11 @@ public class CatalogueController {
     }
 
 
+/**
+ * Handles merchants click.
+ *
+ * @param event event
+ */
     @FXML
     private void handleMerchantsClick(ActionEvent event) {
         try {
@@ -63,9 +84,14 @@ public class CatalogueController {
             e.printStackTrace();
         }
     }
-    
 
 
+
+/**
+ * Handles catalogue click.
+ *
+ * @param event event
+ */
     @FXML
     private void handleCatalogueClick (ActionEvent event) {
         try {
@@ -75,6 +101,11 @@ public class CatalogueController {
         }
     }
 
+/**
+ * Performs manage catalogue button.
+ *
+ * @param event event
+ */
     @FXML
     private void manageCatalogueButton(ActionEvent event) {
         try {
@@ -84,6 +115,11 @@ public class CatalogueController {
         }
     }
 
+/**
+ * Handles orders click.
+ *
+ * @param event event
+ */
     @FXML
     private void handleOrdersClick(ActionEvent event) {
         try {
@@ -92,6 +128,11 @@ public class CatalogueController {
             e.printStackTrace();
         }
     }
+/**
+ * Performs view catalogue button.
+ *
+ * @param event event
+ */
 
     public void viewCatalogueButton(ActionEvent event) {
         try {
@@ -102,6 +143,11 @@ public class CatalogueController {
     }
 
 
+/**
+ * Handles staff accounts click.
+ *
+ * @param event event
+ */
     @FXML
     private void handleStaffAccountsClick(ActionEvent event) {
         try {
@@ -111,6 +157,11 @@ public class CatalogueController {
         }
     }
 
+/**
+ * Handles payments click.
+ *
+ * @param event event
+ */
     @FXML
     public void handlePaymentsClick(ActionEvent event) {
         try {
@@ -120,6 +171,11 @@ public class CatalogueController {
         }
     }
 
+/**
+ * Handles reports click.
+ *
+ * @param event event
+ */
     @FXML
     public void handleReportsClick(ActionEvent event) {
         try {
@@ -129,6 +185,11 @@ public class CatalogueController {
         }
     }
 
+/**
+ * Handles pending applications.
+ *
+ * @param event event
+ */
     @FXML
     public void handlePendingApplications(ActionEvent event) {
         try {
@@ -138,6 +199,11 @@ public class CatalogueController {
         }
     }
 
+/**
+ * Handles dashboard click.
+ *
+ * @param event event
+ */
     @FXML
     private void handleDashboardClick(ActionEvent event) {
         try {

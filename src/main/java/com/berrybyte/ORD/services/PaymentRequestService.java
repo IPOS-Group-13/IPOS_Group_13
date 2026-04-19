@@ -1,4 +1,4 @@
-package com.berrybyte.ORD.services;
+﻿package com.berrybyte.ORD.services;
 
 import com.berrybyte.ORD.helpers.PaymentRequestRow;
 import com.berrybyte.common.DatabaseConnection;
@@ -9,7 +9,16 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Represents payment request service.
+ */
 public class PaymentRequestService {
+/**
+ * Returns payment requests.
+ *
+ * @return result value
+ * @throws Exception when the operation fails
+ */
 
     public List<PaymentRequestRow> getPaymentRequests() throws Exception {
         String sql = """

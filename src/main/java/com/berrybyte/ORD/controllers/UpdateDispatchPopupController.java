@@ -1,4 +1,4 @@
-package com.berrybyte.ORD.controllers;
+﻿package com.berrybyte.ORD.controllers;
 
 import com.berrybyte.ORD.services.SaOrderService;
 import javafx.event.ActionEvent;
@@ -16,6 +16,9 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.time.format.ResolverStyle;
 
+/**
+ * Represents update dispatch popup controller.
+ */
 public class UpdateDispatchPopupController {
 
     private static final DateTimeFormatter TIME_FORMATTER =
@@ -40,15 +43,30 @@ public class UpdateDispatchPopupController {
 
     @FXML
     private Label messageLabel;
+/**
+ * Sets order id.
+ *
+ * @param orderId order id
+ */
 
     public void setOrderId(int orderId) {
         this.orderId = orderId;
     }
+/**
+ * Sets on dispatch updated.
+ *
+ * @param onDispatchUpdated on dispatch updated
+ */
 
     public void setOnDispatchUpdated(Runnable onDispatchUpdated) {
         this.onDispatchUpdated = onDispatchUpdated;
     }
 
+/**
+ * Handles update.
+ *
+ * @param event event
+ */
     @FXML
     private void handleUpdate(ActionEvent event) {
         String courierName = trim(courierNameField);
@@ -96,15 +114,31 @@ public class UpdateDispatchPopupController {
         }
     }
 
+/**
+ * Handles close.
+ *
+ * @param event event
+ */
     @FXML
     private void handleClose(ActionEvent event) {
         closePopup(event);
     }
 
+/**
+ * Handles cancel.
+ *
+ * @param event event
+ */
     @FXML
     private void handleCancel(ActionEvent event) {
         closePopup(event);
     }
+/**
+ * Performs parse time.
+ *
+ * @param value value
+ * @return result value
+ */
 
     private LocalTime parseTime(String value) {
         try {
@@ -113,6 +147,11 @@ public class UpdateDispatchPopupController {
             return null;
         }
     }
+/**
+ * Performs build expected delivery date time.
+ *
+ * @return result value
+ */
 
     private LocalDateTime buildExpectedDeliveryDateTime() {
         LocalDate expectedDate = expectedDatePicker.getValue();
@@ -124,10 +163,21 @@ public class UpdateDispatchPopupController {
 
         return LocalDateTime.of(expectedDate, expectedTime);
     }
+/**
+ * Performs trim.
+ *
+ * @param field field
+ * @return result value
+ */
 
     private String trim(TextField field) {
         return field == null || field.getText() == null ? "" : field.getText().trim();
     }
+/**
+ * Performs close popup.
+ *
+ * @param event event
+ */
 
     private void closePopup(ActionEvent event) {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
