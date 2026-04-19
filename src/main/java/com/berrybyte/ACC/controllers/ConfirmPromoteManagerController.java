@@ -12,6 +12,11 @@ public class ConfirmPromoteManagerController {
 
     private EditManagerAccountController managerController;
     private EditStaffAccountController staffController;
+/**
+ * Sets parent controller.
+ *
+ * @param parentController parent controller
+ */
 
 /**
  * Sets parent controller.
@@ -22,6 +27,11 @@ public class ConfirmPromoteManagerController {
     public void setParentController(EditManagerAccountController parentController) {
         this.managerController = parentController;
     }
+/**
+ * Sets staff controller.
+ *
+ * @param parentController parent controller
+ */
 
 /**
  * Sets staff controller.

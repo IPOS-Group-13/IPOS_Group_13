@@ -19,6 +19,11 @@ public class ConfirmDeleteDiscountPlanController {
     private int merchantId;
     private MerchantMenuController parentController;
     private AnchorPane overlayPane;
+/**
+ * Sets merchant id.
+ *
+ * @param merchantId merchant id
+ */
 
 /**
  * Sets merchant id.
@@ -29,6 +34,11 @@ public class ConfirmDeleteDiscountPlanController {
     public void setMerchantId(int merchantId) {
         this.merchantId = merchantId;
     }
+/**
+ * Sets parent controller.
+ *
+ * @param parentController parent controller
+ */
 
 /**
  * Sets parent controller.
@@ -39,6 +49,11 @@ public class ConfirmDeleteDiscountPlanController {
     public void setParentController(MerchantMenuController parentController) {
         this.parentController = parentController;
     }
+/**
+ * Sets overlay pane.
+ *
+ * @param overlayPane overlay pane
+ */
 
 /**
  * Sets overlay pane.
@@ -80,6 +95,13 @@ public class ConfirmDeleteDiscountPlanController {
     private void handleNo(ActionEvent event) {
         closePopup(event);
     }
+/**
+ * Executes the delete discount plan workflow.
+ * This method coordinates the main operation for this action.
+ *
+ * @param merchantId merchant id
+ * @throws Exception when the operation fails
+ */
 
 /**
  * Executes the delete discount plan workflow.
@@ -106,6 +128,11 @@ public class ConfirmDeleteDiscountPlanController {
 
         }
     }
+/**
+ * Performs close popup.
+ *
+ * @param event event
+ */
 
 /**
  * Performs close popup.

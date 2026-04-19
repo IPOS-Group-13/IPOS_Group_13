@@ -43,6 +43,11 @@ public class ConfirmDemoteAdminController {
     private void handleCancel(ActionEvent event) {
         closePopup(event);
     }
+/**
+ * Performs close popup.
+ *
+ * @param event event
+ */
 
 /**
  * Performs close popup.

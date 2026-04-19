@@ -54,6 +54,14 @@ public class MerchantStatusService {
             }
         }
     }
+/**
+ * Executes the refresh merchant status workflow.
+ * This method coordinates the main operation for this action.
+ *
+ * @param merchantId merchant id
+ * @param today today
+ * @throws Exception when the operation fails
+ */
 
 /**
  * Executes the refresh merchant status workflow.
@@ -68,6 +76,15 @@ public class MerchantStatusService {
             refreshMerchantStatus(conn, merchantId, today);
         }
     }
+/**
+ * Executes the refresh merchant status workflow.
+ * This method coordinates the main operation for this action.
+ *
+ * @param conn conn
+ * @param merchantId merchant id
+ * @param today today
+ * @throws Exception when the operation fails
+ */
 
 /**
  * Executes the refresh merchant status workflow.
@@ -97,6 +114,14 @@ public class MerchantStatusService {
             updateMerchantStatus(conn, merchantId, nextStatus);
         }
     }
+/**
+ * Performs restore default state.
+ * This method coordinates the main operation for this action.
+ *
+ * @param merchantId merchant id
+ * @return result value
+ * @throws Exception when the operation fails
+ */
 
 /**
  * Performs restore default state.
@@ -127,6 +152,15 @@ public class MerchantStatusService {
             }
         }
     }
+/**
+ * Performs restore default state.
+ * This method coordinates the main operation for this action.
+ *
+ * @param conn conn
+ * @param merchantId merchant id
+ * @return result value
+ * @throws Exception when the operation fails
+ */
 
 /**
  * Performs restore default state.
@@ -170,6 +204,15 @@ public class MerchantStatusService {
         updateMerchantStatus(conn, merchantId, "NORMAL");
         return true;
     }
+/**
+ * Performs get current status.
+ * This method coordinates the main operation for this action.
+ *
+ * @param conn conn
+ * @param merchantId merchant id
+ * @return result value
+ * @throws Exception when the operation fails
+ */
 
 /**
  * Performs get current status.
@@ -202,6 +245,16 @@ public class MerchantStatusService {
 
         throw new IllegalArgumentException("Merchant account not found.");
     }
+/**
+ * Performs assess outstanding debt.
+ * This method coordinates the main operation for this action.
+ *
+ * @param conn conn
+ * @param merchantId merchant id
+ * @param today today
+ * @return result value
+ * @throws Exception when the operation fails
+ */
 
 /**
  * Performs assess outstanding debt.
@@ -243,6 +296,13 @@ public class MerchantStatusService {
 
         return new MerchantStatusAssessment(BigDecimal.ZERO.setScale(2, RoundingMode.HALF_UP), false, false);
     }
+/**
+ * Performs determine next status.
+ *
+ * @param currentStatus current status
+ * @param assessment assessment
+ * @return result value
+ */
 
 /**
  * Performs determine next status.
@@ -266,6 +326,15 @@ public class MerchantStatusService {
         }
         return "NORMAL";
     }
+/**
+ * Executes the update merchant status workflow.
+ * This method coordinates the main operation for this action.
+ *
+ * @param conn conn
+ * @param merchantId merchant id
+ * @param accountStatus account status
+ * @throws Exception when the operation fails
+ */
 
 /**
  * Executes the update merchant status workflow.
@@ -289,6 +358,12 @@ public class MerchantStatusService {
             ps.executeUpdate();
         }
     }
+/**
+ * Performs normalize currency.
+ *
+ * @param value value
+ * @return result value
+ */
 
 /**
  * Performs normalize currency.

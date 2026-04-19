@@ -40,6 +40,11 @@ public class DiscountPlanEditController {
         fixedDiscountRadioButton.setToggleGroup(discountToggleGroup);
         flexibleDiscountRadioButton.setToggleGroup(discountToggleGroup);
     }
+/**
+ * Sets merchant id.
+ *
+ * @param merchantId merchant id
+ */
 
 /**
  * Sets merchant id.
@@ -104,6 +109,16 @@ public class DiscountPlanEditController {
             messageLabel.setText("Unable to go back.");
         }
     }
+/**
+ * Executes the open scene with merchant id workflow.
+ * This method coordinates the main operation for this action.
+ *
+ * @param event event
+ * @param fxmlPath fxml path
+ * @param title title
+ * @param merchantId merchant id
+ * @throws Exception when the operation fails
+ */
 
 /**
  * Executes the open scene with merchant id workflow.

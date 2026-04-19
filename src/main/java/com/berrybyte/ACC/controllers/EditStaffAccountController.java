@@ -53,6 +53,11 @@ public class EditStaffAccountController {
 
     private int userId;
     private String pendingRole;
+/**
+ * Sets user id.
+ *
+ * @param userId user id
+ */
 
 /**
  * Sets user id.
@@ -63,6 +68,10 @@ public class EditStaffAccountController {
         this.userId = userId;
         loadStaffDetails();
     }
+/**
+ * Loads staff details.
+ *
+ */
 
 /**
  * Loads staff details.
@@ -143,6 +152,10 @@ public class EditStaffAccountController {
 
         openPromotePopup();
     }
+/**
+ * Executes the open promote popup workflow.
+ *
+ */
 
 /**
  * Executes the open promote popup workflow.
@@ -171,6 +184,10 @@ public class EditStaffAccountController {
             messageLabel.setText("Unable to open promotion confirmation popup.");
         }
     }
+/**
+ * Performs confirm promotion.
+ *
+ */
 
 /**
  * Performs confirm promotion.
@@ -186,6 +203,12 @@ public class EditStaffAccountController {
 
         messageLabel.setText("Promotion selected. Click Save to apply the role change.");
     }
+/**
+ * Executes the validate staff details workflow.
+ * This method coordinates the main operation for this action.
+ *
+ * @throws Exception when the operation fails
+ */
 
 /**
  * Executes the validate staff details workflow.
@@ -230,6 +253,12 @@ public class EditStaffAccountController {
             throw new Exception("Enter a valid phone number with country code (e.g. +44 7123456789).");
         }
     }
+/**
+ * Executes the update staff workflow.
+ * This method coordinates the main operation for this action.
+ *
+ * @param event event
+ */
 
 /**
  * Executes the update staff workflow.

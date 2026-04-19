@@ -56,6 +56,12 @@ public class CreateAdminAccountController {
             messageLabel.setText(e.getMessage());
         }
     }
+/**
+ * Executes the validate admin details workflow.
+ * This method coordinates the main operation for this action.
+ *
+ * @throws Exception when the operation fails
+ */
 
 /**
  * Executes the validate admin details workflow.
@@ -91,6 +97,12 @@ public class CreateAdminAccountController {
         }
         PhoneNumberRules.normalizeAndValidate(phone);
     }
+/**
+ * Executes the create admin workflow.
+ * This method coordinates the main operation for this action.
+ *
+ * @param event event
+ */
 
 /**
  * Executes the create admin workflow.
@@ -145,6 +157,10 @@ public class CreateAdminAccountController {
             e.printStackTrace();
         }
     }
+/**
+ * Performs clear fields.
+ *
+ */
 
 /**
  * Performs clear fields.

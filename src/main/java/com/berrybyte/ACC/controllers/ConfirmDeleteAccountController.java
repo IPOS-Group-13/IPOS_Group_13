@@ -17,6 +17,11 @@ public class ConfirmDeleteAccountController {
     private UserAccountRow selectedUser;
     private DeleteAccountController parentController;
     private Runnable onDeleteSuccess;
+/**
+ * Sets selected user.
+ *
+ * @param selectedUser selected user
+ */
 
 /**
  * Sets selected user.
@@ -27,6 +32,11 @@ public class ConfirmDeleteAccountController {
     public void setSelectedUser(UserAccountRow selectedUser) {
         this.selectedUser = selectedUser;
     }
+/**
+ * Sets parent controller.
+ *
+ * @param parentController parent controller
+ */
 
 /**
  * Sets parent controller.
@@ -37,6 +47,11 @@ public class ConfirmDeleteAccountController {
     public void setParentController(DeleteAccountController parentController) {
         this.parentController = parentController;
     }
+/**
+ * Sets on delete success.
+ *
+ * @param onDeleteSuccess on delete success
+ */
 
 /**
  * Sets on delete success.

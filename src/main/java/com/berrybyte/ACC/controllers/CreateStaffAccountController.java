@@ -61,6 +61,12 @@ public class CreateStaffAccountController {
             messageLabel.setText(e.getMessage());
         }
     }
+/**
+ * Executes the validate staff details workflow.
+ * This method coordinates the main operation for this action.
+ *
+ * @throws Exception when the operation fails
+ */
 
 /**
  * Executes the validate staff details workflow.
@@ -109,6 +115,12 @@ public class CreateStaffAccountController {
             throw new Exception("Role cannot be admin, administrator, manager, director of operations, or merchant.");
         }
     }
+/**
+ * Executes the create staff workflow.
+ * This method coordinates the main operation for this action.
+ *
+ * @param event event
+ */
 
 /**
  * Executes the create staff workflow.
@@ -166,6 +178,10 @@ public class CreateStaffAccountController {
             messageLabel.setText("Error going back.");
         }
     }
+/**
+ * Performs clear fields.
+ *
+ */
 
 /**
  * Performs clear fields.

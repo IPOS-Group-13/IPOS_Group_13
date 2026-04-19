@@ -12,6 +12,19 @@ public class PendingApplicationRow {
     private final String email;
     private final String submissionDate;
     private final String address;
+/**
+ * Creates a new PendingApplicationRow instance.
+ * This method coordinates the main operation for this action.
+ *
+ * @param id id
+ * @param name name
+ * @param companyName company name
+ * @param companyRegistrationNumber company registration number
+ * @param phoneNumber phone number
+ * @param email email
+ * @param submissionDate submission date
+ * @param address address
+ */
 
 /**
  * Creates a new PendingApplicationRow instance.

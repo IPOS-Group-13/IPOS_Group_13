@@ -119,6 +119,11 @@ public class DeleteAccountController {
             messageLabel.setText("Unable to go back.");
         }
     }
+/**
+ * Executes the refresh users workflow.
+ * This method coordinates the main operation for this action.
+ *
+ */
 
 /**
  * Executes the refresh users workflow.
@@ -131,6 +136,11 @@ public class DeleteAccountController {
         selectedUser = null;
         messageLabel.setText("Account deleted successfully.");
     }
+/**
+ * Loads users.
+ *
+ * @param searchText search text
+ */
 
 /**
  * Loads users.

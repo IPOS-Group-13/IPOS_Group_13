@@ -146,6 +146,11 @@ public class EditAccountsController {
             messageLabel.setText("Unable to go back.");
         }
     }
+/**
+ * Loads users.
+ *
+ * @param searchText search text
+ */
 
 /**
  * Loads users.
@@ -161,6 +166,14 @@ public class EditAccountsController {
             messageLabel.setText("Unable to load users.");
         }
     }
+/**
+ * Executes the search users workflow.
+ * This method coordinates the main operation for this action.
+ *
+ * @param searchText search text
+ * @return result value
+ * @throws Exception when the operation fails
+ */
 
 /**
  * Executes the search users workflow.

@@ -13,6 +13,14 @@ import java.util.List;
  * Represents delete account service.
  */
 public class DeleteAccountService {
+/**
+ * Performs get user account.
+ * This method coordinates the main operation for this action.
+ *
+ * @param userId user id
+ * @return result value
+ * @throws Exception when the operation fails
+ */
 
 /**
  * Performs get user account.
@@ -48,6 +56,14 @@ public class DeleteAccountService {
         }
         throw new Exception("Selected user could not be found.");
     }
+/**
+ * Executes the search users workflow.
+ * This method coordinates the main operation for this action.
+ *
+ * @param searchText search text
+ * @return result value
+ * @throws Exception when the operation fails
+ */
 
 /**
  * Executes the search users workflow.
@@ -88,6 +104,13 @@ public class DeleteAccountService {
         }
         return users;
     }
+/**
+ * Executes the delete user account workflow.
+ * This method coordinates the main operation for this action.
+ *
+ * @param userId user id
+ * @throws Exception when the operation fails
+ */
 
 /**
  * Executes the delete user account workflow.

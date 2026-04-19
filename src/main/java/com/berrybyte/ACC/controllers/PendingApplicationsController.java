@@ -273,6 +273,11 @@ public class PendingApplicationsController {
             e.printStackTrace();
         }
     }
+/**
+ * Loads applications.
+ *
+ * @param searchText search text
+ */
 
 /**
  * Loads applications.

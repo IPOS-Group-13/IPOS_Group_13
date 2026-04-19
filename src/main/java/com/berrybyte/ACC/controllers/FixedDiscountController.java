@@ -83,7 +83,6 @@ public class FixedDiscountController {
             messageLabel.setText("Unable to create merchant account.");
         }
     }
-
 /**
  * Handles back button.
  *

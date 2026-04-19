@@ -59,6 +59,10 @@ public class EditAdminAccountController {
         this.userId = userId;
         loadAdminDetails();
     }
+/**
+ * Loads admin details.
+ *
+ */
 
 /**
  * Loads admin details.
@@ -140,6 +144,11 @@ public class EditAdminAccountController {
         }
         openDemotePopup();
     }
+/**
+ * Performs can demote admin.
+ *
+ * @return result value
+ */
 
 /**
  * Performs can demote admin.
@@ -168,6 +177,10 @@ public class EditAdminAccountController {
 
         return false;
     }
+/**
+ * Executes the open demote popup workflow.
+ *
+ */
 
 /**
  * Executes the open demote popup workflow.
@@ -196,6 +209,10 @@ public class EditAdminAccountController {
             messageLabel.setText("Unable to open demotion confirmation popup.");
         }
     }
+/**
+ * Performs confirm demotion.
+ *
+ */
 
 /**
  * Performs confirm demotion.
@@ -208,6 +225,12 @@ public class EditAdminAccountController {
         }
         messageLabel.setText("Demotion selected. Click Save to apply the role change.");
     }
+/**
+ * Executes the validate admin details workflow.
+ * This method coordinates the main operation for this action.
+ *
+ * @throws Exception when the operation fails
+ */
 
 /**
  * Executes the validate admin details workflow.
@@ -244,6 +267,12 @@ public class EditAdminAccountController {
             throw new Exception("Enter a valid phone number with country code (e.g. +44 7123456789).");
         }
     }
+/**
+ * Executes the update admin workflow.
+ * This method coordinates the main operation for this action.
+ *
+ * @param event event
+ */
 
 /**
  * Executes the update admin workflow.

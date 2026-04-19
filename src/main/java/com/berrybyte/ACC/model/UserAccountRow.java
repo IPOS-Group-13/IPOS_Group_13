@@ -8,6 +8,15 @@ public class UserAccountRow {
     private final String name;
     private final String username;
     private final String role;
+/**
+ * Creates a new UserAccountRow instance.
+ * This method coordinates the main operation for this action.
+ *
+ * @param userId user id
+ * @param name name
+ * @param username username
+ * @param role role
+ */
 
 /**
  * Creates a new UserAccountRow instance.
@@ -24,6 +33,11 @@ public class UserAccountRow {
         this.username = username;
         this.role = role;
     }
+/**
+ * Returns user id.
+ *
+ * @return result value
+ */
 
 /**
  * Returns user id.
@@ -33,6 +47,11 @@ public class UserAccountRow {
     public int getUserId() {
         return userId;
     }
+/**
+ * Returns name.
+ *
+ * @return result value
+ */
 
 /**
  * Returns name.
@@ -42,6 +61,11 @@ public class UserAccountRow {
     public String getName() {
         return name;
     }
+/**
+ * Returns username.
+ *
+ * @return result value
+ */
 
 /**
  * Returns username.
@@ -51,6 +75,11 @@ public class UserAccountRow {
     public String getUsername() {
         return username;
     }
+/**
+ * Returns role.
+ *
+ * @return result value
+ */
 
 /**
  * Returns role.

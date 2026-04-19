@@ -126,6 +126,12 @@ public class CreateMerchantAccountController {
             messageLabel.setText(e.getMessage());
         }
     }
+/**
+ * Executes the validate merchant details workflow.
+ * This method coordinates the main operation for this action.
+ *
+ * @throws Exception when the operation fails
+ */
 
 /**
  * Executes the validate merchant details workflow.

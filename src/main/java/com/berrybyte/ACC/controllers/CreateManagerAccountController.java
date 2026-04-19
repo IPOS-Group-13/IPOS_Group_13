@@ -56,6 +56,12 @@ public class CreateManagerAccountController {
             messageLabel.setText(e.getMessage());
         }
     }
+/**
+ * Executes the validate manager details workflow.
+ * This method coordinates the main operation for this action.
+ *
+ * @throws Exception when the operation fails
+ */
 
 /**
  * Executes the validate manager details workflow.
@@ -91,6 +97,12 @@ public class CreateManagerAccountController {
         }
         PhoneNumberRules.normalizeAndValidate(phone);
     }
+/**
+ * Executes the create manager workflow.
+ * This method coordinates the main operation for this action.
+ *
+ * @param event event
+ */
 
 /**
  * Executes the create manager workflow.
@@ -145,6 +157,10 @@ public class CreateManagerAccountController {
             e.printStackTrace();
         }
     }
+/**
+ * Performs clear fields.
+ *
+ */
 
 /**
  * Performs clear fields.

@@ -87,7 +87,6 @@ public class FlexibleDiscountController {
             messageLabel.setText("Unable to create merchant account.");
         }
     }
-
 /**
  * Handles back button.
  *
@@ -105,12 +104,12 @@ public class FlexibleDiscountController {
             e.printStackTrace();
         }
     }
-
 /**
  * Executes the validate draft session workflow.
  * This method coordinates the main operation for this action.
  *
  */
+
     private void validateDraftSession() {
 
         if (!MerchantDraftSession.hasDraft()) {
@@ -141,7 +140,6 @@ public class FlexibleDiscountController {
             throw new IllegalArgumentException("Credit limit must be a valid number.");
         }
     }
-
 /**
  * Executes the validate and add tier workflow.
  * This method coordinates the main operation for this action.
@@ -152,6 +150,7 @@ public class FlexibleDiscountController {
  * @param percentField percent field
  * @param tierName tier name
  */
+
     private void validateAndAddTier(
             List<DiscountTier> tiers,
             TextField minField,
@@ -214,23 +213,23 @@ public class FlexibleDiscountController {
         }
         tiers.add(new DiscountTier(minValue, maxValue, percentValue));
     }
-
 /**
  * Performs safe text.
  *
  * @param field field
  * @return result value
  */
+
     private String safeText(TextField field) {
         return (field == null || field.getText() == null) ? "" : field.getText().trim();
     }
-
 /**
  * Performs is blank.
  *
  * @param value value
  * @return result value
  */
+
     private boolean isBlank(String value) {
         return value == null || value.trim().isEmpty();
     }

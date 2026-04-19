@@ -75,6 +75,7 @@ public class AccountTypeController {
         SceneSwitcher.switchScene(event, "/account/createMerchantAccount.fxml", "Create Merchant Account");
     }
 
+
 /**
  * Handles back button.
  *

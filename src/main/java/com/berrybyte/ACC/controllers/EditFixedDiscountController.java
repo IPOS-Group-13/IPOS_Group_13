@@ -32,6 +32,11 @@ public class EditFixedDiscountController {
     private int merchantId;
 
     private final MerchantAccountService merchantAccountService = new MerchantAccountService();
+/**
+ * Sets merchant id.
+ *
+ * @param merchantId merchant id
+ */
 
 /**
  * Sets merchant id.
@@ -43,6 +48,10 @@ public class EditFixedDiscountController {
         this.merchantId = merchantId;
         loadCurrentFixedDiscount();
     }
+/**
+ * Loads current fixed discount.
+ *
+ */
 
 /**
  * Loads current fixed discount.

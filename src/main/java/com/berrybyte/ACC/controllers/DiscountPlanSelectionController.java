@@ -45,7 +45,6 @@ public class DiscountPlanSelectionController {
             messageLabel.setText("Unable to open discount details");
         }
     }
-
 /**
  * Handles back button.
  *

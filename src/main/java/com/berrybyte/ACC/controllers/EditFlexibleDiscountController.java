@@ -61,6 +61,10 @@ public class EditFlexibleDiscountController {
         this.merchantId = merchantId;
         loadCurrentFlexibleDiscount();
     }
+/**
+ * Loads current flexible discount.
+ *
+ */
 
 /**
  * Loads current flexible discount.
@@ -126,6 +130,11 @@ public class EditFlexibleDiscountController {
             messageLabel.setText("Unable to load current flexible discount.");
         }
     }
+/**
+ * Performs populate tier fields.
+ *
+ * @param tiers tiers
+ */
 
 /**
  * Performs populate tier fields.
@@ -157,6 +166,10 @@ public class EditFlexibleDiscountController {
             tier3PercentField.setText(String.valueOf(tiers.get(2).getDiscountPercent()));
         }
     }
+/**
+ * Performs clear all fields.
+ *
+ */
 
 /**
  * Performs clear all fields.
@@ -233,6 +246,16 @@ public class EditFlexibleDiscountController {
             messageLabel.setText("Unable to go back.");
         }
     }
+/**
+ * Executes the validate and add tier workflow.
+ * This method coordinates the main operation for this action.
+ *
+ * @param tiers tiers
+ * @param minField min field
+ * @param maxField max field
+ * @param percentField percent field
+ * @param tierName tier name
+ */
 
 /**
  * Executes the validate and add tier workflow.
@@ -300,6 +323,12 @@ public class EditFlexibleDiscountController {
         }
         tiers.add(new DiscountTier(minValue, maxValue, percentValue));
     }
+/**
+ * Performs safe text.
+ *
+ * @param field field
+ * @return result value
+ */
 
 /**
  * Performs safe text.

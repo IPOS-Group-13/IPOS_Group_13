@@ -49,6 +49,11 @@ public class EditManagerAccountController {
 
     private int userId;
     private String pendingRole = "MANAGER";
+/**
+ * Sets user id.
+ *
+ * @param userId user id
+ */
 
 /**
  * Sets user id.
@@ -59,6 +64,10 @@ public class EditManagerAccountController {
         this.userId = userId;
         loadManagerDetails();
     }
+/**
+ * Loads manager details.
+ *
+ */
 
 /**
  * Loads manager details.
@@ -136,6 +145,10 @@ public class EditManagerAccountController {
 
         openPromotePopup();
     }
+/**
+ * Executes the open promote popup workflow.
+ *
+ */
 
 /**
  * Executes the open promote popup workflow.
@@ -164,6 +177,10 @@ public class EditManagerAccountController {
             messageLabel.setText("Unable to open promotion confirmation popup.");
         }
     }
+/**
+ * Performs confirm promotion.
+ *
+ */
 
 /**
  * Performs confirm promotion.
@@ -179,6 +196,12 @@ public class EditManagerAccountController {
 
         messageLabel.setText("Promotion selected. Click Save to apply the role change.");
     }
+/**
+ * Executes the validate manager details workflow.
+ * This method coordinates the main operation for this action.
+ *
+ * @throws Exception when the operation fails
+ */
 
 /**
  * Executes the validate manager details workflow.
@@ -215,6 +238,12 @@ public class EditManagerAccountController {
             throw new Exception("Enter a valid phone number with country code (e.g. +44 7123456789).");
         }
     }
+/**
+ * Executes the update manager workflow.
+ * This method coordinates the main operation for this action.
+ *
+ * @param event event
+ */
 
 /**
  * Executes the update manager workflow.

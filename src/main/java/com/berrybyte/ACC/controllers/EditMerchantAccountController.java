@@ -53,6 +53,11 @@ public class EditMerchantAccountController {
     private int userId;
 
     private final MerchantAccountService merchantAccountService = new MerchantAccountService();
+/**
+ * Sets user id.
+ *
+ * @param userId user id
+ */
 
 /**
  * Sets user id.
@@ -63,6 +68,10 @@ public class EditMerchantAccountController {
         this.userId = userId;
         loadMerchantDetails();
     }
+/**
+ * Loads merchant details.
+ *
+ */
 
 /**
  * Loads merchant details.
@@ -174,6 +183,12 @@ public class EditMerchantAccountController {
             messageLabel.setText("Unable to go back.");
         }
     }
+/**
+ * Performs safe text.
+ *
+ * @param field field
+ * @return result value
+ */
 
 /**
  * Performs safe text.
@@ -186,6 +201,12 @@ public class EditMerchantAccountController {
                 ? ""
                 : field.getText().trim();
     }
+/**
+ * Performs safe text.
+ *
+ * @param field field
+ * @return result value
+ */
 
 /**
  * Performs safe text.
