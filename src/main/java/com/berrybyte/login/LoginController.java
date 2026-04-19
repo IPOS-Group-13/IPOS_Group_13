@@ -43,7 +43,7 @@ public class LoginController {
     @FXML
     public void loginButtonOnAction(ActionEvent event) {
         loginMessageLabel.setText("");
-        if (usernameTextField.getText().isBlank() || passwordField.getText().isBlank()) {
+        if (LoginValidator.isInputIncomplete(usernameTextField.getText(), passwordField.getText())) {
             loginMessageLabel.setText("Enter your username and password");
             return;
         }
@@ -82,13 +82,13 @@ public class LoginController {
                 if (resultSet.next()) {
                     int userId = resultSet.getInt("UserId");
                     String role = resultSet.getString("Role");
-                    if (role == null || role.isBlank()) {
+                    if (LoginValidator.isUnknownRole(role)) {
                         LoginSession.clear();
                         loginMessageLabel.setText("Unknown account role");
                         return;
                     }
 
-                    if ("MERCHANT".equalsIgnoreCase(role.trim())) {
+                    if (LoginValidator.isMerchantRole(role)) {
                         LoginSession.clear();
                         loginMessageLabel.setText("Invalid username or password");
                         return;

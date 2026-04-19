@@ -6,41 +6,89 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class LoginControllerTest {
 
-    @Test
-    void login_withEmptyFields() {
-        String username = "";
-        String password = "";
+    // --- isInputIncomplete ---
 
-        assertTrue(username.isEmpty());
-        assertTrue(password.isEmpty());
+    @Test
+    void isInputIncomplete_bothBlank_returnsTrue() {
+        assertTrue(LoginValidator.isInputIncomplete("", ""));
     }
 
     @Test
-    void emptyUsername_isDetected() {
-        String username = "";
-        assertTrue(username.isBlank());
+    void isInputIncomplete_blankUsername_returnsTrue() {
+        assertTrue(LoginValidator.isInputIncomplete("", "password123"));
     }
 
     @Test
-    void emptyPassword_isDetected() {
-        String password = "";
-        assertTrue(password.isBlank());
+    void isInputIncomplete_blankPassword_returnsTrue() {
+        assertTrue(LoginValidator.isInputIncomplete("admin", ""));
     }
 
     @Test
-    void nonEmptyUsername_isAcceptedAsInput() {
-        String username = "admin";
-        assertFalse(username.isBlank());
+    void isInputIncomplete_whitespaceOnly_returnsTrue() {
+        assertTrue(LoginValidator.isInputIncomplete("   ", "   "));
     }
 
     @Test
-    void nonEmptyPassword_isAcceptedAsInput() {
-        String password = "password123";
-        assertFalse(password.isBlank());
+    void isInputIncomplete_validCredentials_returnsFalse() {
+        assertFalse(LoginValidator.isInputIncomplete("admin", "password123"));
+    }
+
+    // --- isUnknownRole ---
+
+    @Test
+    void isUnknownRole_nullRole_returnsTrue() {
+        assertTrue(LoginValidator.isUnknownRole(null));
     }
 
     @Test
-    void roleComparison_adminMatchesIgnoringCase() {
-        assertTrue("ADMIN".equalsIgnoreCase("admin"));
+    void isUnknownRole_blankRole_returnsTrue() {
+        assertTrue(LoginValidator.isUnknownRole("   "));
+    }
+
+    @Test
+    void isUnknownRole_emptyRole_returnsTrue() {
+        assertTrue(LoginValidator.isUnknownRole(""));
+    }
+
+    @Test
+    void isUnknownRole_adminRole_returnsFalse() {
+        assertFalse(LoginValidator.isUnknownRole("ADMIN"));
+    }
+
+    // --- isMerchantRole ---
+
+    @Test
+    void isMerchantRole_merchantUppercase_returnsTrue() {
+        assertTrue(LoginValidator.isMerchantRole("MERCHANT"));
+    }
+
+    @Test
+    void isMerchantRole_merchantLowercase_returnsTrue() {
+        assertTrue(LoginValidator.isMerchantRole("merchant"));
+    }
+
+    @Test
+    void isMerchantRole_merchantMixedCase_returnsTrue() {
+        assertTrue(LoginValidator.isMerchantRole("Merchant"));
+    }
+
+    @Test
+    void isMerchantRole_merchantWithWhitespace_returnsTrue() {
+        assertTrue(LoginValidator.isMerchantRole("  MERCHANT  "));
+    }
+
+    @Test
+    void isMerchantRole_adminRole_returnsFalse() {
+        assertFalse(LoginValidator.isMerchantRole("ADMIN"));
+    }
+
+    @Test
+    void isMerchantRole_nullRole_returnsFalse() {
+        assertFalse(LoginValidator.isMerchantRole(null));
+    }
+
+    @Test
+    void isMerchantRole_managerRole_returnsFalse() {
+        assertFalse(LoginValidator.isMerchantRole("MANAGER"));
     }
 }
