@@ -1,4 +1,4 @@
-﻿package com.berrybyte.dashboard;
+package com.berrybyte.dashboard;
 
 import com.berrybyte.ACC.services.MerchantStatusService;
 import com.berrybyte.common.DatabaseConnection;

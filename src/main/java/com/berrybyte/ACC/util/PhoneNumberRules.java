@@ -1,4 +1,4 @@
-﻿package com.berrybyte.ACC.util;
+package com.berrybyte.ACC.util;
 
 /**
  * Represents phone number rules.

@@ -1,4 +1,4 @@
-﻿package com.berrybyte.RPT.export;
+package com.berrybyte.RPT.export;
 
 import com.berrybyte.RPT.model.StockTurnoverReport;
 import com.berrybyte.RPT.model.StockTurnoverRow;

@@ -1,4 +1,4 @@
-﻿package com.berrybyte.ACC.controllers;
+package com.berrybyte.ACC.controllers;
 
 import com.berrybyte.common.DatabaseConnection;
 import com.berrybyte.common.RoleBasedNavigator;

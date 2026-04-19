@@ -1,4 +1,4 @@
-﻿package com.berrybyte.ACC.controllers;
+package com.berrybyte.ACC.controllers;
 
 import com.berrybyte.ACC.model.PendingApplicationRow;
 import com.berrybyte.ACC.services.PendingApplicationsService;

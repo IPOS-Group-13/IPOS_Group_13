@@ -1,4 +1,4 @@
-﻿package com.berrybyte.common;
+package com.berrybyte.common;
 
 import java.io.InputStream;
 import java.sql.Connection;

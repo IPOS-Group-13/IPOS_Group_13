@@ -1,4 +1,4 @@
-﻿package com.berrybyte.API;
+package com.berrybyte.API;
 
 /**
  * Defines the contract for i accounts api.

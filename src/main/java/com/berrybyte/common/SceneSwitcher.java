@@ -1,4 +1,4 @@
-﻿package com.berrybyte.common;
+package com.berrybyte.common;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;

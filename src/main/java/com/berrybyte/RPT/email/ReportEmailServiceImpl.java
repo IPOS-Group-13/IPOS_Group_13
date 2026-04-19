@@ -1,4 +1,4 @@
-﻿package com.berrybyte.RPT.email;
+package com.berrybyte.RPT.email;
 
 import com.berrybyte.common.DatabaseConnection;
 

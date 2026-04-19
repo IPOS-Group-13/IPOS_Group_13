@@ -1,4 +1,4 @@
-﻿package com.berrybyte.dashboard;
+package com.berrybyte.dashboard;
 
 import com.berrybyte.common.RoleBasedNavigator;
 import com.berrybyte.common.SceneSwitcher;

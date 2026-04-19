@@ -1,4 +1,4 @@
-﻿package com.berrybyte.API;
+package com.berrybyte.API;
 
 import com.berrybyte.ORD.helpers.*;
 import com.berrybyte.ORD.Status.AcceptOrderStatus;

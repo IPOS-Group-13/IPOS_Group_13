@@ -1,4 +1,4 @@
-﻿package com.berrybyte.RPT.export;
+package com.berrybyte.RPT.export;
 
 import com.berrybyte.RPT.model.InvoiceListingReport;
 import com.berrybyte.RPT.model.InvoiceListingRow;

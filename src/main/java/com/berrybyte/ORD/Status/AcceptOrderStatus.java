@@ -1,4 +1,4 @@
-﻿package com.berrybyte.ORD.Status;
+package com.berrybyte.ORD.Status;
 
 /**
  * Enumerates values for accept order status.

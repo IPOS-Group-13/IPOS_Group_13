@@ -1,4 +1,4 @@
-﻿package com.berrybyte.catalogue;
+package com.berrybyte.catalogue;
 
 import com.berrybyte.API.ICatalogueAPI;
 import com.berrybyte.common.DatabaseConnection;

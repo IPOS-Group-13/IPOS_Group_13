@@ -1,4 +1,4 @@
-﻿package com.berrybyte.logout;
+package com.berrybyte.logout;
 
 import com.berrybyte.common.LoginSession;
 import com.berrybyte.common.RoleBasedNavigator;

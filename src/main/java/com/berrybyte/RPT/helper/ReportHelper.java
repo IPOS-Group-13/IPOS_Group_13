@@ -1,4 +1,4 @@
-﻿package com.berrybyte.RPT.helper;
+package com.berrybyte.RPT.helper;
 
 /**
  * Represents report helper.

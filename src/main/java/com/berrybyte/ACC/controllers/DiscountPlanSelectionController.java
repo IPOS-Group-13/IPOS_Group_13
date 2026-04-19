@@ -1,4 +1,4 @@
-﻿package com.berrybyte.ACC.controllers;
+package com.berrybyte.ACC.controllers;
 
 import com.berrybyte.common.SceneSwitcher;
 import javafx.event.ActionEvent;

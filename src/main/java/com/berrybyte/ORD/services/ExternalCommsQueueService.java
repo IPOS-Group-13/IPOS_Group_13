@@ -1,4 +1,4 @@
-﻿package com.berrybyte.ORD.services;
+package com.berrybyte.ORD.services;
 
 import com.berrybyte.ORD.helpers.InvoiceDetails;
 import com.berrybyte.common.DatabaseConnection;

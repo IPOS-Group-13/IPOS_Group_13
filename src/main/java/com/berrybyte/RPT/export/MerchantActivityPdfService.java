@@ -1,4 +1,4 @@
-﻿package com.berrybyte.RPT.export;
+package com.berrybyte.RPT.export;
 
 import com.berrybyte.RPT.model.MerchantActivityItemRow;
 import com.berrybyte.RPT.model.MerchantActivityOrderSection;

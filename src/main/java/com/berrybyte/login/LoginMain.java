@@ -1,4 +1,4 @@
-﻿package com.berrybyte.login;
+package com.berrybyte.login;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;

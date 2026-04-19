@@ -1,4 +1,4 @@
-﻿package com.berrybyte.dashboard;
+package com.berrybyte.dashboard;
 
 /**
  * Represents merchant menu row.

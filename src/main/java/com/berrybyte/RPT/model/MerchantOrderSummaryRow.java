@@ -1,4 +1,4 @@
-﻿package com.berrybyte.RPT.model;
+package com.berrybyte.RPT.model;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;

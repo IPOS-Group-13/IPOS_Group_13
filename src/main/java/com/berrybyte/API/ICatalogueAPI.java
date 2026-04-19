@@ -1,4 +1,4 @@
-﻿package com.berrybyte.API;
+package com.berrybyte.API;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-﻿package com.berrybyte.RPT.export;
+package com.berrybyte.RPT.export;
 
 import com.berrybyte.RPT.model.MerchantOrderSummaryReport;
 import com.berrybyte.RPT.model.MerchantOrderSummaryRow;

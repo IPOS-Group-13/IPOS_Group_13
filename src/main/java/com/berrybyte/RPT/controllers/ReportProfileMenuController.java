@@ -1,4 +1,4 @@
-﻿package com.berrybyte.RPT.controllers;
+package com.berrybyte.RPT.controllers;
 
 import com.berrybyte.common.SceneSwitcher;
 import javafx.event.ActionEvent;

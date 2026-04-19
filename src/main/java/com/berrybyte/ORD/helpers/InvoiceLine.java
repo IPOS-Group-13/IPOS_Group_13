@@ -1,4 +1,4 @@
-﻿package com.berrybyte.ORD.helpers;
+package com.berrybyte.ORD.helpers;
 
 /**
  * Represents invoice line.

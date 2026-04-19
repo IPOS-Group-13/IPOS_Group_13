@@ -1,4 +1,4 @@
-﻿package com.berrybyte.ACC.model;
+package com.berrybyte.ACC.model;
 
 /**
  * Represents discount tier.

@@ -1,4 +1,4 @@
-﻿package com.berrybyte.dashboard;
+package com.berrybyte.dashboard;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;

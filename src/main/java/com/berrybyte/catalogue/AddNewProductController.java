@@ -1,4 +1,4 @@
-﻿package com.berrybyte.catalogue;
+package com.berrybyte.catalogue;
 
 import com.berrybyte.common.SceneSwitcher;
 import javafx.event.ActionEvent;

@@ -1,4 +1,4 @@
-﻿package com.berrybyte.dashboard;
+package com.berrybyte.dashboard;
 
 import com.berrybyte.catalogue.CatalogueService;
 import com.berrybyte.catalogue.LowStockItemRow;

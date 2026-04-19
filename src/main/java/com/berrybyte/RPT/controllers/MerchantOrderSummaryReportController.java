@@ -1,4 +1,4 @@
-﻿package com.berrybyte.RPT.controllers;
+package com.berrybyte.RPT.controllers;
 
 import com.berrybyte.RPT.email.ReportEmailService;
 import com.berrybyte.RPT.email.ReportEmailServiceImpl;

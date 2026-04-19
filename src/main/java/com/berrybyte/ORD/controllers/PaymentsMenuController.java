@@ -1,4 +1,4 @@
-﻿package com.berrybyte.ORD.controllers;
+package com.berrybyte.ORD.controllers;
 
 import com.berrybyte.ORD.helpers.PaymentRequestRow;
 import com.berrybyte.ORD.services.PaymentRequestService;

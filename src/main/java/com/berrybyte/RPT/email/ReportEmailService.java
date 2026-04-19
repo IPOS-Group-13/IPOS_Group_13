@@ -1,4 +1,4 @@
-﻿package com.berrybyte.RPT.email;
+package com.berrybyte.RPT.email;
 
 import java.nio.file.Path;
 

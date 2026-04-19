@@ -1,4 +1,4 @@
-﻿package com.berrybyte.ACC.services;
+package com.berrybyte.ACC.services;
 
 import com.berrybyte.ACC.model.PendingApplicationRow;
 import com.berrybyte.common.DatabaseConnection;

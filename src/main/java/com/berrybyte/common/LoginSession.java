@@ -1,4 +1,4 @@
-﻿package com.berrybyte.common;
+package com.berrybyte.common;
 
 /**
  * Represents login session.

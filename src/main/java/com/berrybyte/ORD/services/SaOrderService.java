@@ -1,4 +1,4 @@
-﻿package com.berrybyte.ORD.services;
+package com.berrybyte.ORD.services;
 
 import com.berrybyte.API.IOrderAPI;
 import com.berrybyte.ORD.helpers.*;

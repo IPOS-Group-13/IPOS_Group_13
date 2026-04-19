@@ -1,4 +1,4 @@
-﻿package com.berrybyte.RPT.model;
+package com.berrybyte.RPT.model;
 
 /**
  * Represents merchant option.

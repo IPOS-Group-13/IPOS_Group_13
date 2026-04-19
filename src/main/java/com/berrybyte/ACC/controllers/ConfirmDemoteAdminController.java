@@ -1,4 +1,4 @@
-﻿package com.berrybyte.ACC.controllers;
+package com.berrybyte.ACC.controllers;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;

@@ -1,4 +1,4 @@
-﻿package com.berrybyte.ACC.controllers;
+package com.berrybyte.ACC.controllers;
 
 import com.berrybyte.ACC.util.PhoneNumberRules;
 import com.berrybyte.ACC.util.StaffRoleRules;

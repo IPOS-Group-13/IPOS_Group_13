@@ -1,4 +1,4 @@
-﻿package com.berrybyte.catalogue;
+package com.berrybyte.catalogue;
 
 /**
  * Represents catalogue item row.

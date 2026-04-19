@@ -1,4 +1,4 @@
-﻿package com.berrybyte.dashboard;
+package com.berrybyte.dashboard;
 
 import com.berrybyte.ACC.controllers.ConfirmDeleteAccountController;
 import com.berrybyte.ACC.controllers.ConfirmDeleteDiscountPlanController;

@@ -1,4 +1,4 @@
-﻿package com.berrybyte.ACC.util;
+package com.berrybyte.ACC.util;
 
 import java.util.Set;
 
