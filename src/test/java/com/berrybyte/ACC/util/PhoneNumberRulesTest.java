@@ -9,12 +9,12 @@ class PhoneNumberRulesTest {
 
     @Test
     void acceptsLocalNumber() {
-        assertEquals("07411 562948", PhoneNumberRules.normalizeAndValidate(" 07411   562948 "));
+        assertEquals("07411562948", PhoneNumberRules.normalizeAndValidate(" 07411   562948 "));
     }
 
     @Test
-    void acceptsNumberWithCountryCode() {
-        assertEquals("7123456789", PhoneNumberRules.normalizeAndValidate("+44 7123456789"));
+    void rejectsNumberWithCountryCode() {
+        assertThrows(IllegalArgumentException.class, () -> PhoneNumberRules.normalizeAndValidate("+44 7123456789"));
     }
 
     @Test

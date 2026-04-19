@@ -598,6 +598,10 @@ public class MerchantAccountServiceTest {
                 System.out.println("Check 3: Stored phone number is not blank...");
                 assertFalse(storedPhone.isBlank());
                 System.out.println("...success");
+
+                System.out.println("Check 4: Stored phone number uses digits only...");
+                assertEquals("07123456789", storedPhone);
+                System.out.println("...success");
             }
         }
     }

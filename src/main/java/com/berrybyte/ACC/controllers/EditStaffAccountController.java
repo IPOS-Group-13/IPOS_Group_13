@@ -1,5 +1,6 @@
 package com.berrybyte.ACC.controllers;
 
+import com.berrybyte.ACC.util.PhoneNumberRules;
 import com.berrybyte.ACC.util.StaffRoleRules;
 import com.berrybyte.common.DatabaseConnection;
 import com.berrybyte.common.RoleBasedNavigator;
@@ -97,7 +98,7 @@ public class EditStaffAccountController {
                     usernameTextField.setText(rs.getString("Username"));
                     passwordField.setText(rs.getString("Password"));
                     emailTextField.setText(rs.getString("Email"));
-                    phoneNumberTextField.setText(rs.getString("PhoneNumber"));
+                    phoneNumberTextField.setText(PhoneNumberRules.normalize(rs.getString("PhoneNumber")));
                     roleTextField.setText(rs.getString("Role"));
 
                     pendingRole = rs.getString("Role");
@@ -249,9 +250,7 @@ public class EditStaffAccountController {
         if (!email.matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$")) {
             throw new Exception("Enter a valid email address.");
         }
-        if (!phone.matches("\\+\\d{1,3}\\s\\d{7,12}")) {
-            throw new Exception("Enter a valid phone number with country code (e.g. +44 7123456789).");
-        }
+        PhoneNumberRules.normalizeAndValidate(phone);
     }
 /**
  * Executes the update staff workflow.
@@ -282,7 +281,7 @@ public class EditStaffAccountController {
             preparedStatement.setString(2, usernameTextField.getText().trim());
             preparedStatement.setString(3, passwordField.getText().trim());
             preparedStatement.setString(4, emailTextField.getText().trim());
-            preparedStatement.setString(5, phoneNumberTextField.getText().trim());
+            preparedStatement.setString(5, PhoneNumberRules.normalizeAndValidate(phoneNumberTextField.getText()));
             preparedStatement.setString(6, pendingRole);
             preparedStatement.setInt(7, userId);
 

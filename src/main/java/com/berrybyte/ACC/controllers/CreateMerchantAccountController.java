@@ -60,7 +60,7 @@ public class CreateMerchantAccountController {
             companyNameTextField.setText(MerchantDraftSession.getCompanyName());
             usernameTextField.setText(MerchantDraftSession.getUsername());
             passwordField.setText(MerchantDraftSession.getPassword());
-            phoneNumberTextField.setText(MerchantDraftSession.getPhoneNumber());
+            phoneNumberTextField.setText(PhoneNumberRules.normalize(MerchantDraftSession.getPhoneNumber()));
             emailTextField.setText(MerchantDraftSession.getEmail());
             addressTextArea.setText(MerchantDraftSession.getAddress());
             accountStatusField.setText(MerchantDraftSession.getAccountStatus());
@@ -114,7 +114,7 @@ public class CreateMerchantAccountController {
                     companyNameTextField.getText().trim(),
                     usernameTextField.getText().trim(),
                     passwordField.getText().trim(),
-                    phoneNumberTextField.getText().trim(),
+                    PhoneNumberRules.normalizeAndValidate(phoneNumberTextField.getText()),
                     emailTextField.getText().trim(),
                     addressTextArea.getText().trim(),
                     accountStatusField.getText().trim().toUpperCase(),

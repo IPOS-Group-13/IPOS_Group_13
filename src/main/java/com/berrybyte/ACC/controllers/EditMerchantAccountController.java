@@ -1,6 +1,7 @@
 package com.berrybyte.ACC.controllers;
 
 import com.berrybyte.ACC.services.MerchantAccountService;
+import com.berrybyte.ACC.util.PhoneNumberRules;
 import com.berrybyte.common.DatabaseConnection;
 import com.berrybyte.common.RoleBasedNavigator;
 import javafx.event.ActionEvent;
@@ -107,7 +108,7 @@ public class EditMerchantAccountController {
                     companyNameTextField.setText(rs.getString("CompanyName"));
                     usernameTextField.setText(rs.getString("Username"));
                     passwordField.setText(rs.getString("Password"));
-                    phoneNumberTextField.setText(rs.getString("PhoneNumber"));
+                    phoneNumberTextField.setText(PhoneNumberRules.normalize(rs.getString("PhoneNumber")));
                     emailTextField.setText(rs.getString("Email"));
                     addressTextField.setText(rs.getString("Address"));
                     accountStatusField.setText(rs.getString("AccountStatus"));

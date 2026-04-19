@@ -504,6 +504,7 @@ public class SaOrderService implements IOrderAPI {
             }
         }
     }
+
 /**
  * Executes the generate invoice pdf for order workflow.
  * This method coordinates the main operation for this action.
@@ -520,6 +521,7 @@ public class SaOrderService implements IOrderAPI {
         }
         return invoicePdfService.generateInvoicePdf(invoiceDetails);
     }
+
 /**
  * Executes the open invoice pdf for order workflow.
  * This method coordinates the main operation for this action.
@@ -534,6 +536,7 @@ public class SaOrderService implements IOrderAPI {
         invoicePdfService.openInvoicePdf(pdfPath);
         return pdfPath;
     }
+
 /**
  * Performs queue order accepted email for order.
  * This method coordinates the main operation for this action.

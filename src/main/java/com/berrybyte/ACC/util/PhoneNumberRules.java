@@ -39,11 +39,7 @@ public final class PhoneNumberRules {
             return "";
         }
 
-        String normalized = phoneNumber.trim().replaceAll("\\s+", " ");
-        if (normalized.startsWith("+")) {
-            normalized = normalized.replaceFirst("^\\+\\d{1,3}\\s*", "");
-        }
-        return normalized.trim();
+        return phoneNumber.trim().replaceAll("\\s+", "");
     }
 /**
  * Executes the validate normalized workflow.
@@ -53,12 +49,11 @@ public final class PhoneNumberRules {
  */
 
     public static void validateNormalized(String normalizedPhoneNumber) {
-        if (!normalizedPhoneNumber.matches("[0-9 ]+")) {
-            throw new IllegalArgumentException("Phone number must contain only numbers and spaces.");
+        if (!normalizedPhoneNumber.matches("\\d+")) {
+            throw new IllegalArgumentException("Phone number must contain only numbers.");
         }
 
-        int phoneDigits = normalizedPhoneNumber.replace(" ", "").length();
-        if (phoneDigits < 7 || phoneDigits > 12) {
+        if (normalizedPhoneNumber.length() < 7 || normalizedPhoneNumber.length() > 12) {
             throw new IllegalArgumentException("Enter a valid phone number using 7 to 12 digits.");
         }
     }
